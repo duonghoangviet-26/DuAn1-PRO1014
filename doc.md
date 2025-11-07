@@ -23,5 +23,5 @@ Mô hình MVC
 - View: Hiển trị, nhận yêu cầu người dùng
 - Controller: Dùng để thực thi các đoạn mã xử lý logic
 
-
+- hello test git
 - Cấu hình DB trong file commons/env.php
