@@ -49,11 +49,11 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <h4 class="text-center text-light mb-4">Admin Panel</h4>
-        <a href="#"><i class="fa fa-home"></i> Tổng quan</a>
-        <a href="#"><i class="fa fa-list"></i> Danh mục tour</a>
+        <a href="index.php?act=Home"><i class="fa fa-home"></i> Tổng quan</a>
+        <a href="index.php?act=listdm"><i class="fa fa-list"></i> Danh mục tour</a>
         <a href="#"><i class="fa fa-route"></i> Quản lý tour</a>
         <a href="#"><i class="fa fa-book"></i> Quản lý booking</a>
-        <a href="#"><i class="fa fa-users"></i> Tài khoản / HDV</a>
+        <a href="index.php?act=listNV"><i class="fa fa-users"></i> Tài khoản / HDV</a>
         <a href="#"><i class="fa fa-chart-bar"></i> Báo cáo thống kê</a>
         <a href="#" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
     </div>
@@ -75,7 +75,7 @@
                             <i class="fa fa-list fa-2x text-primary mb-2"></i>
                             <h5>Danh mục Tour</h5>
                             <p>Quản lý các danh mục tour</p>
-                            <a href="#" class="btn btn-sm btn-primary">Xem chi tiết</a>
+                            <a href="index.php?act=listdm" class="btn btn-sm btn-primary">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>
