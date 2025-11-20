@@ -86,7 +86,7 @@
 
                             <div class="row mb-3">
                                 <div class="col-md-12 d-flex justify-content-start">
-                                    <a href="index.php?controller=nhanvien&action=create" class="btn btn-success me-2">
+                                    <a href="index.php?act=creatNV" class="btn btn-success me-2">
                                         <i class="fas fa-user-plus"></i> Thêm Nhân Viên Mới
                                     </a>
                                     <a href="index.php?controller=nhanvien&action=findAvailableStaff"
@@ -102,6 +102,7 @@
                                         <tr>
                                             <th width="5%">Mã NV</th>
                                             <th width="20%">Họ Tên</th>
+                                            <th width="10%">Ảnh Đại Diện</th>
                                             <th width="15%">Chức Vụ (Vai Trò)</th>
                                             <th width="15%">Liên Hệ</th>
                                             <!-- <th width="10%">Lương CB (Tạm Ẩn)</th> -->
@@ -122,6 +123,7 @@
                                                 <?= $nv['MaNhanVien'] ?></td>
                                             <td><strong><?= $nv['HoTen'] ?></strong>
                                             </td>
+                                            <td><img src="./uploads/nhanvien/<?= $nv['LinkAnhDaiDien'] ?>" alt="ảnh đại diện" width="50" height="50"></td>
                                             <td><?= $vaiTroHienThi ?></td>
                                             <td>
                                                 <?= $nv['SoDienThoai'] ?><br>
@@ -138,16 +140,20 @@
                                                 <?php endif; ?>
                                             </td>
                                             <td class="text-center">
-                                                <a href="index.php?controller=nhanvien&action=lichlamviec&id=<?= $nv['MaNhanVien'] ?>"
+                                                <a href="index.php?act=lichlamviec&id=<?= $nv['MaNhanVien'] ?>"
                                                     class="btn btn-sm btn-info text-white" title="Xem Lịch">
                                                     <i class="fas fa-calendar-alt"></i>
                                                     Lịch
                                                 </a>
-                                                <a href="index.php?controller=nhanvien&action=edit&id=<?= $nv['MaNhanVien'] ?>"
+                                                <a href="index.php?act=chitietNV&id=<?= $nv['MaNhanVien'] ?>"
+                                                    class="btn btn-sm btn-success" title="Chi Tiết">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="index.php?act=editNV&id=<?= $nv['MaNhanVien'] ?>"
                                                     class="btn btn-sm btn-warning" title="Sửa">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <a href="index.php?controller=nhanvien&action=delete&id=<?= $nv['MaNhanVien'] ?>"
+                                                <a href="index.php?act=deleteNV&id=<?= $nv['MaNhanVien'] ?>"
                                                     class="btn btn-sm btn-danger" title="Xóa"
                                                     onclick="return confirm('Bạn có chắc muốn xóa nhân viên này?')">
                                                     <i class="fas fa-trash"></i>
