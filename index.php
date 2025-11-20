@@ -1,4 +1,4 @@
-<?php 
+<?php
 // Require toàn bộ các file khai báo môi trường, thực thi,...(không require view)
 
 // Require file Common
@@ -6,10 +6,14 @@ require_once './commons/env.php'; // Khai báo biến môi trường
 require_once './commons/function.php'; // Hàm hỗ trợ
 
 // Require toàn bộ file Controllers
-require_once './controllers/ProductController.php';
+require_once './controllers/tourController.php';
+require_once './controllers/nhanVienController.php';
+require_once './controllers/lichLamViecController.php';
 
 // Require toàn bộ file Models
-require_once './models/ProductModel.php';
+require_once './models/tourModel.php';
+require_once './models/nhanVienModel.php';
+require_once './models/lichLamViecModel.php';
 
 // Route
 $act = $_GET['act'] ?? '/';
@@ -19,6 +23,29 @@ $act = $_GET['act'] ?? '/';
 
 match ($act) {
     // Trang chủ
-    '/'=>(new ProductController())->Home(),
+    '/' => (new tourController())->Home(),
 
+    // Danh mục
+    'listdm' => (new tourController())->getCategoryAll(),
+    'deleteDanhMuc' => (new tourController())->deleteDanhMuc(),
+    'creatDanhMuc' => (new tourController())->creatDanhMuc(),
+    'editDanhMuc' => (new tourController())->editDanhMuc(),
+
+
+    // Nhân viên
+    'listNV', 'nhanvien' => (new nhanVienController())->listNV(),
+    'creatNV' => (new nhanVienController())->creatNV(),
+    'editNV'=> (new nhanVienController())->editNV(),
+    'deleteNV'=> (new nhanVienController())->deleteNV(),
+    'updateNV' => (new nhanVienController())->updateNV(),
+    'chitietNV' => (new nhanVienController())->chiTietNV(),
+
+    // lịch làm việc
+    'lichlamviec' => (new lichLamViecController())->lichLamViec(),
+    'deleteLichLamViec' => (new lichLamViecController())->delete(),
+
+    default => (new tourController())->Home(),
+
+
+    // Quản lí tour
 };
