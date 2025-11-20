@@ -8,10 +8,13 @@ require_once './commons/function.php'; // Hàm hỗ trợ
 // Require toàn bộ file Controllers
 require_once './controllers/tourController.php';
 require_once './controllers/nhanVienController.php';
+require_once './controllers/bookingController.php';
 
 // Require toàn bộ file Models
 require_once './models/tourModel.php';
 require_once './models/nhanVienModel.php';
+require_once './models/bookingModel.php';
+
 
 // Route
 $act = $_GET['act'] ?? '/';
@@ -35,5 +38,7 @@ match ($act) {
     'creatNV' => (new nhanVienController())->creatNV(),
 
 
-    // Quản lí tour
+    // booking
+    'listBooking' => (new bookingController)->listBookingAll(),
+    'createBooking' => (new bookingController)->createBooking(),
 };
