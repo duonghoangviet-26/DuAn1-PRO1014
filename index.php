@@ -8,12 +8,16 @@ require_once './commons/function.php'; // Hàm hỗ trợ
 // Require toàn bộ file Controllers
 require_once './controllers/tourController.php';
 require_once './controllers/nhanVienController.php';
+
+require_once './controllers/bookingController.php';
 require_once './controllers/nhaCungCapController.php';
 require_once './controllers/lichLamViecController.php';
 
 // Require toàn bộ file Models
 require_once './models/tourModel.php';
 require_once './models/nhanVienModel.php';
+
+require_once './models/bookingModel.php';
 require_once './models/nhaCungCapModel.php';
 require_once './models/lichLamViecModel.php';
 
@@ -37,8 +41,8 @@ match ($act) {
     // Nhân viên
     'listNV', 'nhanvien' => (new nhanVienController())->listNV(),
     'creatNV' => (new nhanVienController())->creatNV(),
-    'editNV'=> (new nhanVienController())->editNV(),
-    'deleteNV'=> (new nhanVienController())->deleteNV(),
+    'editNV' => (new nhanVienController())->editNV(),
+    'deleteNV' => (new nhanVienController())->deleteNV(),
     'updateNV' => (new nhanVienController())->updateNV(),
     'chitietNV' => (new nhanVienController())->chiTietNV(),
 
@@ -49,16 +53,20 @@ match ($act) {
     default => (new tourController())->Home(),
 
 
+
+    // booking
+    'listBooking' => (new bookingController)->listBookingAll(),
+    'createBooking' => (new bookingController)->createBooking(),
     // Quản lí tour
 
 
     // Quản lí nhà cung cấp
     'listNCC'       => (new nhaCungCapController())->listNCC(),
     'listNCCByCategory' => (new nhaCungCapController())->listNCCByCategory(),
-    'addNCC'        => (new nhaCungCapController())->showFormThemNCC(), 
-    'submitAddNCC'  => (new nhaCungCapController())->addNCC(),        
-    'editNCC'       => (new nhaCungCapController())->showFormSuaNCC(),  
-    'submitEditNCC' => (new nhaCungCapController())->updateNCC(),     
-    'deleteNCC'     => (new nhaCungCapController())->deleteNCC(),      
-    'detailNCC'     => (new nhaCungCapController())->showDetailNCC(), 
+    'addNCC'        => (new nhaCungCapController())->showFormThemNCC(),
+    'submitAddNCC'  => (new nhaCungCapController())->addNCC(),
+    'editNCC'       => (new nhaCungCapController())->showFormSuaNCC(),
+    'submitEditNCC' => (new nhaCungCapController())->updateNCC(),
+    'deleteNCC'     => (new nhaCungCapController())->deleteNCC(),
+    'detailNCC'     => (new nhaCungCapController())->showDetailNCC(),
 };

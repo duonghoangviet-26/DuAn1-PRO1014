@@ -23,6 +23,7 @@ class tourModel
         }
     }
 
+
     // Xóa danh mục theo mã
     public function deleteDanhMuc($id)
     {
@@ -63,5 +64,20 @@ class tourModel
         $stmt->bindParam(':TenDanhMuc', $TenDanhMuc);
         $stmt->bindParam(':MoTa', $MoTa);
         $stmt->execute();
+    }
+
+
+    public function getAllTours()
+    {
+        $sql = "SELECT * FROM tour WHERE TrangThai = 'hoat_dong' ORDER BY TenTour ASC";
+        $stmt = $this->conn->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllKhachHang()
+    {
+        $sql = "SELECT * FROM khachhang ORDER BY NgayTao DESC";
+        $stmt = $this->conn->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
