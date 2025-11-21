@@ -11,37 +11,37 @@
     <!-- Icon -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
-    body {
-        background-color: #f8f9fa;
-    }
+        body {
+            background-color: #f8f9fa;
+        }
 
-    .sidebar {
-        width: 250px;
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background-color: #343a40;
-        color: white;
-        padding-top: 20px;
-    }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            color: white;
+            padding-top: 20px;
+        }
 
-    .sidebar a {
-        color: #ccc;
-        display: block;
-        padding: 10px 20px;
-        text-decoration: none;
-    }
+        .sidebar a {
+            color: #ccc;
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+        }
 
-    .sidebar a:hover {
-        background-color: #495057;
-        color: #fff;
-    }
+        .sidebar a:hover {
+            background-color: #495057;
+            color: #fff;
+        }
 
-    .content {
-        margin-left: 250px;
-        padding: 20px;
-    }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
     </style>
 </head>
 
@@ -49,10 +49,12 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <h4 class="text-center text-light mb-4">Admin Panel</h4>
-        <a href="index.php?act=Home"><i class="fa fa-home"></i> Tổng quan</a>
+        <a href="index.php?act=/" class="bg-primary text-white"><i class="fa fa-home"></i> Tổng quan</a>
         <a href="index.php?act=listdm"><i class="fa fa-list"></i> Danh mục tour</a>
         <a href="#"><i class="fa fa-route"></i> Quản lý tour</a>
         <a href="index.php?act=listBooking"><i class="fa fa-book"></i> Quản lý booking</a>
+        <a href="#"><i class="fa fa-book"></i> Quản lý booking</a>
+        <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Quản lý nhà cung cấp</a>
         <a href="index.php?act=listNV"><i class="fa fa-users"></i> Tài khoản / HDV</a>
         <a href="#"><i class="fa fa-chart-bar"></i> Báo cáo thống kê</a>
         <a href="#" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
