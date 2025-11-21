@@ -8,10 +8,12 @@ require_once './commons/function.php'; // Hàm hỗ trợ
 // Require toàn bộ file Controllers
 require_once './controllers/tourController.php';
 require_once './controllers/nhanVienController.php';
+require_once './controllers/nhaCungCapController.php';
 
 // Require toàn bộ file Models
 require_once './models/tourModel.php';
 require_once './models/nhanVienModel.php';
+require_once './models/nhaCungCapModel.php';
 
 // Route
 $act = $_GET['act'] ?? '/';
@@ -36,4 +38,15 @@ match ($act) {
 
 
     // Quản lí tour
+
+
+    // Quản lí nhà cung cấp
+    'listNCC'       => (new nhaCungCapController())->listNCC(),
+    'listNCCByCategory' => (new nhaCungCapController())->listNCCByCategory(),
+    'addNCC'        => (new nhaCungCapController())->showFormThemNCC(), 
+    'submitAddNCC'  => (new nhaCungCapController())->addNCC(),        
+    'editNCC'       => (new nhaCungCapController())->showFormSuaNCC(),  
+    'submitEditNCC' => (new nhaCungCapController())->updateNCC(),     
+    'deleteNCC'     => (new nhaCungCapController())->deleteNCC(),      
+    'detailNCC'     => (new nhaCungCapController())->showDetailNCC(), 
 };
