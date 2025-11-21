@@ -95,8 +95,6 @@ class tourController
         require_once "./views/Admin/danhmuc/editDanhMuc.php";
     }
 
-
-
     // ================= TOUR CONTROLLER =================
 
     public function getAllTour()
