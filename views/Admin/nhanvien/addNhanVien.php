@@ -58,32 +58,55 @@
         <a href="#" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
     </div>
 
-    <!-- Nội dung -->
     <div class="content">
         <div class="container mt-4">
-            <h2>Thêm Danh Mục Mới</h2>
+            <h2>Thêm Nhân Viên Mới</h2>
 
-            <!-- <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success'];
-                                                unset($_SESSION['success']); ?></div>
-            <?php endif; ?>
-            <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error'];
-                                            unset($_SESSION['error']); ?></div>
-            <?php endif; ?> -->
+            <form action="" method="POST" enctype="multipart/form-data">
 
-            <form action="" method="POST">
                 <div class="mb-3">
-                    <label for="TenDanhMuc" class="form-label">Tên danh mục</label>
-                    <input type="text" class="form-control" name="TenDanhMuc" id="TenDanhMuc" required>
+                    <label class="form-label">Họ tên</label>
+                    <input type="text" class="form-control" name="HoTen" required>
                 </div>
+
                 <div class="mb-3">
-                    <label for="MoTa" class="form-label">Mô tả</label>
-                    <textarea class="form-control" name="MoTa" id="MoTa" rows="3"></textarea>
+                    <label class="form-label">Vai trò</label>
+                    <select class="form-control" name="VaiTro" required>
+                        <option value="huong_dan_vien">Hướng dẫn viên</option>
+                        <option value="tai_xe">Tài xế</option>
+                    </select>
                 </div>
-                <button type="submit" class="btn btn-success" onclick="return alert('Bạn có chắc muốn thêm')">Thêm danh
-                    mục</button>
-                <a href="index.php?controller=danhmuc&action=listdm" class="btn btn-secondary">Hủy</a>
+
+                <div class="mb-3">
+                    <label class="form-label">Số điện thoại</label>
+                    <input type="text" class="form-control" name="SoDienThoai" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control" name="Email" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Ảnh đại diện</label>
+                    <input type="file" class="form-control" name="LinkAnhDaiDien">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Trạng thái</label>
+                    <select class="form-control" name="TrangThai">
+                        <option value="dang_lam">Đang làm</option>
+                        <option value="nghi_viec">Nghỉ việc</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-success"
+                    onclick="return confirm('Bạn có chắc muốn thêm nhân viên?')">
+                    Thêm nhân viên
+                </button>
+
+                <a href="index.php?act=listNV" class="btn btn-secondary">Hủy</a>
+
             </form>
         </div>
 
