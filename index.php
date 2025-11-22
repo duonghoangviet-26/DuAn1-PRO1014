@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Require toàn bộ các file khai báo môi trường, thực thi,...(không require view)
 
 // Require file Common
@@ -46,9 +47,6 @@ match ($act) {
     'lichlamviec' => (new lichLamViecController())->lichLamViec(),
     'deleteLichLamViec' => (new lichLamViecController())->delete(),
 
-    default => (new tourController())->Home(),
-
-
     // Quản lí tour
 
 
@@ -61,4 +59,6 @@ match ($act) {
     'submitEditNCC' => (new nhaCungCapController())->updateNCC(),     
     'deleteNCC'     => (new nhaCungCapController())->deleteNCC(),      
     'detailNCC'     => (new nhaCungCapController())->showDetailNCC(), 
+
+    default => (new tourController())->Home(),
 };

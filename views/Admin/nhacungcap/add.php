@@ -32,7 +32,15 @@
         <div class="container mt-4">
             <h2>Thêm Nhà Cung Cấp Mới</h2>
 
-            <form action="index.php?act=submitAddNCC" method="POST" class="row g-3">
+            <?php if (isset($_SESSION['error'])): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-triangle"></i> <?= $_SESSION['error'] ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <?php unset($_SESSION['error']); ?>
+            <?php endif; ?>
+
+            <form action="index.php?act=submitAddNCC" method="POST" class="row g-3" novalidate>
 
                 <div class="col-md-4">
                     <label for="MaCodeNCC" class="form-label">Mã Code NCC (*)</label>
@@ -86,7 +94,7 @@
                 </div>
                 <div class="col-md-6">
                     <label for="Email" class="form-label">Email</label>
-                    <input type="email" class="form-control" name="Email" id="Email">
+                    <input type="text" class="form-control" name="Email" id="Email">
                 </div>
 
                 <div class="col-12">

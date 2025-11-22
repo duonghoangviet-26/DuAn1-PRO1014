@@ -29,6 +29,24 @@ class nhaCungCapController
     public function addNCC()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $errors = [];
+
+            if (empty($_POST['MaCodeNCC'])) {$errors[] = 'Mã Code NCC không được để trống';}
+            if (empty($_POST['TenNhaCungCap'])) {$errors[] = 'Tên Nhà Cung Cấp không được để trống';}
+
+            $email = $_POST['Email'];
+            if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors[] = 'Email không đúng định dạng (Ví dụ: abc@gmail.com)';
+            }
+
+            if (!empty($errors)) {
+                $_SESSION['error'] = implode('<br>', $errors);
+                header("Location: " . BASE_URL . "?act=addNCC&loai=" . $_POST['LoaiNhaCungCap']);
+                exit;
+            }
+
+
             $data = [
                 'MaCodeNCC' => $_POST['MaCodeNCC'],
                 'TenNhaCungCap' => $_POST['TenNhaCungCap'],
@@ -67,6 +85,23 @@ class nhaCungCapController
     public function updateNCC()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $errors = [];
+
+            if (empty($_POST['MaCodeNCC'])) {$errors[] = 'Mã Code NCC không được để trống';}
+            if (empty($_POST['TenNhaCungCap'])) {$errors[] = 'Tên Nhà Cung Cấp không được để trống';}
+
+            $email = $_POST['Email'];
+            if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors[] = 'Email không đúng định dạng';
+            }
+
+            if (!empty($errors)) {
+                $_SESSION['error'] = implode('<br>', $errors);
+                header("Location: " . BASE_URL . "?act=editNCC&id=" . $_POST['MaNhaCungCap']);
+                exit;
+            }
+
             $id = $_POST['MaNhaCungCap'];
             $data = [
                 'MaCodeNCC' => $_POST['MaCodeNCC'],
