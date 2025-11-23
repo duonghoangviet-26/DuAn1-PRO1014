@@ -80,7 +80,7 @@ class tourModel
     }
 
 
-    // Thêm tour mới (CÓ ẢNH)
+    // Thêm tour mới
     public function addTour($TenTour, $Gia, $KhoiHanh, $SoNgay,$SoDem, $MoTa, $MaDanhMuc, $LinkAnhBia,$GiaVonDuKien, $NgayBatDau, $NgayKetThuc)
     {
         $sql = "INSERT INTO tour 
@@ -104,7 +104,7 @@ class tourModel
 
         return $this->conn->lastInsertId();
     }
-    // Cập nhật tour (CÓ ẢNH)
+    // Cập nhật tour
     public function updateTour(
     $id,
     $TenTour,
@@ -220,7 +220,11 @@ class tourModel
         $GioTapTrung,
         $GioXuatPhat,
         $GioKetThuc,
-        $GioHoatDong
+        $GioHoatDong,
+        $NoiDungSang,
+        $NoiDungTrua,
+        $NoiDungChieu,
+        $NoiDungToi
     ) {
         $sql = "UPDATE lichtrinh SET 
                 TieuDeNgay = ?, 
@@ -233,7 +237,11 @@ class tourModel
                 GioTapTrung = ?, 
                 GioXuatPhat = ?, 
                 GioKetThuc = ?, 
-                GioHoatDong = ?
+                GioHoatDong = ?,
+                NoiDungSang=?,
+                NoiDungTrua=?,
+                NoiDungChieu=?,
+                NoiDungToi=?
             WHERE MaLichTrinh = ?";
 
         $stmt = $this->conn->prepare($sql);
@@ -250,6 +258,10 @@ class tourModel
             $GioXuatPhat,
             $GioKetThuc,
             $GioHoatDong,
+            $NoiDungSang,
+            $NoiDungTrua,
+            $NoiDungChieu,
+            $NoiDungToi,
             $idLT
         ]);
     }
@@ -268,12 +280,16 @@ class tourModel
         $GioTapTrung,
         $GioXuatPhat,
         $GioKetThuc,
-        $GioHoatDong
+        $GioHoatDong,
+        $NoiDungSang,
+        $NoiDungTrua,
+        $NoiDungChieu,
+        $NoiDungToi
     ) {
         $sql = "INSERT INTO lichtrinh 
             (MaTour, NgayThu, TieuDeNgay, ChiTietHoatDong, DiaDiemThamQuan,
-             CoBuaSang, CoBuaTrua, CoBuaToi, NoiO, GioTapTrung, GioXuatPhat, GioKetThuc, GioHoatDong)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+             CoBuaSang, CoBuaTrua, CoBuaToi, NoiO, GioTapTrung, GioXuatPhat, GioKetThuc, GioHoatDong, NoiDungSang, NoiDungTrua,NoiDungChieu, NoiDungToi)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)";
 
         $stmt = $this->conn->prepare($sql);
 
@@ -290,7 +306,11 @@ class tourModel
             $GioTapTrung,
             $GioXuatPhat,
             $GioKetThuc,
-            $GioHoatDong
+            $GioHoatDong,
+            $NoiDungSang,
+            $NoiDungTrua,
+            $NoiDungChieu,
+            $NoiDungToi
         ]);
     }
 

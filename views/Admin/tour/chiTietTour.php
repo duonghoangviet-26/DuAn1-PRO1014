@@ -51,10 +51,11 @@
 <body>
     <div class="sidebar">
         <h4 class="text-center text-light mb-4">Admin Panel</h4>
-        <a href="index.php?act=/" class=""><i class="fa fa-home"></i> Tổng quan</a>
-        <a href="index.php?act=listdm" class=""><i class="fa fa-list"></i> Danh mục tour</a>
-        <a href="index.php?act=listTour" class="active"><i class="fa fa-route"></i> Quản lý tour</a>
-        <a href="#"><i class="fa fa-book"></i> Quản lý booking</a>
+        <a href="index.php?act=/"><i class="fa fa-home"></i> Tổng quan</a>
+        <a href="index.php?act=listdm"><i class="fa fa-list"></i> Danh mục tour</a>
+        <a href="index.php?act=listTour"><i class="fa fa-route"></i> Quản lý tour</a>
+        <a href="index.php?act=listBooking"><i class="fa fa-book"></i> Quản lý booking</a>
+        <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Quản lý nhà cung cấp</a>
         <a href="index.php?act=listNV"><i class="fa fa-users"></i> Tài khoản / HDV</a>
         <a href="#"><i class="fa fa-chart-bar"></i> Báo cáo thống kê</a>
         <a href="#" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
@@ -190,6 +191,21 @@
                                         <strong>Giờ kết thúc:</strong>
                                         <?= htmlspecialchars($lt['GioKetThuc'] ?? "Không có") ?>
                                     </p>
+                                    <p><strong>Hoạt động buổi sáng:</strong><br>
+                                        <?= nl2br(htmlspecialchars($lt['NoiDungSang'] ?? "Không có")) ?>
+                                    </p>
+
+                                    <p><strong>Hoạt động buổi trưa:</strong><br>
+                                        <?= nl2br(htmlspecialchars($lt['NoiDungTrua'] ?? "Không có")) ?>
+                                    </p>
+                                    <p><strong>Hoạt động buổi chiều:</strong><br>
+                                        <?= nl2br(htmlspecialchars($lt['NoiDungChieu'] ?? "không có")) ?>
+                                    </p>
+                                    <p><strong>Hoạt động buổi tối:</strong><br>
+                                        <?= nl2br(htmlspecialchars($lt['NoiDungToi'] ?? "Không có")) ?>
+                                    </p>
+
+
                                     <!-- <p class="mb-1">
                                         <strong>Giờ Hoạt Động:</strong>
                                         <?= htmlspecialchars($lt['GioHoatDong'] ?? "Không có") ?>

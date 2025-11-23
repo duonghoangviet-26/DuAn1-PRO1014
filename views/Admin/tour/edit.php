@@ -181,9 +181,9 @@
                                 value="<?= htmlspecialchars($lt['TieuDeNgay']) ?>"
                                 class="form-control mb-2">
 
-                            <label>Chi tiết hoạt động</label>
+                            <!-- <label>Chi tiết hoạt động</label>
                             <textarea name="ChiTietHoatDong[]"
-                                class="form-control mb-2"><?= htmlspecialchars($lt['ChiTietHoatDong']) ?></textarea>
+                                class="form-control mb-2"><?= htmlspecialchars($lt['ChiTietHoatDong']) ?></textarea> -->
 
                             <label>Nơi ở</label>
                             <input type="text"
@@ -221,12 +221,12 @@
                                         class="form-control mb-2">
                                 </div>
 
-                                <div class="col-md-3">
+                                <!-- <div class="col-md-3">
                                     <label>Giờ hoạt động</label>
                                     <input type="time" name="GioHoatDong[]"
                                         value="<?= $lt['GioHoatDong'] ?>"
                                         class="form-control mb-2">
-                                </div>
+                                </div> -->
                             </div>
                             <!-- ⚡ HẾT PHẦN GIỜ -->
 
@@ -240,6 +240,22 @@
 
                             <label><input type="checkbox" name="CoBuaToi[]" value="1"
                                     <?= $lt['CoBuaToi'] ? 'checked' : '' ?>> Tối</label>
+
+                            <hr>
+
+                            <hr>
+
+                            <label><strong>Hoạt động buổi sáng</strong></label>
+                            <textarea name="NoiDungSang[]" class="form-control mb-2"><?= htmlspecialchars($lt['NoiDungSang'] ?? '') ?></textarea>
+
+                            <label><strong>Hoạt động buổi trưa</strong></label>
+                            <textarea name="NoiDungTrua[]" class="form-control mb-2"><?= htmlspecialchars($lt['NoiDungTrua'] ?? '') ?></textarea>
+
+                            <label><strong>Hoạt động buổi chiều</strong></label>
+                            <textarea name="NoiDungChieu[]" class="form-control mb-2"><?= htmlspecialchars($lt['NoiDungChieu'] ?? '') ?></textarea>
+
+                            <label><strong>Hoạt động buổi tối</strong></label>
+                            <textarea name="NoiDungToi[]" class="form-control mb-2"><?= htmlspecialchars($lt['NoiDungToi'] ?? '') ?></textarea>
 
 
                         </div>

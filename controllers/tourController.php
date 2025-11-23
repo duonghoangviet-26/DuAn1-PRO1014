@@ -95,7 +95,7 @@ class tourController
         require_once "./views/Admin/danhmuc/editDanhMuc.php";
     }
 
-    // ================= TOUR CONTROLLER =================
+    //TOUR CONTROLLER 
 
     public function getAllTour()
     {
@@ -111,7 +111,7 @@ class tourController
         $danhmuc = $model->getAllDanhMuc();
         include "views/Admin/tour/addTour.php";
     }
-    // ================= XỬ LÝ THÊM TOUR =================
+    //XỬ LÝ THÊM TOUR
     public function createTour()
     {
         if (isset($_POST['btn-add'])) {
@@ -131,8 +131,14 @@ class tourController
             // $ChinhSachHuy         = $_POST['ChinhSachHuy'] ?? "";
             // $ChinhSachHoanTien    = $_POST['ChinhSachHoanTien'] ?? "";
 
+            //VALIDATE SỐ ĐÊM KHÔNG > SỐ NGÀY
+            if ($SoDem > $SoNgay) {
+                echo "<script>alert('❌ Số đêm không được lớn hơn số ngày!'); history.back();</script>";
+                exit();
+            }
+           
 
-            // ==== XỬ LÝ ẢNH ====
+            // XỬ LÝ ẢNH
             $LinkAnhBia = "";
             if (isset($_FILES['LinkAnhBia']) && $_FILES['LinkAnhBia']['error'] == 0) {
 
@@ -148,7 +154,7 @@ class tourController
                 }
             }
 
-            // ==== LƯU TOUR
+            // LƯU TOUR
             $model = new tourModel();
             $model->addTour(
                 $TenTour,
@@ -162,7 +168,7 @@ class tourController
                 $GiaVonDuKien,
                 $NgayBatDau,
                 $NgayKetThuc
-                
+
             );
             $idTour = $model->getLastId();
 
@@ -177,7 +183,7 @@ class tourController
             // Lấy ID tour vừa tạo đúng cách
             $idTour = $model->getLastId();
 
-            // ========== THÊM LỊCH TRÌNH ==========
+            // THÊM LỊCH TRÌNH
             if (!empty($_POST['NgayThu'])) {
 
                 foreach ($_POST['NgayThu'] as $i => $ngayThu) {
@@ -193,6 +199,10 @@ class tourController
                     $GioXuatPhat = $_POST['GioXuatPhat'][$i] ?? null;
                     $GioKetThuc = $_POST['GioKetThuc'][$i] ?? null;
                     $GioHoatDong = $_POST['GioHoatDong'][$i] ?? null;
+                    $NoiDungSang =$_POST['NoiDungSang'][$i] ?? "";
+                    $NoiDungTrua =$_POST['NoiDungTrua'][$i] ?? "";
+                    $NoiDungChieu=$_POST['NoiDungChieu'][$i]??"";
+                    $NoiDungToi=$_POST['NoiDungToi'][$i]??"";
                     $model->addLichTrinh(
                         $idTour,
                         $ngayThu,
@@ -206,12 +216,16 @@ class tourController
                         $GioTapTrung,
                         $GioXuatPhat,
                         $GioKetThuc,
-                        $GioHoatDong
+                        $GioHoatDong,
+                        $NoiDungSang,
+                        $NoiDungTrua,
+                        $NoiDungChieu,
+                        $NoiDungToi
                     );
                 }
             }
 
-            // ==== LƯU CHÍNH SÁCH ====
+            //LƯU CHÍNH SÁCH 
             // $model->updateChinhSach(
             //     $idTour,
             //     $_POST['ChinhSachBaoGom'],
@@ -227,7 +241,7 @@ class tourController
 
 
 
-    //FORM SỬA TOUR =================
+    //FORM SỬA TOUR
     public function editTourForm()
     {
         $model = new tourModel();
@@ -240,7 +254,7 @@ class tourController
         include "views/Admin/tour/edit.php";
     }
 
-    // ================= CẬP NHẬT TOUR =================
+    //CẬP NHẬT TOUR
     public function updateTour()
     {
         $id          = $_POST['MaTour'];
@@ -248,10 +262,10 @@ class tourController
         $Gia         = $_POST['GiaBanMacDinh'];
         $KhoiHanh    = $_POST['DiemKhoiHanh'];
         $SoNgay      = $_POST['SoNgay'];
-        $SoDem=$_POST['SoDem'];
+        $SoDem = $_POST['SoDem'];
         $MoTa        = $_POST['MoTa'];
         $MaDanhMuc   = $_POST['MaDanhMuc'];
-        $GiaVonDuKien=$_POST['GiaVonDuKien'];
+        $GiaVonDuKien = $_POST['GiaVonDuKien'];
         $NgayBatDau  = $_POST['NgayBatDau'];
         $NgayKetThuc = $_POST['NgayKetThuc'];
         // $ChinhSachBaoGom      = $_POST['ChinhSachBaoGom'];
@@ -303,7 +317,11 @@ class tourController
             // $ChinhSachHuy,
             // $ChinhSachHoanTien
         );
-        // ==== CẬP NHẬT LỊCH TRÌNH ====
+         if ($SoDem > $SoNgay) {
+                echo "<script>alert('❌ Số đêm không được lớn hơn số ngày!'); history.back();</script>";
+                exit();
+            }
+        //CẬP NHẬT LỊCH TRÌNH 
         if (!empty($_POST['MaLichTrinh'])) {
             foreach ($_POST['MaLichTrinh'] as $i => $idLT) {
 
@@ -314,11 +332,14 @@ class tourController
                 $Trua = isset($_POST['CoBuaTrua'][$i]) ? 1 : 0;
                 $Toi  = isset($_POST['CoBuaToi'][$i]) ? 1 : 0;
                 $NoiO = $_POST['NoiO'][$i] ?? "";
-
                 $GioTapTrung = $_POST['GioTapTrung'][$i] ?? null;
                 $GioXuatPhat = $_POST['GioXuatPhat'][$i] ?? null;
                 $GioKetThuc  = $_POST['GioKetThuc'][$i] ?? null;
                 $GioHoatDong = $_POST['GioHoatDong'][$i] ?? null;
+                $NoiDungSang=$_POST['NoiDungSang'][$i]??"";
+                $NoiDungTrua=$_POST['NoiDungTrua'][$i]??"";
+                $NoiDungChieu=$_POST['NoiDungChieu'][$i]??"";
+                $NoiDungToi=$_POST['NoiDungToi'][$i]??"";
                 $model->updateLichTrinh(
                     $idLT,
                     $TieuDeNgay,
@@ -331,7 +352,11 @@ class tourController
                     $GioTapTrung,
                     $GioXuatPhat,
                     $GioKetThuc,
-                    $GioHoatDong
+                    $GioHoatDong,
+                    $NoiDungSang,
+                    $NoiDungTrua,
+                    $NoiDungChieu,
+                    $NoiDungToi
                 );
             }
         }

@@ -18,8 +18,6 @@ require_once './controllers/lichLamViecController.php';
 // Require toàn bộ file Models
 require_once './models/tourModel.php';
 require_once './models/nhanVienModel.php';
-
-
 require_once './models/bookingModel.php';
 require_once './models/nhaCungCapModel.php';
 require_once './models/lichLamViecModel.php';
@@ -68,7 +66,7 @@ match ($act) {
     'lichlamviec' => (new lichLamViecController())->lichLamViec(),
     'deleteLichLamViec' => (new lichLamViecController())->delete(),
 
-    default => (new tourController())->Home(),
+    // default => (new tourController())->Home(),
 
 
 

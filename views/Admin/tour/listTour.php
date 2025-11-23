@@ -62,23 +62,23 @@
         table th {
             white-space: nowrap;
             /* Không xuống dòng */
-            /* overflow: hidden; */
-            /* Ẩn phần dư */
-            /* text-overflow: ellipsis; */
-            /* Thêm dấu ... */
-            /* max-width: 150px; */
-            /* Giới hạn độ rộng mỗi ô */
-        
+        /* overflow: hidden; */
+        /* Ẩn phần dư */
+        /* text-overflow: ellipsis; */
+        /* Thêm dấu ... */
+        /* max-width: 150px; */
+        /* Giới hạn độ rộng mỗi ô */
     </style>
 </head>
 
 <body>
     <div class="sidebar">
         <h4 class="text-center text-light mb-4">Admin Panel</h4>
-        <a href="index.php?act=/" class=""><i class="fa fa-home"></i> Tổng quan</a>
-        <a href="index.php?act=listdm" class=""><i class="fa fa-list"></i> Danh mục tour</a>
-        <a href="index.php?act=listTour" class="active"><i class="fa fa-route"></i> Quản lý tour</a>
-        <a href="#"><i class="fa fa-book"></i> Quản lý booking</a>
+        <a href="index.php?act=/"><i class="fa fa-home"></i> Tổng quan</a>
+        <a href="index.php?act=listdm"><i class="fa fa-list"></i> Danh mục tour</a>
+        <a href="index.php?act=listTour"><i class="fa fa-route"></i> Quản lý tour</a>
+        <a href="index.php?act=listBooking"><i class="fa fa-book"></i> Quản lý booking</a>
+        <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Quản lý nhà cung cấp</a>
         <a href="index.php?act=listNV"><i class="fa fa-users"></i> Tài khoản / HDV</a>
         <a href="#"><i class="fa fa-chart-bar"></i> Báo cáo thống kê</a>
         <a href="#" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
@@ -97,8 +97,8 @@
                             <th>STT</th>
                             <th>Tên tour</th>
                             <th>Danh mục</th>
-                            <th>Giá</th>
                             <th>Giá Vốn</th>
+                            <th>Giá Bán</th>
                             <th>Địa điểm khởi hành</th>
                             <th>Số ngày</th>
                             <th>Số Đêm</th>
@@ -116,12 +116,12 @@
                                 <td><?= $i + 1 ?></td>
                                 <td class="text-start"><?= htmlspecialchars($t['TenTour']) ?></td>
                                 <td><?= htmlspecialchars($t['TenDanhMuc']) ?></td>
-
-                                <td><?= number_format($t['GiaBanMacDinh'], 0, ',', '.') ?>đ</td>
-
                                 <td>
                                     <?= $t['GiaVonDuKien'] !== null ? number_format($t['GiaVonDuKien'], 0, ',', '.') . 'đ' : '0đ' ?>
                                 </td>
+                                <td><?= number_format($t['GiaBanMacDinh'], 0, ',', '.') ?>đ</td>
+
+
 
                                 <td><?= htmlspecialchars($t['DiemKhoiHanh']) ?></td>
 

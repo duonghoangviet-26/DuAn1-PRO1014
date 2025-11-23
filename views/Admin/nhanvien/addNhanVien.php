@@ -52,16 +52,13 @@
         <a href="index.php?act=listdm"><i class="fa fa-list"></i> Danh mục tour</a>
         <a href="#"><i class="fa fa-route"></i> Quản lý tour</a>
         <a href="#"><i class="fa fa-book"></i> Quản lý booking</a>
-<<<<<<< HEAD
-=======
         <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Quản lý nhà cung cấp</a>
->>>>>>> master
         <a href="#"><i class="fa fa-users"></i> Tài khoản / HDV</a>
         <a href="#"><i class="fa fa-chart-bar"></i> Báo cáo thống kê</a>
         <a href="#" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
     </div>
 
-<<<<<<< HEAD
+
     <!-- Nội dung -->
     <div class="content">
         <div class="container mt-4">
@@ -88,7 +85,7 @@
                 <button type="submit" class="btn btn-success" onclick="return alert('Bạn có chắc muốn thêm')">Thêm danh
                     mục</button>
                 <a href="index.php?controller=danhmuc&action=listdm" class="btn btn-secondary">Hủy</a>
-=======
+
     <div class="content">
         <div class="container mt-4">
             <h2>Thêm Nhân Viên Mới</h2>
@@ -138,7 +135,7 @@
 
                 <a href="index.php?act=listNV" class="btn btn-secondary">Hủy</a>
 
->>>>>>> master
+
             </form>
         </div>
 

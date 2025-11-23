@@ -49,7 +49,7 @@
     <div class="sidebar">
         <h4 class="text-center text-light mb-4">Admin Panel</h4>
 
-        <a href="index.php?act=Home"><i class="fa fa-home"></i> Tổng quan</a>
+        <a href="index.php?act=/"><i class="fa fa-home"></i> Tổng quan</a>
         <a href="index.php?act=listdm"><i class="fa fa-list"></i> Danh mục tour</a>
         <a href="index.php?act=listTour"><i class="fa fa-route"></i> Quản lý tour</a>
         <a href="index.php?act=listBooking"><i class="fa fa-book"></i> Quản lý booking</a>
@@ -61,7 +61,6 @@
 
     <!-- Nội dung -->
     <div class="content">
-
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
