@@ -40,10 +40,6 @@ match ($act) {
     'editDanhMuc' => (new tourController())->editDanhMuc(),
 
 
-    // Nhân viên
-    'listNV' => (new nhanVienController())->listNV(),
-    'creatNV' => (new nhanVienController())->creatNV(),
-
     // Quản lí tour
     'listTour'        => (new tourController())->getAllTour(),
     'createTourForm'  => (new tourController())->createTourForm(),
@@ -85,5 +81,4 @@ match ($act) {
     'submitEditNCC' => (new nhaCungCapController())->updateNCC(),
     'deleteNCC'     => (new nhaCungCapController())->deleteNCC(),
     'detailNCC'     => (new nhaCungCapController())->showDetailNCC(),
-
 };
