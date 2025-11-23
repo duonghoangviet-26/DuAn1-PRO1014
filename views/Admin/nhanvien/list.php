@@ -69,7 +69,7 @@
                             <h4 class="mb-0 text-primary"><i class="fas fa-users"></i> Danh Sách Nhân Sự</h4>
                         </div>
                         <div class="card-body">
-                            <!-- <?php if (isset($_SESSION['success'])): ?>
+                            <?php if (isset($_SESSION['success'])): ?>
                                 <div class="alert alert-success alert-dismissible fade show">
                                     <i class="fas fa-check-circle"></i> <?= $_SESSION['success'] ?>
                                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -83,7 +83,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                                 </div>
                                 <?php unset($_SESSION['error']); ?>
-                            <?php endif; ?> -->
+                            <?php endif; ?>
 
                             <div class="row mb-3">
                                 <div class="col-md-12 d-flex justify-content-start">
@@ -111,7 +111,6 @@
 
                                             <th width="15%">Chức Vụ (Vai Trò)</th>
                                             <th width="15%">Liên Hệ</th>
-                                            <!-- <th width="10%">Lương CB (Tạm Ẩn)</th> -->
                                             <th width="10%">Trạng Thái</th>
                                             <th width="25%">Thao Tác</th>
                                         </tr>
@@ -136,19 +135,15 @@
                                                 <?= $nv['SoDienThoai'] ?><br>
                                                 <small class="text-muted"><?= $nv['Email'] ?></small>
                                             </td>
-                                            <!-- <td class="text-center">N/A</td> -->
                                             <td class="text-center">
                                                 <?php if ($nv['TrangThai'] == 'dang_lam'): ?>
-                                                <span class="badge bg-success">Đang
-                                                    làm việc</span>
+                                                <span class="badge bg-success">Đang làm việc</span>
                                                 <?php else: ?>
-                                                <span class="badge bg-secondary">Đã
-                                                    nghỉ việc</span>
+                                                <span class="badge bg-secondary">Đã nghỉ việc</span>
                                                 <?php endif; ?>
                                             </td>
                                             <td class="text-center">
-
-                                                <a href="index.php?controller=nhanvien&action=lichlamviec&id=<?= $nv['MaNhanVien'] ?>"
+                                                <a href="index.php?controller=nhanvien&action=lichlamviec&id=<?= $nv['MaNhanVien'] ?>"></a>
 
                                                 <a href="index.php?act=lichlamviec&id=<?= $nv['MaNhanVien'] ?>"
 
@@ -156,12 +151,7 @@
                                                     <i class="fas fa-calendar-alt"></i>
                                                     Lịch
                                                 </a>
-
-                                                <a href="index.php?controller=nhanvien&action=edit&id=<?= $nv['MaNhanVien'] ?>"
-                                                    class="btn btn-sm btn-warning" title="Sửa">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="index.php?controller=nhanvien&action=delete&id=<?= $nv['MaNhanVien'] ?>"
+                                                <a href="index.php?controller=nhanvien&action=delete&id=<?= $nv['MaNhanVien'] ?>"></a>
 
                                                 <a href="index.php?act=chitietNV&id=<?= $nv['MaNhanVien'] ?>"
                                                     class="btn btn-sm btn-success" title="Chi Tiết">
@@ -171,11 +161,21 @@
                                                     class="btn btn-sm btn-warning" title="Sửa">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
-                                                <a href="index.php?act=deleteNV&id=<?= $nv['MaNhanVien'] ?>"
-                                                    class="btn btn-sm btn-danger" title="Xóa"
-                                                    onclick="return confirm('Bạn có chắc muốn xóa nhân viên này?')">
-                                                    <i class="fas fa-trash"></i>
                                                 </a>
+
+                                                    <?php if ($nv['TrangThai'] == 'da_nghi'): ?>
+                                                        <a href="index.php?act=deleteNV&id=<?= $nv['MaNhanVien'] ?>" 
+                                                        class="btn btn-dark btn-sm"
+                                                        onclick="return confirm('CẢNH BÁO: Hành động này sẽ xóa nhân viên KHỎI CƠ SỞ DỮ LIỆU và không thể khôi phục. Bạn chắc chắn chứ?')">
+                                                        <i class="fas fa-trash-alt"></i> Xóa vĩnh viễn
+                                                        </a>
+                                                    <?php else: ?>
+                                                        <a href="index.php?act=deleteNV&id=<?= $nv['MaNhanVien'] ?>" 
+                                                        class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Bạn muốn chuyển nhân viên này sang trạng thái Đã Nghỉ?')">
+                                                        <i class="fas fa-user-times"></i> Xóa
+                                                        </a>
+                                                    <?php endif; ?>
                                             </td>
                                         </tr>
                                         <?php endforeach; ?>

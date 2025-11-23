@@ -1,5 +1,4 @@
 <?php
-// Có class chứa các function thực thi tương tác với cơ sở dữ liệu 
 class nhanVienModel
 {
     public $conn;
@@ -10,7 +9,7 @@ class nhanVienModel
 
     public function getAllNhanVien()
     {
-        $sql = "SELECT * FROM   nhanvien  ORDER BY MaNhanVien ASC";
+        $sql = "SELECT * FROM   nhanvien  ORDER BY MaNhanVien DESC";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
@@ -24,40 +23,56 @@ class nhanVienModel
         $stmt->execute([':id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    public function insertNhanVien($HoTen, $VaiTro, $SoDienThoai, $Email, $LinkAnh, $MaCodeNhanVien)
-{
-    $sql = "INSERT INTO nhanvien (HoTen, VaiTro, SoDienThoai, Email, TrangThai, LinkAnhDaiDien, MaCodeNhanVien)
-            VALUES (:HoTen, :VaiTro, :SoDienThoai, :Email, 'dang_lam', :LinkAnhDaiDien, :MaCodeNhanVien)";
-            
-    $stmt = $this->conn->prepare($sql);
-    $stmt->execute([
-        ':HoTen' => $HoTen,
-        ':VaiTro' => $VaiTro,
-        ':SoDienThoai' => $SoDienThoai,
-        ':Email' => $Email,
-        ':LinkAnhDaiDien' => $LinkAnh,
-        ':MaCodeNhanVien' => $MaCodeNhanVien
-    ]);
-}
+    public function insertNhanVien($HoTen, $VaiTro, $SoDienThoai, $Email, $LinkAnh, $MaCodeNhanVien, $NgaySinh, $GioiTinh, $DiaChi, $ChungChi, $NgonNgu, $SoNamKinhNghiem, $ChuyenMon, $TrangThai)
+    {
+        $sql = "INSERT INTO nhanvien (HoTen, VaiTro, SoDienThoai, Email, LinkAnhDaiDien, MaCodeNhanVien, NgaySinh, GioiTinh, DiaChi, ChungChi, NgonNgu, SoNamKinhNghiem, ChuyenMon, TrangThai)
+                VALUES (:HoTen, :VaiTro, :SoDienThoai, :Email, :LinkAnhDaiDien, :MaCodeNhanVien, :NgaySinh, :GioiTinh, :DiaChi, :ChungChi, :NgonNgu, :SoNamKinhNghiem, :ChuyenMon, :TrangThai)";
+                
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            ':HoTen' => $HoTen,
+            ':VaiTro' => $VaiTro,
+            ':SoDienThoai' => $SoDienThoai,
+            ':Email' => $Email,
+            ':LinkAnhDaiDien' => $LinkAnh,
+            ':MaCodeNhanVien' => $MaCodeNhanVien,
+            ':NgaySinh' => $NgaySinh,
+            ':GioiTinh' => $GioiTinh,
+            ':DiaChi' => $DiaChi,
+            ':ChungChi' => $ChungChi,
+            ':NgonNgu' => $NgonNgu,
+            ':SoNamKinhNghiem' => $SoNamKinhNghiem,
+            ':ChuyenMon' => $ChuyenMon,
+            ':TrangThai' => $TrangThai
+        ]);
+    }
 
-    public function updateNhanVien($id, $TenNhanVien, $VaiTro, $SDT, $Email, $LinkAnh, $TrangThai)
-{
-    $sql = "UPDATE nhanvien 
-            SET HoTen = :ten, VaiTro = :vaitro, SoDienThoai = :sdt, Email = :email, 
-                LinkAnhDaiDien = :anh, TrangThai = :trangthai
-            WHERE MaNhanVien = :id";
+    public function updateNhanVien($id, $HoTen, $VaiTro, $SoDienThoai, $Email, $LinkAnh, $TrangThai, $NgaySinh, $GioiTinh, $DiaChi, $ChungChi, $NgonNgu, $SoNamKinhNghiem, $ChuyenMon)
+    {
+        $sql = "UPDATE nhanvien 
+                SET HoTen = :HoTen, VaiTro = :VaiTro, SoDienThoai = :SoDienThoai, Email = :Email, 
+                    LinkAnhDaiDien = :LinkAnh, TrangThai = :TrangThai, NgaySinh = :NgaySinh, GioiTinh = :GioiTinh, DiaChi = :DiaChi,
+                    ChungChi = :ChungChi, NgonNgu = :NgonNgu, SoNamKinhNghiem = :SoNamKinhNghiem, ChuyenMon = :ChuyenMon
+                WHERE MaNhanVien = :id";
 
-    $stmt = $this->conn->prepare($sql);
-    return $stmt->execute([
-        ':ten' => $TenNhanVien,
-        ':vaitro' => $VaiTro,
-        ':sdt' => $SDT,
-        ':email' => $Email,
-        ':anh' => $LinkAnh,
-        ':trangthai' => $TrangThai,
-        ':id' => $id
-    ]);
-}
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([
+            ':HoTen' => $HoTen,
+            ':VaiTro' => $VaiTro,
+            ':SoDienThoai' => $SoDienThoai,
+            ':Email' => $Email,
+            ':LinkAnh' => $LinkAnh,
+            ':TrangThai' => $TrangThai,
+            ':NgaySinh' => $NgaySinh,
+            ':GioiTinh' => $GioiTinh,
+            ':DiaChi' => $DiaChi,
+            ':ChungChi' => $ChungChi,
+            ':NgonNgu' => $NgonNgu,
+            ':SoNamKinhNghiem' => $SoNamKinhNghiem,
+            ':ChuyenMon' => $ChuyenMon,
+            ':id' => $id
+        ]);
+    }
 
     public function deleteNhanVien($id)
     {
@@ -65,5 +80,13 @@ class nhanVienModel
     $stmt = $this->conn->prepare($sql);
     return $stmt->execute([':id' => $id]);
     }
+
+    
+    public function destroyNhanVien($id)
+{
+    $sql = "DELETE FROM nhanvien WHERE MaNhanVien = :id";
+    $stmt = $this->conn->prepare($sql);
+    return $stmt->execute([':id' => $id]);
+}
 
 }

@@ -51,8 +51,8 @@
         <a href="#"><i class="fa fa-home"></i> Tổng quan</a>
         <a href="index.php?act=listdm"><i class="fa fa-list"></i> Danh mục tour</a>
         <a href="#"><i class="fa fa-route"></i> Quản lý tour</a>
-        <a href="#"><i class="fa fa-book"></i> Quản lý booking</a>
-        <a href="#"><i class="fa fa-users"></i> Tài khoản / HDV</a>
+        <a href="index.php?act=listBooking"><i class="fa fa-book"></i> Quản lý booking</a>
+        <a href="index.php?act=listNV"><i class="fa fa-users"></i> Tài khoản / HDV</a>
         <a href="#"><i class="fa fa-chart-bar"></i> Báo cáo thống kê</a>
         <a href="#" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
     </div>
@@ -63,8 +63,6 @@
 
     <div class="card shadow p-4">
         <div class="row">
-
-            <!-- Ảnh đại diện -->
             <div class="col-md-4 text-center">
                 <img src="uploads/nhanvien/<?= $nhanVien['LinkAnhDaiDien'] ?>" 
                      class="img-fluid rounded" style="max-height: 240px;">
@@ -74,8 +72,6 @@
                     <span class="badge bg-dark"><?= $nhanVien['MaCodeNhanVien'] ?></span>
                 </p>
             </div>
-
-            <!-- Thông tin chi tiết -->
             <div class="col-md-8">
 
                 <table class="table table-bordered">
@@ -165,7 +161,6 @@
 
     </div>
 
-    <!-- Script Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

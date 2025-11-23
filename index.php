@@ -1,5 +1,4 @@
 <?php
-// Require toàn bộ các file khai báo môi trường, thực thi,...(không require view)
 
 // Require file Common
 require_once './commons/env.php'; // Khai báo biến môi trường
@@ -62,7 +61,9 @@ match ($act) {
     'lichlamviec' => (new lichLamViecController())->lichLamViec(),
     'deleteLichLamViec' => (new lichLamViecController())->delete(),
 
+
     // default => (new tourController())->Home(),
+
 
 
 
