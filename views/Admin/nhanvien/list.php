@@ -88,8 +88,6 @@
                             <div class="row mb-3">
                                 <div class="col-md-12 d-flex justify-content-start">
 
-                                    <a href="index.php?controller=nhanvien&action=create" class="btn btn-success me-2">
-
                                     <a href="index.php?act=creatNV" class="btn btn-success me-2">
 
                                         <i class="fas fa-user-plus"></i> Thêm Nhân Viên Mới
