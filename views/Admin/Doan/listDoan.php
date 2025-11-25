@@ -86,7 +86,7 @@
     <div class="sidebar">
         <h4 class="text-center text-light mb-4">Admin Panel</h4>
 
-        <a href="index.php?act=Home"><i class="fa fa-home"></i> Tổng quan</a>
+        <a href="index.php?act=/"><i class="fa fa-home"></i> Tổng quan</a>
         <a href="index.php?act=listdm"><i class="fa fa-list"></i> Danh mục tour</a>
         <a href="index.php?act=listTour"><i class="fa fa-route"></i> Quản lý tour</a>
         <a href="index.php?act=listBooking"><i class="fa fa-book"></i> Quản lý booking</a>
@@ -117,7 +117,7 @@
                         <!-- Thanh công cụ -->
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <a href="index.php?act=creatDoan" class="btn btn-success">
+                                <a href="index.php?act=createDKH" class="btn btn-success">
                                     <i class="fas fa-plus"></i> Thêm Đoàn Khởi Hành
                                 </a>
                             </div>

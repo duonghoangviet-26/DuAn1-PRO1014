@@ -132,4 +132,62 @@ class bookingModel
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute($data);
     }
+
+    // Khách trong booking 
+
+    public function getKhachTrongBooking($MaBooking)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM KhachTrongBooking WHERE MaBooking = :id");
+        $stmt->execute([':id' => $MaBooking]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public  function getBookingDetailWithDoan($MaBooking)
+    {
+        $sql = "SELECT b.*, t.TenTour, d.NgayKhoiHanh, d.NgayVe, d.DiemTapTrung
+                FROM Booking b
+                LEFT JOIN Tour t ON b.MaTour = t.MaTour
+                LEFT JOIN DoanKhoiHanh d ON b.MaDoan = d.MaDoan
+                WHERE b.MaBooking = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':id' => $MaBooking]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function deleteKhachTrongBooking($id)
+    {
+        $sql = "DELETE FROM KhachTrongBooking WHERE MaKhachTrongBooking = :id";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([':id' => $id]);
+    }
+
+    public function createKhachTrongBooking($data)
+    {
+        $sql = "INSERT INTO KhachTrongBooking 
+                    (MaBooking, HoTen, GioiTinh, NgaySinh, SoGiayTo, SoDienThoai, GhiChuDacBiet, LoaiPhong)
+                VALUES (:MaBooking, :HoTen, :GioiTinh, :NgaySinh, :SoGiayTo, :SoDienThoai, :GhiChuDacBiet, :LoaiPhong)";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute($data);
+    }
+
+    public function getKhachById($id)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM KhachTrongBooking WHERE MaKhachTrongBooking = :id");
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    public function updateKhachTrongBooking($data)
+    {
+        $sql = "UPDATE KhachTrongBooking 
+            SET HoTen = :HoTen,
+                GioiTinh = :GioiTinh,
+                NgaySinh = :NgaySinh,
+                SoGiayTo = :SoGiayTo,
+                SoDienThoai = :SoDienThoai,
+                GhiChuDacBiet = :GhiChuDacBiet,
+                LoaiPhong = :LoaiPhong
+            WHERE MaKhachTrongBooking = :MaKhach";
+
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute($data);
+    }
 }

@@ -137,7 +137,6 @@ class tourController
                 exit();
             }
 
-
             // XỬ LÝ ẢNH
             $LinkAnhBia = "";
             if (isset($_FILES['LinkAnhBia']) && $_FILES['LinkAnhBia']['error'] == 0) {
@@ -199,6 +198,10 @@ class tourController
                     $GioXuatPhat = $_POST['GioXuatPhat'][$i] ?? null;
                     $GioKetThuc = $_POST['GioKetThuc'][$i] ?? null;
                     $GioHoatDong = $_POST['GioHoatDong'][$i] ?? null;
+                    $NoiDungSang = $_POST['NoiDungSang'][$i] ?? "";
+                    $NoiDungTrua = $_POST['NoiDungTrua'][$i] ?? "";
+                    $NoiDungChieu = $_POST['NoiDungChieu'][$i] ?? "";
+                    $NoiDungToi = $_POST['NoiDungToi'][$i] ?? "";
                     $NoiDungSang = $_POST['NoiDungSang'][$i] ?? "";
                     $NoiDungTrua = $_POST['NoiDungTrua'][$i] ?? "";
                     $NoiDungChieu = $_POST['NoiDungChieu'][$i] ?? "";
@@ -321,6 +324,11 @@ class tourController
             echo "<script>alert('❌ Số đêm không được lớn hơn số ngày!'); history.back();</script>";
             exit();
         }
+
+        if ($SoDem > $SoNgay) {
+            echo "<script>alert('❌ Số đêm không được lớn hơn số ngày!'); history.back();</script>";
+            exit();
+        }
         //CẬP NHẬT LỊCH TRÌNH 
         if (!empty($_POST['MaLichTrinh'])) {
             foreach ($_POST['MaLichTrinh'] as $i => $idLT) {
@@ -336,6 +344,10 @@ class tourController
                 $GioXuatPhat = $_POST['GioXuatPhat'][$i] ?? null;
                 $GioKetThuc  = $_POST['GioKetThuc'][$i] ?? null;
                 $GioHoatDong = $_POST['GioHoatDong'][$i] ?? null;
+                $NoiDungSang = $_POST['NoiDungSang'][$i] ?? "";
+                $NoiDungTrua = $_POST['NoiDungTrua'][$i] ?? "";
+                $NoiDungChieu = $_POST['NoiDungChieu'][$i] ?? "";
+                $NoiDungToi = $_POST['NoiDungToi'][$i] ?? "";
                 $NoiDungSang = $_POST['NoiDungSang'][$i] ?? "";
                 $NoiDungTrua = $_POST['NoiDungTrua'][$i] ?? "";
                 $NoiDungChieu = $_POST['NoiDungChieu'][$i] ?? "";

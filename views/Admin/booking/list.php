@@ -279,7 +279,9 @@
                                 </td>
                                 <td><?= $b['NgayTao'] ?></td>
                                 <td class="actions">
-                                    <a href="?act=khachTrongBooking&MaBooking=<?= $b['MaBooking'] ?>"
+                                    <a href="index.php?act=listDKH" class="btn btn-info btn-sm">Chi tiết</a>
+
+                                    <a href="index.php?act=khachTrongBooking&MaBooking=<?= $b['MaBooking'] ?>"
                                         class="btn btn-info btn-sm">Khách</a>
 
                                     <a href="?act=editBooking&MaBooking=<?= $b['MaBooking'] ?>"

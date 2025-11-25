@@ -15,6 +15,7 @@ require_once './controllers/lichLamViecController.php';
 require_once './controllers/doanKhoiHanhController.php';
 
 
+
 // Require toàn bộ file Models
 require_once './models/tourModel.php';
 require_once './models/nhanVienModel.php';
@@ -23,6 +24,7 @@ require_once './models/nhaCungCapModel.php';
 require_once './models/lichLamViecModel.php';
 require_once './models/khachHangModel.php';
 require_once './models/doanKhoiHanhModel.php';
+
 
 
 // Route
@@ -75,6 +77,7 @@ match ($act) {
 
 
 
+
     // booking
     'listBooking' => (new bookingController)->listBookingAll(),
     'deleteBooking' => (new bookingController)->deleteBooking(),
@@ -105,4 +108,8 @@ match ($act) {
 
     // Đoàn khởi hành
     'listDKH'  => (new doanKhoiHanhController())->listDKH(),
+    'createDKH' => (new doanKhoiHanhController())->createDKH(),
+    'deleteDKH' => (new doanKhoiHanhController())->deleteDKH(),
+    'editDKH' => (new doanKhoiHanhController())->editDKH(),
+    'updateDKH' => (new doanKhoiHanhController())->updateDKH(),
 };
