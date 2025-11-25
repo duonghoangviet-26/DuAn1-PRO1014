@@ -7,6 +7,105 @@
     <title>Quản lý Booking</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+    /* Căn giữa, spacing đẹp */
+    table.table {
+        font-size: 14px;
+        vertical-align: middle;
+    }
+
+    /* Cột giá tiền */
+    td.price {
+        font-weight: 600;
+        color: #0d6efd;
+        /* xanh bootstrap */
+    }
+
+    /* Badge trạng thái */
+    .badge-cho {
+        background: #fff3cd;
+        color: #856404;
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .badge-coc {
+        background: #cfe2ff;
+        color: #084298;
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .badge-done {
+        background: #d1e7dd;
+        color: #0f5132;
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .badge-cancel {
+        background: #f8d7da;
+        color: #842029;
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    /* Nút thao tác */
+    .btn-khach,
+    .btn-edit,
+    .btn-delete {
+        border: none;
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    .btn-khach {
+        background: #e0f3ff;
+        color: #0d6efd;
+    }
+
+    .btn-khach:hover {
+        background: #b6e0ff;
+    }
+
+    .btn-edit {
+        background: #fde2ba;
+        color: #b35c00;
+    }
+
+    .btn-edit:hover {
+        background: #fcd49b;
+    }
+
+    .btn-delete {
+        background: #f8d7da;
+        color: #842029;
+    }
+
+    .btn-delete:hover {
+        background: #f3c2c6;
+    }
+
+    /* Căn giữa các nút */
+    td.actions {
+        white-space: nowrap;
+        display: flex;
+        gap: 6px;
+    }
+    </style>
+
 </head>
 
 <body class="bg-light">
@@ -34,11 +133,11 @@
         </div>
 
         <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success alert-dismissible fade show">
-                <?= $_SESSION['success'];
+        <div class="alert alert-success alert-dismissible fade show">
+            <?= $_SESSION['success'];
                 unset($_SESSION['success']); ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
         <?php endif; ?>
 
         <!-- Thống kê -->
@@ -120,74 +219,82 @@
                     <table class="table table-hover">
                         <thead class="table-light">
                             <tr>
-                                <th>Mã Booking</th>
+                                <th>ID</th>
+                                <!-- <th>Mã Booking</th> -->
                                 <th>Tour</th>
+                                <th>Đoàn</th>
                                 <th>Khách hàng</th>
-                                <th>Số khách</th>
+                                <th>Loại</th>
+                                <th>SL</th>
                                 <th>Tổng tiền</th>
+                                <th>Đã trả</th>
+                                <th>Còn lại</th>
                                 <th>Trạng thái</th>
-                                <th>Thao tác</th>
+                                <th>Ngày tạo</th>
+                                <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (empty($bookings)): ?>
-                                <tr>
-                                    <td colspan="7" class="text-center py-4">Chưa có booking nào</td>
-                                </tr>
-                            <?php else: ?>
-                                <?php foreach ($bookings as $booking): ?>
-                                    <tr>
-                                        <td>
-                                            <strong><?= $booking['MaCodeBooking'] ?></strong><br>
-                                            <small
-                                                class="text-muted"><?= date('d/m/Y', strtotime($booking['NgayTao'])) ?></small>
-                                        </td>
-                                        <td><?= htmlspecialchars($booking['TenTour'] ?? '') ?></td>
-                                        <td>
-                                            <?= htmlspecialchars($booking['TenKhachHang']) ?><br>
-                                            <small class="text-muted"><?= $booking['SoDienThoai'] ?></small>
-                                        </td>
-                                        <td>
-                                            <i class="fas fa-users"></i>
-                                            <?= $booking['TongNguoiLon'] + $booking['TongTreEm'] + $booking['TongEmBe'] ?>
-                                        </td>
-                                        <td>
-                                            <strong><?= number_format($booking['TongTien'], 0, ',', '.') ?>đ</strong><br>
-                                            <small class="text-muted">Còn lại:
-                                                <?= number_format($booking['SoTienConLai'] ?? 0, 0, ',', '.') ?>đ
-                                        </td>
-                                        <td>
-                                            <select class="form-select form-select-sm status-select"
-                                                onchange="updateStatus(<?= $booking['MaBooking'] ?>, this.value)">
-                                                <option value="cho_coc"
-                                                    <?= $booking['TrangThai'] == 'cho_coc' ? 'selected' : '' ?>>Chờ cọc</option>
-                                                <option value="da_coc"
-                                                    <?= $booking['TrangThai'] == 'da_coc' ? 'selected' : '' ?>>Đã cọc</option>
-                                                <option value="hoan_tat"
-                                                    <?= $booking['TrangThai'] == 'hoan_tat' ? 'selected' : '' ?>>Hoàn tất
-                                                </option>
-                                                <option value="da_huy"
-                                                    <?= $booking['TrangThai'] == 'da_huy' ? 'selected' : '' ?>>Đã hủy</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <a href="index.php?controller=booking&action=detail&id=<?= $booking['MaBooking'] ?>"
-                                                class="btn btn-sm btn-info" title="Xem">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <a href="index.php?controller=booking&action=edit&id=<?= $booking['MaBooking'] ?>"
-                                                class="btn btn-sm btn-warning" title="Sửa">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <a href="index.php?controller=booking&action=delete&id=<?= $booking['MaBooking'] ?>"
-                                                class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc muốn xóa?')"
-                                                title="Xóa">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
+                            <?php $i = 1;
+                            foreach ($bookings as $b): ?>
+                            <tr>
+                                <td><?= $i++ ?> </td>
+                                <!-- <td><?= htmlspecialchars($b['MaCodeBooking']) ?></td> -->
+                                <td><?= htmlspecialchars($b['TenTour'] ?? '') ?></td>
+                                <td>
+                                    <?php if (!empty($b['NgayKhoiHanh'])): ?>
+                                    <?= date('d/m/Y', strtotime($b['NgayKhoiHanh'])) ?>
+                                    <?php else: ?>
+                                    —
+                                    <?php endif; ?>
+                                    <?php
+                                        $TongTien = $b['TongTien'] ?? 0;
+                                        $DaCoc    = $b['SoTienDaCoc'] ?? 0;
+                                        $DaTra    = $b['SoTienDaTra'] ?? 0;
+
+                                        $ConLai = $TongTien - $DaCoc - $DaTra;
+                                        if ($ConLai < 0) $ConLai = 0;
+                                        ?>
+                                </td>
+                                <td><?= htmlspecialchars($b['TenKhachHang'] ?? '') ?></td>
+                                <td><?= $b['LoaiBooking'] == 'nhom' ? 'Nhóm' : 'Cá nhân' ?></td>
+                                <td>
+                                    NL: <?= $b['TongNguoiLon'] ?>,
+                                    TE: <?= $b['TongTreEm'] ?>,
+                                    EB: <?= $b['TongEmBe'] ?>
+                                </td>
+                                <td class="price"><?= number_format($b['TongTien'] ?? 0, 0, ',', '.') ?>đ</td>
+                                <td class="price"><?= number_format($b['SoTienDaCoc'] ?? 0, 0, ',', '.') ?>đ</td>
+                                <td class="price"><?= number_format($ConLai, 0, ',', '.') ?>đ</td>
+
+
+                                <td>
+                                    <?php
+                                        $st = $b['TrangThai'];
+                                        if ($st == 'cho_coc') echo '<span class="badge badge-cho">Chờ cọc</span>';
+                                        elseif ($st == 'da_coc') echo '<span class="badge badge-coc">Đã cọc</span>';
+                                        elseif ($st == 'hoan_tat') echo '<span class="badge badge-done">Hoàn tất</span>';
+                                        elseif ($st == 'da_huy') echo '<span class="badge badge-cancel">Đã hủy</span>';
+                                        ?>
+                                </td>
+                                <td><?= $b['NgayTao'] ?></td>
+                                <td class="actions">
+                                    <a href="?act=khachTrongBooking&MaBooking=<?= $b['MaBooking'] ?>"
+                                        class="btn btn-info btn-sm">Khách</a>
+
+                                    <a href="?act=editBooking&MaBooking=<?= $b['MaBooking'] ?>"
+                                        class="btn btn-warning btn-sm"
+                                        onclick="return confirm('Bạn có muốn sửa không??');">Sửa</a>
+
+                                    <a href="?act=deleteBooking&MaBooking=<?= $b['MaBooking'] ?>"
+                                        class="btn btn-danger btn-sm" onclick="return confirm('Xóa booking này?');">
+                                        Xóa
+                                    </a>
+                                </td>
+
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -197,28 +304,40 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function updateStatus(bookingId, status) {
-            if (!confirm('Bạn có chắc muốn thay đổi trạng thái?')) {
-                location.reload();
-                return;
-            }
+    document.addEventListener("DOMContentLoaded", function() {
 
-            fetch('index.php?controller=booking&action=updateStatus', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: 'id=' + bookingId + '&status=' + status
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Cập nhật thành công!');
-                        location.reload();
-                    }
-                });
+        // Nếu các phần tử không tồn tại → không chạy JS tính tổng
+        const tourSelect = document.getElementById('tourSelect');
+        const adults = document.getElementById('adults');
+        const children = document.getElementById('children');
+        const babies = document.getElementById('babies');
+        const totalAmount = document.getElementById('totalAmount');
+
+        // Nếu không có form booking → DỪNG TẠI ĐÂY → KHÔNG BAO LỖI
+        if (!tourSelect || !adults || !children || !babies || !totalAmount) {
+            return;
         }
+
+        function calculateTotal() {
+            const basePrice = parseFloat(tourSelect.options[tourSelect.selectedIndex].dataset.price) || 0;
+
+            const nl = parseInt(adults.value) || 0;
+            const te = parseInt(children.value) || 0;
+            const eb = parseInt(babies.value) || 0;
+
+            const total = (nl * basePrice) + (te * basePrice * 0.7) + (eb * basePrice * 0.3);
+
+            totalAmount.value = Math.round(total);
+        }
+
+        tourSelect.addEventListener('change', calculateTotal);
+        adults.addEventListener('input', calculateTotal);
+        children.addEventListener('input', calculateTotal);
+        babies.addEventListener('input', calculateTotal);
+    });
     </script>
+
+
 </body>
 
 </html>

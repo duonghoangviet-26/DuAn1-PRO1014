@@ -31,8 +31,9 @@
                 <!-- Form -->
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <form method="POST" action="index.php?controller=booking&action=store">
+                        <form method="POST" action="index.php?act=createBookingProcess">
                             <div class="row g-3">
+                                <input type="hidden" name="MaCodeBooking" value="<?= 'BK' . date('YmdHis') ?>">
                                 <!-- Tour -->
                                 <div class="col-md-12">
                                     <label class="form-label">Tour <span class="text-danger">*</span></label>
@@ -51,12 +52,26 @@
 
                                 <!-- Khách hàng -->
                                 <div class="col-md-12">
-                                    <label class="form-label">Khách hàng <span class="text-danger">*</span></label>
+                                    <label class="form-label">Khách hàng(Người đại diện) <span
+                                            class="text-danger">*</span></label>
                                     <select name="MaKhachHang" class="form-select" required>
                                         <option value="">-- Chọn khách hàng --</option>
                                         <?php foreach ($khachHangs as $kh): ?>
                                             <option value="<?= $kh['MaKhachHang'] ?>">
                                                 <?= htmlspecialchars($kh['HoTen']) ?> - <?= $kh['SoDienThoai'] ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label class="form-label">Đoàn khởi hành <span class="text-danger">*</span></label>
+                                    <select name="MaDoan" class="form-select" required>
+                                        <option value="">-- Chọn Đoàn Khởi Hành --</option>
+                                        <?php foreach ($listDoan as $doan): ?>
+                                            <option value="<?= $doan['MaDoan'] ?>">
+                                                [#<?= $doan['MaDoan'] ?>] <?= $doan['TenTour'] ?> -
+                                                <?= date('d/m/Y', strtotime($doan['NgayKhoiHanh'])) ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
@@ -130,7 +145,7 @@
                                     <i class="fas fa-times"></i> Hủy
                                 </a>
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save"></i> Tạo Nooking
+                                    <i class="fas fa-save"></i> Tạo Booking
                                 </button>
                             </div>
                         </form>

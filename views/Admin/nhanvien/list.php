@@ -48,19 +48,19 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <h4 class="text-center text-light mb-4">Admin Panel</h4>
+
         <a href="index.php?act=/"><i class="fa fa-home"></i> Tổng quan</a>
         <a href="index.php?act=listdm"><i class="fa fa-list"></i> Danh mục tour</a>
-        <a href="#"><i class="fa fa-route"></i> Quản lý tour</a>
-        <a href="#"><i class="fa fa-book"></i> Quản lý booking</a>
+        <a href="index.php?act=listTour"><i class="fa fa-route"></i> Quản lý tour</a>
+        <a href="index.php?act=listBooking"><i class="fa fa-book"></i> Quản lý booking</a>
         <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Quản lý nhà cung cấp</a>
-        <a href="#"><i class="fa fa-users"></i> Tài khoản / HDV</a>
+        <a href="index.php?act=listNV"><i class="fa fa-users"></i> Tài khoản / HDV</a>
         <a href="#"><i class="fa fa-chart-bar"></i> Báo cáo thống kê</a>
         <a href="#" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
     </div>
 
     <!-- Nội dung -->
     <div class="content">
-
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
@@ -87,7 +87,11 @@
 
                             <div class="row mb-3">
                                 <div class="col-md-12 d-flex justify-content-start">
+
+                                    <a href="index.php?controller=nhanvien&action=create" class="btn btn-success me-2">
+
                                     <a href="index.php?act=creatNV" class="btn btn-success me-2">
+
                                         <i class="fas fa-user-plus"></i> Thêm Nhân Viên Mới
                                     </a>
                                     <a href="index.php?controller=nhanvien&action=findAvailableStaff"
@@ -104,6 +108,7 @@
                                             <th width="5%">Mã NV</th>
                                             <th width="20%">Họ Tên</th>
                                             <th width="10%">Ảnh Đại Diện</th>
+
                                             <th width="15%">Chức Vụ (Vai Trò)</th>
                                             <th width="15%">Liên Hệ</th>
                                             <!-- <th width="10%">Lương CB (Tạm Ẩn)</th> -->
@@ -125,6 +130,7 @@
                                             <td><strong><?= $nv['HoTen'] ?></strong>
                                             </td>
                                             <td><img src="./uploads/nhanvien/<?= $nv['LinkAnhDaiDien'] ?>" alt="ảnh đại diện" width="50" height="50"></td>
+
                                             <td><?= $vaiTroHienThi ?></td>
                                             <td>
                                                 <?= $nv['SoDienThoai'] ?><br>
@@ -141,11 +147,22 @@
                                                 <?php endif; ?>
                                             </td>
                                             <td class="text-center">
+
+                                                <a href="index.php?controller=nhanvien&action=lichlamviec&id=<?= $nv['MaNhanVien'] ?>"
+
                                                 <a href="index.php?act=lichlamviec&id=<?= $nv['MaNhanVien'] ?>"
+
                                                     class="btn btn-sm btn-info text-white" title="Xem Lịch">
                                                     <i class="fas fa-calendar-alt"></i>
                                                     Lịch
                                                 </a>
+
+                                                <a href="index.php?controller=nhanvien&action=edit&id=<?= $nv['MaNhanVien'] ?>"
+                                                    class="btn btn-sm btn-warning" title="Sửa">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href="index.php?controller=nhanvien&action=delete&id=<?= $nv['MaNhanVien'] ?>"
+
                                                 <a href="index.php?act=chitietNV&id=<?= $nv['MaNhanVien'] ?>"
                                                     class="btn btn-sm btn-success" title="Chi Tiết">
                                                     <i class="fas fa-eye"></i>

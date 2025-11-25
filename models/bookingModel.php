@@ -8,14 +8,6 @@ class bookingModel
         $this->conn = connectDB();
     }
 
-    // public function getBookingAll()
-    // {
-    //     $sql = 'SELECT * FROM booking ORDER BY MaBooking';
-    //     $stmt = $this->conn->prepare($sql);
-
-    //     $stmt->execute();
-    //     return $stmt->fetchAll();
-    // }
     // Lấy tất cả booking
     public function getAllBooking($filters = [])
     {
@@ -74,5 +66,70 @@ class bookingModel
 
         $stmt = $this->conn->query($sql);
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+
+    public function deleteBooking($id)
+    {
+        $stmt = $this->conn->prepare("DELETE FROM Booking WHERE MaBooking = :id");
+        return $stmt->execute([':id' => $id]);
+    }
+
+    public function createBooking($data)
+    {
+        $sql = "INSERT INTO Booking (
+        MaCodeBooking, MaTour, MaDoan, MaKhachHang, LoaiBooking,
+        TongNguoiLon, TongTreEm, TongEmBe,
+        TongTien, SoTienDaCoc, SoTienDaTra, SoTienConLai,
+        TrangThai, YeuCauDacBiet, MaNguoiTao
+    ) VALUES (
+        :MaCodeBooking, :MaTour, :MaDoan, :MaKhachHang, :LoaiBooking,
+        :TongNguoiLon, :TongTreEm, :TongEmBe,
+        :TongTien, :SoTienDaCoc, :SoTienDaTra, :SoTienConLai,
+        :TrangThai, :YeuCauDacBiet, :MaNguoiTao
+    )";
+        $stmt = $this->conn->prepare($sql);
+
+        try {
+            $stmt->execute($data);
+        } catch (PDOException $e) {
+            echo "<pre>";
+            echo "❌ KHÔNG THỂ THÊM BOOKING\n";
+            echo "Lỗi SQL: " . $e->getMessage();
+            echo "\nDữ liệu truyền vào:\n";
+            print_r($data);
+            echo "</pre>";
+            exit;
+        }
+        return true;
+    }
+
+    public function getOneBooking($id)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM Booking WHERE MaBooking = :id");
+        $stmt->execute([':id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updateBooking($data)
+    {
+        $sql = "UPDATE booking SET
+            MaTour = :MaTour,
+            MaDoan = :MaDoan,
+            MaKhachHang = :MaKhachHang,
+            LoaiBooking = :LoaiBooking,
+            TongNguoiLon = :TongNguoiLon,
+            TongTreEm = :TongTreEm,
+            TongEmBe = :TongEmBe,
+            TongTien = :TongTien,
+            SoTienDaCoc = :SoTienDaCoc,
+            SoTienDaTra = :SoTienDaTra,
+            SoTienConLai = :SoTienConLai,
+            TrangThai = :TrangThai,
+            YeuCauDacBiet = :YeuCauDacBiet
+        WHERE MaBooking = :MaBooking";
+
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute($data);
     }
 }

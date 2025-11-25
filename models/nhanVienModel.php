@@ -16,6 +16,7 @@ class nhanVienModel
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
     public function getNhanVienById($id)
     {
         $sql = "SELECT * FROM nhanvien WHERE MaNhanVien = :id";
@@ -64,5 +65,5 @@ class nhanVienModel
     $stmt = $this->conn->prepare($sql);
     return $stmt->execute([':id' => $id]);
     }
-    
+
 }
