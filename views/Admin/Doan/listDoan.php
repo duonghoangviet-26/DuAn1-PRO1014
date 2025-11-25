@@ -169,7 +169,7 @@
                                                 ?>
                                             </td>
                                             <td class="actions">
-                                                <a href="index.php?act=editDKH&id=<?= $d['MaDoan'] ?>">
+                                                <a href="?act=editDoan&MaDoan=<?= $d['MaDoan'] ?>">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
 
@@ -178,12 +178,10 @@
                                                         chính</button>
                                                 </a> -->
 
-                                                <a href="index.php?act=deleteDKH&id=<?= $d['MaDoan'] ?>"
-                                                    class="text-danger"
-                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa đoàn này?');">
+                                                <a href="?act=deleteDoan&MaDoan=<?= $d['MaDoan'] ?>"
+                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa đoàn này không?');">
                                                     <i class="fa fa-trash"></i>
                                                 </a>
-
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
