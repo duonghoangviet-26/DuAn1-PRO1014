@@ -83,6 +83,14 @@ match ($act) {
     'editBooking'  => (new bookingController)->editBooking(),
     'editBookingProcess' => (new BookingController())->editBookingProcess(),
 
+    // khách trong booking  
+    'khachTrongBooking' => (new bookingController)->khachTrongBooking(),
+    'deleteKhachTrongBooking' => (new bookingController)->deleteKhachTrongBooking(),
+    'createKhachTrongBooking' => (new bookingController)->createKhachTrongBooking(),
+    'createKhachTrongBookingProcess' => (new bookingController)->createKhachTrongBookingProcess(),
+    'editKhachTrongBooking' => (new bookingController)->editKhachTrongBooking(),
+    'updateKhachTrongBooking' => (new bookingController)->updateKhachTrongBooking(),
+
 
 
     // Quản lí nhà cung cấp
