@@ -41,8 +41,8 @@ match ($act) {
 
 
     // Nhân viên
-    'listNV' => (new nhanVienController())->listNV(),
-    'creatNV' => (new nhanVienController())->creatNV(),
+    // 'listNV' => (new nhanVienController())->listNV(),
+    // 'creatNV' => (new nhanVienController())->creatNV(),
 
     // Quản lí tour
     'listTour'        => (new tourController())->getAllTour(),
