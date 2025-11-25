@@ -11,73 +11,73 @@
     <!-- Icon -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
-    body {
-        background-color: #f8f9fa;
-    }
+        body {
+            background-color: #f8f9fa;
+        }
 
-    .sidebar {
-        width: 250px;
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background-color: #343a40;
-        color: white;
-        padding-top: 20px;
-    }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            color: white;
+            padding-top: 20px;
+        }
 
-    .sidebar a {
-        color: #ccc;
-        display: block;
-        padding: 10px 20px;
-        text-decoration: none;
-    }
+        .sidebar a {
+            color: #ccc;
+            display: block;
+            padding: 10px 20px;
+            text-decoration: none;
+        }
 
-    .sidebar a:hover {
-        background-color: #495057;
-        color: #fff;
-    }
+        .sidebar a:hover {
+            background-color: #495057;
+            color: #fff;
+        }
 
-    .content {
-        margin-left: 250px;
-        padding: 20px;
-    }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+        }
 
-    .badge-open {
-        background-color: #d1e7dd;
-        color: #0f5132;
-        padding: 5px 10px;
-        border-radius: 8px;
-        font-size: 12px;
-        font-weight: 600;
-    }
+        .badge-open {
+            background-color: #d1e7dd;
+            color: #0f5132;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
 
-    .badge-full {
-        background-color: #f8d7da;
-        color: #842029;
-        padding: 5px 10px;
-        border-radius: 8px;
-        font-size: 12px;
-        font-weight: 600;
-    }
+        .badge-full {
+            background-color: #f8d7da;
+            color: #842029;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
 
-    .badge-cancel {
-        background-color: #e2e3e5;
-        color: #41464b;
-        padding: 5px 10px;
-        border-radius: 8px;
-        font-size: 12px;
-        font-weight: 600;
-    }
+        .badge-cancel {
+            background-color: #e2e3e5;
+            color: #41464b;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
 
-    .badge-done {
-        background-color: #cfe2ff;
-        color: #084298;
-        padding: 5px 10px;
-        border-radius: 8px;
-        font-size: 12px;
-        font-weight: 600;
-    }
+        .badge-done {
+            background-color: #cfe2ff;
+            color: #084298;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -107,17 +107,17 @@
                     </div>
                     <div class="card-body">
                         <?php if (isset($_SESSION['error'])): ?>
-                        <div class="alert alert-danger alert-dismissible fade show">
-                            <i class="fas fa-exclamation-circle"></i> <?= $_SESSION['error'] ?>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                        <?php unset($_SESSION['error']); ?>
+                            <div class="alert alert-danger alert-dismissible fade show">
+                                <i class="fas fa-exclamation-circle"></i> <?= $_SESSION['error'] ?>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                            <?php unset($_SESSION['error']); ?>
                         <?php endif; ?>
 
                         <!-- Thanh công cụ -->
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <a href="index.php?act=creatDoan" class="btn btn-success">
+                                <a href="index.php?act=createDKH" class="btn btn-success">
                                     <i class="fas fa-plus"></i> Thêm Đoàn Khởi Hành
                                 </a>
                             </div>
@@ -144,18 +144,18 @@
 
                                 <tbody>
                                     <?php foreach ($listDoan as $d): ?>
-                                    <tr>
-                                        <td><?= $d['MaDoan'] ?></td>
-                                        <td><?= htmlspecialchars($d['TenTour']) ?></td>
-                                        <td><?= $d['NgayKhoiHanh'] ?></td>
-                                        <td><?= $d['NgayVe'] ?></td>
-                                        <td><?= $d['GioKhoiHanh'] ?></td>
-                                        <td><?= htmlspecialchars($d['DiemTapTrung']) ?></td>
-                                        <td><?= $d['TenHDV'] ?></td>
-                                        <td><?= $d['TenTaiXe'] ?></td>
-                                        <td><?= $d['SoChoConTrong'] ?>/<?= $d['SoChoToiDa'] ?></td>
-                                        <td>
-                                            <?php
+                                        <tr>
+                                            <td><?= $d['MaDoan'] ?></td>
+                                            <td><?= htmlspecialchars($d['TenTour']) ?></td>
+                                            <td><?= $d['NgayKhoiHanh'] ?></td>
+                                            <td><?= $d['NgayVe'] ?></td>
+                                            <td><?= $d['GioKhoiHanh'] ?></td>
+                                            <td><?= htmlspecialchars($d['DiemTapTrung']) ?></td>
+                                            <td><?= $d['TenHDV'] ?></td>
+                                            <td><?= $d['TenTaiXe'] ?></td>
+                                            <td><?= $d['SoChoConTrong'] ?>/<?= $d['SoChoToiDa'] ?></td>
+                                            <td>
+                                                <?php
                                                 $status = $d['TrangThai'] ?? 'con_cho';
                                                 if ($status === 'con_cho') {
                                                     echo '<span class="badge badge-open">Còn chỗ</span>';
@@ -167,23 +167,23 @@
                                                     echo '<span class="badge badge-done">Hoàn thành</span>';
                                                 }
                                                 ?>
-                                        </td>
-                                        <td class="actions">
-                                            <a href="?act=editDoan&MaDoan=<?= $d['MaDoan'] ?>">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
+                                            </td>
+                                            <td class="actions">
+                                                <a href="?act=editDoan&MaDoan=<?= $d['MaDoan'] ?>">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
 
-                                            <!-- <a href="?act=listTaiChinh&MaDoan=<?= $d['MaDoan'] ?>">
+                                                <!-- <a href="?act=listTaiChinh&MaDoan=<?= $d['MaDoan'] ?>">
                                                     <button class="btn-view" style="background-color: #17a2b8;">Tài
                                                         chính</button>
                                                 </a> -->
 
-                                            <a href="?act=deleteDoan&MaDoan=<?= $d['MaDoan'] ?>"
-                                                onclick="return confirm('Bạn có chắc chắn muốn xóa đoàn này không?');">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
+                                                <a href="?act=deleteDoan&MaDoan=<?= $d['MaDoan'] ?>"
+                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa đoàn này không?');">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>

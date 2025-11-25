@@ -100,4 +100,8 @@ match ($act) {
 
     // Đoàn khởi hành
     'listDKH'  => (new doanKhoiHanhController())->listDKH(),
+    'createDKH' => (new doanKhoiHanhController())->createDKH(),
+    'deleteDKH' => (new doanKhoiHanhController())->deleteDKH(),
+    'editDKH' => (new doanKhoiHanhController())->editDKH(),
+    'updateDKH' => (new doanKhoiHanhController())->updateDKH(),
 };
