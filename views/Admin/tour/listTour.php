@@ -152,7 +152,7 @@
                                     <!-- Nút xem chi tiết -->
                                     <a href="index.php?act=chiTietTour&id=<?= $t['MaTour'] ?>"
                                         class="btn btn-info btn-sm text-white">
-                                        <i class="fa fa-eye"></i> Chi tiết
+                                        <i class="fa fa-eye"></i>
                                     </a>
 
                                     <!-- Nút sửa -->

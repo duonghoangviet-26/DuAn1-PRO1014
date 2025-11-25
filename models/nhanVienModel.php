@@ -25,45 +25,43 @@ class nhanVienModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     public function insertNhanVien($HoTen, $VaiTro, $SoDienThoai, $Email, $LinkAnh, $MaCodeNhanVien)
-{
-    $sql = "INSERT INTO nhanvien (HoTen, VaiTro, SoDienThoai, Email, TrangThai, LinkAnhDaiDien, MaCodeNhanVien)
+    {
+        $sql = "INSERT INTO nhanvien (HoTen, VaiTro, SoDienThoai, Email, TrangThai, LinkAnhDaiDien, MaCodeNhanVien)
             VALUES (:HoTen, :VaiTro, :SoDienThoai, :Email, 'dang_lam', :LinkAnhDaiDien, :MaCodeNhanVien)";
-            
-    $stmt = $this->conn->prepare($sql);
-    $stmt->execute([
-        ':HoTen' => $HoTen,
-        ':VaiTro' => $VaiTro,
-        ':SoDienThoai' => $SoDienThoai,
-        ':Email' => $Email,
-        ':LinkAnhDaiDien' => $LinkAnh,
-        ':MaCodeNhanVien' => $MaCodeNhanVien
-    ]);
-}
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            ':HoTen' => $HoTen,
+            ':VaiTro' => $VaiTro,
+            ':SoDienThoai' => $SoDienThoai,
+            ':Email' => $Email,
+            ':LinkAnhDaiDien' => $LinkAnh,
+            ':MaCodeNhanVien' => $MaCodeNhanVien
+        ]);
+    }
 
     public function updateNhanVien($id, $TenNhanVien, $VaiTro, $SDT, $Email, $LinkAnh, $TrangThai)
-{
-    $sql = "UPDATE nhanvien 
+    {
+        $sql = "UPDATE nhanvien 
             SET HoTen = :ten, VaiTro = :vaitro, SoDienThoai = :sdt, Email = :email, 
                 LinkAnhDaiDien = :anh, TrangThai = :trangthai
             WHERE MaNhanVien = :id";
 
-    $stmt = $this->conn->prepare($sql);
-    return $stmt->execute([
-        ':ten' => $TenNhanVien,
-        ':vaitro' => $VaiTro,
-        ':sdt' => $SDT,
-        ':email' => $Email,
-        ':anh' => $LinkAnh,
-        ':trangthai' => $TrangThai,
-        ':id' => $id
-    ]);
-}
-
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([
+            ':ten' => $TenNhanVien,
+            ':vaitro' => $VaiTro,
+            ':sdt' => $SDT,
+            ':email' => $Email,
+            ':anh' => $LinkAnh,
+            ':trangthai' => $TrangThai,
+            ':id' => $id
+        ]);
+    }
     public function deleteNhanVien($id)
     {
-    $sql = "UPDATE nhanvien SET TrangThai = 'da_nghi' WHERE MaNhanVien = :id";
-    $stmt = $this->conn->prepare($sql);
-    return $stmt->execute([':id' => $id]);
+        $sql = "UPDATE nhanvien SET TrangThai = 'da_nghi' WHERE MaNhanVien = :id";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([':id' => $id]);
     }
-
 }
