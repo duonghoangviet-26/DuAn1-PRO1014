@@ -5,6 +5,7 @@ class bookingController
     public $modelTour;
     public $modelNhanVien;
     public $doanKhoiHanh;
+    public  $khachHangModel;
 
     public function __construct()
     {
@@ -12,6 +13,7 @@ class bookingController
         $this->modelNhanVien = new nhanVienModel();
         $this->modelTour = new tourModel();
         $this->doanKhoiHanh = new doanKhoiHanhModel();
+        $this->khachHangModel = new khachHangModel();
     }
 
     public function listBookingAll()
@@ -168,6 +170,106 @@ class bookingController
             // }
 
             header("Location: index.php?act=listBooking");
+            exit();
+        }
+    }
+
+
+
+    // Khách trong Booking
+    public function khachTrongBooking()
+    {
+        $MaBooking = $_GET['MaBooking'] ?? null;
+        if (!$MaBooking) {
+            header("Location: ?act=listBooking");
+            exit();
+        }
+        $booking = $this->modelBooking->getBookingDetailWithDoan($MaBooking);
+        $listKhach = $this->modelBooking->getKhachTrongBooking($MaBooking);
+        require_once './views/Admin/booking/khachTrongBooking.php';
+    }
+
+    public function deleteKhachTrongBooking()
+    {
+        $MaKhachTrongBooking = $_GET['MaKhachTrongBooking'] ?? null;
+        $MaBooking = $_GET['MaBooking'] ?? null;
+
+        if ($MaKhachTrongBooking) {
+            $this->modelBooking->deleteKhachTrongBooking($MaKhachTrongBooking);
+        }
+
+        header("Location: index.php?act=khachTrongBooking&MaBooking=$MaBooking");
+        exit();
+    }
+
+    public function createKhachTrongBooking()
+    {
+        $MaBooking = $_GET['MaBooking'] ?? null;
+        if (!$MaBooking) {
+            header("Location: ?act=listBooking");
+            exit();
+        }
+        $booking = $this->modelBooking->getBookingDetailWithDoan($MaBooking);
+        require_once './views/Admin/booking/addKhachTrongBooking.php';
+    }
+
+    public function createKhachTrongBookingProcess()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $MaBooking = $_POST['MaBooking'];
+            $data = [
+                ':MaBooking' => $MaBooking,
+                ':HoTen' => $_POST['HoTen'],
+                ':GioiTinh' => $_POST['GioiTinh'] ?? null,
+                ':NgaySinh' => $_POST['NgaySinh'] ?: null,
+                ':SoGiayTo' => $_POST['SoGiayTo'] ?? null,
+                ':SoDienThoai' => $_POST['SoDienThoai'] ?? null,
+                ':GhiChuDacBiet' => $_POST['GhiChuDacBiet'] ?? null,
+                ':LoaiPhong' => $_POST['LoaiPhong'] ?? null,
+            ];
+            $this->modelBooking->createKhachTrongBooking($data);
+            header("Location: index.php?act=khachTrongBooking&MaBooking=$MaBooking");
+            exit();
+        }
+    }
+
+    public function editKhachTrongBooking()
+    {
+        $MaKhach = $_GET['MaKhachTrongBooking'] ?? null;
+        $MaBooking = $_GET['MaBooking'] ?? null;
+
+        if (!$MaKhach || !$MaBooking) {
+            header("Location: index.php?act=khachTrongBooking&MaBooking=$MaBooking");
+            exit();
+        }
+
+        $khach = $this->modelBooking->getKhachById($MaKhach);
+        $booking = $this->modelBooking->getBookingDetailWithDoan($MaBooking);
+
+        require_once './views/Admin/booking/editKhachTrongBooking.php';
+    }
+
+    public function updateKhachTrongBooking()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $MaKhach = $_POST['MaKhachTrongBooking'];
+            $MaBooking = $_POST['MaBooking'];
+
+            $data = [
+                ':MaKhach' => $MaKhach,
+                ':HoTen' => $_POST['HoTen'],
+                ':GioiTinh' => $_POST['GioiTinh'],
+                ':NgaySinh' => $_POST['NgaySinh'],
+                ':SoGiayTo' => $_POST['SoGiayTo'],
+                ':SoDienThoai' => $_POST['SoDienThoai'],
+                ':GhiChuDacBiet' => $_POST['GhiChuDacBiet'],
+                ':LoaiPhong' => $_POST['LoaiPhong'],
+            ];
+
+            $this->modelBooking->updateKhachTrongBooking($data);
+
+            header("Location: index.php?act=khachTrongBooking&MaBooking=$MaBooking");
             exit();
         }
     }
