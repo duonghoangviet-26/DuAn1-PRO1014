@@ -56,7 +56,8 @@
         <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Quản lý nhà cung cấp</a>
         <a href="index.php?act=listNV"><i class="fa fa-users"></i> Tài khoản / HDV</a>
         <a href="#"><i class="fa fa-chart-bar"></i> Báo cáo thống kê</a>
-        <a href="#" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
+        <a href="index.php?act=addTaiKhoan"><i class="fas fa-user-plus"></i>Thêm Tài Khoản</a>
+        <a href="index.php?act=logout" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
     </div>
 
     <!-- Nội dung -->
