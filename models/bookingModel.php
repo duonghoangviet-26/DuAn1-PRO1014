@@ -12,12 +12,14 @@ class bookingModel
     public function getAllBooking($filters = [])
     {
         $sql = "SELECT b.*, 
-                       t.TenTour, t.SoNgay, t.SoDem,
-                       k.HoTen as TenKhachHang, k.SoDienThoai, k.Email
-                FROM booking b
-                LEFT JOIN tour t ON b.MaTour = t.MaTour
-                LEFT JOIN khachhang k ON b.MaKhachHang = k.MaKhachHang
-                WHERE 1=1";
+               t.TenTour, t.SoNgay, t.SoDem,
+               k.HoTen as TenKhachHang, k.SoDienThoai, k.Email,
+               d.NgayKhoiHanh, d.NgayVe, d.DiemTapTrung
+        FROM booking b
+        LEFT JOIN tour t ON b.MaTour = t.MaTour
+        LEFT JOIN khachhang k ON b.MaKhachHang = k.MaKhachHang
+        LEFT JOIN doankhoihanh d ON b.MaDoan = d.MaDoan
+        WHERE 1=1";
 
         $params = [];
 
@@ -189,5 +191,14 @@ class bookingModel
 
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute($data);
+    }
+
+    // Đếm số lượng khách trong booking do người đại diện đặt booking
+    public function countKhachTrongBooking($MaBooking)
+    {
+        $sql = "SELECT COUNT(*) AS total FROM KhachTrongBooking WHERE MaBooking = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':id' => $MaBooking]);
+        return (int)$stmt->fetch(PDO::FETCH_ASSOC)['total']; // ép kiểu int chuẩn
     }
 }

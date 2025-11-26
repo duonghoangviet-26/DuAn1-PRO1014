@@ -1,3 +1,14 @@
+<?php
+ob_start();
+session_name('BOOKINGSESSID'); // đặt tên riêng, tránh xung đột
+session_set_cookie_params([
+    'path' => '/',
+    'httponly' => true,
+    'samesite' => 'Lax'
+]);
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -145,6 +156,7 @@
 </head>
 
 <body class="bg-light">
+    <pre><?php print_r($_SESSION); ?></pre>
     <div class="container-fluid py-4">
         <!-- Header -->
         <div class="card shadow-sm mb-4">
@@ -169,15 +181,12 @@
             </div>
         </div>
 
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success alert-dismissible fade show">
-                <?= $_SESSION['success'];
-                unset($_SESSION['success']); ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-        <?php endif; ?>
 
         <div class="container">
+            <?php if (isset($_SESSION['error'])): ?>
+                <div class="alert alert-danger"><?= $_SESSION['error']; ?></div>
+                <?php unset($_SESSION['error']); ?>
+            <?php endif; ?>
             <div class="info-box">
                 <div><strong>Tour:</strong> <?= htmlspecialchars($booking['TenTour'] ?? '') ?></div>
                 <div>
@@ -195,8 +204,6 @@
                 <div><strong>Yêu cầu đặc biệt:</strong>
                     <?= nl2br(htmlspecialchars($booking['YeuCauDacBiet'] ?? '---')) ?></div>
             </div>
-
-
 
             <br><br>
             <div class="card shadow-sm">
@@ -217,7 +224,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($listKhach as $k): ?>
+                                <?php foreach ($listKhach as $k):
+
+                                ?>
                                     <tr>
                                         <td><?= htmlspecialchars($k['HoTen']) ?></td>
                                         <td><?= $k['GioiTinh'] ?></td>
@@ -261,7 +270,6 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 
 </html>

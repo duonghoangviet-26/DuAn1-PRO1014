@@ -163,7 +163,7 @@ class bookingController
 
             $this->modelBooking->updateBooking($data);
 
-            // // Nếu trạng thái thay đổi thì lưu lịch sử
+            // Nếu trạng thái thay đổi thì lưu lịch sử
             // if ($TrangThaiCu != $TrangThai) {
             //     $MaNguoiDoi = 1; // sau này lấy từ session
             //     $this->modelBooking->addLichSuTrangThai($MaBooking, $TrangThaiCu, $TrangThai, $MaNguoiDoi, null);
@@ -209,14 +209,50 @@ class bookingController
             header("Location: ?act=listBooking");
             exit();
         }
+
         $booking = $this->modelBooking->getBookingDetailWithDoan($MaBooking);
+
+        $TongNguoiLon = isset($booking['TongNguoiLon']) ? (int)$booking['TongNguoiLon'] : 0;
+        $TongTreEm = isset($booking['TongTreEm']) ? (int)$booking['TongTreEm'] : 0;
+        $TongEmBe = isset($booking['TongEmBe']) ? (int)$booking['TongEmBe'] : 0;
+
+        $soToiDa = $TongNguoiLon + $TongTreEm + $TongEmBe;
+
+        $soHienTai = $this->modelBooking->countKhachTrongBooking($MaBooking);
+
+        if ($soHienTai >= $soToiDa) {
+            $_SESSION['error'] = "Booking này chỉ cho phép {$soToiDa} khách. Bạn đã đủ số lượng.";
+            header("Location: index.php?act=khachTrongBooking&MaBooking=$MaBooking");
+            exit();
+        }
+
         require_once './views/Admin/booking/addKhachTrongBooking.php';
     }
 
     public function createKhachTrongBookingProcess()
     {
+        if (session_status() == PHP_SESSION_NONE) session_start(); // ⬅️ Thêm dòng này
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $MaBooking = $_POST['MaBooking'];
+            $booking = $this->modelBooking->getBookingDetailWithDoan($MaBooking);
+
+            $TongNguoiLon = (int)($booking['TongNguoiLon'] ?? 0);
+            $TongTreEm = (int)($booking['TongTreEm'] ?? 0);
+            $TongEmBe = (int)($booking['TongEmBe'] ?? 0);
+
+            $soToiDa = $TongNguoiLon + $TongTreEm + $TongEmBe;
+            $soHienTai = $this->modelBooking->countKhachTrongBooking($MaBooking);
+
+            if ($soHienTai >= $soToiDa) {
+                $_SESSION['error'] = "Số lượng khách đã đạt tối đa ($soToiDa người). Không thể thêm nữa.";
+
+                // Debug test
+                echo "SESSION ID: " . session_id() . "<br>";
+                print_r($_SESSION);
+                exit();
+            }
+
             $data = [
                 ':MaBooking' => $MaBooking,
                 ':HoTen' => $_POST['HoTen'],
@@ -227,11 +263,17 @@ class bookingController
                 ':GhiChuDacBiet' => $_POST['GhiChuDacBiet'] ?? null,
                 ':LoaiPhong' => $_POST['LoaiPhong'] ?? null,
             ];
+
             $this->modelBooking->createKhachTrongBooking($data);
+
             header("Location: index.php?act=khachTrongBooking&MaBooking=$MaBooking");
             exit();
         }
     }
+
+
+
+
 
     public function editKhachTrongBooking()
     {
