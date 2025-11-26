@@ -23,11 +23,12 @@ class nhanVienModel
         $stmt->execute([':id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
     public function insertNhanVien($HoTen, $VaiTro, $SoDienThoai, $Email, $LinkAnh, $MaCodeNhanVien, $NgaySinh, $GioiTinh, $DiaChi, $ChungChi, $NgonNgu, $SoNamKinhNghiem, $ChuyenMon, $TrangThai)
     {
         $sql = "INSERT INTO nhanvien (HoTen, VaiTro, SoDienThoai, Email, LinkAnhDaiDien, MaCodeNhanVien, NgaySinh, GioiTinh, DiaChi, ChungChi, NgonNgu, SoNamKinhNghiem, ChuyenMon, TrangThai)
                 VALUES (:HoTen, :VaiTro, :SoDienThoai, :Email, :LinkAnhDaiDien, :MaCodeNhanVien, :NgaySinh, :GioiTinh, :DiaChi, :ChungChi, :NgonNgu, :SoNamKinhNghiem, :ChuyenMon, :TrangThai)";
-                
+
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([
             ':HoTen' => $HoTen,
@@ -74,12 +75,34 @@ class nhanVienModel
         ]);
     }
 
+     
+
+    public function updateNhanVien($id, $TenNhanVien, $VaiTro, $SDT, $Email, $LinkAnh, $TrangThai)
+    {
+        $sql = "UPDATE nhanvien 
+            SET HoTen = :ten, VaiTro = :vaitro, SoDienThoai = :sdt, Email = :email, 
+                LinkAnhDaiDien = :anh, TrangThai = :trangthai
+            WHERE MaNhanVien = :id";
+
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([
+            ':ten' => $TenNhanVien,
+            ':vaitro' => $VaiTro,
+            ':sdt' => $SDT,
+            ':email' => $Email,
+            ':anh' => $LinkAnh,
+            ':trangthai' => $TrangThai,
+            ':id' => $id
+        ]);
+    }
+
     public function deleteNhanVien($id)
     {
-    $sql = "UPDATE nhanvien SET TrangThai = 'da_nghi' WHERE MaNhanVien = :id";
-    $stmt = $this->conn->prepare($sql);
-    return $stmt->execute([':id' => $id]);
+        $sql = "UPDATE nhanvien SET TrangThai = 'da_nghi' WHERE MaNhanVien = :id";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([':id' => $id]);
     }
+
 
     
     public function destroyNhanVien($id)

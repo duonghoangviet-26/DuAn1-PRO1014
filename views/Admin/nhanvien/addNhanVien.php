@@ -62,6 +62,7 @@
     <!-- Nội dung -->
     <div class="content">
         <div class="container mt-4">
+
             <h2>Thêm Danh Mục Mới</h2>
 
              <?php if (isset($_SESSION['success'])): ?>
@@ -88,6 +89,7 @@
 
     <div class="content">
         <div class="container mt-4">
+
             <h2>Thêm Nhân Viên Mới</h2>
 
             <form action="index.php?act=creatNV" method="POST" enctype="multipart/form-data" class="card p-4 shadow" novalidate onsubmit="return validateForm(event)">

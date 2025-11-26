@@ -81,7 +81,7 @@ class tourModel
 
 
     // Thêm tour mới
-    public function addTour($TenTour, $Gia, $KhoiHanh, $SoNgay,$SoDem, $MoTa, $MaDanhMuc, $LinkAnhBia,$GiaVonDuKien, $NgayBatDau, $NgayKetThuc)
+    public function addTour($TenTour, $Gia, $KhoiHanh, $SoNgay, $SoDem, $MoTa, $MaDanhMuc, $LinkAnhBia, $GiaVonDuKien, $NgayBatDau, $NgayKetThuc)
     {
         $sql = "INSERT INTO tour 
             (TenTour, GiaBanMacDinh, DiemKhoiHanh, SoNgay,SoDem, MoTa, MaDanhMuc, LinkAnhBia,GiaVonDuKien, NgayBatDau, NgayKetThuc)
@@ -106,20 +106,20 @@ class tourModel
     }
     // Cập nhật tour
     public function updateTour(
-    $id,
-    $TenTour,
-    $Gia,
-    $KhoiHanh,
-    $SoNgay,
-    $SoDem,
-    $MoTa,
-    $MaDanhMuc,
-    $LinkAnhBia,
-    $GiaVonDuKien,
-    $NgayBatDau,
-    $NgayKetThuc
-) {
-    $sql = "UPDATE tour SET 
+        $id,
+        $TenTour,
+        $Gia,
+        $KhoiHanh,
+        $SoNgay,
+        $SoDem,
+        $MoTa,
+        $MaDanhMuc,
+        $LinkAnhBia,
+        $GiaVonDuKien,
+        $NgayBatDau,
+        $NgayKetThuc
+    ) {
+        $sql = "UPDATE tour SET 
             TenTour = ?, 
             GiaBanMacDinh = ?, 
             DiemKhoiHanh = ?, 
@@ -133,22 +133,22 @@ class tourModel
             NgayKetThuc = ?
         WHERE MaTour = ?";
 
-    $stmt = $this->conn->prepare($sql);
-    $stmt->execute([
-        $TenTour,
-        $Gia,
-        $KhoiHanh,
-        $SoNgay,
-        $SoDem,
-        $MoTa,
-        $MaDanhMuc,
-        $LinkAnhBia,
-        $GiaVonDuKien,
-        $NgayBatDau,
-        $NgayKetThuc,
-        $id
-    ]);
-}
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            $TenTour,
+            $Gia,
+            $KhoiHanh,
+            $SoNgay,
+            $SoDem,
+            $MoTa,
+            $MaDanhMuc,
+            $LinkAnhBia,
+            $GiaVonDuKien,
+            $NgayBatDau,
+            $NgayKetThuc,
+            $id
+        ]);
+    }
 
     // Xóa tour
     public function deleteTour($id)
@@ -347,5 +347,4 @@ class tourModel
         $stmt = $this->conn->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
 }

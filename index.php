@@ -7,11 +7,12 @@ require_once './commons/function.php'; // Hàm hỗ trợ
 // Require toàn bộ file Controllers
 require_once './controllers/tourController.php';
 require_once './controllers/nhanVienController.php';
-
-
+require_once './controllers/khachHangController.php';
 require_once './controllers/bookingController.php';
 require_once './controllers/nhaCungCapController.php';
 require_once './controllers/lichLamViecController.php';
+require_once './controllers/doanKhoiHanhController.php';
+
 
 
 // Require toàn bộ file Models
@@ -20,6 +21,9 @@ require_once './models/nhanVienModel.php';
 require_once './models/bookingModel.php';
 require_once './models/nhaCungCapModel.php';
 require_once './models/lichLamViecModel.php';
+require_once './models/khachHangModel.php';
+require_once './models/doanKhoiHanhModel.php';
+
 
 
 // Route
@@ -64,13 +68,33 @@ match ($act) {
 
     // default => (new tourController())->Home(),
 
+    // Khách Hàng
+    'listKH'  => (new khachHangController())->listKH(),
+    'deleteKH' => (new khachHangController())->deleteKH(),
+    'creatKH'  => (new khachHangController())->creatKH(),
+    'editKH' => (new khachHangController())->editKH(),
+    'updateKH' => (new khachHangController())->updateKH(),
+
+
 
 
 
     // booking
     'listBooking' => (new bookingController)->listBookingAll(),
+    'deleteBooking' => (new bookingController)->deleteBooking(),
     'createBooking' => (new bookingController)->createBooking(),
-    // Quản lí tour
+    'createBookingProcess' => (new BookingController())->createBookingProcess(),
+    'editBooking'  => (new bookingController)->editBooking(),
+    'editBookingProcess' => (new BookingController())->editBookingProcess(),
+
+    // khách trong booking  
+    'khachTrongBooking' => (new bookingController)->khachTrongBooking(),
+    'deleteKhachTrongBooking' => (new bookingController)->deleteKhachTrongBooking(),
+    'createKhachTrongBooking' => (new bookingController)->createKhachTrongBooking(),
+    'createKhachTrongBookingProcess' => (new bookingController)->createKhachTrongBookingProcess(),
+    'editKhachTrongBooking' => (new bookingController)->editKhachTrongBooking(),
+    'updateKhachTrongBooking' => (new bookingController)->updateKhachTrongBooking(),
+
 
 
     // Quản lí nhà cung cấp
@@ -82,4 +106,11 @@ match ($act) {
     'submitEditNCC' => (new nhaCungCapController())->updateNCC(),
     'deleteNCC'     => (new nhaCungCapController())->deleteNCC(),
     'detailNCC'     => (new nhaCungCapController())->showDetailNCC(),
+
+    // Đoàn khởi hành
+    'listDKH'  => (new doanKhoiHanhController())->listDKH(),
+    'createDKH' => (new doanKhoiHanhController())->createDKH(),
+    'deleteDKH' => (new doanKhoiHanhController())->deleteDKH(),
+    'editDKH' => (new doanKhoiHanhController())->editDKH(),
+    'updateDKH' => (new doanKhoiHanhController())->updateDKH(),
 };
