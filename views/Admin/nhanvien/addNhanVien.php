@@ -55,14 +55,14 @@
         <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Quản lý nhà cung cấp</a>
         <a href="index.php?act=listNV"><i class="fa fa-users"></i> Tài khoản / HDV</a>
         <a href="#"><i class="fa fa-chart-bar"></i> Báo cáo thống kê</a>
-        <a href="#" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
+        <a href="index.php?act=addTaiKhoan"><i class="fas fa-user-plus"></i>Thêm Tài Khoản</a>
+        <a href="index.php?act=logout" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
     </div>
 
 
     <!-- Nội dung -->
     <div class="content">
         <div class="container mt-4">
-
             <h2>Thêm Danh Mục Mới</h2>
 
              <?php if (isset($_SESSION['success'])): ?>
@@ -89,7 +89,6 @@
 
     <div class="content">
         <div class="container mt-4">
-
             <h2>Thêm Nhân Viên Mới</h2>
 
             <form action="index.php?act=creatNV" method="POST" enctype="multipart/form-data" class="card p-4 shadow" novalidate onsubmit="return validateForm(event)">

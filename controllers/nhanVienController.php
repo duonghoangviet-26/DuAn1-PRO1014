@@ -14,7 +14,6 @@ class nhanVienController
         require_once "./views/Admin/nhanvien/list.php";
     }
 
-    // public function creatNV() {}
 
     public function creatNV() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
