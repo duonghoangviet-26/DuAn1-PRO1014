@@ -12,21 +12,16 @@ class doanKhoiHanhModel
     {
         $sql = "
             SELECT dk.*, t.TenTour,
-       nv.HoTen AS TenHDV,
-       ncc.TenLaiXe AS TenTaiXe,
-       COALESCE(dv.MaNhaCungCap, dk.MaTaiXe) AS MaTaiXeFinal
-
-
+                   nv.HoTen AS TenHDV,
+                   ncc.TenLaiXe AS TenTaiXe,
+                   COALESCE(dv.MaNhaCungCap, dk.MaTaiXe) AS MaTaiXeFinal
             FROM doankhoihanh dk
             JOIN tour t ON dk.MaTour = t.MaTour
             LEFT JOIN nhanvien nv ON dk.MaHuongDanVien = nv.MaNhanVien
-
             LEFT JOIN dichvucuadoan dv 
                 ON dv.MaDoan = dk.MaDoan AND dv.LoaiDichVu = 'van_chuyen'
-
             LEFT JOIN nhacungcap ncc 
                 ON dv.MaNhaCungCap = ncc.MaNhaCungCap
-
             ORDER BY dk.MaDoan ASC
         ";
 
@@ -35,7 +30,6 @@ class doanKhoiHanhModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
     // Lấy 1 đoàn + tài xế
     public function getOneDoan($id)
     {
@@ -43,10 +37,8 @@ class doanKhoiHanhModel
             SELECT dk.*, 
                    dv.MaNhaCungCap AS MaTaiXe
             FROM doankhoihanh dk
-
             LEFT JOIN dichvucuadoan dv 
                 ON dk.MaDoan = dv.MaDoan AND dv.LoaiDichVu='van_chuyen'
-
             WHERE dk.MaDoan = ?
         ";
 
@@ -55,8 +47,7 @@ class doanKhoiHanhModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-
-    // Các hàm lấy dữ liệu phụ
+    // Lấy tour
     public function getAllTour()
     {
         $stmt = $this->conn->prepare("SELECT * FROM tour");
@@ -86,8 +77,7 @@ class doanKhoiHanhModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
-    // THÊM ĐOÀN — KHÔNG đưa MaTaiXe vào bảng doankhoihanh nữa
+    // Thêm đoàn
     public function insertDoan($data)
     {
         $sql = "INSERT INTO doankhoihanh
@@ -104,21 +94,19 @@ class doanKhoiHanhModel
             $data['GioKhoiHanh'],
             $data['DiemTapTrung'],
             $data['SoChoToiDa'],
-            $data['SoChoToiDa'],
+            $data['SoChoToiDa'], // lúc tạo đoàn chưa ai đặt
             $data['MaHuongDanVien']
         ]);
 
         return $this->conn->lastInsertId();
     }
 
-
+    // Gán tài xế
     public function insertTaiXeChoDoan($MaDoan, $MaTaiXe, $NgaySuDung)
     {
-        // xóa tài xế cũ để tránh bị duplicate
         $this->conn->prepare("DELETE FROM dichvucuadoan WHERE MaDoan=? AND LoaiDichVu='van_chuyen'")
             ->execute([$MaDoan]);
 
-        // thêm tài xế mới
         $sql = "INSERT INTO dichvucuadoan 
             (MaDoan, MaNhaCungCap, LoaiDichVu, TenDichVu, NgaySuDung)
             VALUES (?, ?, 'van_chuyen', 'Tài xế', ?)";
@@ -126,10 +114,23 @@ class doanKhoiHanhModel
         return $stmt->execute([$MaDoan, $MaTaiXe, $NgaySuDung]);
     }
 
+    // Đếm số booking của đoàn
+    public function countBookingOfDoan($MaDoan)
+    {
+        $sql = "SELECT COUNT(*) FROM booking WHERE MaDoan = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$MaDoan]);
+        return $stmt->fetchColumn();
+    }
 
-    // UPDATE ĐOÀN
+    // Update đoàn
     public function updateDKH($data)
     {
+        // tính số chỗ còn trống
+        $soBooking = $this->countBookingOfDoan($data['MaDoan']);
+        $soConTrong = $data['SoChoToiDa'] - $soBooking;
+        if ($soConTrong < 0) $soConTrong = 0;
+
         $sql = "UPDATE doankhoihanh SET 
                 MaTour = ?,
                 NgayKhoiHanh = ?,
@@ -137,7 +138,7 @@ class doanKhoiHanhModel
                 GioKhoiHanh = ?,
                 DiemTapTrung = ?,
                 SoChoToiDa = ?,
-                SoChoToiDa = ?,
+                SoChoConTrong = ?, 
                 MaHuongDanVien = ?
             WHERE MaDoan = ?";
 
@@ -150,19 +151,18 @@ class doanKhoiHanhModel
             $data['GioKhoiHanh'],
             $data['DiemTapTrung'],
             $data['SoChoToiDa'],
-            $data['SoChoToiDa'],
+            $soConTrong,
             $data['MaHuongDanVien'],
             $data['MaDoan']
         ]);
 
-        // cập nhật tài xế
         if (!empty($data['MaTaiXe'])) {
             $this->insertTaiXeChoDoan($data['MaDoan'], $data['MaTaiXe'], $data['NgayKhoiHanh']);
         }
 
         return true;
     }
-    // XÓA ĐOÀN
+
     public function deleteDoan($id)
     {
         $this->conn->prepare("DELETE FROM dichvucuadoan WHERE MaDoan=?")

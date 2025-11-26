@@ -137,6 +137,8 @@
                                         <th>HDV</th>
                                         <th>Tài xế</th>
                                         <th>Chỗ</th>
+                                        <th>Đã đặt</th>
+                                        <th>Còn trống</th>
                                         <th>Trạng thái</th>
                                         <th>Hành động</th>
                                     </tr>
@@ -154,6 +156,8 @@
                                             <td><?= $d['TenHDV'] ?></td>
                                             <td><?= $d['TenTaiXe'] ?></td>
                                             <td><?= $d['SoChoConTrong'] ?>/<?= $d['SoChoToiDa'] ?></td>
+                                            <td><?= $d['DaDat'] ?></td>
+                                            <td><?= $d['ConTrong'] ?></td>
                                             <td>
                                                 <?php
                                                 $status = $d['TrangThai'] ?? 'con_cho';

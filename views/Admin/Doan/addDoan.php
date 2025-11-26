@@ -71,24 +71,30 @@
                 <!-- TOUR -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Tour</label>
-                    <select name="MaTour" class="form-control" required>
+                    <select name="MaTour" id="MaTour" class="form-select" onchange="this.form.submit()">
                         <option value="">-- Chọn Tour --</option>
-                        <?php foreach ($tour as $t): ?>
-                            <option value="<?= $t['MaTour'] ?>"><?= $t['TenTour'] ?></option>
+                        <?php foreach ($tour as $t) : ?>
+                            <option value="<?= $t['MaTour'] ?>"
+                                <?= (isset($_POST['MaTour']) && $_POST['MaTour'] == $t['MaTour']) ? 'selected' : '' ?>>
+                                <?= $t['TenTour'] ?>
+                            </option>
                         <?php endforeach; ?>
                     </select>
+
                 </div>
 
                 <!-- NGÀY ĐI / NGÀY VỀ / GIỜ -->
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label class="form-label fw-bold">Ngày đi</label>
-                        <input type="date" name="NgayKhoiHanh" class="form-control" required>
+                        <input type="date" name="NgayKhoiHanh" class="form-control"
+                            value="<?= $tourSelected['NgayBatDau'] ?? ($_POST['NgayKhoiHanh'] ?? '') ?>" required>
                     </div>
 
                     <div class="col-md-4 mb-3">
                         <label class="form-label fw-bold">Ngày về</label>
-                        <input type="date" name="NgayVe" class="form-control" required>
+                        <input type="date" name="NgayVe" class="form-control"
+                            value="<?= $tourSelected['NgayKetThuc'] ?? ($_POST['NgayVe'] ?? '') ?>" required>
                     </div>
 
                     <div class="col-md-4 mb-3">
