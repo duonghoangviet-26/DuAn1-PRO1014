@@ -55,38 +55,11 @@
         <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Quản lý nhà cung cấp</a>
         <a href="index.php?act=listNV"><i class="fa fa-users"></i> Tài khoản / HDV</a>
         <a href="#"><i class="fa fa-chart-bar"></i> Báo cáo thống kê</a>
-        <a href="index.php?act=addTaiKhoan"><i class="fas fa-user-plus"></i>Thêm Tài Khoản</a>
-        <a href="index.php?act=logout" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
+        <a href="#" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
     </div>
 
 
     <!-- Nội dung -->
-    <div class="content">
-        <div class="container mt-4">
-            <h2>Thêm Danh Mục Mới</h2>
-
-             <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success'];
-                                                unset($_SESSION['success']); ?></div>
-            <?php endif; ?>
-            <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error'];
-                                            unset($_SESSION['error']); ?></div>
-            <?php endif; ?> 
-
-            <form action="" method="POST">
-                <div class="mb-3">
-                    <label for="TenDanhMuc" class="form-label">Tên danh mục</label>
-                    <input type="text" class="form-control" name="TenDanhMuc" id="TenDanhMuc" required>
-                </div>
-                <div class="mb-3">
-                    <label for="MoTa" class="form-label">Mô tả</label>
-                    <textarea class="form-control" name="MoTa" id="MoTa" rows="3"></textarea>
-                </div>
-                <button type="submit" class="btn btn-success" onclick="return alert('Bạn có chắc muốn thêm')">Thêm danh
-                    mục</button>
-                <a href="index.php?controller=danhmuc&action=listdm" class="btn btn-secondary">Hủy</a>
-
     <div class="content">
         <div class="container mt-4">
             <h2>Thêm Nhân Viên Mới</h2>
@@ -188,36 +161,6 @@
                     </button>
                     <a href="index.php?act=listNV" class="btn btn-secondary px-4"><i class="fas fa-times"></i> Hủy</a>
                 </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Số điện thoại</label>
-                    <input type="text" class="form-control" name="SoDienThoai" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control" name="Email" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Ảnh đại diện</label>
-                    <input type="file" class="form-control" name="LinkAnhDaiDien">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Trạng thái</label>
-                    <select class="form-control" name="TrangThai">
-                        <option value="dang_lam">Đang làm</option>
-                        <option value="nghi_viec">Nghỉ việc</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="btn btn-success"
-                    onclick="return confirm('Bạn có chắc muốn thêm nhân viên?')">
-                    Thêm nhân viên
-                </button>
-
-                <a href="index.php?act=listNV" class="btn btn-secondary">Hủy</a>
 
             </form>
         </div>
