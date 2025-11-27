@@ -40,6 +40,18 @@ class nhaCungCapController
                 $errors[] = 'Email không đúng định dạng (Ví dụ: abc@gmail.com)';
             }
 
+            $sdt = $_POST['SoDienThoai'];
+            if (!empty($sdt) && !preg_match('/^[0-9]+$', $sdt)) {
+                $errors[] = 'Số điện thoại chỉ được nhập số (không chứa chữ hay ký tự đặc biệt)';
+            }
+
+            if ($_POST['LoaiNhaCungCap'] == 'van_chuyen') {
+                $sdtLaiXe = $_POST['SDTLaiXe'];
+                if (!empty($sdtLaiXe) && !preg_match('/^[0-9]+$/', $sdtLaiXe)) {
+                    $errors[] = 'SĐT Lái xe chỉ được nhập số';
+                }
+            }
+
             if (!empty($errors)) {
                 $_SESSION['error'] = implode('<br>', $errors);
                 header("Location: " . BASE_URL . "?act=addNCC&loai=" . $_POST['LoaiNhaCungCap']);
@@ -94,6 +106,18 @@ class nhaCungCapController
             $email = $_POST['Email'];
             if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $errors[] = 'Email không đúng định dạng';
+            }
+
+            $sdt = $_POST['SoDienThoai'];
+            if (!empty($sdt) && !preg_match('/^[0-9]+$/', $sdt)) {
+                $errors[] = 'Số điện thoại chỉ được nhập số';
+            }
+
+            if ($_POST['LoaiNhaCungCap'] == 'van_chuyen') {
+                $sdtLaiXe = $_POST['SDTLaiXe'];
+                if (!empty($sdtLaiXe) && !preg_match('/^[0-9]+$/', $sdtLaiXe)) {
+                    $errors[] = 'SĐT Lái xe chỉ được nhập số';
+                }
             }
 
             if (!empty($errors)) {
