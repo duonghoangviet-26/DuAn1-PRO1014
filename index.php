@@ -1,7 +1,10 @@
 <?php
 session_start();
+<<<<<<< HEAD
 // Require toàn bộ các file khai báo môi trường, thực thi,...(không require view)
 
+=======
+>>>>>>> master
 // Require file Common
 require_once './commons/env.php'; // Khai báo biến môi trường
 require_once './commons/function.php'; // Hàm hỗ trợ
@@ -9,24 +12,52 @@ require_once './commons/function.php'; // Hàm hỗ trợ
 // Require toàn bộ file Controllers
 require_once './controllers/tourController.php';
 require_once './controllers/nhanVienController.php';
+require_once './controllers/khachHangController.php';
+require_once './controllers/bookingController.php';
 require_once './controllers/nhaCungCapController.php';
 require_once './controllers/lichLamViecController.php';
+require_once './controllers/doanKhoiHanhController.php';
+require_once './controllers/TaiKhoanController.php';
+
 
 // Require toàn bộ file Models
 require_once './models/tourModel.php';
 require_once './models/nhanVienModel.php';
+require_once './models/bookingModel.php';
 require_once './models/nhaCungCapModel.php';
 require_once './models/lichLamViecModel.php';
+require_once './models/khachHangModel.php';
+require_once './models/doanKhoiHanhModel.php';
+require_once './models/TaiKhoanModel.php';
+
 
 // Route
-$act = $_GET['act'] ?? '/';
+$act = $_GET['act'] ?? 'login';
 
 
 // Để bảo bảo tính chất chỉ gọi 1 hàm Controller để xử lý request thì mình sử dụng match
 
 match ($act) {
-    // Trang chủ
-    '/' => (new tourController())->Home(),
+    // Login, Logout, addTaiKhoan
+    'login'     => (new TaiKhoanController())->login(),
+    'logout'    => (new TaiKhoanController())->logout(),
+    'addTaiKhoan'     => (new TaiKhoanController())->formAddTaiKhoan(),
+    'postAddTaiKhoan' => (new TaiKhoanController())->postAddTaiKhoan(),
+    
+
+    // ADMIN DASHBOARD 
+    'admin_dashboard' => (function(){
+        checkAuth('admin');
+        require_once './views/trangChu.php';
+    })(),
+
+    //HDV DASHBOARD 
+    'hdv_dashboard' => (function(){
+        checkAuth('huong_dan_vien');
+        require_once './views/HDV/trangChuHDV.php';
+    })(),
+    // đăng nhập
+    '/', 'login' => (new TaiKhoanController())->login(),
 
     // Danh mục
     'listdm' => (new tourController())->getCategoryAll(),
@@ -35,11 +66,21 @@ match ($act) {
     'editDanhMuc' => (new tourController())->editDanhMuc(),
 
 
+    // Quản lí tour
+    'listTour'        => (new tourController())->getAllTour(),
+    'createTourForm'  => (new tourController())->createTourForm(),
+    'createTour'      => (new tourController())->createTour(),
+    'editTour'        => (new tourController())->editTourForm(),
+    'updateTour'      => (new tourController())->updateTour(),
+    'deleteTour'      => (new tourController())->deleteTour(),
+    'chiTietTour'   => (new tourController())->detailTour(),
+
+
     // Nhân viên
     'listNV', 'nhanvien' => (new nhanVienController())->listNV(),
     'creatNV' => (new nhanVienController())->creatNV(),
-    'editNV'=> (new nhanVienController())->editNV(),
-    'deleteNV'=> (new nhanVienController())->deleteNV(),
+    'editNV' => (new nhanVienController())->editNV(),
+    'deleteNV' => (new nhanVienController())->deleteNV(),
     'updateNV' => (new nhanVienController())->updateNV(),
     'chitietNV' => (new nhanVienController())->chiTietNV(),
 
@@ -48,6 +89,36 @@ match ($act) {
     'deleteLichLamViec' => (new lichLamViecController())->delete(),
 
     // Quản lí tour
+
+    // default => (new tourController())->Home(),
+
+    // Khách Hàng
+    'listKH'  => (new khachHangController())->listKH(),
+    'deleteKH' => (new khachHangController())->deleteKH(),
+    'creatKH'  => (new khachHangController())->creatKH(),
+    'editKH' => (new khachHangController())->editKH(),
+    'updateKH' => (new khachHangController())->updateKH(),
+
+
+
+
+
+    // booking
+    'listBooking' => (new bookingController)->listBookingAll(),
+    'deleteBooking' => (new bookingController)->deleteBooking(),
+    'createBooking' => (new bookingController)->createBooking(),
+    'createBookingProcess' => (new BookingController())->createBookingProcess(),
+    'editBooking'  => (new bookingController)->editBooking(),
+    'editBookingProcess' => (new BookingController())->editBookingProcess(),
+
+    // khách trong booking  
+    'khachTrongBooking' => (new bookingController)->khachTrongBooking(),
+    'deleteKhachTrongBooking' => (new bookingController)->deleteKhachTrongBooking(),
+    'createKhachTrongBooking' => (new bookingController)->createKhachTrongBooking(),
+    'createKhachTrongBookingProcess' => (new bookingController)->createKhachTrongBookingProcess(),
+    'editKhachTrongBooking' => (new bookingController)->editKhachTrongBooking(),
+    'updateKhachTrongBooking' => (new bookingController)->updateKhachTrongBooking(),
+
 
 
     // Quản lí nhà cung cấp
@@ -61,4 +132,38 @@ match ($act) {
     'detailNCC'     => (new nhaCungCapController())->showDetailNCC(), 
 
     default => (new tourController())->Home(),
+
+    'addNCC'        => (new nhaCungCapController())->showFormThemNCC(),
+    'submitAddNCC'  => (new nhaCungCapController())->addNCC(),
+    'editNCC'       => (new nhaCungCapController())->showFormSuaNCC(),
+    'submitEditNCC' => (new nhaCungCapController())->updateNCC(),
+    'deleteNCC'     => (new nhaCungCapController())->deleteNCC(),
+    'detailNCC'     => (new nhaCungCapController())->showDetailNCC(),
+
+    // Đoàn khởi hành
+    'listDKH'  => (new doanKhoiHanhController())->listDKH(),
+    'createDKH' => (new doanKhoiHanhController())->createDKH(),
+    'deleteDKH' => (new doanKhoiHanhController())->deleteDKH(),
+    'editDKH' => (new doanKhoiHanhController())->editDKH(),
+    'updateDKH' => (new doanKhoiHanhController())->updateDKH(),
+    default => header("Location: index.php?act=login"),
 };
+
+function checkAuth($roleRequired) {
+    if (!isset($_SESSION['user'])) {
+        header("Location: index.php?act=login"); 
+        exit();
+    }
+
+    $currentRole = $_SESSION['user']['VaiTro'];
+    
+    if ($roleRequired == 'admin' && $currentRole !== 'admin') {
+        echo "<script>alert('Bạn không có quyền truy cập trang Admin!'); window.location.href='index.php?act=login';</script>";
+        exit();
+    }
+
+    if ($roleRequired == 'huong_dan_vien' && $currentRole !== 'huong_dan_vien') {
+        echo "<script>alert('Đây là trang dành cho HDV!'); window.location.href='index.php?act=login';</script>";
+        exit();
+    }
+}
