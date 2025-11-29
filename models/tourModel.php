@@ -81,11 +81,11 @@ class tourModel
 
 
     // Thêm tour mới
-    public function addTour($TenTour, $Gia, $KhoiHanh, $SoNgay, $SoDem, $MoTa, $MaDanhMuc, $LinkAnhBia, $GiaVonDuKien, $NgayBatDau, $NgayKetThuc)
+    public function addTour($TenTour, $Gia, $KhoiHanh, $SoNgay, $SoDem, $MoTa, $MaDanhMuc, $LinkAnhBia, $GiaVonDuKien, $NgayBatDau, $NgayKetThuc, $TrangThai)
     {
         $sql = "INSERT INTO tour 
-            (TenTour, GiaBanMacDinh, DiemKhoiHanh, SoNgay,SoDem, MoTa, MaDanhMuc, LinkAnhBia,GiaVonDuKien, NgayBatDau, NgayKetThuc)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)";
+    (TenTour, GiaBanMacDinh, DiemKhoiHanh, SoNgay, SoDem, MoTa, MaDanhMuc, LinkAnhBia, GiaVonDuKien, NgayBatDau, NgayKetThuc, TrangThai)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([
@@ -99,7 +99,8 @@ class tourModel
             $LinkAnhBia,
             $GiaVonDuKien,
             $NgayBatDau,
-            $NgayKetThuc
+            $NgayKetThuc,
+            $TrangThai
         ]);
 
         return $this->conn->lastInsertId();
@@ -117,7 +118,8 @@ class tourModel
         $LinkAnhBia,
         $GiaVonDuKien,
         $NgayBatDau,
-        $NgayKetThuc
+        $NgayKetThuc,
+        $TrangThai
     ) {
         $sql = "UPDATE tour SET 
             TenTour = ?, 
@@ -130,7 +132,8 @@ class tourModel
             LinkAnhBia = ?,
             GiaVonDuKien=?,
             NgayBatDau = ?,
-            NgayKetThuc = ?
+            NgayKetThuc = ?,
+            TrangThai=?
         WHERE MaTour = ?";
 
         $stmt = $this->conn->prepare($sql);
@@ -146,6 +149,7 @@ class tourModel
             $GiaVonDuKien,
             $NgayBatDau,
             $NgayKetThuc,
+            $TrangThai,
             $id
         ]);
     }
@@ -287,9 +291,10 @@ class tourModel
         $NoiDungToi
     ) {
         $sql = "INSERT INTO lichtrinh 
-            (MaTour, NgayThu, TieuDeNgay, ChiTietHoatDong, DiaDiemThamQuan,
-             CoBuaSang, CoBuaTrua, CoBuaToi, NoiO, GioTapTrung, GioXuatPhat, GioKetThuc, GioHoatDong, NoiDungSang, NoiDungTrua,NoiDungChieu, NoiDungToi)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)";
+        (MaTour, NgayThu, TieuDeNgay, ChiTietHoatDong, DiaDiemThamQuan, CoBuaSang, CoBuaTrua, CoBuaToi, NoiO,
+         GioTapTrung, GioXuatPhat, GioKetThuc, GioHoatDong,
+         NoiDungSang, NoiDungTrua, NoiDungChieu, NoiDungToi)
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         $stmt = $this->conn->prepare($sql);
 
@@ -313,6 +318,7 @@ class tourModel
             $NoiDungToi
         ]);
     }
+
 
     // public function updateChinhSach($id, $baoGom, $khongBaoGom, $huy, $hoanTien)
     // {
@@ -347,4 +353,28 @@ class tourModel
         $stmt = $this->conn->query($sql);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getTourPagination($start, $limit)
+{
+    $sql = "SELECT 
+                t.*,
+                dm.TenDanhMuc
+            FROM tour t
+            LEFT JOIN danhmuctour dm ON t.MaDanhMuc = dm.MaDanhMuc
+            ORDER BY t.MaTour ASC
+            LIMIT ?, ?";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindValue(1, $start, PDO::PARAM_INT);
+    $stmt->bindValue(2, $limit, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function countTours()
+{
+    $sql = "SELECT COUNT(*) FROM tour";
+    return $this->conn->query($sql)->fetchColumn();
+}
+
 }

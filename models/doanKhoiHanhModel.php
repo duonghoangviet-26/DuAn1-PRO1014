@@ -165,10 +165,106 @@ class doanKhoiHanhModel
 
     public function deleteDoan($id)
     {
+        $this->conn->prepare("DELETE FROM booking WHERE MaDoan=?")
+            ->execute([$id]);
+
         $this->conn->prepare("DELETE FROM dichvucuadoan WHERE MaDoan=?")
             ->execute([$id]);
 
         return $this->conn->prepare("DELETE FROM doankhoihanh WHERE MaDoan=?")
             ->execute([$id]);
     }
+
+    public function getTotalBookingByDoan($MaDoan)
+    {
+        $sql = "SELECT 
+                SUM(TongNguoiLon + TongTreEm + TongEmBe) AS total_people
+            FROM booking
+            WHERE MaDoan = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$MaDoan]);
+
+        $total = $stmt->fetchColumn();
+        return $total ? $total : 0;
+    }
+
+    public function getAllDKH()
+    {
+        $sql = "SELECT * FROM doankhoihanh";
+        return $this->conn->query($sql)->fetchAll();
+    }
+    // public function getLichTrinhByTour($MaTour)
+    // {
+    //     $sql = "SELECT * FROM lichtrinh WHERE MaTour = ?";
+    //     $stmt = $this->conn->prepare($sql);
+    //     $stmt->execute([$MaTour]);
+    //     return $stmt->fetchAll();
+    // }
+    public function getLichTrinhByTour($MaTour)
+    {
+        $sql = "SELECT * FROM lichtrinh WHERE MaTour = ? ORDER BY NgayThu ASC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$MaTour]);
+        return $stmt->fetchAll();
+    }
+
+    public function getNhaCungCapByType($type)
+    {
+        $sql = "SELECT * FROM nhacungcap WHERE LoaiNhaCungCap = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$type]);
+        return $stmt->fetchAll();
+    }
+    public function getDoanById($MaDoan)
+    {
+        $sql = "SELECT * FROM doankhoihanh WHERE MaDoan = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$MaDoan]);
+        return $stmt->fetch();
+    }
+    public function getTourById($MaTour)
+    {
+        $sql = "SELECT * FROM tour WHERE MaTour = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$MaTour]);
+        return $stmt->fetch();
+    }
+   public function getHDVById($MaHDV)
+{
+    $sql = "SELECT * FROM nhanvien WHERE MaNhanVien = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute([$MaHDV]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+
+   public function getTaiXeByDoan($MaDoan)
+{
+    $sql = "SELECT ncc.*
+            FROM doankhoihanh dkh
+            JOIN nhacungcap ncc ON dkh.MaTaiXe = ncc.MaNhaCungCap
+            WHERE dkh.MaDoan = ?";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute([$MaDoan]);
+    return $stmt->fetch();    // không có dữ liệu → false
+}
+
+
+
+    public function getNCCTheoLichTrinh($MaDoan)
+{
+    // Lấy NCC từ bảng doankhoihanh (vì chỉ có tài xế ở đây)
+    $sql = "SELECT 
+                d.MaDoan,
+                d.MaTaiXe AS MaNCC,
+                ncc.TenNhaCungCap,
+                ncc.LoaiNhaCungCap
+            FROM doankhoihanh d
+            JOIN nhacungcap ncc ON d.MaTaiXe = ncc.MaNhaCungCap
+            WHERE d.MaDoan = ?";
+    
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute([$MaDoan]);
+    return $stmt->fetchAll();
+}
 }

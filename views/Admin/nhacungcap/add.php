@@ -86,7 +86,7 @@
                 </div>
                 <div class="col-md-6">
                     <label for="Email" class="form-label">Email</label>
-                    <input type="email" class="form-control" name="Email" id="Email">
+                    <input type="email" class="form-control"  name="Email" id="Email">
                 </div>
 
                 <div class="col-12">

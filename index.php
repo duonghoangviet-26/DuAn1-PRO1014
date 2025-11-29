@@ -1,6 +1,5 @@
 <?php
-// Require toàn bộ các file khai báo môi trường, thực thi,...(không require view)
-
+session_start();
 // Require file Common
 require_once './commons/env.php'; // Khai báo biến môi trường
 require_once './commons/function.php'; // Hàm hỗ trợ
@@ -13,7 +12,7 @@ require_once './controllers/bookingController.php';
 require_once './controllers/nhaCungCapController.php';
 require_once './controllers/lichLamViecController.php';
 require_once './controllers/doanKhoiHanhController.php';
-
+require_once './controllers/TaiKhoanController.php';
 
 
 // Require toàn bộ file Models
@@ -24,18 +23,36 @@ require_once './models/nhaCungCapModel.php';
 require_once './models/lichLamViecModel.php';
 require_once './models/khachHangModel.php';
 require_once './models/doanKhoiHanhModel.php';
-
+require_once './models/TaiKhoanModel.php';
 
 
 // Route
-$act = $_GET['act'] ?? '/';
+$act = $_GET['act'] ?? 'login';
 
 
 // Để bảo bảo tính chất chỉ gọi 1 hàm Controller để xử lý request thì mình sử dụng match
 
 match ($act) {
-    // Trang chủ
-    '/' => (new tourController())->Home(),
+    // Login, Logout, addTaiKhoan
+    'login'     => (new TaiKhoanController())->login(),
+    'logout'    => (new TaiKhoanController())->logout(),
+    'addTaiKhoan'     => (new TaiKhoanController())->formAddTaiKhoan(),
+    'postAddTaiKhoan' => (new TaiKhoanController())->postAddTaiKhoan(),
+
+
+    // ADMIN DASHBOARD 
+    'admin_dashboard' => (function () {
+        checkAuth('admin');
+        require_once './views/trangChu.php';
+    })(),
+
+    //HDV DASHBOARD 
+    'hdv_dashboard' => (function () {
+        checkAuth('huong_dan_vien');
+        require_once './views/HDV/trangChuHDV.php';
+    })(),
+    // đăng nhập
+    '/', 'login' => (new TaiKhoanController())->login(),
 
     // Danh mục
     'listdm' => (new tourController())->getCategoryAll(),
@@ -52,7 +69,8 @@ match ($act) {
     'updateTour'      => (new tourController())->updateTour(),
     'deleteTour'      => (new tourController())->deleteTour(),
     'chiTietTour'   => (new tourController())->detailTour(),
-
+    'cloneTour' => (new tourController())->cloneTour(),
+    'cloneTourSave' => (new tourController())->cloneTourSave(),
 
     // Nhân viên
     'listNV', 'nhanvien' => (new nhanVienController())->listNV(),
@@ -66,6 +84,7 @@ match ($act) {
     'lichlamviec' => (new lichLamViecController())->lichLamViec(),
     'deleteLichLamViec' => (new lichLamViecController())->delete(),
 
+
     // default => (new tourController())->Home(),
 
     // Khách Hàng
@@ -78,6 +97,7 @@ match ($act) {
 
 
 
+
     // booking
     'listBooking' => (new bookingController)->listBookingAll(),
     'deleteBooking' => (new bookingController)->deleteBooking(),
@@ -85,6 +105,14 @@ match ($act) {
     'createBookingProcess' => (new BookingController())->createBookingProcess(),
     'editBooking'  => (new bookingController)->editBooking(),
     'editBookingProcess' => (new BookingController())->editBookingProcess(),
+
+    // khách trong booking  
+    'khachTrongBooking' => (new bookingController)->khachTrongBooking(),
+    'deleteKhachTrongBooking' => (new bookingController)->deleteKhachTrongBooking(),
+    'createKhachTrongBooking' => (new bookingController)->createKhachTrongBooking(),
+    'createKhachTrongBookingProcess' => (new bookingController)->createKhachTrongBookingProcess(),
+    'editKhachTrongBooking' => (new bookingController)->editKhachTrongBooking(),
+    'updateKhachTrongBooking' => (new bookingController)->updateKhachTrongBooking(),
 
 
 
@@ -104,4 +132,26 @@ match ($act) {
     'deleteDKH' => (new doanKhoiHanhController())->deleteDKH(),
     'editDKH' => (new doanKhoiHanhController())->editDKH(),
     'updateDKH' => (new doanKhoiHanhController())->updateDKH(),
+    'chiTietDKH' => (new doanKhoiHanhController())->chiTietDKH(),
+    default => header("Location: index.php?act=login"),
 };
+
+function checkAuth($roleRequired)
+{
+    if (!isset($_SESSION['user'])) {
+        header("Location: index.php?act=login");
+        exit();
+    }
+
+    $currentRole = $_SESSION['user']['VaiTro'];
+
+    if ($roleRequired == 'admin' && $currentRole !== 'admin') {
+        echo "<script>alert('Bạn không có quyền truy cập trang Admin!'); window.location.href='index.php?act=login';</script>";
+        exit();
+    }
+
+    if ($roleRequired == 'huong_dan_vien' && $currentRole !== 'huong_dan_vien') {
+        echo "<script>alert('Đây là trang dành cho HDV!'); window.location.href='index.php?act=login';</script>";
+        exit();
+    }
+}

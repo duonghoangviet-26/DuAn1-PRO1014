@@ -155,9 +155,10 @@
                                             <td><?= htmlspecialchars($d['DiemTapTrung']) ?></td>
                                             <td><?= $d['TenHDV'] ?></td>
                                             <td><?= $d['TenTaiXe'] ?></td>
-                                            <td><?= $d['SoChoConTrong'] ?>/<?= $d['SoChoToiDa'] ?></td>
+                                            <td><?= $d['ConTrong'] ?>/<?= $d['SoChoToiDa'] ?></td>
                                             <td><?= $d['DaDat'] ?></td>
                                             <td><?= $d['ConTrong'] ?></td>
+
                                             <td>
                                                 <?php
                                                 $status = $d['TrangThai'] ?? 'con_cho';
@@ -173,7 +174,7 @@
                                                 ?>
                                             </td>
                                             <td class="actions">
-                                                <a href="index.php?act=editDKH&id=<?= $d['MaDoan'] ?>">
+                                                <a href="?act=editDoan&MaDoan=<?= $d['MaDoan'] ?>">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
 
@@ -182,11 +183,14 @@
                                                         chính</button>
                                                 </a> -->
 
-                                                <a href="index.php?act=deleteDKH&id=<?= $d['MaDoan'] ?>"
-                                                    class="text-danger"
-                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa đoàn này?');">
+                                                <a href="?act=deleteDKH&MaDoan=<?= $d['MaDoan'] ?>"
+                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa đoàn này không?');">
                                                     <i class="fa fa-trash"></i>
                                                 </a>
+                                                <a href="index.php?act=chiTietDKH&id=<?= $d['MaDoan'] ?>" class="btn btn-sm btn-info">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+
 
                                             </td>
                                         </tr>

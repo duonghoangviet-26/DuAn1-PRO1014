@@ -82,6 +82,40 @@
                     </select>
 
                 </div>
+                
+                <?php if (!empty($lichtrinh)) : ?>
+                    <h4 class="fw-bold mt-4">Lịch trình tour</h4>
+
+                    <?php foreach ($lichtrinh as $day) : ?>
+                        <div class="card p-3 mb-3 border">
+                            <h5 class="text-primary">Ngày <?= $day['NgayThu'] ?>: <?= $day['TieuDeNgay'] ?></h5>
+
+                            <p><?= $day['ChiTietHoatDong'] ?></p>
+
+                            <!-- CHỌN KHÁCH SẠN -->
+                            <label class="form-label fw-bold">Khách sạn</label>
+                            <select name="hotel[<?= $day['MaLichTrinh'] ?>]" class="form-select">
+                                <option value="">-- Chọn khách sạn --</option>
+                                <?php foreach ($hotels as $h) : ?>
+                                    <option value="<?= $h['MaNhaCungCap'] ?>">
+                                        <?= $h['TenNhaCungCap'] ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+
+                            <!-- CHỌN NHÀ HÀNG -->
+                            <label class="form-label fw-bold mt-2">Nhà hàng</label>
+                            <select name="restaurant[<?= $day['MaLichTrinh'] ?>]" class="form-select">
+                                <option value="">-- Chọn nhà hàng --</option>
+                                <?php foreach ($restaurants as $r) : ?>
+                                    <option value="<?= $r['MaNhaCungCap'] ?>">
+                                        <?= $r['TenNhaCungCap'] ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
 
                 <!-- NGÀY ĐI / NGÀY VỀ / GIỜ -->
                 <div class="row">
