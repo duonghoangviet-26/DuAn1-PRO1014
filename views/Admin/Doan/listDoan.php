@@ -1,4 +1,3 @@
-\
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -188,25 +187,36 @@
                                         <th>HDV</th>
                                         <th>Tài xế</th>
                                         <th>Chỗ</th>
+                                        <th>Đã đặt</th>
+                                        <th>Còn trống</th>
                                         <th>Trạng thái</th>
                                         <th>Hành động</th>
                                     </tr>
                                 </thead>
 
-                                <tbody>
-                                    <?php foreach ($listDoan as $d): ?>
-                                    <tr>
-                                        <td><?= $d['MaDoan'] ?></td>
-                                        <td><?= htmlspecialchars($d['TenTour']) ?></td>
-                                        <td><?= $d['NgayKhoiHanh'] ?></td>
-                                        <td><?= $d['NgayVe'] ?></td>
-                                        <td><?= $d['GioKhoiHanh'] ?></td>
-                                        <td><?= htmlspecialchars($d['DiemTapTrung']) ?></td>
-                                        <td><?= $d['TenHDV'] ?></td>
-                                        <td><?= $d['TenTaiXe'] ?></td>
-                                        <td><?= $d['SoChoConTrong'] ?>/<?= $d['SoChoToiDa'] ?></td>
-                                        <td>
-                                            <?php
+                                <?php foreach ($listDoan as $d): ?>
+                                <tr>
+                                    <td><?= $d['MaDoan'] ?></td>
+                                    <td><?= htmlspecialchars($d['TenTour']) ?></td>
+                                    <td><?= $d['NgayKhoiHanh'] ?></td>
+                                    <td><?= $d['NgayVe'] ?></td>
+                                    <td><?= $d['GioKhoiHanh'] ?></td>
+                                    <td><?= htmlspecialchars($d['DiemTapTrung']) ?></td>
+                                    <td><?= $d['TenHDV'] ?></td>
+                                    <td><?= $d['TenTaiXe'] ?></td>
+
+                                    <!-- Tổng chỗ -->
+                                    <td><?= $d['SoChoToiDa'] ?></td>
+
+                                    <!-- Đã đặt -->
+                                    <td><?= $d['DaDat'] ?></td>
+
+                                    <!-- Còn trống -->
+                                    <td><?= $d['ConTrong'] ?></td>
+
+                                    <!-- Trạng thái -->
+                                    <td>
+                                        <?php
                                                 $status = $d['TrangThai'] ?? 'con_cho';
                                                 if ($status === 'con_cho') {
                                                     echo '<span class="badge badge-open">Còn chỗ</span>';
@@ -218,31 +228,33 @@
                                                     echo '<span class="badge badge-done">Hoàn thành</span>';
                                                 }
                                                 ?>
-                                        </td>
-                                        <td class="actions">
-                                            <a href="index.php?act=listKhachTrongTour&MaTour=<?= $d['MaTour'] ?>"
-                                                class="btn btn-info btn-sm">
-                                                <i class="fa fa-users"></i> Khách
-                                            </a>
+                                    </td>
 
+                                    <!-- Hành động -->
+                                    <td class="actions">
+                                        <a href="index.php?act=listKhachTrongTour&MaTour=<?= $d['MaTour'] ?>"
+                                            class="btn btn-info btn-sm">
+                                            <i class="fa fa-users"></i> Khách
+                                        </a>
 
-                                            <a href="index.php?act=editDKH&id=<?= $d['MaDoan'] ?>" class="btn-edit">
-                                                <i class="fa fa-pen"></i> Sửa
-                                            </a>
+                                        <a href="index.php?act=editDKH&id=<?= $d['MaDoan'] ?>" class="btn-edit">
+                                            <i class="fa fa-pen"></i> Sửa
+                                        </a>
 
-                                            <a href="index.php?act=deleteDKH&id=<?= $d['MaDoan'] ?>" class="btn-delete"
-                                                onclick="return confirm('Bạn có chắc chắn muốn xóa đoàn này?');">
-                                                <i class="fa fa-trash"></i> Xóa
-                                            </a>
+                                        <a href="index.php?act=deleteDKH&id=<?= $d['MaDoan'] ?>" class="btn-delete"
+                                            onclick="return confirm('Bạn có chắc chắn muốn xóa đoàn này?');">
+                                            <i class="fa fa-trash"></i> Xóa
+                                        </a>
 
-                                            <!-- <a href="?act=listTaiChinh&MaDoan=<?= $d['MaDoan'] ?>">
-                                                    <button class="btn-view" style="background-color: #17a2b8;">Tài
-                                                        chính</button>
-                                                </a> -->
-                                        </td>
-                                    </tr>
-                                    <?php endforeach; ?>
+                                        <a href="index.php?act=chiTietDKH&id=<?= $d['MaDoan'] ?>"
+                                            class="btn btn-sm btn-info">
+                                            <i class="fa fa-eye"></i> Xem
+                                        </a>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
                                 </tbody>
+
                             </table>
                         </div>
                     </div>

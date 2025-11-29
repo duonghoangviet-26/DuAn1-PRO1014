@@ -63,91 +63,94 @@
 
     <!-- Nội dung -->
     <div class="content">
-    <div class="card p-4">
+        <div class="card p-4">
 
-        <h4 class="mb-3">✏ Sửa Đoàn Khởi Hành</h4>
+            <h4 class="mb-3">✏ Sửa Đoàn Khởi Hành</h4>
 
-        <form action="index.php?act=updateDKH" method="post">
-            
-            <input type="hidden" name="MaDoan" value="<?= $doan['MaDoan'] ?>">
+            <form action="index.php?act=updateDKH" method="post">
 
-            <!-- TOUR -->
-            <div class="mb-3">
-                <label class="form-label fw-bold">Tour</label>
-                <select name="MaTour" class="form-control">
-                    <?php foreach ($tour as $t): ?>
-                        <option value="<?= $t['MaTour'] ?>" 
-                        <?= $t['MaTour'] == $doan['MaTour'] ? 'selected' : '' ?>>
-                            <?= $t['TenTour'] ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
+                <input type="hidden" name="MaDoan" value="<?= $doan['MaDoan'] ?>">
 
-            <!-- NGÀY — GIỜ -->
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <label class="form-label">Ngày đi</label>
-                    <input type="date" name="NgayKhoiHanh" value="<?= $doan['NgayKhoiHanh'] ?>" class="form-control">
+                <!-- TOUR -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Tour</label>
+                    <select name="MaTour" class="form-control">
+                        <?php foreach ($tour as $t): ?>
+                            <option value="<?= $t['MaTour'] ?>"
+                                <?= $t['MaTour'] == $doan['MaTour'] ? 'selected' : '' ?>>
+                                <?= $t['TenTour'] ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
 
-                <div class="col-md-4 mb-3">
-                    <label class="form-label">Ngày về</label>
-                    <input type="date" name="NgayVe" value="<?= $doan['NgayVe'] ?>" class="form-control">
+                <!-- NGÀY — GIỜ -->
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Ngày đi</label>
+                        <input type="date" name="NgayKhoiHanh" value="<?= $doan['NgayKhoiHanh'] ?>"
+                            class="form-control" readonly>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Ngày về</label>
+                        <input type="date" name="NgayVe" value="<?= $doan['NgayVe'] ?>"
+                            class="form-control" readonly>
+                    </div>
+
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Giờ khởi hành</label>
+                        <input type="time" name="GioKhoiHanh" value="<?= $doan['GioKhoiHanh'] ?>" class="form-control">
+                    </div>
                 </div>
 
-                <div class="col-md-4 mb-3">
-                    <label class="form-label">Giờ khởi hành</label>
-                    <input type="time" name="GioKhoiHanh" value="<?= $doan['GioKhoiHanh'] ?>" class="form-control">
+                <!-- ĐIỂM TẬP TRUNG -->
+                <div class="mb-3">
+                    <label class="form-label">Điểm tập trung</label>
+                    <input type="text" name="DiemTapTrung" class="form-control"
+                        value="<?= $doan['DiemTapTrung'] ?>">
                 </div>
-            </div>
 
-            <!-- ĐIỂM TẬP TRUNG -->
-            <div class="mb-3">
-                <label class="form-label">Điểm tập trung</label>
-                <input type="text" name="DiemTapTrung" class="form-control" 
-                value="<?= $doan['DiemTapTrung'] ?>">
-            </div>
+                <!-- HDV -->
+                <div class="mb-3">
+                    <label class="form-label">Hướng dẫn viên</label>
+                    <select name="MaHuongDanVien" class="form-control">
+                        <?php foreach ($hdv as $h): ?>
+                            <option value="<?= $h['MaNhanVien'] ?>"
+                                <?= $h['MaNhanVien'] == $doan['MaHuongDanVien'] ? 'selected' : '' ?>>
+                                <?= $h['HoTen'] ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
-            <!-- HDV -->
-            <div class="mb-3">
-                <label class="form-label">Hướng dẫn viên</label>
-                <select name="MaHuongDanVien" class="form-control">
-                    <?php foreach ($hdv as $h): ?>
-                        <option value="<?= $h['MaNhanVien'] ?>"
-                        <?= $h['MaNhanVien'] == $doan['MaHuongDanVien'] ? 'selected' : '' ?>>
-                            <?= $h['HoTen'] ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
+                <!-- TÀI XẾ -->
+                <div class="mb-3">
+                    <label class="form-label">Tài xế</label>
+                    <select name="MaTaiXe" class="form-control">
+                        <?php foreach ($taixe as $tx): ?>
+                            <option value="<?= $tx['MaNhaCungCap'] ?>"
+                                <?= $tx['MaNhaCungCap'] == $doan['MaTaiXe'] ? 'selected' : '' ?>>
+                                <?= $tx['TenLaiXe'] ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
-            <!-- TÀI XẾ -->
-            <div class="mb-3">
-                <label class="form-label">Tài xế</label>
-                <select name="MaTaiXe" class="form-control">
-                    <?php foreach ($taixe as $tx): ?>
-                        <option value="<?= $tx['MaNhaCungCap'] ?>"
-                        <?= $tx['MaNhaCungCap'] == $doan['MaTaiXe'] ? 'selected' : '' ?>>
-                            <?= $tx['TenLaiXe'] ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Số chỗ tối đa</label>
+                    <input type="number" name="SoChoToiDa" value="<?= $doan['SoChoToiDa'] ?>"
+                        class="form-control">
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">Số chỗ tối đa</label>
-                <input type="number" name="SoChoToiDa" value="<?= $doan['SoChoToiDa'] ?>" 
-                class="form-control">
-            </div>
+                <button name="btnUpdate" class="btn btn-primary">Cập nhật</button>
+                <a href="index.php?act=listDKH" class="btn btn-secondary">Hủy</a>
 
-            <button name="btnUpdate" class="btn btn-primary">Cập nhật</button>
-            <a href="index.php?act=listDKH" class="btn btn-secondary">Hủy</a>
+            </form>
 
-        </form>
-
+        </div>
     </div>
-</div>
     <!-- Script Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

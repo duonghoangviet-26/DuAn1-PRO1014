@@ -69,7 +69,8 @@ match ($act) {
     'updateTour'      => (new tourController())->updateTour(),
     'deleteTour'      => (new tourController())->deleteTour(),
     'chiTietTour'   => (new tourController())->detailTour(),
-
+    'cloneTour' => (new tourController())->cloneTour(),
+    'cloneTourSave' => (new tourController())->cloneTourSave(),
 
     // Nhân viên
     'listNV', 'nhanvien' => (new nhanVienController())->listNV(),
@@ -132,6 +133,8 @@ match ($act) {
     'deleteDKH' => (new doanKhoiHanhController())->deleteDKH(),
     'editDKH' => (new doanKhoiHanhController())->editDKH(),
     'updateDKH' => (new doanKhoiHanhController())->updateDKH(),
+    'chiTietDKH' => (new doanKhoiHanhController())->chiTietDKH(),
+    'getDoanByTour' => (new doanKhoiHanhController())->getDoanByTour(),
     default => header("Location: index.php?act=login"),
 };
 

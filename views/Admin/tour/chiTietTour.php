@@ -162,81 +162,70 @@
 
                     <?php if (!empty($lichTrinh)) { ?>
                         <?php foreach ($lichTrinh as $lt) { ?>
-                            <div class="border rounded p-3 mb-3">
-                                <h5 class="fw-bold text-primary">Ngày <?= $lt['NgayThu'] ?>:</h5>
-                                <div class="border rounded p-3 mb-3">
-                                    <h5 class="fw-bold text-primary">Ngày <?= $lt['NgayThu'] ?>:</h5>
 
-                                    <p class="mb-1">
-                                        <strong>Tiêu đề:</strong>
-                                        <?= htmlspecialchars($lt['TieuDeNgay'] ?? "Chưa có tiêu đề") ?>
-                                    </p>
+                            <div class="border rounded p-3 mb-4 bg-light">
 
-                                    <p class="mb-1">
-                                        <strong>Chi tiết hoạt động:</strong><br>
-                                        <?= nl2br(htmlspecialchars($lt['ChiTietHoatDong'] ?? "Chưa có nội dung")) ?>
-                                    </p>
-                                    <p><b>Nơi ở:</b> <?= $lt['NoiO'] ?: "Không có" ?></p>
-                                    <p class="mb-1">
-                                        <strong>Giờ tập trung:</strong>
-                                        <?= htmlspecialchars($lt['GioTapTrung'] ?? "Không có") ?>
-                                    </p>
+                                <h4 class="fw-bold text-primary mb-3">
+                                    📅 Ngày <?= $lt['NgayThu'] ?>
+                                </h4>
 
-                                    <p class="mb-1">
-                                        <strong>Giờ xuất phát:</strong>
-                                        <?= htmlspecialchars($lt['GioXuatPhat'] ?? "Không có") ?>
-                                    </p>
+                                <p><b>Tiêu đề ngày:</b> <?= htmlspecialchars($lt['TieuDeNgay'] ?: "—") ?></p>
 
-                                    <p class="mb-1">
-                                        <strong>Giờ kết thúc:</strong>
-                                        <?= htmlspecialchars($lt['GioKetThuc'] ?? "Không có") ?>
-                                    </p>
-                                    <p><strong>Hoạt động buổi sáng:</strong><br>
-                                        <?= nl2br(htmlspecialchars($lt['NoiDungSang'] ?? "Không có")) ?>
-                                    </p>
+                                <p><b>Nơi ở:</b> <?= htmlspecialchars($lt['NoiO'] ?: "Không có") ?></p>
 
-                                    <p><strong>Hoạt động buổi trưa:</strong><br>
-                                        <?= nl2br(htmlspecialchars($lt['NoiDungTrua'] ?? "Không có")) ?>
-                                    </p>
-                                    <p><strong>Hoạt động buổi chiều:</strong><br>
-                                        <?= nl2br(htmlspecialchars($lt['NoiDungChieu'] ?? "không có")) ?>
-                                    </p>
-                                    <p><strong>Hoạt động buổi tối:</strong><br>
-                                        <?= nl2br(htmlspecialchars($lt['NoiDungToi'] ?? "Không có")) ?>
-                                    </p>
+                                <p><b>Địa điểm tham quan:</b> <?= htmlspecialchars($lt['DiaDiemThamQuan'] ?: "Không có") ?></p>
 
-
-                                    <!-- <p class="mb-1">
-                                        <strong>Giờ Hoạt Động:</strong>
-                                        <?= htmlspecialchars($lt['GioHoatDong'] ?? "Không có") ?>
-                                    </p> -->
-
-                                    <p class="mb-1">
-                                        <strong>Địa điểm tham quan:</strong>
-                                        <?= htmlspecialchars($lt['DiaDiemThamQuan'] ?? "Không có") ?>
-                                    </p>
-
-
-                                    <p class="mb-1">
-                                        <strong>Bữa ăn:</strong>
-                                        <?= ($lt['CoBuaSang'] ? "Sáng ✓ " : "") ?>
-                                        <?= ($lt['CoBuaTrua'] ? "Trưa ✓ " : "") ?>
-                                        <?= ($lt['CoBuaToi']  ? "Tối ✓ " : "") ?>
-                                    </p>
-
-                                    <!-- <p class="mb-1">
-                                        <strong>Nơi ở:</strong> <?= htmlspecialchars($lt['NoiO'] ?? "Không có") ?>
-                                    </p> -->
+                                <div class="mt-3">
+                                    <b>Thời gian chung:</b>
+                                    <ul class="mt-1">
+                                        <li><b>Giờ tập trung:</b> <?= $lt['GioTapTrung'] ?: "—" ?></li>
+                                        <li><b>Giờ xuất phát:</b> <?= $lt['GioXuatPhat'] ?: "—" ?></li>
+                                        <li><b>Giờ kết thúc:</b> <?= $lt['GioKetThuc'] ?: "—" ?></li>
+                                    </ul>
                                 </div>
 
+                                <hr>
+
+                                <h5 class="text-success mt-3">🌅 Hoạt động buổi sáng</h5>
+                                <div class="p-2 bg-white border rounded">
+                                    <?= nl2br(htmlspecialchars($lt['NoiDungSang'] ?: "Không có hoạt động")) ?>
+                                </div>
+
+                                <h5 class="text-warning mt-3">🍽 Hoạt động buổi trưa</h5>
+                                <div class="p-2 bg-white border rounded">
+                                    <?= nl2br(htmlspecialchars($lt['NoiDungTrua'] ?: "Không có hoạt động")) ?>
+                                </div>
+
+                                <h5 class="text-primary mt-3">🌤 Hoạt động buổi chiều</h5>
+                                <div class="p-2 bg-white border rounded">
+                                    <?= nl2br(htmlspecialchars($lt['NoiDungChieu'] ?: "Không có hoạt động")) ?>
+                                </div>
+
+                                <h5 class="text-dark mt-3">🌙 Hoạt động buổi tối</h5>
+                                <div class="p-2 bg-white border rounded">
+                                    <?= nl2br(htmlspecialchars($lt['NoiDungToi'] ?: "Không có hoạt động")) ?>
+                                </div>
+
+                                <hr>
+
+                                <p><b>Bữa ăn bao gồm:</b>
+                                    <?= $lt['CoBuaSang'] ? "Sáng ✓ " : "" ?>
+                                    <?= $lt['CoBuaTrua'] ? "Trưa ✓ " : "" ?>
+                                    <?= $lt['CoBuaToi'] ? "Tối ✓ " : "" ?>
+                                </p>
+
                             </div>
+
                         <?php } ?>
                     <?php } else { ?>
+
                         <p class="text-muted">Chưa có lịch trình cho tour này.</p>
+
                     <?php } ?>
 
                 </div>
             </div>
+
 
 
             <!-- ===================== CHÍNH SÁCH TOUR ===================== -->
@@ -246,7 +235,6 @@
                 </div>
 
                 <!-- <div class="card-body">
-
                     <?php if (!empty($chinhSach)) { ?>
 
                         <h5 class="fw-bold text-secondary">Chính sách đặt tour</h5>

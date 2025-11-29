@@ -40,16 +40,16 @@
                                     <select name="MaTour" id="tourSelect" class="form-select" required>
                                         <option value="">-- Chọn tour --</option>
                                         <?php foreach ($tours as $tour): ?>
-                                        <option value="<?= $tour['MaTour'] ?>"
-                                            data-price="<?= $tour['GiaBanMacDinh'] ?>"
-                                            data-start="<?= $tour['NgayBatDau'] ?>"
-                                            data-end="<?= $tour['NgayKetThuc'] ?>">
+                                            <option value="<?= $tour['MaTour'] ?>"
+                                                data-price="<?= $tour['GiaBanMacDinh'] ?>"
+                                                data-start="<?= $tour['NgayBatDau'] ?>"
+                                                data-end="<?= $tour['NgayKetThuc'] ?>">
 
-                                            <?= htmlspecialchars($tour['TenTour']) ?>
-                                            (<?= date('d/m/Y', strtotime($tour['NgayBatDau'])) ?> →
-                                            <?= date('d/m/Y', strtotime($tour['NgayKetThuc'])) ?>)
-                                            - <?= number_format($tour['GiaBanMacDinh'], 0, ',', '.') ?>đ
-                                        </option>
+                                                <?= htmlspecialchars($tour['TenTour']) ?>
+                                                (<?= date('d/m/Y', strtotime($tour['NgayBatDau'])) ?> →
+                                                <?= date('d/m/Y', strtotime($tour['NgayKetThuc'])) ?>)
+                                                - <?= number_format($tour['GiaBanMacDinh'], 0, ',', '.') ?>đ
+                                            </option>
                                         <?php endforeach; ?>
 
                                     </select>
@@ -119,16 +119,15 @@
 
                                 <div class="col-md-12">
                                     <label class="form-label">Đoàn khởi hành <span class="text-danger">*</span></label>
-                                    <select name="MaDoan" class="form-select" required>
+
+                                    <select name="MaDoan" id="doanSelect" class="form-select" required>
                                         <option value="">-- Chọn Đoàn Khởi Hành --</option>
-                                        <?php foreach ($listDoan as $doan): ?>
-                                        <option value="<?= $doan['MaDoan'] ?>">
-                                            [#<?= $doan['MaDoan'] ?>] <?= $doan['TenTour'] ?> -
-                                            <?= date('d/m/Y', strtotime($doan['NgayKhoiHanh'])) ?>
-                                        </option>
-                                        <?php endforeach; ?>
+                                        <!-- Các option sẽ được load bằng AJAX -->
                                     </select>
+
+                                    <p id="doanMessage" class="text-danger mt-1 fw-bold"></p>
                                 </div>
+
 
                                 <!-- Loại booking -->
                                 <div class="col-md-6">
@@ -215,17 +214,17 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-    function renderKhachInputs() {
-        let nl = parseInt(document.getElementById('adults').value) || 0;
-        let te = parseInt(document.getElementById('children').value) || 0;
-        let eb = parseInt(document.getElementById('babies').value) || 0;
-        let total = nl + te + eb;
+        function renderKhachInputs() {
+            let nl = parseInt(document.getElementById('adults').value) || 0;
+            let te = parseInt(document.getElementById('children').value) || 0;
+            let eb = parseInt(document.getElementById('babies').value) || 0;
+            let total = nl + te + eb;
 
-        let container = document.getElementById('khachContainer');
-        container.innerHTML = ""; // reset
+            let container = document.getElementById('khachContainer');
+            container.innerHTML = ""; // reset
 
-        for (let i = 1; i <= total; i++) {
-            container.innerHTML += `
+            for (let i = 1; i <= total; i++) {
+                container.innerHTML += `
             <div class="card p-3 mb-3">
                 <h6 class="mb-3 text-success">Khách ${i}</h6>
 
@@ -274,43 +273,72 @@
                 </div>
             </div>
         `;
+            }
         }
-    }
 
-    // Kích hoạt khi thay đổi số lượng
-    document.getElementById('adults').addEventListener('change', renderKhachInputs);
-    document.getElementById('children').addEventListener('change', renderKhachInputs);
-    document.getElementById('babies').addEventListener('change', renderKhachInputs);
+        // Kích hoạt khi thay đổi số lượng
+        document.getElementById('adults').addEventListener('change', renderKhachInputs);
+        document.getElementById('children').addEventListener('change', renderKhachInputs);
+        document.getElementById('babies').addEventListener('change', renderKhachInputs);
 
-    // Tính tiền
-    function calculateTotal() {
-        const tourSelect = document.getElementById('tourSelect');
-        const selectedOption = tourSelect.options[tourSelect.selectedIndex];
-        const basePrice = parseFloat(selectedOption.dataset.price) || 0;
+        // Tính tiền
+        function calculateTotal() {
+            const tourSelect = document.getElementById('tourSelect');
+            const selectedOption = tourSelect.options[tourSelect.selectedIndex];
+            const basePrice = parseFloat(selectedOption.dataset.price) || 0;
 
-        const adults = parseInt(document.getElementById('adults').value) || 0;
-        const children = parseInt(document.getElementById('children').value) || 0;
-        const babies = parseInt(document.getElementById('babies').value) || 0;
+            const adults = parseInt(document.getElementById('adults').value) || 0;
+            const children = parseInt(document.getElementById('children').value) || 0;
+            const babies = parseInt(document.getElementById('babies').value) || 0;
 
-        // Trẻ em 70%, em bé 30%
-        const total = (adults * basePrice) + (children * basePrice * 0.7) + (babies * basePrice * 0.3);
+            // Trẻ em 70%, em bé 30%
+            const total = (adults * basePrice) + (children * basePrice * 0.7) + (babies * basePrice * 0.3);
 
-        document.getElementById('totalAmount').value = Math.round(total);
-    }
-
-    document.getElementById('tourSelect').addEventListener('change', calculateTotal);
-
-
-
-    // ẩn hiện nếu chọn là cty 
-    document.getElementById("LoaiKhach").addEventListener("change", (e) => {
-        let companyBlock = document.getElementById("companyFields");
-        if (e.target.value === 'cong_ty') {
-            companyBlock.style.display = "block";
-        } else {
-            companyBlock.style.display = "none";
+            document.getElementById('totalAmount').value = Math.round(total);
         }
-    });
+
+        document.getElementById('tourSelect').addEventListener('change', calculateTotal);
+
+
+
+        // ẩn hiện nếu chọn là cty 
+        document.getElementById("LoaiKhach").addEventListener("change", (e) => {
+            let companyBlock = document.getElementById("companyFields");
+            if (e.target.value === 'cong_ty') {
+                companyBlock.style.display = "block";
+            } else {
+                companyBlock.style.display = "none";
+            }
+        });
+
+
+        // HIỂN THỊ ĐOÀN THEO TOUR  
+        document.getElementById('tourSelect').addEventListener('change', function() {
+            let maTour = this.value;
+
+            fetch('index.php?act=getDoanByTour&MaTour=' + maTour)
+                .then(response => response.json())
+                .then(data => {
+                    let doanSelect = document.getElementById('doanSelect');
+                    let msg = document.getElementById('doanMessage');
+
+                    doanSelect.innerHTML = '<option value="">-- Chọn Đoàn Khởi Hành --</option>';
+                    msg.innerHTML = '';
+
+                    if (data.length === 0) {
+                        msg.innerHTML = '❌ Tour này chưa có đoàn khởi hành!';
+                        return;
+                    }
+
+                    data.forEach(d => {
+                        doanSelect.innerHTML += `
+                    <option value="${d.MaDoan}">
+                        [#${d.MaDoan}] ${d.TenTour} - ${d.NgayKhoiHanh}
+                    </option>
+                `;
+                    });
+                });
+        });
     </script>
 
 

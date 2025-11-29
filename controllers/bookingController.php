@@ -43,7 +43,7 @@ class bookingController
     {
         $tours = $this->modelTour->getAllTours();
         $khachHangs = $this->modelTour->getAllKhachHang();
-        // $listDoan = $this->doanKhoiHanh->getAllDoan();
+        $listDoan = $this->doanKhoiHanh->getAllDoan();
         require_once './views/Admin/booking/addBooking.php';
     }
     public function createBookingProcess()
