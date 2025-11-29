@@ -79,7 +79,7 @@ class bookingModel
 
     public function createBooking($data)
     {
-        $sql = "INSERT INTO Booking (
+        $sql = "INSERT INTO booking (
         MaCodeBooking, MaTour, MaDoan, MaKhachHang, LoaiBooking,
         TongNguoiLon, TongTreEm, TongEmBe,
         TongTien, SoTienDaCoc, SoTienDaTra, SoTienConLai,
@@ -90,20 +90,32 @@ class bookingModel
         :TongTien, :SoTienDaCoc, :SoTienDaTra, :SoTienConLai,
         :TrangThai, :YeuCauDacBiet, :MaNguoiTao
     )";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($data);
+
+        return $this->conn->lastInsertId();
+    }
+
+
+    public function insertKhach($data)
+    {
+        $sql = "INSERT INTO khachtrongbooking 
+        (MaBooking, HoTen, GioiTinh, NgaySinh, SoGiayTo, SoDienThoai, GhiChuDacBiet, LoaiPhong)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
         $stmt = $this->conn->prepare($sql);
 
-        try {
-            $stmt->execute($data);
-        } catch (PDOException $e) {
-            echo "<pre>";
-            echo "❌ KHÔNG THỂ THÊM BOOKING\n";
-            echo "Lỗi SQL: " . $e->getMessage();
-            echo "\nDữ liệu truyền vào:\n";
-            print_r($data);
-            echo "</pre>";
-            exit;
-        }
-        return true;
+        return $stmt->execute([
+            $data['MaBooking'],
+            $data['HoTen'],
+            $data['GioiTinh'],
+            $data['NgaySinh'],
+            $data['SoGiayTo'],
+            $data['SoDienThoai'],
+            $data['GhiChuDacBiet'],
+            $data['LoaiPhong'],
+        ]);
     }
 
     public function getOneBooking($id)
@@ -137,10 +149,12 @@ class bookingModel
 
     // Khách trong booking 
 
+
     public function getKhachTrongBooking($MaBooking)
     {
-        $stmt = $this->conn->prepare("SELECT * FROM KhachTrongBooking WHERE MaBooking = :id");
-        $stmt->execute([':id' => $MaBooking]);
+        $sql = "SELECT * FROM KhachTrongBooking WHERE MaBooking = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$MaBooking]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public  function getBookingDetailWithDoan($MaBooking)
@@ -200,5 +214,27 @@ class bookingModel
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([':id' => $MaBooking]);
         return (int)$stmt->fetch(PDO::FETCH_ASSOC)['total']; // ép kiểu int chuẩn
+    }
+
+
+    // truy vấn khách hàng cùng 1 đoàn 
+    public function  getKhachTheoTour($MaTour)
+    {
+        $sql = "SELECT 
+                kh.HoTen, kh.GioiTinh, kh.NgaySinh, kh.SoGiayTo, kh.SoDienThoai,
+                kh.GhiChuDacBiet, kh.LoaiPhong,
+                b.MaBooking, b.TrangThai, 
+                t.TenTour, 
+                d.NgayKhoiHanh, d.NgayVe
+            FROM khachtrongbooking kh
+            INNER JOIN booking b ON kh.MaBooking = b.MaBooking
+            INNER JOIN tour t ON b.MaTour = t.MaTour
+            LEFT JOIN doankhoihanh d ON b.MaDoan = d.MaDoan
+            WHERE t.MaTour = ?
+            ORDER BY d.NgayKhoiHanh, kh.HoTen ASC";
+
+        $stm = $this->conn->prepare($sql);
+        $stm->execute([$MaTour]);
+        return $stm->fetchAll(PDO::FETCH_ASSOC);
     }
 }

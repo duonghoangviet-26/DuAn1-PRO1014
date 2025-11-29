@@ -74,10 +74,15 @@
                     <select name="MaTour" class="form-control" required>
                         <option value="">-- Chọn Tour --</option>
                         <?php foreach ($tour as $t): ?>
-                            <option value="<?= $t['MaTour'] ?>"><?= $t['TenTour'] ?></option>
+                            <option value="<?= $t['MaTour'] ?>">
+                                <?= $t['TenTour'] ?>
+                                (<?= date('d/m/Y', strtotime($t['NgayBatDau'])) ?> →
+                                <?= date('d/m/Y', strtotime($t['NgayKetThuc'])) ?>)
+                            </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
+
 
                 <!-- NGÀY ĐI / NGÀY VỀ / GIỜ -->
                 <div class="row">
@@ -100,7 +105,8 @@
                 <!-- ĐIỂM TẬP TRUNG -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Điểm tập trung</label>
-                    <input type="text" name="DiemTapTrung" class="form-control" placeholder="VD: 102 Nguyễn Huệ, Q1" required>
+                    <input type="text" name="DiemTapTrung" class="form-control" placeholder="VD: 102 Nguyễn Huệ, Q1"
+                        required>
                 </div>
 
                 <!-- HDV -->

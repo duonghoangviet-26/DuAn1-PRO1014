@@ -78,6 +78,57 @@
         font-size: 12px;
         font-weight: 600;
     }
+
+    /* Cột hành động */
+    td.actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        white-space: nowrap;
+    }
+
+    /* Nút hành động chung */
+    .actions a {
+        text-decoration: none;
+        font-size: 14px;
+        padding: 6px 10px;
+        border-radius: 6px;
+        transition: all 0.2s ease-in-out;
+        font-weight: 600;
+    }
+
+    /* Nút danh sách khách */
+    .btn-list {
+        background-color: #0d6efd;
+        color: #fff;
+    }
+
+    .btn-list:hover {
+        background-color: #0b5ed7;
+        color: #fff;
+    }
+
+    /* Nút chỉnh sửa */
+    .btn-edit {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    .btn-edit:hover {
+        background-color: #e0a800;
+        color: #fff;
+    }
+
+    /* Nút xóa */
+    .btn-delete {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .btn-delete:hover {
+        background-color: #bb2d3b;
+        color: #fff;
+    }
     </style>
 </head>
 
@@ -169,20 +220,25 @@
                                                 ?>
                                         </td>
                                         <td class="actions">
-                                            <a href="index.php?act=editDKH&id=<?= $d['MaDoan'] ?>">
-                                                <i class="fa fa-edit"></i>
+                                            <a href="index.php?act=listKhachTrongTour&MaTour=<?= $d['MaTour'] ?>"
+                                                class="btn btn-info btn-sm">
+                                                <i class="fa fa-users"></i> Khách
+                                            </a>
+
+
+                                            <a href="index.php?act=editDKH&id=<?= $d['MaDoan'] ?>" class="btn-edit">
+                                                <i class="fa fa-pen"></i> Sửa
+                                            </a>
+
+                                            <a href="index.php?act=deleteDKH&id=<?= $d['MaDoan'] ?>" class="btn-delete"
+                                                onclick="return confirm('Bạn có chắc chắn muốn xóa đoàn này?');">
+                                                <i class="fa fa-trash"></i> Xóa
                                             </a>
 
                                             <!-- <a href="?act=listTaiChinh&MaDoan=<?= $d['MaDoan'] ?>">
                                                     <button class="btn-view" style="background-color: #17a2b8;">Tài
                                                         chính</button>
                                                 </a> -->
-
-                                            <a href="index.php?act=deleteDKH&id=<?= $d['MaDoan'] ?>" class="text-danger"
-                                                onclick="return confirm('Bạn có chắc chắn muốn xóa đoàn này?');">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>

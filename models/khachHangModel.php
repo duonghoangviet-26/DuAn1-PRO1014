@@ -31,16 +31,18 @@ class khachHangModel
     public function creatKhachHang($data)
     {
         try {
-            $sql = "INSERT INTO KhachHang (
-                    MaCodeKhachHang, HoTen, SoDienThoai, Email, DiaChi, NgaySinh, GioiTinh, 
-                    SoGiayTo, LoaiKhach, TenCongTy, MaSoThue, GhiChu, NgayTao
-                ) VALUES (
-                    :MaCodeKhachHang, :HoTen, :SoDienThoai, :Email, :DiaChi, :NgaySinh, :GioiTinh, 
-                    :SoGiayTo, :LoaiKhach, :TenCongTy, :MaSoThue, :GhiChu, NOW()
-                )";
+            $sql = "INSERT INTO khachhang 
+        (MaCodeKhachHang, HoTen, SoDienThoai, Email, DiaChi, NgaySinh, GioiTinh, SoGiayTo, 
+         LoaiKhach, TenCongTy, MaSoThue, GhiChu)
+        VALUES 
+        (:MaCodeKhachHang, :HoTen, :SoDienThoai, :Email, :DiaChi, :NgaySinh, :GioiTinh, :SoGiayTo,
+         :LoaiKhach, :TenCongTy, :MaSoThue, :GhiChu)";
 
             $stmt = $this->conn->prepare($sql);
-            return $stmt->execute($data);
+
+            $stmt->execute($data);
+
+            return $this->conn->lastInsertId();
         } catch (PDOException $e) {
             error_log("Lỗi createKhachHang: " . $e->getMessage());
             return false;
