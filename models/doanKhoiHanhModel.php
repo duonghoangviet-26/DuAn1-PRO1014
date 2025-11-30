@@ -11,20 +11,36 @@ class doanKhoiHanhModel
     public function getAllDoan()
     {
         $sql = "
-            SELECT dk.*, t.TenTour,
-                   nv.HoTen AS TenHDV,
-                   ncc.TenLaiXe AS TenTaiXe,
-                   COALESCE(dv.MaNhaCungCap, dk.MaTaiXe) AS MaTaiXeFinal
-            FROM doankhoihanh dk
-            JOIN tour t ON dk.MaTour = t.MaTour
-            LEFT JOIN nhanvien nv ON dk.MaHuongDanVien = nv.MaNhanVien
-            LEFT JOIN dichvucuadoan dv 
-                ON dv.MaDoan = dk.MaDoan AND dv.LoaiDichVu = 'van_chuyen'
-            LEFT JOIN nhacungcap ncc 
-                ON dv.MaNhaCungCap = ncc.MaNhaCungCap
-            ORDER BY dk.MaDoan ASC
-        ";
+        SELECT 
+            d.*,
+            t.TenTour,
+            nv.HoTen AS TenHDV,
+            ncc.TenLaiXe AS TenTaiXe,
 
+            COALESCE(b.total_people, 0) AS DaDat,
+            (d.SoChoToiDa - COALESCE(b.total_people, 0)) AS ConTrong
+
+        FROM doankhoihanh d
+        JOIN tour t ON d.MaTour = t.MaTour
+        LEFT JOIN nhanvien nv ON d.MaHuongDanVien = nv.MaNhanVien
+
+        -- tài xế
+        LEFT JOIN dichvucuadoan dv 
+            ON dv.MaDoan = d.MaDoan AND dv.LoaiDichVu = 'van_chuyen'
+        LEFT JOIN nhacungcap ncc 
+            ON ncc.MaNhaCungCap = dv.MaNhaCungCap
+
+        -- tổng khách đã đặt
+        LEFT JOIN (
+            SELECT 
+                MaDoan,
+                SUM(TongNguoiLon + TongTreEm + TongEmBe) AS total_people
+            FROM booking
+            GROUP BY MaDoan
+        ) AS b ON b.MaDoan = d.MaDoan
+
+        ORDER BY d.MaDoan DESC
+    ";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -34,13 +50,18 @@ class doanKhoiHanhModel
     public function getOneDoan($id)
     {
         $sql = "
-            SELECT dk.*, 
-                   dv.MaNhaCungCap AS MaTaiXe
-            FROM doankhoihanh dk
-            LEFT JOIN dichvucuadoan dv 
-                ON dk.MaDoan = dv.MaDoan AND dv.LoaiDichVu='van_chuyen'
-            WHERE dk.MaDoan = ?
-        ";
+        SELECT 
+            dk.*,
+            dv.MaNhaCungCap AS MaTaiXe
+        FROM doankhoihanh dk
+        LEFT JOIN (
+            SELECT MaDoan, MIN(MaNhaCungCap) AS MaNhaCungCap
+            FROM dichvucuadoan
+            WHERE LoaiDichVu = 'van_chuyen'
+            GROUP BY MaDoan
+        ) dv ON dk.MaDoan = dv.MaDoan
+        WHERE dk.MaDoan = ?
+    ";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$id]);
@@ -81,12 +102,11 @@ class doanKhoiHanhModel
     public function insertDoan($data)
     {
         $sql = "INSERT INTO doankhoihanh
-        (MaTour, NgayKhoiHanh, NgayVe, GioKhoiHanh, DiemTapTrung, 
-         SoChoToiDa, SoChoConTrong, MaHuongDanVien, TrangThai)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'con_cho')";
+            (MaTour, NgayKhoiHanh, NgayVe, GioKhoiHanh, DiemTapTrung,
+             SoChoToiDa, SoChoConTrong, MaHuongDanVien, MaTaiXe, TrangThai)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->conn->prepare($sql);
-
         $stmt->execute([
             $data['MaTour'],
             $data['NgayKhoiHanh'],
@@ -94,11 +114,28 @@ class doanKhoiHanhModel
             $data['GioKhoiHanh'],
             $data['DiemTapTrung'],
             $data['SoChoToiDa'],
-            $data['SoChoToiDa'], // lúc tạo đoàn chưa ai đặt
-            $data['MaHuongDanVien']
+            $data['SoChoConTrong'], // ✅ truyền vào
+            $data['MaHuongDanVien'],
+            $data['MaTaiXe'],
+            $data['TrangThai'] ?? 'con_cho', // nếu cần
         ]);
 
         return $this->conn->lastInsertId();
+    }
+    public function insertDichVuDoan($MaDoan, $MaNCC, $Loai, $NgayThu)
+    {
+        $sql = "INSERT INTO dichvucuadoan 
+            (MaDoan, MaNhaCungCap, LoaiDichVu, TenDichVu, NgaySuDung) 
+            VALUES (?, ?, ?, ?, ?)";
+
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([
+            $MaDoan,
+            $MaNCC,
+            $Loai,
+            ucfirst(str_replace('_', ' ', $Loai)), // tên dịch vụ
+            $NgayThu
+        ]);
     }
 
     // Gán tài xế
@@ -113,6 +150,7 @@ class doanKhoiHanhModel
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$MaDoan, $MaTaiXe, $NgaySuDung]);
     }
+
 
     // Đếm số booking của đoàn
     public function countBookingOfDoan($MaDoan)
@@ -279,5 +317,36 @@ class doanKhoiHanhModel
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$MaTour]);
         return $stmt->fetchAll();
+    }
+    public function getDichVuByDoan($MaDoan)
+    {
+        $sql = "
+            SELECT dv.*, ncc.TenNhaCungCap
+            FROM dichvucuadoan dv
+            JOIN nhacungcap ncc ON dv.MaNhaCungCap = ncc.MaNhaCungCap
+            WHERE dv.MaDoan = ?
+            ";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$MaDoan]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getNCCTheoNgay($MaDoan)
+    {
+        $sql = "SELECT 
+                dv.NgaySuDung,
+                TIMESTAMPDIFF(DAY, dk.NgayKhoiHanh, dv.NgaySuDung) + 1 AS NgayThu,
+                dv.LoaiDichVu,
+                dv.MaNhaCungCap,
+                ncc.TenNhaCungCap
+            FROM dichvucuadoan dv
+            JOIN doankhoihanh dk ON dk.MaDoan = dv.MaDoan
+            JOIN nhacungcap ncc ON dv.MaNhaCungCap = ncc.MaNhaCungCap
+            WHERE dv.MaDoan = ?
+            ORDER BY dv.NgaySuDung ASC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$MaDoan]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
