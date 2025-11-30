@@ -83,7 +83,7 @@
 
 
             <p><b>Tài xế:</b>
-<?= ($taixe && isset($taixe['TenLaiXe']))
+                <?= ($taixe && isset($taixe['TenLaiXe']))
                     ? htmlspecialchars($taixe['TenLaiXe'])
                     : 'Chưa gán tài xế'; ?>
             </p>
@@ -160,7 +160,8 @@
             <?php else : ?>
             <p>Không có hoạt động</p>
             <?php endif; ?>
-<!-- BUỔI TRƯA -->
+
+            <!-- BUỔI TRƯA -->
             <h6 class="mt-3 text-warning">🍽 Hoạt động buổi trưa</h6>
             <?php if (!empty($trua)) : ?>
             <?php foreach ($trua as $line) : ?>

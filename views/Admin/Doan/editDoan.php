@@ -122,6 +122,45 @@
                 <?php endforeach; ?>
 
 
+                <h4 class="mt-4">Lịch trình tour</h4>
+
+                <?php foreach ($lichtrinh as $lt): ?>
+                    <div class="border p-3 mb-3 bg-light">
+
+                        <h5>Ngày <?= $lt['NgayThu'] ?>: <?= $lt['TieuDe'] ?></h5>
+
+                        <!-- KHÁCH SẠN -->
+                        <label class="form-label">Khách sạn</label>
+                        <select name="khachsan[<?= $lt['NgayThu'] ?>]" class="form-control">
+                            <option value="">-- Chọn khách sạn --</option>
+
+                            <?php foreach ($hotels as $h): ?>
+                                <option value="<?= $h['MaNhaCungCap'] ?>" <?= (isset($dvMap[$lt['NgayThu']]['khach_san'])
+                                                                                && $dvMap[$lt['NgayThu']]['khach_san'] == $h['MaNhaCungCap'])
+                                                                                ? 'selected' : '' ?>>
+                                    <?= $h['TenNhaCungCap'] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+
+                        <!-- NHÀ HÀNG -->
+                        <label class="form-label mt-2">Nhà hàng</label>
+                        <select name="nhahang[<?= $lt['NgayThu'] ?>]" class="form-control">
+                            <option value="">-- Chọn nhà hàng --</option>
+
+                            <?php foreach ($restaurants as $r): ?>
+                                <option value="<?= $r['MaNhaCungCap'] ?>" <?= (isset($dvMap[$lt['NgayThu']]['nha_hang'])
+                                                                                && $dvMap[$lt['NgayThu']]['nha_hang'] == $r['MaNhaCungCap'])
+                                                                                ? 'selected' : '' ?>>
+                                    <?= $r['TenNhaCungCap'] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+
+                    </div>
+                <?php endforeach; ?>
+
+
                 <!-- NGÀY — GIỜ -->
                 <div class="row">
                     <div class="col-md-4 mb-3">

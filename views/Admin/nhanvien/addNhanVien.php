@@ -9,39 +9,39 @@
     <!-- Link Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
+    < <style>
         body {
-            background-color: #f8f9fa;
+        background-color: #f8f9fa;
         }
 
         .sidebar {
-            width: 250px;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #343a40;
-            color: white;
-            padding-top: 20px;
+        width: 250px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #343a40;
+        color: white;
+        padding-top: 20px;
         }
 
         .sidebar a {
-            color: #ccc;
-            display: block;
-            padding: 10px 20px;
-            text-decoration: none;
+        color: #ccc;
+        display: block;
+        padding: 10px 20px;
+        text-decoration: none;
         }
 
         .sidebar a:hover {
-            background-color: #495057;
-            color: #fff;
+        background-color: #495057;
+        color: #fff;
         }
 
         .content {
-            margin-left: 250px;
-            padding: 20px;
+        margin-left: 250px;
+        padding: 20px;
         }
-    </style>
+        </style>
 </head>
 
 <body>
@@ -60,42 +60,19 @@
     </div>
 
 
-    <!-- Nội dung -->
-    <div class="content">
-        <div class="container mt-4">
-            <h2>Thêm Danh Mục Mới</h2>
 
-             <?php if (isset($_SESSION['success'])): ?>
-            <div class="alert alert-success"><?= $_SESSION['success'];
-                                                unset($_SESSION['success']); ?></div>
-            <?php endif; ?>
-            <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger"><?= $_SESSION['error'];
-                                            unset($_SESSION['error']); ?></div>
-            <?php endif; ?> 
 
-            <form action="" method="POST">
-                <div class="mb-3">
-                    <label for="TenDanhMuc" class="form-label">Tên danh mục</label>
-                    <input type="text" class="form-control" name="TenDanhMuc" id="TenDanhMuc" required>
-                </div>
-                <div class="mb-3">
-                    <label for="MoTa" class="form-label">Mô tả</label>
-                    <textarea class="form-control" name="MoTa" id="MoTa" rows="3"></textarea>
-                </div>
-                <button type="submit" class="btn btn-success" onclick="return alert('Bạn có chắc muốn thêm')">Thêm danh
-                    mục</button>
-                <a href="index.php?controller=danhmuc&action=listdm" class="btn btn-secondary">Hủy</a>
 
     <div class="content">
         <div class="container mt-4">
             <h2>Thêm Nhân Viên Mới</h2>
 
-            <form action="index.php?act=creatNV" method="POST" enctype="multipart/form-data" class="card p-4 shadow" novalidate onsubmit="return validateForm(event)">
+            <form action="index.php?act=creatNV" method="POST" enctype="multipart/form-data" class="card p-4 shadow"
+                novalidate onsubmit="return validateForm(event)">
                 <div class="row">
                     <div class="col-md-6">
                         <h5 class="border-bottom pb-2 mb-3">Thông tin cá nhân</h5>
-                        
+
                         <div class="mb-3">
                             <label class="form-label fw-bold">Họ tên <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="HoTen" placeholder="Nhập họ tên">
@@ -130,15 +107,16 @@
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Số điện thoại <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" name="SoDienThoai" pattern="[0-9]{10,11}" title="Nhập số điện thoại hợp lệ (10-11 số)">
+                            <input type="text" class="form-control" name="SoDienThoai" pattern="[0-9]{10,11}"
+                                title="Nhập số điện thoại hợp lệ (10-11 số)">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Email <span class="text-danger">*</span></label>
                             <input type="email" class="form-control" name="Email" placeholder="example@email.com">
                         </div>
-                        
-                         <div class="mb-3">
+
+                        <div class="mb-3">
                             <label class="form-label fw-bold">Địa chỉ</label>
                             <textarea class="form-control" name="DiaChi" rows="2"></textarea>
                         </div>
@@ -149,22 +127,26 @@
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Số năm kinh nghiệm</label>
-                            <input type="number" class="form-control" name="SoNamKinhNghiem" min="0" placeholder="Số năm">
+                            <input type="number" class="form-control" name="SoNamKinhNghiem" min="0"
+                                placeholder="Số năm">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Chuyên môn</label>
-                            <input type="text" class="form-control" name="ChuyenMon" placeholder="VD: Lịch sử, Địa lý...">
+                            <input type="text" class="form-control" name="ChuyenMon"
+                                placeholder="VD: Lịch sử, Địa lý...">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Ngôn ngữ thành thạo</label>
-                            <input type="text" class="form-control" name="NgonNgu" placeholder="VD: Tiếng Anh, Tiếng Pháp">
+                            <input type="text" class="form-control" name="NgonNgu"
+                                placeholder="VD: Tiếng Anh, Tiếng Pháp">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Chứng chỉ</label>
-                            <textarea class="form-control" name="ChungChi" rows="2" placeholder="Các chứng chỉ nghề nghiệp"></textarea>
+                            <textarea class="form-control" name="ChungChi" rows="2"
+                                placeholder="Các chứng chỉ nghề nghiệp"></textarea>
                         </div>
 
                         <div class="mb-3">
@@ -182,35 +164,6 @@
                     </div>
                 </div>
 
-                <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-success px-4" onclick="return confirm('Xác nhận thêm nhân viên này?')">
-                        <i class="fas fa-plus-circle"></i> Thêm nhân viên
-                    </button>
-                    <a href="index.php?act=listNV" class="btn btn-secondary px-4"><i class="fas fa-times"></i> Hủy</a>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Số điện thoại</label>
-                    <input type="text" class="form-control" name="SoDienThoai" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control" name="Email" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Ảnh đại diện</label>
-                    <input type="file" class="form-control" name="LinkAnhDaiDien">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Trạng thái</label>
-                    <select class="form-control" name="TrangThai">
-                        <option value="dang_lam">Đang làm</option>
-                        <option value="nghi_viec">Nghỉ việc</option>
-                    </select>
-                </div>
 
                 <button type="submit" class="btn btn-success"
                     onclick="return confirm('Bạn có chắc muốn thêm nhân viên?')">
@@ -228,30 +181,30 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        function validateForm(e) {
-            const form = e.target;
-            const inputs = form.querySelectorAll('input, select, textarea');
-            let isFull = true;
-            for (let i = 0; i < inputs.length; i++) {
-                const el = inputs[i];
-                if (el.type === 'hidden' || el.disabled || el.type === 'submit') {
-                    continue;
-                }
-                if (el.value.trim() === "") {
-                    isFull = false;
-                    el.style.border = "1px solid red";
-                } else {
-                    el.style.border = "";
-                }
+    function validateForm(e) {
+        const form = e.target;
+        const inputs = form.querySelectorAll('input, select, textarea');
+        let isFull = true;
+        for (let i = 0; i < inputs.length; i++) {
+            const el = inputs[i];
+            if (el.type === 'hidden' || el.disabled || el.type === 'submit') {
+                continue;
             }
-
-            if (!isFull) {
-                e.preventDefault();
-                alert("hãy nhập đầy đủ các trường dữ liệu ");
-                return false;
+            if (el.value.trim() === "") {
+                isFull = false;
+                el.style.border = "1px solid red";
+            } else {
+                el.style.border = "";
             }
-            return true;
         }
+
+        if (!isFull) {
+            e.preventDefault();
+            alert("hãy nhập đầy đủ các trường dữ liệu ");
+            return false;
+        }
+        return true;
+    }
     </script>
 </body>
 

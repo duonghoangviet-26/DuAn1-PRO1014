@@ -52,7 +52,7 @@ match ($act) {
         require_once './views/HDV/trangChuHDV.php';
     })(),
     // đăng nhập
-    '/', 'login' => (new TaiKhoanController())->login(),
+    '/', 'home' => (new tourController())->Home(),
 
     // Danh mục
     'listdm' => (new tourController())->getCategoryAll(),
@@ -113,6 +113,7 @@ match ($act) {
     'createKhachTrongBookingProcess' => (new bookingController)->createKhachTrongBookingProcess(),
     'editKhachTrongBooking' => (new bookingController)->editKhachTrongBooking(),
     'updateKhachTrongBooking' => (new bookingController)->updateKhachTrongBooking(),
+    'listKhachTrongTour' => (new bookingController)->listKhachTrongTour(),
 
 
 
@@ -133,7 +134,8 @@ match ($act) {
     'editDKH' => (new doanKhoiHanhController())->editDKH(),
     'updateDKH' => (new doanKhoiHanhController())->updateDKH(),
     'chiTietDKH' => (new doanKhoiHanhController())->chiTietDKH(),
-    // default => header("Location: index.php?act=login"),
+    'getDoanByTour' => (new doanKhoiHanhController())->getDoanByTour(),
+    default => header("Location: index.php?act=login"),
 };
 
 function checkAuth($roleRequired)

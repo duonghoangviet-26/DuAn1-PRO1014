@@ -11,34 +11,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        body {
-            background-color: #f8f9fa;
-        }
+    body {
+        background-color: #f8f9fa;
+    }
 
-        .sidebar {
-            width: 250px;
-            height: 100vh;
-            position: fixed;
-            background-color: #343a40;
-            padding-top: 20px;
-            color: white;
-        }
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #343a40;
+        color: white;
+        padding-top: 20px;
+    }
 
-        .sidebar a {
-            color: #ccc;
-            padding: 10px 20px;
-            display: block;
-        }
+    .sidebar a {
+        color: #ccc;
+        display: block;
+        padding: 10px 20px;
+        text-decoration: none;
+    }
 
-        .sidebar a:hover {
-            background-color: #495057;
-            color: #fff;
-        }
+    .sidebar a:hover {
+        background-color: #495057;
+        color: #fff;
+    }
 
-        .content {
-            margin-left: 250px;
-            padding: 20px;
-        }
+    .content {
+        margin-left: 250px;
+        padding: 20px;
+    }
     </style>
 </head>
 
@@ -67,25 +70,26 @@
 
                 <div class="card-body">
                     <?php if (isset($_SESSION['success'])): ?>
-                        <div class="alert alert-success alert-dismissible fade show">
-                            <i class="fas fa-check-circle"></i> <?= $_SESSION['success'] ?>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                        <?php unset($_SESSION['success']); ?>
+                    <div class="alert alert-success alert-dismissible fade show">
+                        <i class="fas fa-check-circle"></i> <?= $_SESSION['success'] ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    <?php unset($_SESSION['success']); ?>
                     <?php endif; ?>
 
                     <?php if (isset($_SESSION['error'])): ?>
-                        <div class="alert alert-danger alert-dismissible fade show">
-                            <i class="fas fa-exclamation-circle"></i> <?= $_SESSION['error'] ?>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                        <?php unset($_SESSION['error']); ?>
+                    <div class="alert alert-danger alert-dismissible fade show">
+                        <i class="fas fa-exclamation-circle"></i> <?= $_SESSION['error'] ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    <?php unset($_SESSION['error']); ?>
                     <?php endif; ?>
                     <div class="mb-3">
                         <a href="index.php?act=creatNV" class="btn btn-success me-2">
                             <i class="fas fa-user-plus"></i> Thêm Nhân Viên Mới
                         </a>
-                        <a href="index.php?controller=nhanvien&action=findAvailableStaff" class="btn btn-info text-white">
+                        <a href="index.php?controller=nhanvien&action=findAvailableStaff"
+                            class="btn btn-info text-white">
                             <i class="fas fa-search-dollar"></i> Tìm NV Rảnh
                         </a>
                     </div>
@@ -106,68 +110,68 @@
                             <tbody>
                                 <?php foreach ($listNhanVien as $nv): ?>
 
-                                    <?php
-                                        $vaiTroHienThi = strtoupper(str_replace(
-                                            ['huong_dan_vien', 'tai_xe', 'dieu_hanh', 'admin'],
-                                            ['HDV', 'TXE', 'ĐH', 'ADMIN'],
-                                            $nv['VaiTro']
-                                        ));
+                                <?php
+                                    $vaiTroHienThi = strtoupper(str_replace(
+                                        ['huong_dan_vien', 'tai_xe', 'dieu_hanh', 'admin'],
+                                        ['HDV', 'TXE', 'ĐH', 'ADMIN'],
+                                        $nv['VaiTro']
+                                    ));
                                     ?>
 
-                                    <tr>
-                                        <td class="text-center"><?= $nv['MaNhanVien'] ?></td>
+                                <tr>
+                                    <td class="text-center"><?= $nv['MaNhanVien'] ?></td>
 
-                                        <td><strong><?= $nv['HoTen'] ?></strong></td>
+                                    <td><strong><?= $nv['HoTen'] ?></strong></td>
 
-                                        <td>
-                                            <img src="./uploads/nhanvien/<?= $nv['LinkAnhDaiDien'] ?>"
-                                                 width="50" height="50" style="object-fit:cover;">
-                                        </td>
+                                    <td>
+                                        <img src="./uploads/nhanvien/<?= $nv['LinkAnhDaiDien'] ?>" width="50"
+                                            height="50" style="object-fit:cover;">
+                                    </td>
 
-                                        <td><?= $vaiTroHienThi ?></td>
+                                    <td><?= $vaiTroHienThi ?></td>
 
-                                        <td>
-                                            <?= $nv['SoDienThoai'] ?><br>
-                                            <small class="text-muted"><?= $nv['Email'] ?></small>
-                                        </td>
+                                    <td>
+                                        <?= $nv['SoDienThoai'] ?><br>
+                                        <small class="text-muted"><?= $nv['Email'] ?></small>
+                                    </td>
 
-                                        <td class="text-center">
-                                            <?php if ($nv['TrangThai'] === 'dang_lam'): ?>
-                                                <span class="badge bg-success">Đang làm việc</span>
-                                            <?php else: ?>
-                                                <span class="badge bg-secondary">Đã nghỉ việc</span>
-                                            <?php endif; ?>
-                                        </td>
+                                    <td class="text-center">
+                                        <?php if ($nv['TrangThai'] === 'dang_lam'): ?>
+                                        <span class="badge bg-success">Đang làm việc</span>
+                                        <?php else: ?>
+                                        <span class="badge bg-secondary">Đã nghỉ việc</span>
+                                        <?php endif; ?>
+                                    </td>
 
-                                        <td class="text-center">
-                                            <a href="index.php?act=lichlamviec&id=<?= $nv['MaNhanVien'] ?>"
-                                               class="btn btn-sm btn-info text-white" title="Xem Lịch">
-                                                <i class="fas fa-calendar-alt"></i>
-                                            </a>
-                                            <a href="index.php?act=chitietNV&id=<?= $nv['MaNhanVien'] ?>"
-                                               class="btn btn-sm btn-success" title="Chi tiết">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <a href="index.php?act=editNV&id=<?= $nv['MaNhanVien'] ?>"
-                                               class="btn btn-sm btn-warning" title="Sửa">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <?php if ($nv['TrangThai'] === 'da_nghi'): ?>
-                                                <a href="index.php?act=deleteNV&id=<?= $nv['MaNhanVien'] ?>"
-                                                   class="btn btn-dark btn-sm"
-                                                   onclick="return confirm('Xóa vĩnh viễn nhân viên? Không thể khôi phục!')">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </a>
-                                            <?php else: ?>
-                                                <a href="index.php?act=deleteNV&id=<?= $nv['MaNhanVien'] ?>"
-                                                   class="btn btn-danger btn-sm"
-                                                   onclick="return confirm('Chuyển nhân viên sang trạng thái ĐÃ NGHỈ?')">
-                                                    <i class="fas fa-user-times"></i>
-                                                </a>
-                                            <?php endif; ?>
+                                    <td class="text-center">
+                                        <a href="index.php?act=lichlamviec&id=<?= $nv['MaNhanVien'] ?>"
+                                            class="btn btn-sm btn-info text-white" title="Xem Lịch">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </a>
+                                        <a href="index.php?act=chitietNV&id=<?= $nv['MaNhanVien'] ?>"
+                                            class="btn btn-sm btn-success" title="Chi tiết">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="index.php?act=editNV&id=<?= $nv['MaNhanVien'] ?>"
+                                            class="btn btn-sm btn-warning" title="Sửa">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <?php if ($nv['TrangThai'] === 'da_nghi'): ?>
+                                        <a href="index.php?act=deleteNV&id=<?= $nv['MaNhanVien'] ?>"
+                                            class="btn btn-dark btn-sm"
+                                            onclick="return confirm('Xóa vĩnh viễn nhân viên? Không thể khôi phục!')">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                        <?php else: ?>
+                                        <a href="index.php?act=deleteNV&id=<?= $nv['MaNhanVien'] ?>"
+                                            class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Chuyển nhân viên sang trạng thái ĐÃ NGHỈ?')">
+                                            <i class="fas fa-user-times"></i>
+                                        </a>
+                                        <?php endif; ?>
 
-                                        </td>
-                                    </tr>
+                                    </td>
+                                </tr>
 
                                 <?php endforeach; ?>
                             </tbody>
@@ -185,4 +189,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
+
 </html>

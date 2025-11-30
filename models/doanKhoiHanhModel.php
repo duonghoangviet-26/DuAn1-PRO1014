@@ -105,7 +105,8 @@ class doanKhoiHanhModel
             (MaTour, NgayKhoiHanh, NgayVe, GioKhoiHanh, DiemTapTrung,
              SoChoToiDa, SoChoConTrong, MaHuongDanVien, MaTaiXe, TrangThai)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-$stmt = $this->conn->prepare($sql);
+
+        $stmt = $this->conn->prepare($sql);
         $stmt->execute([
             $data['MaTour'],
             $data['NgayKhoiHanh'],

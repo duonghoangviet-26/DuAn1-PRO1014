@@ -74,7 +74,8 @@
                         <?php foreach ($tour as $t): ?>
                             <option value="<?= $t['MaTour'] ?>"
                                 <?= (isset($_POST['MaTour']) && $_POST['MaTour'] == $t['MaTour']) ? 'selected' : '' ?>>
-                                <?= $t['TenTour'] ?>(<?= date('d/m/Y', strtotime($t['NgayBatDau'])) ?> →
+                                <?= $t['TenTour'] ?>
+                                (<?= date('d/m/Y', strtotime($t['NgayBatDau'])) ?> →
                                 <?= date('d/m/Y', strtotime($t['NgayKetThuc'])) ?>)
                             </option>
                         <?php endforeach; ?>

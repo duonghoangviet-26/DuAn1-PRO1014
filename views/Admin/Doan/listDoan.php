@@ -119,7 +119,8 @@
         }
 
         /* Nút xóa */
-        .btn-delete {background-color: #dc3545;
+        .btn-delete {
+            background-color: #dc3545;
             color: #fff;
         }
 
@@ -227,7 +228,8 @@
                                         </td>
 
                                         <!-- Hành động -->
-                                        <td class="actions"><a href="index.php?act=listKhachTrongTour&MaTour=<?= $d['MaTour'] ?>"
+                                        <td class="actions">
+                                            <a href="index.php?act=listKhachTrongTour&MaTour=<?= $d['MaTour'] ?>"
                                                 class="btn btn-info btn-sm">
                                                 <i class="fa fa-users"></i> Khách
                                             </a>

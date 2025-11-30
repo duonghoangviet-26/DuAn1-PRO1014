@@ -84,7 +84,7 @@ class doanKhoiHanhController
                         $this->doanKhoiHanh->insertDichVuDoan(
                             $MaDoan,
                             $maKS,
-'khach_san',
+                            'khach_san',
                             $NgaySuDung   // <-- Giờ là ngày thật
                         );
                     }
@@ -176,8 +176,6 @@ class doanKhoiHanhController
             $MaDoan = $_POST['MaDoan'];
             $ngayKhoiHanh = $_POST['NgayKhoiHanh'];
 
-            // Xóa toàn bộ dịch vụ cũ
-
 
             // Lưu khách sạn theo ngày
             if (!empty($_POST['khachsan'])) {
@@ -191,7 +189,7 @@ class doanKhoiHanhController
                             'khach_san',
                             $NgaySuDung
                         );
-}
+                    }
                 }
             }
 
@@ -267,6 +265,8 @@ class doanKhoiHanhController
 
         include './views/Admin/Doan/chiTietDoan.php';
     }
+
+
 
     // Get doan by Tour 
     public function getDoanByTour()
