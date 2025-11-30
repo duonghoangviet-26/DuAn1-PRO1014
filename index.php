@@ -133,12 +133,6 @@ match ($act) {
 
     default => (new tourController())->Home(),
 
-    'addNCC'        => (new nhaCungCapController())->showFormThemNCC(),
-    'submitAddNCC'  => (new nhaCungCapController())->addNCC(),
-    'editNCC'       => (new nhaCungCapController())->showFormSuaNCC(),
-    'submitEditNCC' => (new nhaCungCapController())->updateNCC(),
-    'deleteNCC'     => (new nhaCungCapController())->deleteNCC(),
-    'detailNCC'     => (new nhaCungCapController())->showDetailNCC(),
 
     // Đoàn khởi hành
     'listDKH'  => (new doanKhoiHanhController())->listDKH(),
