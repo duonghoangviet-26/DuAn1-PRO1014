@@ -133,7 +133,7 @@ match ($act) {
     'editDKH' => (new doanKhoiHanhController())->editDKH(),
     'updateDKH' => (new doanKhoiHanhController())->updateDKH(),
     'chiTietDKH' => (new doanKhoiHanhController())->chiTietDKH(),
-    default => header("Location: index.php?act=login"),
+    // default => header("Location: index.php?act=login"),
 };
 
 function checkAuth($roleRequired)

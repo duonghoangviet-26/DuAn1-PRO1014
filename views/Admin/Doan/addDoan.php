@@ -1,4 +1,3 @@
-\
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -67,22 +66,22 @@
             <h4 class="mb-3">Thêm Đoàn Khởi Hành</h4>
 
             <form method="post">
-
                 <!-- TOUR -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Tour</label>
                     <select name="MaTour" id="MaTour" class="form-select" onchange="this.form.submit()">
                         <option value="">-- Chọn Tour --</option>
-                        <?php foreach ($tour as $t) : ?>
+                        <?php foreach ($tour as $t): ?>
                             <option value="<?= $t['MaTour'] ?>"
                                 <?= (isset($_POST['MaTour']) && $_POST['MaTour'] == $t['MaTour']) ? 'selected' : '' ?>>
-                                <?= $t['TenTour'] ?>
+                                <?= $t['TenTour'] ?>(<?= date('d/m/Y', strtotime($t['NgayBatDau'])) ?> →
+                                <?= date('d/m/Y', strtotime($t['NgayKetThuc'])) ?>)
                             </option>
                         <?php endforeach; ?>
                     </select>
 
                 </div>
-                
+
                 <?php if (!empty($lichtrinh)) : ?>
                     <h4 class="fw-bold mt-4">Lịch trình tour</h4>
 
@@ -94,7 +93,7 @@
 
                             <!-- CHỌN KHÁCH SẠN -->
                             <label class="form-label fw-bold">Khách sạn</label>
-                            <select name="hotel[<?= $day['MaLichTrinh'] ?>]" class="form-select">
+                            <select name="khachsan[<?= $day['NgayThu'] ?>]">
                                 <option value="">-- Chọn khách sạn --</option>
                                 <?php foreach ($hotels as $h) : ?>
                                     <option value="<?= $h['MaNhaCungCap'] ?>">
@@ -105,7 +104,7 @@
 
                             <!-- CHỌN NHÀ HÀNG -->
                             <label class="form-label fw-bold mt-2">Nhà hàng</label>
-                            <select name="restaurant[<?= $day['MaLichTrinh'] ?>]" class="form-select">
+                            <select name="nhahang[<?= $day['NgayThu'] ?>]">
                                 <option value="">-- Chọn nhà hàng --</option>
                                 <?php foreach ($restaurants as $r) : ?>
                                     <option value="<?= $r['MaNhaCungCap'] ?>">
@@ -116,6 +115,7 @@
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>
+
 
                 <!-- NGÀY ĐI / NGÀY VỀ / GIỜ -->
                 <div class="row">
@@ -131,8 +131,7 @@
                             value="<?= $tourSelected['NgayKetThuc'] ?? ($_POST['NgayVe'] ?? '') ?>" required>
                     </div>
 
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label fw-bold">Giờ khởi hành</label>
+                    <div class="col-md-4 mb-3"><label class="form-label fw-bold">Giờ khởi hành</label>
                         <input type="time" name="GioKhoiHanh" class="form-control" required>
                     </div>
                 </div>
@@ -140,7 +139,8 @@
                 <!-- ĐIỂM TẬP TRUNG -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Điểm tập trung</label>
-                    <input type="text" name="DiemTapTrung" class="form-control" placeholder="VD: 102 Nguyễn Huệ, Q1" required>
+                    <input type="text" name="DiemTapTrung" class="form-control" placeholder="VD: 102 Nguyễn Huệ, Q1"
+                        required>
                 </div>
 
                 <!-- HDV -->
