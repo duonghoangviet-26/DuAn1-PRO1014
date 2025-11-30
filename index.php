@@ -1,10 +1,7 @@
 <?php
 session_start();
-<<<<<<< HEAD
 // Require toàn bộ các file khai báo môi trường, thực thi,...(không require view)
 
-=======
->>>>>>> master
 // Require file Common
 require_once './commons/env.php'; // Khai báo biến môi trường
 require_once './commons/function.php'; // Hàm hỗ trợ
@@ -130,9 +127,6 @@ match ($act) {
     'submitEditNCC' => (new nhaCungCapController())->updateNCC(),     
     'deleteNCC'     => (new nhaCungCapController())->deleteNCC(),      
     'detailNCC'     => (new nhaCungCapController())->showDetailNCC(), 
-
-    default => (new tourController())->Home(),
-
 
     // Đoàn khởi hành
     'listDKH'  => (new doanKhoiHanhController())->listDKH(),
