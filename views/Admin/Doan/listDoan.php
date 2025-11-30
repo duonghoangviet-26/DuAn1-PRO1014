@@ -1,4 +1,3 @@
-\
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -11,73 +10,124 @@
     <!-- Icon -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #f8f9fa;
-        }
+    body {
+        background-color: #f8f9fa;
+    }
 
-        .sidebar {
-            width: 250px;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #343a40;
-            color: white;
-            padding-top: 20px;
-        }
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #343a40;
+        color: white;
+        padding-top: 20px;
+    }
 
-        .sidebar a {
-            color: #ccc;
-            display: block;
-            padding: 10px 20px;
-            text-decoration: none;
-        }
+    .sidebar a {
+        color: #ccc;
+        display: block;
+        padding: 10px 20px;
+        text-decoration: none;
+    }
 
-        .sidebar a:hover {
-            background-color: #495057;
-            color: #fff;
-        }
+    .sidebar a:hover {
+        background-color: #495057;
+        color: #fff;
+    }
 
-        .content {
-            margin-left: 250px;
-            padding: 20px;
-        }
+    .content {
+        margin-left: 250px;
+        padding: 20px;
+    }
 
-        .badge-open {
-            background-color: #d1e7dd;
-            color: #0f5132;
-            padding: 5px 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-        }
+    .badge-open {
+        background-color: #d1e7dd;
+        color: #0f5132;
+        padding: 5px 10px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 600;
+    }
 
-        .badge-full {
-            background-color: #f8d7da;
-            color: #842029;
-            padding: 5px 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-        }
+    .badge-full {
+        background-color: #f8d7da;
+        color: #842029;
+        padding: 5px 10px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 600;
+    }
 
-        .badge-cancel {
-            background-color: #e2e3e5;
-            color: #41464b;
-            padding: 5px 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-        }
+    .badge-cancel {
+        background-color: #e2e3e5;
+        color: #41464b;
+        padding: 5px 10px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 600;
+    }
 
-        .badge-done {
-            background-color: #cfe2ff;
-            color: #084298;
-            padding: 5px 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-        }
+    .badge-done {
+        background-color: #cfe2ff;
+        color: #084298;
+        padding: 5px 10px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    /* Cột hành động */
+    td.actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        white-space: nowrap;
+    }
+
+    /* Nút hành động chung */
+    .actions a {
+        text-decoration: none;
+        font-size: 14px;
+        padding: 6px 10px;
+        border-radius: 6px;
+        transition: all 0.2s ease-in-out;
+        font-weight: 600;
+    }
+
+    /* Nút danh sách khách */
+    .btn-list {
+        background-color: #0d6efd;
+        color: #fff;
+    }
+
+    .btn-list:hover {
+        background-color: #0b5ed7;
+        color: #fff;
+    }
+
+    /* Nút chỉnh sửa */
+    .btn-edit {
+        background-color: #ffc107;
+        color: #212529;
+    }
+
+    .btn-edit:hover {
+        background-color: #e0a800;
+        color: #fff;
+    }
+
+    /* Nút xóa */
+    .btn-delete {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .btn-delete:hover {
+        background-color: #bb2d3b;
+        color: #fff;
+    }
     </style>
 </head>
 
@@ -107,11 +157,11 @@
                     </div>
                     <div class="card-body">
                         <?php if (isset($_SESSION['error'])): ?>
-                            <div class="alert alert-danger alert-dismissible fade show">
-                                <i class="fas fa-exclamation-circle"></i> <?= $_SESSION['error'] ?>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                            </div>
-                            <?php unset($_SESSION['error']); ?>
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            <i class="fas fa-exclamation-circle"></i> <?= $_SESSION['error'] ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                        <?php unset($_SESSION['error']); ?>
                         <?php endif; ?>
 
                         <!-- Thanh công cụ -->
@@ -137,25 +187,36 @@
                                         <th>HDV</th>
                                         <th>Tài xế</th>
                                         <th>Chỗ</th>
+                                        <th>Đã đặt</th>
+                                        <th>Còn trống</th>
                                         <th>Trạng thái</th>
                                         <th>Hành động</th>
                                     </tr>
                                 </thead>
 
-                                <tbody>
-                                    <?php foreach ($listDoan as $d): ?>
-                                        <tr>
-                                            <td><?= $d['MaDoan'] ?></td>
-                                            <td><?= htmlspecialchars($d['TenTour']) ?></td>
-                                            <td><?= $d['NgayKhoiHanh'] ?></td>
-                                            <td><?= $d['NgayVe'] ?></td>
-                                            <td><?= $d['GioKhoiHanh'] ?></td>
-                                            <td><?= htmlspecialchars($d['DiemTapTrung']) ?></td>
-                                            <td><?= $d['TenHDV'] ?></td>
-                                            <td><?= $d['TenTaiXe'] ?></td>
-                                            <td><?= $d['SoChoConTrong'] ?>/<?= $d['SoChoToiDa'] ?></td>
-                                            <td>
-                                                <?php
+                                <?php foreach ($listDoan as $d): ?>
+                                <tr>
+                                    <td><?= $d['MaDoan'] ?></td>
+                                    <td><?= htmlspecialchars($d['TenTour']) ?></td>
+                                    <td><?= $d['NgayKhoiHanh'] ?></td>
+                                    <td><?= $d['NgayVe'] ?></td>
+                                    <td><?= $d['GioKhoiHanh'] ?></td>
+                                    <td><?= htmlspecialchars($d['DiemTapTrung']) ?></td>
+                                    <td><?= $d['TenHDV'] ?></td>
+                                    <td><?= $d['TenTaiXe'] ?></td>
+
+                                    <!-- Tổng chỗ -->
+                                    <td><?= $d['SoChoToiDa'] ?></td>
+
+                                    <!-- Đã đặt -->
+                                    <td><?= $d['DaDat'] ?></td>
+
+                                    <!-- Còn trống -->
+                                    <td><?= $d['ConTrong'] ?></td>
+
+                                    <!-- Trạng thái -->
+                                    <td>
+                                        <?php
                                                 $status = $d['TrangThai'] ?? 'con_cho';
                                                 if ($status === 'con_cho') {
                                                     echo '<span class="badge badge-open">Còn chỗ</span>';
@@ -167,25 +228,33 @@
                                                     echo '<span class="badge badge-done">Hoàn thành</span>';
                                                 }
                                                 ?>
-                                            </td>
-                                            <td class="actions">
-                                                <a href="?act=editDoan&MaDoan=<?= $d['MaDoan'] ?>">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
+                                    </td>
 
-                                                <!-- <a href="?act=listTaiChinh&MaDoan=<?= $d['MaDoan'] ?>">
-                                                    <button class="btn-view" style="background-color: #17a2b8;">Tài
-                                                        chính</button>
-                                                </a> -->
+                                    <!-- Hành động -->
+                                    <td class="actions">
+                                        <a href="index.php?act=listKhachTrongTour&MaTour=<?= $d['MaTour'] ?>"
+                                            class="btn btn-info btn-sm">
+                                            <i class="fa fa-users"></i> Khách
+                                        </a>
 
-                                                <a href="?act=deleteDoan&MaDoan=<?= $d['MaDoan'] ?>"
-                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa đoàn này không?');">
-                                                    <i class="fa fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
+                                        <a href="index.php?act=editDKH&id=<?= $d['MaDoan'] ?>" class="btn-edit">
+                                            <i class="fa fa-pen"></i> Sửa
+                                        </a>
+
+                                        <a href="index.php?act=deleteDKH&id=<?= $d['MaDoan'] ?>" class="btn-delete"
+                                            onclick="return confirm('Bạn có chắc chắn muốn xóa đoàn này?');">
+                                            <i class="fa fa-trash"></i> Xóa
+                                        </a>
+
+                                        <a href="index.php?act=chiTietDKH&id=<?= $d['MaDoan'] ?>"
+                                            class="btn btn-sm btn-info">
+                                            <i class="fa fa-eye"></i> Xem
+                                        </a>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
                                 </tbody>
+
                             </table>
                         </div>
                     </div>

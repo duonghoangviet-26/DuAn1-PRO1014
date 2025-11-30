@@ -68,6 +68,10 @@
         /* Thêm dấu ... */
         /* max-width: 150px; */
         /* Giới hạn độ rộng mỗi ô */
+        .btn-add-tour {
+    margin-bottom: 20px;
+}
+
     </style>
 </head>
 
@@ -89,7 +93,8 @@
 
             <h3 class="mb-3 fw-bold text-primary">Quản Lý Tour</h3>
 
-            <a href="index.php?act=createTourForm" class="btn btn-success">Thêm Tour</a>
+           <a href="index.php?act=createTourForm" class="btn btn-success btn-add-tour">Thêm Tour</a>
+
             <div class="table-responsive">
                 <table class="table table-bordered table-striped text-center align-middle">
                     <thead class="table-primary">
@@ -104,6 +109,7 @@
                             <th>Số Đêm</th>
                             <th>Ảnh</th>
                             <th>Mô tả</th>
+                            <th>Trạng thái</th>
                             <th>Ngày bắt đầu</th>
                             <th>Ngày kết thúc</th>
                             <th>Hành động</th>
@@ -141,6 +147,17 @@
 
                                 <td class="mota text-start"><?= htmlspecialchars($t['MoTa']) ?></td>
 
+                                <td> <?php
+                                        if ($t['TrangThai'] == 'hoat_dong') {
+                                            echo '<span class="badge bg-success">Hoạt động</span>';
+                                        } elseif ($t['TrangThai'] == 'tam_dung') {
+                                            echo '<span class="badge bg-warning text-dark">Tạm dừng</span>';
+                                        } else {
+                                            echo '<span class="badge bg-secondary">Đã kết thúc</span>';
+                                        }
+                                        ?>
+                                </td>
+
                                 <!-- ⭐ NGÀY BẮT ĐẦU -->
                                 <td><?= !empty($t['NgayBatDau']) ? date("d/m/Y", strtotime($t['NgayBatDau'])) : "—" ?></td>
 
@@ -167,6 +184,13 @@
                                         class="btn btn-danger btn-sm">
                                         Xóa
                                     </a>
+                                    <!-- nhân bản -->
+                                    <a href="index.php?act=cloneTour&id=<?= $t['MaTour'] ?>"
+                                        class="btn btn-secondary btn-sm" title="Nhân bản tour">
+                                        <i class="fa-solid fa-clone"></i>
+                                    </a>
+
+
                                 </td>
                             </tr>
                         <?php } ?>
@@ -174,6 +198,31 @@
 
 
                 </table>
+
+<!-- PHÂN TRANG -->
+<nav>
+    <ul class="pagination justify-content-center mt-4">
+
+        <!-- Previous -->
+        <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
+            <a class="page-link" href="?act=listTour&page=<?= $page - 1 ?>">«</a>
+        </li>
+
+        <!-- Page numbers -->
+        <?php for ($i = 1; $i <= $totalPage; $i++): ?>
+            <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                <a class="page-link" href="?act=listTour&page=<?= $i ?>"><?= $i ?></a>
+            </li>
+        <?php endfor; ?>
+
+        <!-- Next -->
+        <li class="page-item <?= ($page >= $totalPage) ? 'disabled' : '' ?>">
+            <a class="page-link" href="?act=listTour&page=<?= $page + 1 ?>">»</a>
+        </li>
+
+    </ul>
+</nav>
+
 
             </div>
         </div>

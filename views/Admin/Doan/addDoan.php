@@ -1,4 +1,3 @@
-\
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -71,24 +70,67 @@
                 <!-- TOUR -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Tour</label>
-                    <select name="MaTour" class="form-control" required>
+                    <select name="MaTour" id="MaTour" class="form-select" onchange="this.form.submit()">
                         <option value="">-- Chọn Tour --</option>
                         <?php foreach ($tour as $t): ?>
-                            <option value="<?= $t['MaTour'] ?>"><?= $t['TenTour'] ?></option>
+                            <option value="<?= $t['MaTour'] ?>"
+                                <?= (isset($_POST['MaTour']) && $_POST['MaTour'] == $t['MaTour']) ? 'selected' : '' ?>>
+                                <?= $t['TenTour'] ?>
+                                (<?= date('d/m/Y', strtotime($t['NgayBatDau'])) ?> →
+                                <?= date('d/m/Y', strtotime($t['NgayKetThuc'])) ?>)
+                            </option>
                         <?php endforeach; ?>
                     </select>
+
                 </div>
+
+                <?php if (!empty($lichtrinh)) : ?>
+                    <h4 class="fw-bold mt-4">Lịch trình tour</h4>
+
+                    <?php foreach ($lichtrinh as $day) : ?>
+                        <div class="card p-3 mb-3 border">
+                            <h5 class="text-primary">Ngày <?= $day['NgayThu'] ?>: <?= $day['TieuDeNgay'] ?></h5>
+
+                            <p><?= $day['ChiTietHoatDong'] ?></p>
+
+                            <!-- CHỌN KHÁCH SẠN -->
+                            <label class="form-label fw-bold">Khách sạn</label>
+                            <select name="hotel[<?= $day['MaLichTrinh'] ?>]" class="form-select">
+                                <option value="">-- Chọn khách sạn --</option>
+                                <?php foreach ($hotels as $h) : ?>
+                                    <option value="<?= $h['MaNhaCungCap'] ?>">
+                                        <?= $h['TenNhaCungCap'] ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+
+                            <!-- CHỌN NHÀ HÀNG -->
+                            <label class="form-label fw-bold mt-2">Nhà hàng</label>
+                            <select name="restaurant[<?= $day['MaLichTrinh'] ?>]" class="form-select">
+                                <option value="">-- Chọn nhà hàng --</option>
+                                <?php foreach ($restaurants as $r) : ?>
+                                    <option value="<?= $r['MaNhaCungCap'] ?>">
+                                        <?= $r['TenNhaCungCap'] ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+
 
                 <!-- NGÀY ĐI / NGÀY VỀ / GIỜ -->
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label class="form-label fw-bold">Ngày đi</label>
-                        <input type="date" name="NgayKhoiHanh" class="form-control" required>
+                        <input type="date" name="NgayKhoiHanh" class="form-control"
+                            value="<?= $tourSelected['NgayBatDau'] ?? ($_POST['NgayKhoiHanh'] ?? '') ?>" required>
                     </div>
 
                     <div class="col-md-4 mb-3">
                         <label class="form-label fw-bold">Ngày về</label>
-                        <input type="date" name="NgayVe" class="form-control" required>
+                        <input type="date" name="NgayVe" class="form-control"
+                            value="<?= $tourSelected['NgayKetThuc'] ?? ($_POST['NgayVe'] ?? '') ?>" required>
                     </div>
 
                     <div class="col-md-4 mb-3">
@@ -100,7 +142,8 @@
                 <!-- ĐIỂM TẬP TRUNG -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Điểm tập trung</label>
-                    <input type="text" name="DiemTapTrung" class="form-control" placeholder="VD: 102 Nguyễn Huệ, Q1" required>
+                    <input type="text" name="DiemTapTrung" class="form-control" placeholder="VD: 102 Nguyễn Huệ, Q1"
+                        required>
                 </div>
 
                 <!-- HDV -->
