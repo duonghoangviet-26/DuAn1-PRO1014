@@ -147,6 +147,14 @@
                 <label class="form-label">Mô tả</label>
                 <textarea name="MoTa" rows="4" class="form-control mb-4"><?= htmlspecialchars($tour['MoTa']) ?></textarea>
 
+                <!-- Trạng thái -->
+                <label class="form-label">Trạng thái</label>
+                <select name="TrangThai" class="form-control mb-4">
+                    <option value="hoat_dong" <?= ($tour['TrangThai'] == 'hoat_dong') ? 'selected' : '' ?>>Hoạt động</option>
+                    <option value="tam_dung" <?= ($tour['TrangThai'] == 'tam_dung') ? 'selected' : '' ?>>Tạm dừng</option>
+                    <option value="da_ket_thuc" <?= ($tour['TrangThai'] == 'da_ket_thuc') ? 'selected' : '' ?>>Đã kết thúc</option>
+                </select>
+
                 <!-- Ảnh hiện tại -->
                 <label class="form-label">Ảnh hiện tại</label><br>
                 <?php if (!empty($tour["LinkAnhBia"])): ?>
@@ -167,123 +175,159 @@
 
                 <h4 class="fw-bold text-primary"><i class="fa fa-calendar"></i> Sửa Lịch Trình Tour</h4>
 
-                <?php if (!empty($lichTrinh)): ?>
-                    <?php foreach ($lichTrinh as $lt): ?>
-                        <div class="border rounded p-3 mb-3">
+                <?php foreach ($lichTrinh as $idx => $lt): ?>
+                    <div class="border rounded p-3 mb-4">
 
-                            <input type="hidden" name="MaLichTrinh[]" value="<?= $lt['MaLichTrinh'] ?>">
+                        <input type="hidden" name="MaLichTrinh[]" value="<?= $lt['MaLichTrinh'] ?>">
 
-                            <label>Ngày thứ <?= $lt['NgayThu'] ?></label>
+                        <h5 class="text-primary fw-bold">Ngày thứ <?= $lt['NgayThu'] ?></h5>
 
-                            <label>Tiêu đề ngày</label>
-                            <input type="text"
-                                name="TieuDeNgay[]"
-                                value="<?= htmlspecialchars($lt['TieuDeNgay']) ?>"
-                                class="form-control mb-2">
+                        <label>Tiêu đề ngày</label>
+                        <input type="text" class="form-control mb-2" name="TieuDeNgay[]" value="<?= $lt['TieuDeNgay'] ?>">
 
-                            <!-- <label>Chi tiết hoạt động</label>
-                            <textarea name="ChiTietHoatDong[]"
-                                class="form-control mb-2"><?= htmlspecialchars($lt['ChiTietHoatDong']) ?></textarea> -->
+                        <label>Nơi ở</label>
+                        <input type="text" class="form-control mb-2" name="NoiO[]" value="<?= $lt['NoiO'] ?>">
 
-                            <label>Nơi ở</label>
-                            <input type="text"
-                                name="NoiO[]"
-                                value="<?= htmlspecialchars($lt['NoiO']) ?>"
-                                class="form-control mb-2">
+                        <label>Địa điểm tham quan</label>
+                        <input type="text" class="form-control mb-2" name="DiaDiemThamQuan[]" value="<?= $lt['DiaDiemThamQuan'] ?>">
 
-                            <label>Địa điểm tham quan</label>
-                            <input type="text"
-                                name="DiaDiemThamQuan[]"
-                                value="<?= htmlspecialchars($lt['DiaDiemThamQuan']) ?>"
-                                class="form-control mb-2">
-
-
-                            <!-- ⭐ GIỜ TRONG NGÀY -->
-                            <div class="row mt-2">
-                                <div class="col-md-3">
-                                    <label>Giờ tập trung</label>
-                                    <input type="time" name="GioTapTrung[]"
-                                        value="<?= $lt['GioTapTrung'] ?>"
-                                        class="form-control mb-2">
-                                </div>
-
-                                <div class="col-md-3">
-                                    <label>Giờ xuất phát</label>
-                                    <input type="time" name="GioXuatPhat[]"
-                                        value="<?= $lt['GioXuatPhat'] ?>"
-                                        class="form-control mb-2">
-                                </div>
-
-                                <div class="col-md-3">
-                                    <label>Giờ kết thúc</label>
-                                    <input type="time" name="GioKetThuc[]"
-                                        value="<?= $lt['GioKetThuc'] ?>"
-                                        class="form-control mb-2">
-                                </div>
-
-                                <!-- <div class="col-md-3">
-                                    <label>Giờ hoạt động</label>
-                                    <input type="time" name="GioHoatDong[]"
-                                        value="<?= $lt['GioHoatDong'] ?>"
-                                        class="form-control mb-2">
-                                </div> -->
+                        <!-- GIỜ TRONG NGÀY -->
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Giờ tập trung</label>
+                                <input type="time" class="form-control" name="GioTapTrung[]" value="<?= $lt['GioTapTrung'] ?>">
                             </div>
-                            <!-- ⚡ HẾT PHẦN GIỜ -->
 
-                            <label>Bữa ăn:</label><br>
+                            <div class="col-md-4">
+                                <label>Giờ xuất phát</label>
+                                <input type="time" class="form-control" name="GioXuatPhat[]" value="<?= $lt['GioXuatPhat'] ?>">
+                            </div>
 
-                            <label><input type="checkbox" name="CoBuaSang[]" value="1"
-                                    <?= $lt['CoBuaSang'] ? 'checked' : '' ?>> Sáng</label>
-
-                            <label><input type="checkbox" name="CoBuaTrua[]" value="1"
-                                    <?= $lt['CoBuaTrua'] ? 'checked' : '' ?>> Trưa</label>
-
-                            <label><input type="checkbox" name="CoBuaToi[]" value="1"
-                                    <?= $lt['CoBuaToi'] ? 'checked' : '' ?>> Tối</label>
-
-                            <hr>
-
-                            <hr>
-
-                            <label><strong>Hoạt động buổi sáng</strong></label>
-                            <textarea name="NoiDungSang[]" class="form-control mb-2"><?= htmlspecialchars($lt['NoiDungSang'] ?? '') ?></textarea>
-
-                            <label><strong>Hoạt động buổi trưa</strong></label>
-                            <textarea name="NoiDungTrua[]" class="form-control mb-2"><?= htmlspecialchars($lt['NoiDungTrua'] ?? '') ?></textarea>
-
-                            <label><strong>Hoạt động buổi chiều</strong></label>
-                            <textarea name="NoiDungChieu[]" class="form-control mb-2"><?= htmlspecialchars($lt['NoiDungChieu'] ?? '') ?></textarea>
-
-                            <label><strong>Hoạt động buổi tối</strong></label>
-                            <textarea name="NoiDungToi[]" class="form-control mb-2"><?= htmlspecialchars($lt['NoiDungToi'] ?? '') ?></textarea>
-
-
+                            <div class="col-md-4">
+                                <label>Giờ kết thúc</label>
+                                <input type="time" class="form-control" name="GioKetThuc[]" value="<?= $lt['GioKetThuc'] ?>">
+                            </div>
                         </div>
-                    <?php endforeach; ?>
 
-                <?php else: ?>
-                    <p class="text-muted">Tour này chưa có lịch trình.</p>
-                <?php endif; ?>
+                        <label class="mt-3"><b>Bữa ăn:</b></label><br>
+                        <label><input type="checkbox" name="CoBuaSang[]" value="1" <?= $lt['CoBuaSang'] ? "checked" : "" ?>> Sáng</label>
+                        <label class="ms-3"><input type="checkbox" name="CoBuaTrua[]" value="1" <?= $lt['CoBuaTrua'] ? "checked" : "" ?>> Trưa</label>
+                        <label class="ms-3"><input type="checkbox" name="CoBuaToi[]" value="1" <?= $lt['CoBuaToi'] ? "checked" : "" ?>> Tối</label>
 
-                <hr class="my-4">
+                        <hr>
 
-                <!-- <h4 class="fw-bold text-dark"><i class="fa fa-file-contract"></i> Chính Sách Tour</h4>
+                        <!-- ================= BUỔI SÁNG ================= -->
+                        <h6 class="fw-bold">☀ Hoạt động buổi sáng</h6>
 
-                <label class="form-label">Giá Bao Gồm</label>
-                <textarea name="ChinhSachBaoGom" rows="3" class="form-control mb-3"><?= htmlspecialchars($tour['ChinhSachBaoGom'] ?? "") ?></textarea>
+                        <div id="BuoiSang_<?= $idx ?>">
+                            <?php foreach ($lt['Sang']['gio'] as $j => $g): ?>
+                                <div class="row mb-2 singleRow">
+                                    <div class="col-md-3">
+                                        <input type="time" class="form-control"
+                                            name="Sang_Gio[<?= $idx ?>][]" value="<?= $g ?>">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control"
+                                            name="Sang_HD[<?= $idx ?>][]" value="<?= $lt['Sang']['hd'][$j] ?>">
+                                    </div>
+                                    <div class="col-md-1 d-flex align-items-center justify-content-center">
+                                        <span class="text-danger delRow" style="cursor:pointer; font-size:18px;">&times;</span>
+                                    </div>
+                                </div>
 
-                <label class="form-label">Giá Không Bao Gồm</label>
-                <textarea name="ChinhSachKhongBaoGom" rows="3" class="form-control mb-3"><?= htmlspecialchars($tour['ChinhSachKhongBaoGom'] ?? "") ?></textarea>
+                            <?php endforeach; ?>
+                        </div>
 
-                <label class="form-label">Chính Sách Hủy Tour</label>
-                <textarea name="ChinhSachHuy" rows="3" class="form-control mb-3"><?= htmlspecialchars($tour['ChinhSachHuy'] ?? "") ?></textarea>
+                        <button type="button" class="btn btn-sm btn-outline-primary"
+                            onclick="addRow('Sang', <?= $idx ?>)">+ Thêm giờ sáng</button>
 
-                <label class="form-label">Chính Sách Hoàn Tiền</label>
-                <textarea name="ChinhSachHoanTien" rows="3" class="form-control mb-3"><?= htmlspecialchars($tour['ChinhSachHoanTien'] ?? "") ?></textarea>
+                        <hr>
 
- -->
-                <button type="submit" name="btn-update" class="btn btn-success">Cập nhật</button>
-                <a href="index.php?act=listTour" class="btn btn-secondary ms-2">Quay lại</a>
+                        <!-- ================= BUỔI TRƯA ================= -->
+                        <h6 class="fw-bold">🍱 Hoạt động buổi trưa</h6>
+
+                        <div id="BuoiTrua_<?= $idx ?>">
+                            <?php foreach ($lt['Trua']['gio'] as $j => $g): ?>
+                                <div class="row mb-2 singleRow">
+                                    <div class="col-md-3">
+                                        <input type="time" class="form-control"
+                                            name="Sang_Gio[<?= $idx ?>][]" value="<?= $g ?>">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control"
+                                            name="Sang_HD[<?= $idx ?>][]" value="<?= $lt['Sang']['hd'][$j] ?>">
+                                    </div>
+                                    <div class="col-md-1 d-flex align-items-center justify-content-center">
+                                        <span class="text-danger delRow" style="cursor:pointer; font-size:18px;">&times;</span>
+                                    </div>
+                                </div>
+
+                            <?php endforeach; ?>
+                        </div>
+
+                        <button type="button" class="btn btn-sm btn-outline-warning"
+                            onclick="addRow('Trua', <?= $idx ?>)">+ Thêm giờ trưa</button>
+
+                        <hr>
+
+                        <!-- ================= BUỔI CHIỀU ================= -->
+                        <h6 class="fw-bold">🌇 Hoạt động buổi chiều</h6>
+
+                        <div id="BuoiChieu_<?= $idx ?>">
+                            <?php foreach ($lt['Chieu']['gio'] as $j => $g): ?>
+                                <div class="row mb-2 singleRow">
+                                    <div class="col-md-3">
+                                        <input type="time" class="form-control"
+                                            name="Sang_Gio[<?= $idx ?>][]" value="<?= $g ?>">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control"
+                                            name="Sang_HD[<?= $idx ?>][]" value="<?= $lt['Sang']['hd'][$j] ?>">
+                                    </div>
+                                    <div class="col-md-1 d-flex align-items-center justify-content-center">
+                                        <span class="text-danger delRow" style="cursor:pointer; font-size:18px;">&times;</span>
+                                    </div>
+                                </div>
+
+                            <?php endforeach; ?>
+                        </div>
+
+                        <button type="button" class="btn btn-sm btn-outline-info"
+                            onclick="addRow('Chieu', <?= $idx ?>)">+ Thêm giờ chiều</button>
+
+                        <hr>
+
+                        <!-- ================= BUỔI TỐI ================= -->
+                        <h6 class="fw-bold">🌙 Hoạt động buổi tối</h6>
+
+                        <div id="BuoiToi_<?= $idx ?>">
+                            <?php foreach ($lt['Toi']['gio'] as $j => $g): ?>
+                                <div class="row mb-2 singleRow">
+                                    <div class="col-md-3">
+                                        <input type="time" class="form-control"
+                                            name="Sang_Gio[<?= $idx ?>][]" value="<?= $g ?>">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control"
+                                            name="Sang_HD[<?= $idx ?>][]" value="<?= $lt['Sang']['hd'][$j] ?>">
+                                    </div>
+                                    <div class="col-md-1 d-flex align-items-center justify-content-center">
+                                        <span class="text-danger delRow" style="cursor:pointer; font-size:18px;">&times;</span>
+                                    </div>
+                                </div>
+
+                            <?php endforeach; ?>
+                        </div>
+
+                        <button type="button" class="btn btn-sm btn-outline-dark"
+                            onclick="addRow('Toi', <?= $idx ?>)">+ Thêm giờ tối</button>
+
+                    </div>
+                <?php endforeach; ?>
+
+                <button class="btn btn-success">Cập nhật</button>
+                <a href="index.php?act=listTour" class="btn btn-secondary">Quay lại</a>
+
 
 
             </form>
@@ -291,6 +335,35 @@
         <?php endif; ?>
 
     </div>
+    <script>
+        function addRow(type, day) {
+    const container = document.getElementById("Buoi" + type + "_" + day);
+
+    const html = `
+        <div class="row mb-2 singleRow">
+            <div class="col-md-3">
+                <input type="time" class="form-control" name="${type}_Gio[${day}][]">
+            </div>
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="${type}_HD[${day}][]" placeholder="Hoạt động">
+            </div>
+            <div class="col-md-1 d-flex align-items-center justify-content-center">
+                <span class="text-danger delRow" style="cursor:pointer; font-size:18px;">&times;</span>
+            </div>
+        </div>
+    `;
+
+    container.insertAdjacentHTML("beforeend", html);
+}
+
+        document.addEventListener("click", function (e) {
+    if (e.target.classList.contains("delRow")) {
+        let row = e.target.closest(".singleRow");
+        row.remove();
+    }
+});
+
+    </script>
 
 </body>
 

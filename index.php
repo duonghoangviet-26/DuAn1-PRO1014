@@ -38,21 +38,21 @@ match ($act) {
     'logout'    => (new TaiKhoanController())->logout(),
     'addTaiKhoan'     => (new TaiKhoanController())->formAddTaiKhoan(),
     'postAddTaiKhoan' => (new TaiKhoanController())->postAddTaiKhoan(),
-    
+
 
     // ADMIN DASHBOARD 
-    'admin_dashboard' => (function(){
+    'admin_dashboard' => (function () {
         checkAuth('admin');
         require_once './views/trangChu.php';
     })(),
 
     //HDV DASHBOARD 
-    'hdv_dashboard' => (function(){
+    'hdv_dashboard' => (function () {
         checkAuth('huong_dan_vien');
         require_once './views/HDV/trangChuHDV.php';
     })(),
     // đăng nhập
-    '/', 'login' => (new TaiKhoanController())->login(),
+    '/', 'home' => (new tourController())->Home(),
 
     // Danh mục
     'listdm' => (new tourController())->getCategoryAll(),
@@ -69,7 +69,8 @@ match ($act) {
     'updateTour'      => (new tourController())->updateTour(),
     'deleteTour'      => (new tourController())->deleteTour(),
     'chiTietTour'   => (new tourController())->detailTour(),
-
+    'cloneTour' => (new tourController())->cloneTour(),
+    'cloneTourSave' => (new tourController())->cloneTourSave(),
 
     // Nhân viên
     'listNV', 'nhanvien' => (new nhanVienController())->listNV(),
@@ -117,6 +118,7 @@ match ($act) {
     'createKhachTrongBookingProcess' => (new bookingController)->createKhachTrongBookingProcess(),
     'editKhachTrongBooking' => (new bookingController)->editKhachTrongBooking(),
     'updateKhachTrongBooking' => (new bookingController)->updateKhachTrongBooking(),
+    'listKhachTrongTour' => (new bookingController)->listKhachTrongTour(),
 
 
 
@@ -136,6 +138,8 @@ match ($act) {
     'deleteDKH' => (new doanKhoiHanhController())->deleteDKH(),
     'editDKH' => (new doanKhoiHanhController())->editDKH(),
     'updateDKH' => (new doanKhoiHanhController())->updateDKH(),
+    'chiTietDKH' => (new doanKhoiHanhController())->chiTietDKH(),
+    'getDoanByTour' => (new doanKhoiHanhController())->getDoanByTour(),
     default => header("Location: index.php?act=login"),
 
     // HDV xem lịch trình & Lịch làm việc
@@ -143,14 +147,15 @@ match ($act) {
     'hdv_schedule_detail' => (new lichLamViecController())->getLichTrinhByTour(),
 };
 
-function checkAuth($roleRequired) {
+function checkAuth($roleRequired)
+{
     if (!isset($_SESSION['user'])) {
-        header("Location: index.php?act=login"); 
+        header("Location: index.php?act=login");
         exit();
     }
 
     $currentRole = $_SESSION['user']['VaiTro'];
-    
+
     if ($roleRequired == 'admin' && $currentRole !== 'admin') {
         echo "<script>alert('Bạn không có quyền truy cập trang Admin!'); window.location.href='index.php?act=login';</script>";
         exit();

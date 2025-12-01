@@ -1,4 +1,3 @@
-\
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -78,6 +77,57 @@
             font-size: 12px;
             font-weight: 600;
         }
+
+        /* Cột hành động */
+        td.actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
+
+        /* Nút hành động chung */
+        .actions a {
+            text-decoration: none;
+            font-size: 14px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            transition: all 0.2s ease-in-out;
+            font-weight: 600;
+        }
+
+        /* Nút danh sách khách */
+        .btn-list {
+            background-color: #0d6efd;
+            color: #fff;
+        }
+
+        .btn-list:hover {
+            background-color: #0b5ed7;
+            color: #fff;
+        }
+
+        /* Nút chỉnh sửa */
+        .btn-edit {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .btn-edit:hover {
+            background-color: #e0a800;
+            color: #fff;
+        }
+
+        /* Nút xóa */
+        .btn-delete {
+            background-color: #dc3545;
+            color: #fff;
+        }
+
+        .btn-delete:hover {
+            background-color: #bb2d3b;
+            color: #fff;
+        }
     </style>
 </head>
 
@@ -137,55 +187,72 @@
                                         <th>HDV</th>
                                         <th>Tài xế</th>
                                         <th>Chỗ</th>
+                                        <th>Đã đặt</th>
+                                        <th>Còn trống</th>
                                         <th>Trạng thái</th>
                                         <th>Hành động</th>
                                     </tr>
                                 </thead>
 
-                                <tbody>
-                                    <?php foreach ($listDoan as $d): ?>
-                                        <tr>
-                                            <td><?= $d['MaDoan'] ?></td>
-                                            <td><?= htmlspecialchars($d['TenTour']) ?></td>
-                                            <td><?= $d['NgayKhoiHanh'] ?></td>
-                                            <td><?= $d['NgayVe'] ?></td>
-                                            <td><?= $d['GioKhoiHanh'] ?></td>
-                                            <td><?= htmlspecialchars($d['DiemTapTrung']) ?></td>
-                                            <td><?= $d['TenHDV'] ?></td>
-                                            <td><?= $d['TenTaiXe'] ?></td>
-                                            <td><?= $d['SoChoConTrong'] ?>/<?= $d['SoChoToiDa'] ?></td>
-                                            <td>
-                                                <?php
-                                                $status = $d['TrangThai'] ?? 'con_cho';
-                                                if ($status === 'con_cho') {
-                                                    echo '<span class="badge badge-open">Còn chỗ</span>';
-                                                } elseif ($status === 'het_cho') {
-                                                    echo '<span class="badge badge-full">Hết chỗ</span>';
-                                                } elseif ($status === 'da_huy') {
-                                                    echo '<span class="badge badge-cancel">Đã hủy</span>';
-                                                } else {
-                                                    echo '<span class="badge badge-done">Hoàn thành</span>';
-                                                }
-                                                ?>
-                                            </td>
-                                            <td class="actions">
-                                                <a href="?act=editDoan&MaDoan=<?= $d['MaDoan'] ?>">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
+                                <?php foreach ($listDoan as $d): ?>
+                                    <tr>
+                                        <td><?= $d['MaDoan'] ?></td>
+                                        <td><?= htmlspecialchars($d['TenTour']) ?></td>
+                                        <td><?= $d['NgayKhoiHanh'] ?></td>
+                                        <td><?= $d['NgayVe'] ?></td>
+                                        <td><?= $d['GioKhoiHanh'] ?></td>
+                                        <td><?= htmlspecialchars($d['DiemTapTrung']) ?></td>
+                                        <td><?= $d['TenHDV'] ?></td>
+                                        <td><?= $d['TenTaiXe'] ?></td>
 
-                                                <!-- <a href="?act=listTaiChinh&MaDoan=<?= $d['MaDoan'] ?>">
-                                                    <button class="btn-view" style="background-color: #17a2b8;">Tài
-                                                        chính</button>
-                                                </a> -->
+                                        <!-- Tổng chỗ -->
+                                        <td><?= $d['SoChoToiDa'] ?></td>
 
-                                                <a href="?act=deleteDoan&MaDoan=<?= $d['MaDoan'] ?>"
-                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa đoàn này không?');">
-                                                    <i class="fa fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
+                                        <!-- Đã đặt -->
+                                        <td><?= $d['DaDat'] ?></td>
+                                        <td><?= $d['ConTrong'] ?></td>
+
+                                        <!-- Trạng thái -->
+                                        <td>
+                                            <?php
+                                            $status = $d['TrangThai'] ?? 'con_cho';
+                                            if ($status === 'con_cho') {
+                                                echo '<span class="badge badge-open">Còn chỗ</span>';
+                                            } elseif ($status === 'het_cho') {
+                                                echo '<span class="badge badge-full">Hết chỗ</span>';
+                                            } elseif ($status === 'da_huy') {
+                                                echo '<span class="badge badge-cancel">Đã hủy</span>';
+                                            } else {
+                                                echo '<span class="badge badge-done">Hoàn thành</span>';
+                                            }
+                                            ?>
+                                        </td>
+
+                                        <!-- Hành động -->
+                                        <td class="actions">
+                                            <a href="index.php?act=listKhachTrongTour&MaTour=<?= $d['MaTour'] ?>"
+                                                class="btn btn-info btn-sm">
+                                                <i class="fa fa-users"></i> Khách
+                                            </a>
+
+                                            <a href="index.php?act=editDKH&id=<?= $d['MaDoan'] ?>" class="btn-edit">
+                                                <i class="fa fa-pen"></i> Sửa
+                                            </a>
+
+                                            <a href="index.php?act=deleteDKH&MaDoan=<?= $d['MaDoan'] ?>" class="btn-delete"
+                                                onclick="return confirm('Bạn có chắc chắn muốn xóa đoàn này?');">
+                                                <i class="fa fa-trash"></i> Xóa
+                                            </a>
+
+                                            <a href="index.php?act=chiTietDKH&id=<?= $d['MaDoan'] ?>"
+                                                class="btn btn-sm btn-info">
+                                                <i class="fa fa-eye"></i> Xem
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                                 </tbody>
+
                             </table>
                         </div>
                     </div>

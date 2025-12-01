@@ -9,39 +9,39 @@
     <!-- Link Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
+    < <style>
         body {
-            background-color: #f8f9fa;
+        background-color: #f8f9fa;
         }
 
         .sidebar {
-            width: 250px;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #343a40;
-            color: white;
-            padding-top: 20px;
+        width: 250px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #343a40;
+        color: white;
+        padding-top: 20px;
         }
 
         .sidebar a {
-            color: #ccc;
-            display: block;
-            padding: 10px 20px;
-            text-decoration: none;
+        color: #ccc;
+        display: block;
+        padding: 10px 20px;
+        text-decoration: none;
         }
 
         .sidebar a:hover {
-            background-color: #495057;
-            color: #fff;
+        background-color: #495057;
+        color: #fff;
         }
 
         .content {
-            margin-left: 250px;
-            padding: 20px;
+        margin-left: 250px;
+        padding: 20px;
         }
-    </style>
+        </style>
 </head>
 
 <body>
@@ -170,30 +170,30 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        function validateForm(e) {
-            const form = e.target;
-            const inputs = form.querySelectorAll('input, select, textarea');
-            let isFull = true;
-            for (let i = 0; i < inputs.length; i++) {
-                const el = inputs[i];
-                if (el.type === 'hidden' || el.disabled || el.type === 'submit') {
-                    continue;
-                }
-                if (el.value.trim() === "") {
-                    isFull = false;
-                    el.style.border = "1px solid red";
-                } else {
-                    el.style.border = "";
-                }
+    function validateForm(e) {
+        const form = e.target;
+        const inputs = form.querySelectorAll('input, select, textarea');
+        let isFull = true;
+        for (let i = 0; i < inputs.length; i++) {
+            const el = inputs[i];
+            if (el.type === 'hidden' || el.disabled || el.type === 'submit') {
+                continue;
             }
-
-            if (!isFull) {
-                e.preventDefault();
-                alert("hãy nhập đầy đủ các trường dữ liệu ");
-                return false;
+            if (el.value.trim() === "") {
+                isFull = false;
+                el.style.border = "1px solid red";
+            } else {
+                el.style.border = "";
             }
-            return true;
         }
+
+        if (!isFull) {
+            e.preventDefault();
+            alert("hãy nhập đầy đủ các trường dữ liệu ");
+            return false;
+        }
+        return true;
+    }
     </script>
 </body>
 
