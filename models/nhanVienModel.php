@@ -7,10 +7,21 @@ class nhanVienModel
         $this->conn = connectDB();
     }
 
-    public function getAllNhanVien()
+    public function getAllNhanVien($limit, $offset)
     {
-        $sql = "SELECT * FROM nhanvien ORDER BY MaNhanVien DESC";
+        $sql = "SELECT * FROM nhanvien 
+                ORDER BY 
+                CASE VaiTro 
+                    WHEN 'admin' THEN 1 
+                    WHEN 'huong_dan_vien' THEN 2 
+                    ELSE 3 
+                END ASC, 
+                MaNhanVien DESC
+                LIMIT :limit OFFSET :offset";
+
         $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -94,5 +105,30 @@ class nhanVienModel
         $sql = "DELETE FROM nhanvien WHERE MaNhanVien = :id";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([':id' => $id]);
+    }
+    public function getSearchNV($date)
+    {
+        $sql = "SELECT * FROM nhanvien 
+                WHERE TrangThai = 'dang_lam' 
+                AND VaiTro != 'admin' 
+                AND MaNhanVien NOT IN (
+                    SELECT MaNhanVien 
+                    FROM lichlamviec 
+                    WHERE NgayLamViec = :date 
+                    AND TrangThai = 'ban'
+                )";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':date' => $date]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function countAllNhanVien()
+    {
+        $sql = "SELECT COUNT(*) as total FROM nhanvien";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['total'];
     }
 }

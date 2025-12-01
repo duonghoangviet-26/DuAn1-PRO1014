@@ -77,10 +77,15 @@ match ($act) {
     'editNV' => (new nhanVienController())->editNV(),
     'deleteNV' => (new nhanVienController())->deleteNV(),
     'updateNV' => (new nhanVienController())->updateNV(),
+    'searchNV' => (new nhanVienController())->getSearchNV(),
     'chitietNV' => (new nhanVienController())->chiTietNV(),
 
     // lịch làm việc
     'lichlamviec' => (new lichLamViecController())->lichLamViec(),
+    'addLich'        => (new lichLamViecController())->addForm(),
+    'submitAddLich'  => (new lichLamViecController())->add(),
+    'editLich'       => (new lichLamViecController())->editForm(),
+    'submitEditLich' => (new lichLamViecController())->edit(),
     'deleteLichLamViec' => (new lichLamViecController())->delete(),
 
 
@@ -132,6 +137,10 @@ match ($act) {
     'editDKH' => (new doanKhoiHanhController())->editDKH(),
     'updateDKH' => (new doanKhoiHanhController())->updateDKH(),
     default => header("Location: index.php?act=login"),
+
+    // HDV xem lịch trình & Lịch làm việc
+    'hdv_schedule' => (new lichLamViecController())->mySchedule(),
+    'hdv_schedule_detail' => (new lichLamViecController())->getLichTrinhByTour(),
 };
 
 function checkAuth($roleRequired) {

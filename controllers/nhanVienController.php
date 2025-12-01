@@ -10,7 +10,13 @@ class nhanVienController
 
     public function listNV()
     {
-        $listNhanVien = $this->modelNhanVien->getAllNhanVien();
+        $limit = 10;
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        if ($page < 1) $page = 1;
+        $offset = ($page - 1) * $limit;
+        $totalRecords = $this->modelNhanVien->countAllNhanVien();
+        $totalPages = ceil($totalRecords / $limit);
+        $listNhanVien = $this->modelNhanVien->getAllNhanVien($limit, $offset);
         require_once "./views/Admin/nhanvien/list.php";
     }
 
@@ -150,4 +156,16 @@ class nhanVienController
 
     require_once 'views/Admin/nhanvien/chiTietNhanVien.php';
 }
+public function getSearchNV()
+    {
+        $listNhanVienRanh = [];
+        $selectedDate = '';
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['NgayCanTim'])) {
+            $selectedDate = $_POST['NgayCanTim'];
+        } else {
+            $selectedDate = date('Y-m-d');
+        }
+        $listNhanVienRanh = $this->modelNhanVien->getSearchNV($selectedDate);
+        require_once "./views/Admin/nhanvien/SearchNV.php";
+    }
 }

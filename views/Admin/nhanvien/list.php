@@ -53,9 +53,9 @@
         <a href="index.php?act=listdm"><i class="fa fa-list"></i> Danh mục tour</a>
         <a href="index.php?act=listTour"><i class="fa fa-route"></i> Quản lý tour</a>
         <a href="index.php?act=listBooking"><i class="fa fa-book"></i> Quản lý booking</a>
-        <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Quản lý nhà cung cấp</a>
         <a href="index.php?act=listKH"><i class="fa fa-users"></i> Quản lí khách hàng</a>
         <a href="index.php?act=listDKH"><i class="fa fa-users"></i> Quản lí đoàn khởi hành</a>
+        <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Quản lý nhà cung cấp</a>
         <a href="index.php?act=listNV"><i class="fa fa-users"></i> Tài khoản / HDV</a>
         <a href="#"><i class="fa fa-chart-bar"></i> Báo cáo thống kê</a>
         <a href="index.php?act=addTaiKhoan"><i class="fas fa-user-plus"></i>Thêm Tài Khoản</a>
@@ -95,9 +95,8 @@
 
                                         <i class="fas fa-user-plus"></i> Thêm Nhân Viên Mới
                                     </a>
-                                    <a href="index.php?controller=nhanvien&action=findAvailableStaff"
-                                        class="btn btn-info text-white">
-                                        <i class="fas fa-search-dollar"></i> Tìm NV Rảnh
+                                    <a href="index.php?act=searchNV" class="btn btn-info text-white">
+                                        <i class="fas fa-search"></i> Tìm NV Rảnh
                                     </a>
                                 </div>
                             </div>
@@ -144,14 +143,12 @@
                                                 <?php endif; ?>
                                             </td>
                                             <td class="text-center">
-                                                <a href="index.php?controller=nhanvien&action=lichlamviec&id=<?= $nv['MaNhanVien'] ?>"></a>
-
-                                                <a href="index.php?act=lichlamviec&id=<?= $nv['MaNhanVien'] ?>"
-
+                                                <?php if ($nv['VaiTro'] !== 'admin'): ?>
+                                                    <a href="index.php?act=lichlamviec&id=<?= $nv['MaNhanVien'] ?>"
                                                     class="btn btn-sm btn-info text-white" title="Xem Lịch">
-                                                    <i class="fas fa-calendar-alt"></i>
-                                                    Lịch
-                                                </a>
+                                                        <i class="fas fa-calendar-alt"></i> Lịch
+                                                    </a>
+                                                <?php endif; ?>
                                                 <a href="index.php?controller=nhanvien&action=delete&id=<?= $nv['MaNhanVien'] ?>"></a>
 
                                                 <a href="index.php?act=chitietNV&id=<?= $nv['MaNhanVien'] ?>"
@@ -183,6 +180,33 @@
 
                                     </tbody>
                                 </table>
+                                    </div> <?php if (isset($totalPages) && $totalPages >= 1): ?> 
+                                    <div class="d-flex justify-content-end mt-4">
+                                        <nav aria-label="Page navigation">
+                                            <ul class="pagination shadow-sm">
+                                                
+                                                <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
+                                                    <a class="page-link" href="index.php?act=listNV&page=<?= $page - 1 ?>" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo; Trước</span>
+                                                    </a>
+                                                </li>
+
+                                                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                                    <li class="page-item <?= ($page == $i) ? 'active' : '' ?>">
+                                                        <a class="page-link" href="index.php?act=listNV&page=<?= $i ?>"><?= $i ?></a>
+                                                    </li>
+                                                <?php endfor; ?>
+
+                                                <li class="page-item <?= ($page >= $totalPages) ? 'disabled' : '' ?>">
+                                                    <a class="page-link" href="index.php?act=listNV&page=<?= $page + 1 ?>" aria-label="Next">
+                                                        <span aria-hidden="true">Sau &raquo;</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                    <?php endif; ?>
+                                    
                             </div>
                         </div>
                     </div>
