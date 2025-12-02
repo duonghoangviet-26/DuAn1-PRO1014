@@ -15,6 +15,7 @@ require_once './controllers/nhaCungCapController.php';
 require_once './controllers/lichLamViecController.php';
 require_once './controllers/doanKhoiHanhController.php';
 require_once './controllers/TaiKhoanController.php';
+require_once './controllers/DanhSachTaiKhoanController.php';
 
 
 // Require toàn bộ file Models
@@ -26,6 +27,7 @@ require_once './models/lichLamViecModel.php';
 require_once './models/khachHangModel.php';
 require_once './models/doanKhoiHanhModel.php';
 require_once './models/TaiKhoanModel.php';
+require_once './models/DanhSachTaiKhoanModel.php';
 
 
 // Route
@@ -40,7 +42,6 @@ match ($act) {
     'logout'    => (new TaiKhoanController())->logout(),
     'addTaiKhoan'     => (new TaiKhoanController())->formAddTaiKhoan(),
     'postAddTaiKhoan' => (new TaiKhoanController())->postAddTaiKhoan(),
-
 
     // ADMIN DASHBOARD 
     'admin_dashboard' => (function () {
@@ -129,6 +130,14 @@ match ($act) {
     'submitEditNCC' => (new nhaCungCapController())->updateNCC(),     
     'deleteNCC'     => (new nhaCungCapController())->deleteNCC(),      
     'detailNCC'     => (new nhaCungCapController())->showDetailNCC(), 
+
+
+    // Quản lý tài khoản (danh sách mới)
+    'listTaiKhoan'      => (new DanhSachTaiKhoanController())->listTaiKhoan(),
+    'editTaiKhoan'      => (new DanhSachTaiKhoanController())->formEditTaiKhoan(),
+    'postEditTaiKhoan'  => (new DanhSachTaiKhoanController())->postEditTaiKhoan(),
+    'deleteTaiKhoan'    => (new DanhSachTaiKhoanController())->deleteTaiKhoan(),
+
 
     // Đoàn khởi hành
     'listDKH'  => (new doanKhoiHanhController())->listDKH(),
