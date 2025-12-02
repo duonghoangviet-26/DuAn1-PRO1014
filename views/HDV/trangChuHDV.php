@@ -82,12 +82,12 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['VaiTro'] !== 'huong_dan_vien
 
     <div class="sidebar">
         <h4><i class="fa-solid fa-route"></i> HDV Panel</h4>
-
-        <a href="index.php?act=lichlamviec"><i class="fa-solid fa-calendar-days"></i> Lịch trình & Lịch làm việc</a>
-        <a href="#"><i class="fa-solid fa-users"></i> Danh sách khách</a>
+        <a href="index.php?act=hdv_dashboard"><i class="fa-solid fa-house"></i> Trang chủ</a>
+        <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-calendar-days"></i> Lịch trình & Lịch làm việc</a>
+        <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-users"></i> Danh sách khách</a>
         <a href="#"><i class="fa-solid fa-book"></i> Nhật ký tour</a>
         <a href="#"><i class="fa-solid fa-compass"></i> Vận hành tour</a>
-        <a href="#"><i class="fa-solid fa-user-check"></i> Quản lý khách</a>
+        <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-user-check"></i> Quản lý khách</a>
 
         <hr style="color: #aad;">
 
@@ -105,7 +105,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['VaiTro'] !== 'huong_dan_vien
         <div class="row g-4">
 
             <div class="col-md-4">
-                <a href="index.php?act=lichlamviec" class="text-decoration-none text-dark">
+                <a href="index.php?act=hdv_schedule" class="text-decoration-none text-dark">
                     <div class="card card-custom p-3">
                         <h5><i class="fa-solid fa-calendar-days text-primary"></i> Lịch trình & lịch làm việc</h5>
                         <p>Xem tour được phân công, địa điểm, nhiệm vụ mỗi ngày.</p>
@@ -141,7 +141,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['VaiTro'] !== 'huong_dan_vien
             </div>
 
             <div class="col-md-4">
-                <a href="#" class="text-decoration-none text-dark">
+                <a href="index.php?act=hdv_schedule" class="text-decoration-none text-dark">
                     <div class="card card-custom p-3">
                         <h5><i class="fa-solid fa-user-check text-info"></i> Quản lý khách</h5>
                         <p>Điểm danh, ghi nhận yêu cầu đặc biệt.</p>

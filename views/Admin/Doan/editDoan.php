@@ -76,26 +76,63 @@
                     <label class="form-label fw-bold">Tour</label>
                     <select name="MaTour" class="form-control">
                         <?php foreach ($tour as $t): ?>
-                            <option value="<?= $t['MaTour'] ?>"
-                                <?= $t['MaTour'] == $doan['MaTour'] ? 'selected' : '' ?>>
+                            <option value="<?= $t['MaTour'] ?>" <?= $t['MaTour'] == $doan['MaTour'] ? 'selected' : '' ?>>
                                 <?= $t['TenTour'] ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
 
+                <h4 class="mt-4">Lịch trình tour</h4>
+
+                <?php foreach ($lichtrinh as $lt): ?>
+                    <div class="border p-3 mb-3 bg-light">
+
+                        <h5>Ngày <?= $lt['NgayThu'] ?>: <?= $lt['TieuDe'] ?></h5>
+
+                        <!-- KHÁCH SẠN -->
+                        <label class="form-label">Khách sạn</label>
+                        <select name="khachsan[<?= $lt['NgayThu'] ?>]" class="form-control">
+                            <option value="">-- Chọn khách sạn --</option>
+
+                            <?php foreach ($hotels as $h): ?>
+                                <option value="<?= $h['MaNhaCungCap'] ?>" <?= (isset($dvMap[$lt['NgayThu']]['khach_san'])
+                                                                                && $dvMap[$lt['NgayThu']]['khach_san'] == $h['MaNhaCungCap'])
+                                                                                ? 'selected' : '' ?>>
+                                    <?= $h['TenNhaCungCap'] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+
+                        <!-- NHÀ HÀNG -->
+                        <label class="form-label mt-2">Nhà hàng</label>
+                        <select name="nhahang[<?= $lt['NgayThu'] ?>]" class="form-control">
+                            <option value="">-- Chọn nhà hàng --</option>
+
+                            <?php foreach ($restaurants as $r): ?>
+                                <option value="<?= $r['MaNhaCungCap'] ?>" <?= (isset($dvMap[$lt['NgayThu']]['nha_hang'])
+                                                                                && $dvMap[$lt['NgayThu']]['nha_hang'] == $r['MaNhaCungCap'])
+                                                                                ? 'selected' : '' ?>>
+                                    <?= $r['TenNhaCungCap'] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+
+                    </div>
+                <?php endforeach; ?>
+
+
                 <!-- NGÀY — GIỜ -->
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Ngày đi</label>
-                        <input type="date" name="NgayKhoiHanh" value="<?= $doan['NgayKhoiHanh'] ?>"
-                            class="form-control" readonly>
+                        <input type="date" name="NgayKhoiHanh" value="<?= $doan['NgayKhoiHanh'] ?>" class="form-control"
+                            readonly>
                     </div>
 
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Ngày về</label>
-                        <input type="date" name="NgayVe" value="<?= $doan['NgayVe'] ?>"
-                            class="form-control" readonly>
+                        <input type="date" name="NgayVe" value="<?= $doan['NgayVe'] ?>" class="form-control" readonly>
                     </div>
 
 
@@ -108,8 +145,7 @@
                 <!-- ĐIỂM TẬP TRUNG -->
                 <div class="mb-3">
                     <label class="form-label">Điểm tập trung</label>
-                    <input type="text" name="DiemTapTrung" class="form-control"
-                        value="<?= $doan['DiemTapTrung'] ?>">
+                    <input type="text" name="DiemTapTrung" class="form-control" value="<?= $doan['DiemTapTrung'] ?>">
                 </div>
 
                 <!-- HDV -->
@@ -140,8 +176,7 @@
 
                 <div class="mb-3">
                     <label class="form-label">Số chỗ tối đa</label>
-                    <input type="number" name="SoChoToiDa" value="<?= $doan['SoChoToiDa'] ?>"
-                        class="form-control">
+                    <input type="number" name="SoChoToiDa" value="<?= $doan['SoChoToiDa'] ?>" class="form-control">
                 </div>
 
                 <button name="btnUpdate" class="btn btn-primary">Cập nhật</button>

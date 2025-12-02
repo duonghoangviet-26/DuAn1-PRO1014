@@ -66,7 +66,6 @@
             <h4 class="mb-3">Thêm Đoàn Khởi Hành</h4>
 
             <form method="post">
-
                 <!-- TOUR -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Tour</label>
@@ -95,7 +94,7 @@
 
                             <!-- CHỌN KHÁCH SẠN -->
                             <label class="form-label fw-bold">Khách sạn</label>
-                            <select name="hotel[<?= $day['MaLichTrinh'] ?>]" class="form-select">
+                            <select name="khachsan[<?= $day['NgayThu'] ?>]">
                                 <option value="">-- Chọn khách sạn --</option>
                                 <?php foreach ($hotels as $h) : ?>
                                     <option value="<?= $h['MaNhaCungCap'] ?>">
@@ -106,7 +105,7 @@
 
                             <!-- CHỌN NHÀ HÀNG -->
                             <label class="form-label fw-bold mt-2">Nhà hàng</label>
-                            <select name="restaurant[<?= $day['MaLichTrinh'] ?>]" class="form-select">
+                            <select name="nhahang[<?= $day['NgayThu'] ?>]">
                                 <option value="">-- Chọn nhà hàng --</option>
                                 <?php foreach ($restaurants as $r) : ?>
                                     <option value="<?= $r['MaNhaCungCap'] ?>">
@@ -149,7 +148,7 @@
                 <!-- HDV -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Hướng dẫn viên</label>
-                    <select name="MaHuongDanVien" class="form-control" required>
+                    <select name="MaHuongDanVien" class="form-control">
                         <option value="">-- Chọn HDV --</option>
                         <?php foreach ($hdv as $h): ?>
                             <option value="<?= $h['MaNhanVien'] ?>"><?= $h['HoTen'] ?></option>
