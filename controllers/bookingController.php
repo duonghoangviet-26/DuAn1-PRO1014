@@ -128,6 +128,26 @@ class bookingController
                     ]);
                 }
             }
+
+            // LẤY THÔNG TIN TOUR
+            $tour = $this->modelTour->getTourById($_POST['MaTour']);
+            $NgayKH = $tour['NgayBatDau'];
+            $NgayKT = $tour['NgayKetThuc'];
+
+            // KIỂM TRA CÓ ĐOÀN CÙNG NGÀY CHƯA
+            $doan = $this->doanKhoiHanh->getDoanByTourAndDate($_POST['MaTour'], $NgayKH);
+
+            // NẾU CHƯA CÓ → TỰ TẠO
+            if (!$doan) {
+                $MaDoan = $this->doanKhoiHanh->autoCreateDoan([
+                    'MaTour'        => $_POST['MaTour'],
+                    'NgayKhoiHanh'  => $NgayKH,
+                    'NgayVe'        => $NgayKT,
+                ]);
+            } else {
+                $MaDoan = $doan['MaDoan'];
+            }
+
             header("Location: index.php?act=listBooking");
             exit;
         }

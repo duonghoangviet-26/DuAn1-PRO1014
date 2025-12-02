@@ -349,4 +349,34 @@ class doanKhoiHanhModel
         $stmt->execute([$MaDoan]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getDoanByTourAndDate($MaTour, $NgayKhoiHanh)
+    {
+        $sql = "SELECT * FROM doankhoihanh 
+            WHERE MaTour = ? AND NgayKhoiHanh = ?
+            LIMIT 1";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$MaTour, $NgayKhoiHanh]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+
+    public function autoCreateDoan($data)
+    {
+        $sql = "INSERT INTO doankhoihanh 
+            (MaTour, NgayKhoiHanh, NgayVe, GioKhoiHanh, DiemTapTrung,
+             SoChoToiDa, SoChoConTrong, TrangThai)
+            VALUES (?, ?, ?, '07:00', 'Chưa Chọn địa điểm', 45, 45, 'con_cho')";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            $data['MaTour'],
+            $data['NgayKhoiHanh'],
+            $data['NgayVe']
+        ]);
+
+        return $this->conn->lastInsertId();
+    }
 }
