@@ -154,7 +154,6 @@ class doanKhoiHanhController
         $hdv = $this->doanKhoiHanh->getAllHDV();
         $taixe = $this->doanKhoiHanh->getAllNhaXe();
 
-        // LẤY KHÁCH SẠN / NHÀ HÀNG THEO NGÀY
         $dichvu = $this->doanKhoiHanh->getNCCTheoNgay($id);
 
         $dvMap = [];
@@ -176,8 +175,6 @@ class doanKhoiHanhController
             $MaDoan = $_POST['MaDoan'];
             $ngayKhoiHanh = $_POST['NgayKhoiHanh'];
 
-
-            // Lưu khách sạn theo ngày
             if (!empty($_POST['khachsan'])) {
                 foreach ($_POST['khachsan'] as $ngayThu => $maKS) {
                     if (!empty($maKS)) {
@@ -193,7 +190,6 @@ class doanKhoiHanhController
                 }
             }
 
-            // Lưu nhà hàng theo ngày
             if (!empty($_POST['nhahang'])) {
                 foreach ($_POST['nhahang'] as $ngayThu => $maNH) {
                     if (!empty($maNH)) {
@@ -224,28 +220,23 @@ class doanKhoiHanhController
 
         $id = $_GET['id'];
 
-        // Lấy thông tin đoàn
         $doan = $this->doanKhoiHanh->getDoanById($id);
         if (!$doan) {
             die("Đoàn không tồn tại");
         }
 
-        // Lấy thông tin tour
         $tour = $this->doanKhoiHanh->getTourById($doan['MaTour']);
 
-        // Lấy hướng dẫn viên nếu có
         $hdv = null;
         if (!empty($doan['MaHuongDanVien'])) {
             $hdv = $this->doanKhoiHanh->getHDVById($doan['MaHuongDanVien']);
         }
 
-        // Lấy tài xế nếu có
         $taixe = null;
         if (!empty($doan['MaTaiXe'])) {
             $taixe = $this->doanKhoiHanh->getTaiXeByDoan($id);
         }
 
-        // Lịch trình của tour
         $lichtrinh = $this->doanKhoiHanh->getLichTrinhByTour($doan['MaTour']);
 
         $nccTheoNgay = $this->doanKhoiHanh->getNCCTheoNgay($id);
@@ -265,9 +256,6 @@ class doanKhoiHanhController
 
         include './views/Admin/Doan/chiTietDoan.php';
     }
-
-
-
     // Get doan by Tour 
     public function getDoanByTour()
     {
@@ -279,4 +267,135 @@ class doanKhoiHanhController
         echo json_encode($listDoan);
         exit;
     }
+
+    public function taichinh()
+    {
+        if (!isset($_GET['id'])) {
+            header("Location:index.php?act=listDKH");
+            exit;
+        }
+
+        $MaDoan = $_GET['id'];
+
+        $thu  = $this->doanKhoiHanh->getTongThu($MaDoan);
+        $chi  = $this->doanKhoiHanh->getTongChi($MaDoan);
+        $list = $this->doanKhoiHanh->getAllTaiChinh($MaDoan);
+
+        $tongthu  = $thu['TongThu'] ?? 0;
+        $tongchi  = $chi['TongChi'] ?? 0;
+        $loinhuan = $tongthu - $tongchi;
+
+        include "./views/Admin/Doan/taichinh.php";
+    }
+
+
+    public function addTaiChinh()
+    {
+        $MaDoan = $_GET['id'];
+
+        // Nếu submit form
+        if (isset($_POST['btnSave'])) {
+
+            $data = [
+                'MaDoan'   => $MaDoan,
+                'LoaiGiaoDich' => $_POST['LoaiGiaoDich'],
+                'NgayGiaoDich' => $_POST['NgayGiaoDich'],
+                'SoTien'   => $_POST['SoTien'],
+                'HangMucChi' => $_POST['HangMucChi'],
+                'PhuongThucThanhToan' => $_POST['PhuongThucThanhToan'],
+                'SoHoaDon' => $_POST['SoHoaDon'],
+                'MoTa'     => $_POST['MoTa'],
+                'AnhChungTu' => null
+            ];
+
+            // Xử lý upload ảnh
+            if (!empty($_FILES['AnhChungTu']['name'])) {
+                $filename = time() . "_" . $_FILES['AnhChungTu']['name'];
+                move_uploaded_file($_FILES['AnhChungTu']['tmp_name'], "uploads/" . $filename);
+                $data['AnhChungTu'] = $filename;
+            }
+
+            // Gọi model lưu DB
+            $this->doanKhoiHanh->insertTaiChinh($data);
+
+            header("Location:index.php?act=taichinh&id=" . $MaDoan);
+            exit;
+        }
+
+        include "./views/Admin/Doan/addtaichinh.php";
+    }
+    public function deleteTaiChinh()
+    {
+        if (!isset($_GET['id']) || !isset($_GET['doan'])) {
+            header("Location:index.php?act=listDKH");
+            exit;
+        }
+
+        $id = $_GET['id']; 
+        $MaDoan = $_GET['doan'];
+        $data = $this->doanKhoiHanh->getTaiChinhById($id);
+
+        if (!empty($data['AnhChungTu']) && file_exists("uploads/" . $data['AnhChungTu'])) {
+            unlink("uploads/" . $data['AnhChungTu']);
+        }
+
+        $this->doanKhoiHanh->deleteTaiChinh($id);
+
+        header("Location:index.php?act=taichinh&id=" . $MaDoan);
+        exit;
+    }
+   public function editTaiChinh()
+{
+    if (!isset($_GET['id']) || !isset($_GET['doan'])) {
+        header("Location:index.php?act=listDKH");
+        exit;
+    }
+
+    $id = $_GET['id'];  
+    $MaDoan = $_GET['doan'];
+
+    $data = $this->doanKhoiHanh->getTaiChinhById($id);
+
+    include "./views/Admin/Doan/editTaiChinh.php";
+}
+
+public function updateTaiChinh()
+{
+    if (!isset($_POST['btnUpdate'])) {
+        header("Location:index.php?act=listDKH");
+        exit;
+    }
+
+    $id     = $_POST['MaTaiChinh'];
+    $MaDoan = $_POST['MaDoan'];
+
+    $AnhChungTu = $_POST['AnhCu'];
+
+    if (!empty($_FILES['AnhChungTu']['name'])) {
+
+        if (!empty($AnhChungTu) && file_exists("uploads/" . $AnhChungTu)) {
+            unlink("uploads/" . $AnhChungTu);
+        }
+
+        $AnhChungTu = time() . "_" . $_FILES['AnhChungTu']['name'];
+        move_uploaded_file($_FILES['AnhChungTu']['tmp_name'], "uploads/" . $AnhChungTu);
+    }
+
+    $data = [
+        'LoaiGiaoDich' => $_POST['LoaiGiaoDich'],
+        'NgayGiaoDich' => $_POST['NgayGiaoDich'],
+        'SoTien'       => $_POST['SoTien'],
+        'HangMucChi'   => $_POST['HangMucChi'],
+        'PhuongThucThanhToan' => $_POST['PhuongThucThanhToan'],
+        'SoHoaDon'     => $_POST['SoHoaDon'],
+        'AnhChungTu'   => $AnhChungTu,
+        'MoTa'         => $_POST['MoTa']
+    ];
+
+    $this->doanKhoiHanh->updateTaiChinhById($id, $data);
+
+    header("Location:index.php?act=taichinh&id=" . $MaDoan);
+    exit;
+}
+
 }

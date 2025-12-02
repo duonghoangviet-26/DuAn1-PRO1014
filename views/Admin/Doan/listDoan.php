@@ -180,7 +180,8 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Tour</th>
-                                        <th>Ngày đi</th><th>Ngày về</th>
+                                        <th>Ngày đi</th>
+                                        <th>Ngày về</th>
                                         <th>Giờ khởi hành</th>
                                         <th>Điểm tập trung</th>
                                         <th>HDV</th>
@@ -247,7 +248,10 @@
                                                 class="btn btn-sm btn-info">
                                                 <i class="fa fa-eye"></i> Xem
                                             </a>
+                                            <a href="index.php?act=taichinh&id=<?= $d['MaDoan'] ?>" class="btn btn-info btn-sm">Tài chính</a>
+
                                         </td>
+
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>

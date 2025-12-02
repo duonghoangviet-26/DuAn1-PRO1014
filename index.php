@@ -135,6 +135,12 @@ match ($act) {
     'updateDKH' => (new doanKhoiHanhController())->updateDKH(),
     'chiTietDKH' => (new doanKhoiHanhController())->chiTietDKH(),
     'getDoanByTour' => (new doanKhoiHanhController())->getDoanByTour(),
+    'taichinh' => (new doanKhoiHanhController())->taichinh(),
+    'addtaichinh' => (new doanKhoiHanhController())->addTaiChinh(),
+    'deleteTC' => (new doanKhoiHanhController())->deleteTaiChinh(),
+    'editTC' => (new doanKhoiHanhController())->editTaiChinh(),
+    'updateTC' => (new doanKhoiHanhController())->updateTaiChinh(),
+
     default => header("Location: index.php?act=login"),
 };
 

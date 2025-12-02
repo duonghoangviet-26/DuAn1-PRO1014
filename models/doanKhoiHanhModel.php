@@ -203,7 +203,7 @@ class doanKhoiHanhModel
 
     public function deleteDoan($id)
     {
-$this->conn->prepare("DELETE FROM booking WHERE MaDoan=?")
+        $this->conn->prepare("DELETE FROM booking WHERE MaDoan=?")
             ->execute([$id]);
 
         $this->conn->prepare("DELETE FROM dichvucuadoan WHERE MaDoan=?")
@@ -348,5 +348,96 @@ JOIN nhacungcap ncc ON d.MaTaiXe = ncc.MaNhaCungCap
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$MaDoan]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getTongThu($MaDoan)
+    {
+        $sql = "SELECT SUM(SoTien) AS TongThu 
+            FROM taichinhtour 
+            WHERE MaDoan = :MaDoan AND LoaiGiaoDich = 'thu'";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['MaDoan' => $MaDoan]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+
+    public function getTongChi($MaDoan)
+    {
+        $sql = "SELECT SUM(SoTien) AS TongChi 
+            FROM taichinhtour 
+            WHERE MaDoan = :MaDoan AND LoaiGiaoDich = 'chi'";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['MaDoan' => $MaDoan]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+
+    public function getAllTaiChinh($MaDoan)
+    {
+        $sql = "SELECT * FROM taichinhtour 
+            WHERE MaDoan = :MaDoan 
+            ORDER BY NgayGiaoDich DESC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['MaDoan' => $MaDoan]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function insertTaiChinh($data)
+    {
+        $sql = "INSERT INTO taichinhtour 
+            (MaDoan, LoaiGiaoDich, NgayGiaoDich, SoTien, HangMucChi,
+             PhuongThucThanhToan, SoHoaDon, MoTa, AnhChungTu)
+            VALUES 
+            (:MaDoan, :LoaiGiaoDich, :NgayGiaoDich, :SoTien, :HangMucChi,
+             :PhuongThucThanhToan, :SoHoaDon, :MoTa, :AnhChungTu)";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($data);
+    }
+    public function getTaiChinhById($id)
+    {
+        $sql = "SELECT * FROM taichinhtour WHERE MaTaiChinh = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+
+    public function updateTaiChinhById($id, $data)
+    {
+        $sql = "UPDATE taichinhtour SET
+                LoaiGiaoDich = :LoaiGiaoDich,
+                NgayGiaoDich = :NgayGiaoDich,
+                SoTien       = :SoTien,
+                HangMucChi   = :HangMucChi,
+                PhuongThucThanhToan = :PhuongThucThanhToan,
+                SoHoaDon     = :SoHoaDon,
+                AnhChungTu   = :AnhChungTu,
+                MoTa         = :MoTa
+            WHERE MaTaiChinh = :id";
+
+        $stmt = $this->conn->prepare($sql);
+
+        return $stmt->execute([
+            'LoaiGiaoDich' => $data['LoaiGiaoDich'],
+            'NgayGiaoDich' => $data['NgayGiaoDich'],
+            'SoTien'       => $data['SoTien'],
+            'HangMucChi'   => $data['HangMucChi'],
+            'PhuongThucThanhToan' => $data['PhuongThucThanhToan'],
+            'SoHoaDon'     => $data['SoHoaDon'],
+            'AnhChungTu'   => $data['AnhChungTu'],
+            'MoTa'         => $data['MoTa'],
+            'id'           => $id
+        ]);
+    }
+
+
+
+    public function deleteTaiChinh($id)
+    {
+        $sql = "DELETE FROM taichinhtour WHERE MaTaiChinh = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['id' => $id]);
     }
 }
