@@ -101,10 +101,10 @@
 
         <a href="index.php?act=hdv_dashboard"><i class="fa-solid fa-house"></i> Trang chủ</a>
         <a href="index.php?act=hdv_schedule" class="active"><i class="fa-solid fa-calendar-days"></i> Lịch trình & Lịch làm việc</a>
-        <a href="#"><i class="fa-solid fa-users"></i> Danh sách khách</a>
+        <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-users"></i> Danh sách khách</a>
         <a href="#"><i class="fa-solid fa-book"></i> Nhật ký tour</a>
         <a href="#"><i class="fa-solid fa-compass"></i> Vận hành tour</a>
-        <a href="#"><i class="fa-solid fa-user-check"></i> Quản lý khách</a>
+        <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-user-check"></i> Quản lý khách</a>
 
         <hr style="border-color: #aad; margin: 20px;">
 
@@ -176,17 +176,31 @@
                         <?php endif; ?>
                     </div>
 
-                    <div class="ms-3 text-end" style="min-width: 120px;">
-                        <?php 
-                            if($lich['TrangThai'] == 'ranh') 
-                                echo '<span class="badge bg-info text-dark rounded-pill px-3 py-2">Sẵn sàng</span>';
-                            elseif($lich['TrangThai'] == 'ban') 
-                                echo '<span class="badge bg-warning text-dark rounded-pill px-3 py-2">Đang đi tour</span>';
-                            else 
-                                echo '<span class="badge bg-success rounded-pill px-3 py-2">Hoàn thành</span>';
-                        ?>
-                        <div class="mt-2">
-                            <a href="index.php?act=hdv_schedule_detail&id=<?= $lich['MaLichLamViec'] ?>" class="btn btn-sm btn-outline-primary w-100">Chi tiết</a>
+                    <div class="ms-3 text-end" style="min-width: 140px;"> <div class="mb-3"> <?php 
+                                if($lich['TrangThai'] == 'ranh') 
+                                    echo '<span class="badge bg-info text-dark rounded-pill px-3 py-2">Sẵn sàng</span>';
+                                elseif($lich['TrangThai'] == 'ban') 
+                                    echo '<span class="badge bg-warning text-dark rounded-pill px-3 py-2">Đang đi tour</span>';
+                                else 
+                                    echo '<span class="badge bg-success rounded-pill px-3 py-2">Hoàn thành</span>';
+                            ?>
+                        </div>
+
+                        <div class="d-flex flex-column gap-2">
+                            <a href="index.php?act=hdv_schedule_detail&id=<?= $lich['MaLichLamViec'] ?>" 
+                                class="btn btn-sm btn-outline-primary flex-grow-1">
+                                Chi tiết
+                                </a>
+                                
+                                <a href="index.php?act=hdv_quanlykhach&id=<?= $lich['MaLichLamViec'] ?>" 
+                                class="btn btn-sm btn-success flex-grow-1">
+                                Điểm danh
+                                </a>
+
+                                <a href="index.php?act=hdv_guest_list&id=<?= $lich['MaLichLamViec'] ?>" 
+                                class="btn btn-sm btn-info text-white flex-grow-1" title="Xem danh sách khách">
+                                <i class="fas fa-users"></i> DS Khách
+                                </a>
                         </div>
                     </div>
                 </div>

@@ -148,7 +148,7 @@
                 <!-- HDV -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Hướng dẫn viên</label>
-                    <select name="MaHuongDanVien" class="form-control" required>
+                    <select name="MaHuongDanVien" class="form-control">
                         <option value="">-- Chọn HDV --</option>
                         <?php foreach ($hdv as $h): ?>
                             <option value="<?= $h['MaNhanVien'] ?>"><?= $h['HoTen'] ?></option>
