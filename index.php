@@ -1,5 +1,7 @@
 <?php
 session_start();
+// Require toàn bộ các file khai báo môi trường, thực thi,...(không require view)
+
 // Require file Common
 require_once './commons/env.php'; // Khai báo biến môi trường
 require_once './commons/function.php'; // Hàm hỗ trợ
@@ -14,6 +16,11 @@ require_once './controllers/lichLamViecController.php';
 require_once './controllers/doanKhoiHanhController.php';
 require_once './controllers/TaiKhoanController.php';
 
+require_once './controllers/DanhSachTaiKhoanController.php';
+
+require_once './controllers/DiemDanhController.php';
+
+
 
 // Require toàn bộ file Models
 require_once './models/tourModel.php';
@@ -24,6 +31,11 @@ require_once './models/lichLamViecModel.php';
 require_once './models/khachHangModel.php';
 require_once './models/doanKhoiHanhModel.php';
 require_once './models/TaiKhoanModel.php';
+
+require_once './models/DanhSachTaiKhoanModel.php';
+
+require_once './models/DiemDanhModel.php';
+
 
 
 // Route
@@ -38,7 +50,6 @@ match ($act) {
     'logout'    => (new TaiKhoanController())->logout(),
     'addTaiKhoan'     => (new TaiKhoanController())->formAddTaiKhoan(),
     'postAddTaiKhoan' => (new TaiKhoanController())->postAddTaiKhoan(),
-
 
     // ADMIN DASHBOARD 
     'admin_dashboard' => (function () {
@@ -78,12 +89,18 @@ match ($act) {
     'editNV' => (new nhanVienController())->editNV(),
     'deleteNV' => (new nhanVienController())->deleteNV(),
     'updateNV' => (new nhanVienController())->updateNV(),
+    'searchNV' => (new nhanVienController())->getSearchNV(),
     'chitietNV' => (new nhanVienController())->chiTietNV(),
 
     // lịch làm việc
     'lichlamviec' => (new lichLamViecController())->lichLamViec(),
+    'addLich'        => (new lichLamViecController())->addForm(),
+    'submitAddLich'  => (new lichLamViecController())->add(),
+    'editLich'       => (new lichLamViecController())->editForm(),
+    'submitEditLich' => (new lichLamViecController())->edit(),
     'deleteLichLamViec' => (new lichLamViecController())->delete(),
 
+    // Quản lí tour
 
     // default => (new tourController())->Home(),
 
@@ -96,8 +113,6 @@ match ($act) {
 
 
 
-
-
     // booking
     'listBooking' => (new bookingController)->listBookingAll(),
     'deleteBooking' => (new bookingController)->deleteBooking(),
@@ -105,6 +120,7 @@ match ($act) {
     'createBookingProcess' => (new BookingController())->createBookingProcess(),
     'editBooking'  => (new bookingController)->editBooking(),
     'editBookingProcess' => (new BookingController())->editBookingProcess(),
+    'lichSuBooking' => (new BookingController())->lichSuBooking(),
 
     // khách trong booking  
     'khachTrongBooking' => (new bookingController)->khachTrongBooking(),
@@ -127,6 +143,14 @@ match ($act) {
     'deleteNCC'     => (new nhaCungCapController())->deleteNCC(),
     'detailNCC'     => (new nhaCungCapController())->showDetailNCC(),
 
+
+    // Quản lý tài khoản (danh sách mới)
+    'listTaiKhoan'      => (new DanhSachTaiKhoanController())->listTaiKhoan(),
+    'editTaiKhoan'      => (new DanhSachTaiKhoanController())->formEditTaiKhoan(),
+    'postEditTaiKhoan'  => (new DanhSachTaiKhoanController())->postEditTaiKhoan(),
+    'deleteTaiKhoan'    => (new DanhSachTaiKhoanController())->deleteTaiKhoan(),
+
+
     // Đoàn khởi hành
     'listDKH'  => (new doanKhoiHanhController())->listDKH(),
     'createDKH' => (new doanKhoiHanhController())->createDKH(),
@@ -136,6 +160,17 @@ match ($act) {
     'chiTietDKH' => (new doanKhoiHanhController())->chiTietDKH(),
     'getDoanByTour' => (new doanKhoiHanhController())->getDoanByTour(),
     default => header("Location: index.php?act=login"),
+
+    // HDV xem lịch trình & Lịch làm việc
+    'hdv_schedule' => (new lichLamViecController())->mySchedule(),
+    'hdv_schedule_detail' => (new lichLamViecController())->getLichTrinhByTour(),
+
+    // --- QUẢN LÝ ĐIỂM DANH
+    'hdv_quanlykhach'     => (new DiemDanhController())->index(),
+    'hdv_submit_diemdanh' => (new DiemDanhController())->store(),
+
+    // view dsk
+    'hdv_guest_list' => (new DiemDanhController())->viewGuestList(),
 };
 
 function checkAuth($roleRequired)

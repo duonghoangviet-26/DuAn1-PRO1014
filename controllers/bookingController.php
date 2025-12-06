@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 class bookingController
 {
     public $modelBooking;
@@ -63,7 +66,6 @@ class bookingController
                 ':NgaySinh'        => $_POST['KH_NgaySinh'] ?? null,
                 ':GioiTinh'        => $_POST['KH_GioiTinh'] ?? "khac",
                 ':SoGiayTo'        => $_POST['KH_SoGiayTo'] ?? null,
-
                 ':LoaiKhach'       => $_POST['LoaiKhach'],
                 ':TenCongTy'       => ($_POST['LoaiKhach'] == 'cong_ty') ? ($_POST['KH_TenCongTy'] ?? null) : null,
                 ':MaSoThue'        => ($_POST['LoaiKhach'] == 'cong_ty') ? ($_POST['KH_MaSoThue'] ?? null) : null,
@@ -82,9 +84,26 @@ class bookingController
 
             $TongTien     = (float)($_POST['TongTien'] ?? 0);
             $SoTienDaCoc  = (float)($_POST['SoTienDaCoc'] ?? 0);
-            $SoTienDaTra  = (float)($_POST['SoTienDaTra'] ?? 0);
-            $SoTienConLai = $TongTien - $SoTienDaTra;
+            // $SoTienDaTra  = (float)($_POST['SoTienDaTra'] ?? 0);
+            $SoTienConLai = $TongTien - $SoTienDaCoc;
+            if ($SoTienDaCoc = $TongTien) {
+                $TrangThaiHopLe = "hoan_tat";
+            } elseif ($SoTienDaCoc > 0) {
+                $TrangThaiHopLe = "da_coc";
+            } else {
+                $TrangThaiHopLe = "cho_coc";
+            }
 
+            $TrangThaiUserChon = $_POST['TrangThai'] ?? 'cho_coc';
+
+            // Nếu trạng thái người chọn KHÔNG hợp lệ -> báo lỗi
+            if ($TrangThaiUserChon != $TrangThaiHopLe) {
+                if (session_status() === PHP_SESSION_NONE) session_start();
+
+                $_SESSION['error'] = "Trạng thái không hợp lệ với số tiền thanh toán!";
+                header("Location: index.php?act=createBooking");
+                exit();
+            }
             $dataBooking = [
                 ':MaCodeBooking' => $MaCodeBooking,
                 ':MaTour'        => $_POST['MaTour'],
@@ -98,17 +117,26 @@ class bookingController
 
                 ':TongTien'      => $TongTien,
                 ':SoTienDaCoc'   => $SoTienDaCoc,
-                ':SoTienDaTra'   => $SoTienDaTra,
+                // ':SoTienDaTra'   => $SoTienDaTra,
                 ':SoTienConLai'  => $SoTienConLai,
 
-                ':TrangThai'     => $_POST['TrangThai'],
+                ':TrangThai'     => $TrangThaiHopLe,
                 ':YeuCauDacBiet' => $_POST['YeuCauDacBiet'] ?? null,
                 ':MaNguoiTao'    => 1
             ];
 
             //  Lưu Booking → lấy ID
             $MaBooking = $this->modelBooking->createBooking($dataBooking);
+            $MaNguoiDoi = 1;
 
+            // Lưu lịch sử trạng thái lần đầu
+            $this->modelBooking->addLichSuTrangThai(
+                $MaBooking,
+                null,
+                $TrangThaiHopLe,
+                $MaNguoiDoi,
+                'Tạo booking mới'
+            );
 
 
             // lưu dữ liệu khách trong booking
@@ -128,26 +156,6 @@ class bookingController
                     ]);
                 }
             }
-
-            // LẤY THÔNG TIN TOUR
-            $tour = $this->modelTour->getTourById($_POST['MaTour']);
-            $NgayKH = $tour['NgayBatDau'];
-            $NgayKT = $tour['NgayKetThuc'];
-
-            // KIỂM TRA CÓ ĐOÀN CÙNG NGÀY CHƯA
-            $doan = $this->doanKhoiHanh->getDoanByTourAndDate($_POST['MaTour'], $NgayKH);
-
-            // NẾU CHƯA CÓ → TỰ TẠO
-            if (!$doan) {
-                $MaDoan = $this->doanKhoiHanh->autoCreateDoan([
-                    'MaTour'        => $_POST['MaTour'],
-                    'NgayKhoiHanh'  => $NgayKH,
-                    'NgayVe'        => $NgayKT,
-                ]);
-            } else {
-                $MaDoan = $doan['MaDoan'];
-            }
-
             header("Location: index.php?act=listBooking");
             exit;
         }
@@ -164,7 +172,7 @@ class bookingController
             $tours = $this->modelTour->getAllTours();
             $khachHangs = $this->modelTour->getAllKhachHang();
             $listDoan = $this->doanKhoiHanh->getAllDoan();
-
+            $khachDaiDien = $this->khachHangModel->getKhachHangById($booking['MaKhachHang']);
             require_once './views/Admin/booking/editBooking.php';
         } else {
             header("Location: index.php?act=listBooking");
@@ -177,7 +185,6 @@ class bookingController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $MaBooking = $_POST['MaBooking'];
-
             $oldBooking = $this->modelBooking->getOneBooking($MaBooking);
             $TrangThaiCu = $oldBooking['TrangThai'] ?? 'cho_coc';
 
@@ -192,12 +199,31 @@ class bookingController
 
             $TongTien = (float)($_POST['TongTien'] ?? 0);
             $SoTienDaCoc = (float)($_POST['SoTienDaCoc'] ?? 0);
-            $SoTienDaTra = (float)($_POST['SoTienDaTra'] ?? 0);
 
-            $SoTienConLai = $TongTien - $SoTienDaTra;
+            $SoTienConLai = $TongTien - $SoTienDaCoc;
+
 
             $YeuCauDacBiet = $_POST['YeuCauDacBiet'] ?? null;
             $TrangThai = $_POST['TrangThai'] ?? 'cho_coc';
+            // VALIDATION LOGIC TRẠNG THÁI
+            if ($SoTienDaCoc > 0 && $TrangThai == 'cho_coc') {
+                $_SESSION['error'] = "Khách đã đặt cọc, không thể chọn trạng thái 'Chờ cọc'!";
+                header("Location: index.php?act=editBooking&MaBooking=" . $MaBooking);
+                exit();
+            }
+
+            if ($SoTienDaCoc ==  $TongTien && $TrangThai != 'hoan_tat') {
+                $_SESSION['error'] = "Khách đã thanh toán đủ, trạng thái phải là 'Hoàn tất'!";
+                header("Location: index.php?act=editBooking&MaBooking=" . $MaBooking);
+                exit();
+            }
+
+            if ($SoTienDaCoc == 0 && $TrangThai == 'da_coc') {
+                $_SESSION['error'] = "Chưa có tiền cọc, không thể đặt trạng thái 'Đã cọc'!";
+                header("Location: index.php?act=editBooking&MaBooking=" . $MaBooking);
+                exit();
+            }
+
 
             $data = [
                 ':MaBooking' => $MaBooking,
@@ -210,19 +236,65 @@ class bookingController
                 ':TongEmBe' => $TongEmBe,
                 ':TongTien' => $TongTien,
                 ':SoTienDaCoc' => $SoTienDaCoc,
-                ':SoTienDaTra' => $SoTienDaTra,
                 ':SoTienConLai' => $SoTienConLai,
                 ':YeuCauDacBiet' => $YeuCauDacBiet,
                 ':TrangThai' => $TrangThai,
             ];
+            // var_dump($data);
+            // die();
+            // Chuẩn hóa các giá trị số: nếu trống thì về 0
+            foreach (['TongTien', 'SoTienDaCoc', 'SoTienConLai'] as $field) {
+                if ($data[":$field"] === '' || $data[":$field"] === null) {
+                    $data[":$field"] = 0;
+                }
+            }
 
             $this->modelBooking->updateBooking($data);
+            // lấy dữ liệu mới sau khi update
+            $newBooking = $this->modelBooking->getOneBooking($MaBooking);
 
-            // Nếu trạng thái thay đổi thì lưu lịch sử
-            // if ($TrangThaiCu != $TrangThai) {
-            //     $MaNguoiDoi = 1; // sau này lấy từ session
-            //     $this->modelBooking->addLichSuTrangThai($MaBooking, $TrangThaiCu, $TrangThai, $MaNguoiDoi, null);
-            // }
+            // chuyển thành JSON để lưu
+            $TrangThaiCu = json_encode($oldBooking, JSON_UNESCAPED_UNICODE);
+            $TrangThaiMoi = json_encode($newBooking, JSON_UNESCAPED_UNICODE);
+
+            // người sửa
+            $MaNguoiDoi = $_SESSION['user']['MaNhanVien'] ?? null;
+
+            // lưu lịch sử
+            $this->modelBooking->addLichSuFull($MaBooking, $TrangThaiCu, $TrangThaiMoi, $MaNguoiDoi);
+            if ($TrangThaiCu != $TrangThai) {
+
+                if (session_status() === PHP_SESSION_NONE) {
+                    session_start();
+                }
+                $MaNguoiDoi = $_SESSION['user']['MaNhanVien'] ?? null;
+
+                $this->modelBooking->addLichSuTrangThai(
+                    $MaBooking,
+                    $TrangThaiCu,
+                    $TrangThai,
+                    $MaNguoiDoi,
+                    null
+                );
+            }
+
+            $khachUpdate = [
+                ':MaKhachHang' => $MaKhachHang,
+                ':HoTen'       => $_POST['KH_HoTen'],
+                ':SoDienThoai' => $_POST['KH_SDT'],
+                ':Email'       => $_POST['KH_Email'] ?? null,
+                ':DiaChi'      => $_POST['KH_DiaChi'] ?? null,
+                ':NgaySinh'    => $_POST['KH_NgaySinh'] ?? null,
+                ':GioiTinh'    => $_POST['KH_GioiTinh'] ?? 'khac',
+                ':SoGiayTo'    => $_POST['KH_SoGiayTo'] ?? null,
+                ':LoaiKhach'   => $_POST['LoaiKhach'] ?? 'ca_nhan',
+                ':TenCongTy'   => $_POST['KH_TenCongTy'] ?? null,
+                ':MaSoThue'    => $_POST['KH_MaSoThue'] ?? null,
+                ':GhiChu'      => $_POST['KH_GhiChu'] ?? null
+            ];
+
+            $this->khachHangModel->updateKhachHang($khachUpdate);
+
 
             header("Location: index.php?act=listBooking");
             exit();
@@ -386,5 +458,26 @@ class bookingController
         $listKhach = $this->modelBooking->getKhachTheoTour($MaTour);
 
         require_once "./views/Admin/Doan/listKhachTrongTour.php";
+    }
+
+
+
+    // Lịch sử Booking
+    public function lichSuBooking()
+    {
+        $MaBooking = $_GET['MaBooking'] ?? null;
+
+        if (!$MaBooking) {
+            header("Location: index.php?act=listBooking");
+            exit();
+        }
+
+        // Lấy thông tin booking
+        $booking = $this->modelBooking->getBookingById($MaBooking);
+
+        // Lấy lịch sử trạng thái
+        $histories = $this->modelBooking->getLichSuTrangThaiByBooking($MaBooking);
+
+        require_once "./views/Admin/booking/lichSuBooking.php";
     }
 }

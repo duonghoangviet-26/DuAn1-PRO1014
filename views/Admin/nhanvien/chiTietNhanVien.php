@@ -48,10 +48,13 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <h4 class="text-center text-light mb-4">Admin Panel</h4>
-        <a href="#"><i class="fa fa-home"></i> Tổng quan</a>
+        <a href="index.php?act=/"><i class="fa fa-home"></i> Tổng quan</a>
         <a href="index.php?act=listdm"><i class="fa fa-list"></i> Danh mục tour</a>
-        <a href="#"><i class="fa fa-route"></i> Quản lý tour</a>
+        <a href="index.php?act=listTour"><i class="fa fa-route"></i> Quản lý tour</a>
         <a href="index.php?act=listBooking"><i class="fa fa-book"></i> Quản lý booking</a>
+        <a href="index.php?act=listKH"><i class="fa fa-users"></i> Quản lí khách hàng</a>
+        <a href="index.php?act=listDKH"><i class="fa fa-users"></i> Quản lí đoàn khởi hành</a>
+        <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Quản lý nhà cung cấp</a>
         <a href="index.php?act=listNV"><i class="fa fa-users"></i> Tài khoản / HDV</a>
         <a href="#"><i class="fa fa-chart-bar"></i> Báo cáo thống kê</a>
         <a href="index.php?act=addTaiKhoan"><i class="fas fa-user-plus"></i>Thêm Tài Khoản</a>

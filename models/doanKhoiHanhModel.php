@@ -114,10 +114,10 @@ class doanKhoiHanhModel
             $data['GioKhoiHanh'],
             $data['DiemTapTrung'],
             $data['SoChoToiDa'],
-            $data['SoChoConTrong'], // ✅ truyền vào
+            $data['SoChoConTrong'],
             $data['MaHuongDanVien'],
             $data['MaTaiXe'],
-            $data['TrangThai'] ?? 'con_cho', // nếu cần
+            $data['TrangThai'] ?? 'con_cho',
         ]);
 
         return $this->conn->lastInsertId();
@@ -203,12 +203,19 @@ class doanKhoiHanhModel
 
     public function deleteDoan($id)
     {
+        // Xoá lịch làm việc trước
+        $this->conn->prepare("DELETE FROM lichlamviec WHERE MaDoan=?")
+            ->execute([$id]);
+
+        // Xoá booking thuộc đoàn
         $this->conn->prepare("DELETE FROM booking WHERE MaDoan=?")
             ->execute([$id]);
 
+        // Xoá dịch vụ của đoàn
         $this->conn->prepare("DELETE FROM dichvucuadoan WHERE MaDoan=?")
             ->execute([$id]);
 
+        // Xoá đoàn
         return $this->conn->prepare("DELETE FROM doankhoihanh WHERE MaDoan=?")
             ->execute([$id]);
     }
@@ -348,35 +355,5 @@ class doanKhoiHanhModel
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$MaDoan]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function getDoanByTourAndDate($MaTour, $NgayKhoiHanh)
-    {
-        $sql = "SELECT * FROM doankhoihanh 
-            WHERE MaTour = ? AND NgayKhoiHanh = ?
-            LIMIT 1";
-
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$MaTour, $NgayKhoiHanh]);
-
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-
-    public function autoCreateDoan($data)
-    {
-        $sql = "INSERT INTO doankhoihanh 
-            (MaTour, NgayKhoiHanh, NgayVe, GioKhoiHanh, DiemTapTrung,
-             SoChoToiDa, SoChoConTrong, TrangThai)
-            VALUES (?, ?, ?, '07:00', 'Chưa Chọn địa điểm', 45, 45, 'con_cho')";
-
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([
-            $data['MaTour'],
-            $data['NgayKhoiHanh'],
-            $data['NgayVe']
-        ]);
-
-        return $this->conn->lastInsertId();
     }
 }
