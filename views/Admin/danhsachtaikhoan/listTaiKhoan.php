@@ -39,6 +39,7 @@
                 <thead class="table-light">
                     <tr>
                         <th>ID</th> <th>Tên Đăng Nhập</th>
+                        <th>Mật Khẩu</th>
                         <th>Vai Trò</th>
                         <th>Trạng Thái</th>
                         <th>Ngày Tạo</th>
@@ -49,8 +50,8 @@
                     <?php foreach ($listTaiKhoan as $tk): ?>
                     <tr>
                         <td class="text-center text-muted"><?= $tk['MaTaiKhoan'] ?></td>
-
                         <td><strong><?= $tk['TenDangNhap'] ?></strong></td>
+                        <td class="text-danger"><?= $tk['MatKhau'] ?></td>
                         <td>
                             <?php 
                                 if($tk['VaiTro'] == 'admin') echo '<span class="badge bg-danger">Admin</span>';

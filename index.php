@@ -15,6 +15,7 @@ require_once './controllers/nhaCungCapController.php';
 require_once './controllers/lichLamViecController.php';
 require_once './controllers/doanKhoiHanhController.php';
 require_once './controllers/TaiKhoanController.php';
+require_once './controllers/NhatKyController.php';
 
 require_once './controllers/DanhSachTaiKhoanController.php';
 
@@ -31,7 +32,7 @@ require_once './models/lichLamViecModel.php';
 require_once './models/khachHangModel.php';
 require_once './models/doanKhoiHanhModel.php';
 require_once './models/TaiKhoanModel.php';
-
+require_once './models/NhatKyModel.php';
 require_once './models/DanhSachTaiKhoanModel.php';
 
 require_once './models/DiemDanhModel.php';
@@ -152,6 +153,15 @@ match ($act) {
     'deleteTaiKhoan'    => (new DanhSachTaiKhoanController())->deleteTaiKhoan(),
 
 
+    // NHẬT KÝ TOUR
+    'listTourOfHDV' => (new NhatKyController())->listTourOfHDV(),
+    'listNhatKy'    => (new NhatKyController())->listNhatKy(), 
+    'addNhatKy'     => (new NhatKyController())->formAddNhatKy(),
+    'postAddNhatKy' => (new NhatKyController())->postAddNhatKy(),
+    'editNhatKy'    => (new NhatKyController())->formEditNhatKy(),
+    'postEditNhatKy'=> (new NhatKyController())->postEditNhatKy(),
+    'deleteNhatKy'  => (new NhatKyController())->deleteNhatKy(),
+
     // Đoàn khởi hành
     'listDKH'  => (new doanKhoiHanhController())->listDKH(),
     'createDKH' => (new doanKhoiHanhController())->createDKH(),
@@ -160,7 +170,6 @@ match ($act) {
     'updateDKH' => (new doanKhoiHanhController())->updateDKH(),
     'chiTietDKH' => (new doanKhoiHanhController())->chiTietDKH(),
     'getDoanByTour' => (new doanKhoiHanhController())->getDoanByTour(),
-    default => header("Location: index.php?act=login"),
 
     // HDV xem lịch trình & Lịch làm việc
     'hdv_schedule' => (new lichLamViecController())->mySchedule(),
@@ -172,6 +181,7 @@ match ($act) {
 
     // view dsk
     'hdv_guest_list' => (new DiemDanhController())->viewGuestList(),
+    default => header("Location: index.php?act=login"),
 };
 
 function checkAuth($roleRequired)
