@@ -23,14 +23,21 @@ class bookingModel
 
         $params = [];
 
-        if (!empty($filters['TrangThai']) && $filters['TrangThai'] != 'all') {
+        // Lọc theo trạng thái
+        if (!empty($filters['TrangThai']) && $filters['TrangThai'] !== 'all') {
             $sql .= " AND b.TrangThai = ?";
             $params[] = $filters['TrangThai'];
         }
 
+        // Tìm kiếm theo tên tour / mã booking / tên khách
         if (!empty($filters['search'])) {
-            $sql .= " AND (b.MaCodeBooking LIKE ? OR k.HoTen LIKE ?)";
+            $sql .= " AND (
+                b.MaCodeBooking LIKE ? 
+                OR k.HoTen LIKE ?
+                OR t.TenTour LIKE ?
+            )";
             $searchTerm = '%' . $filters['search'] . '%';
+            $params[] = $searchTerm;
             $params[] = $searchTerm;
             $params[] = $searchTerm;
         }
@@ -44,17 +51,28 @@ class bookingModel
     // Lấy chi tiết booking
     public function getBookingById($id)
     {
-        $sql = "SELECT b.*, 
-                       t.TenTour, t.SoNgay, t.SoDem,
-                       k.HoTen as TenKhachHang, k.SoDienThoai, k.Email
-                FROM booking b
-                LEFT JOIN tour t ON b.MaTour = t.MaTour
-                LEFT JOIN khachhang k ON b.MaKhachHang = k.MaKhachHang
-                WHERE b.MaBooking = ?";
+        $sql = "SELECT b.*, t.TenTour, kh.HoTen AS TenKhachHang
+            FROM Booking b
+            LEFT JOIN Tour t ON b.MaTour = t.MaTour
+            LEFT JOIN KhachHang kh ON b.MaKhachHang = kh.MaKhachHang
+            WHERE b.MaBooking = :id";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$id]);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    public function getKhachHangById($id)
+    {
+        $sql = "SELECT * FROM khachhang WHERE MaKhachHang = :id LIMIT 1";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result ?: null;
     }
     public function getStatistics()
     {
@@ -82,12 +100,12 @@ class bookingModel
         $sql = "INSERT INTO booking (
         MaCodeBooking, MaTour, MaDoan, MaKhachHang, LoaiBooking,
         TongNguoiLon, TongTreEm, TongEmBe,
-        TongTien, SoTienDaCoc, SoTienDaTra, SoTienConLai,
+        TongTien, SoTienDaCoc, SoTienConLai,
         TrangThai, YeuCauDacBiet, MaNguoiTao
     ) VALUES (
         :MaCodeBooking, :MaTour, :MaDoan, :MaKhachHang, :LoaiBooking,
         :TongNguoiLon, :TongTreEm, :TongEmBe,
-        :TongTien, :SoTienDaCoc, :SoTienDaTra, :SoTienConLai,
+        :TongTien, :SoTienDaCoc,  :SoTienConLai,
         :TrangThai, :YeuCauDacBiet, :MaNguoiTao
     )";
 
@@ -128,24 +146,24 @@ class bookingModel
     public function updateBooking($data)
     {
         $sql = "UPDATE booking SET
-            MaTour = :MaTour,
-            MaDoan = :MaDoan,
-            MaKhachHang = :MaKhachHang,
-            LoaiBooking = :LoaiBooking,
-            TongNguoiLon = :TongNguoiLon,
-            TongTreEm = :TongTreEm,
-            TongEmBe = :TongEmBe,
-            TongTien = :TongTien,
-            SoTienDaCoc = :SoTienDaCoc,
-            SoTienDaTra = :SoTienDaTra,
-            SoTienConLai = :SoTienConLai,
-            TrangThai = :TrangThai,
-            YeuCauDacBiet = :YeuCauDacBiet
-        WHERE MaBooking = :MaBooking";
+                MaTour = :MaTour,
+                MaDoan = :MaDoan,
+                MaKhachHang = :MaKhachHang,
+                LoaiBooking = :LoaiBooking,
+                TongNguoiLon = :TongNguoiLon,
+                TongTreEm = :TongTreEm,
+                TongEmBe = :TongEmBe,
+                TongTien = :TongTien,
+                SoTienDaCoc = :SoTienDaCoc,
+                SoTienConLai = :SoTienConLai,
+                YeuCauDacBiet = :YeuCauDacBiet,
+                TrangThai = :TrangThai
+            WHERE MaBooking = :MaBooking";
 
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute($data);
     }
+
 
     // Khách trong booking 
 
@@ -236,5 +254,53 @@ class bookingModel
         $stm = $this->conn->prepare($sql);
         $stm->execute([$MaTour]);
         return $stm->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Lịch sử booking
+    public function addLichSuFull($MaBooking, $TrangThaiCu, $TrangThaiMoi, $MaNguoiDoi, $GhiChu = null)
+    {
+        $sql = "INSERT INTO lichsutrangthaibooking
+                (MaBooking, TrangThaiCu, TrangThaiMoi, MaNguoiDoi, GhiChu)
+                VALUES (:MaBooking, :TrangThaiCu, :TrangThaiMoi, :MaNguoiDoi, :GhiChu)";
+
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([
+            ':MaBooking'   => $MaBooking,
+            ':TrangThaiCu' => $TrangThaiCu,
+            ':TrangThaiMoi' => $TrangThaiMoi,
+            ':MaNguoiDoi'  => $MaNguoiDoi,
+            ':GhiChu'      => $GhiChu
+        ]);
+    }
+
+    public function addLichSuTrangThai($MaBooking, $TrangThaiCu, $TrangThaiMoi, $MaNguoiDoi, $GhiChu = null)
+    {
+        $sql = "INSERT INTO lichsutrangthaibooking
+            (MaBooking, TrangThaiCu, TrangThaiMoi, MaNguoiDoi, GhiChu)
+            VALUES (:MaBooking, :TrangThaiCu, :TrangThaiMoi, :MaNguoiDoi, :GhiChu)";
+
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([
+            ':MaBooking'   => $MaBooking,
+            ':TrangThaiCu' => $TrangThaiCu,
+            ':TrangThaiMoi' => $TrangThaiMoi,
+            ':MaNguoiDoi'  => $MaNguoiDoi,
+            ':GhiChu'      => $GhiChu
+        ]);
+    }
+
+
+    //  LẤY LỊCH SỬ TRẠNG THÁI THEO BOOKING
+    public function getLichSuTrangThaiByBooking($MaBooking)
+    {
+        $sql = "SELECT ls.*, nv.HoTen
+            FROM lichsutrangthaibooking ls
+            JOIN nhanvien nv ON nv.MaNhanVien = ls.MaNguoiDoi
+            WHERE ls.MaBooking = :id
+            ORDER BY ls.NgayDoi DESC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':id' => $MaBooking]);  // ✔ Khớp với SQL
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

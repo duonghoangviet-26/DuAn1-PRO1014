@@ -12,81 +12,81 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Card */
-        .card {
-            border-radius: 12px;
-            border: none;
-        }
+    /* Card */
+    .card {
+        border-radius: 12px;
+        border: none;
+    }
 
-        .card-body {
-            padding: 25px 30px;
-        }
+    .card-body {
+        padding: 25px 30px;
+    }
 
-        /* Nhóm form */
-        .form-group {
-            margin-bottom: 18px;
-        }
+    /* Nhóm form */
+    .form-group {
+        margin-bottom: 18px;
+    }
 
-        .form-group label {
-            font-weight: 600;
-            margin-bottom: 6px;
-            display: block;
-            color: #333;
-        }
+    .form-group label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+        color: #333;
+    }
 
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: 0.2s;
-        }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: 0.2s;
+    }
 
-        /* Hiệu ứng focus */
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #0d6efd;
-            box-shadow: 0 0 5px rgba(13, 110, 253, 0.3);
-        }
+    /* Hiệu ứng focus */
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #0d6efd;
+        box-shadow: 0 0 5px rgba(13, 110, 253, 0.3);
+    }
 
-        /* Hàng ngang */
-        .form-row {
-            display: flex;
-            gap: 20px;
-        }
+    /* Hàng ngang */
+    .form-row {
+        display: flex;
+        gap: 20px;
+    }
 
-        .form-row .form-group {
-            flex: 1;
-        }
+    .form-row .form-group {
+        flex: 1;
+    }
 
-        /* Textarea */
-        .form-group textarea {
-            min-height: 90px;
-            resize: vertical;
-        }
+    /* Textarea */
+    .form-group textarea {
+        min-height: 90px;
+        resize: vertical;
+    }
 
-        /* Nút submit */
-        .btn-submit {
-            width: 100%;
-            background-color: #0d6efd;
-            color: white;
-            border: none;
-            padding: 12px 0;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.25s;
-        }
+    /* Nút submit */
+    .btn-submit {
+        width: 100%;
+        background-color: #0d6efd;
+        color: white;
+        border: none;
+        padding: 12px 0;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.25s;
+    }
 
-        .btn-submit:hover {
-            background-color: #0b5ed7;
-        }
+    .btn-submit:hover {
+        background-color: #0b5ed7;
+    }
     </style>
 </head>
 
@@ -152,16 +152,6 @@
                             <div class="form-group">
                                 <label>Yêu cầu / Ghi chú đặc biệt</label>
                                 <textarea name="GhiChuDacBiet"></textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Loại phòng</label>
-                                <select name="LoaiPhong">
-                                    <option value="">-- Chọn --</option>
-                                    <option value="don">Phòng đơn</option>
-                                    <option value="doi">Phòng đôi</option>
-                                    <option value="2_giuong">2 giường</option>
-                                </select>
                             </div>
 
                             <button type="submit" class="btn-submit">Thêm khách</button>

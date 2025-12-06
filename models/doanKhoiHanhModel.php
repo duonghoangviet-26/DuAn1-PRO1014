@@ -114,10 +114,10 @@ class doanKhoiHanhModel
             $data['GioKhoiHanh'],
             $data['DiemTapTrung'],
             $data['SoChoToiDa'],
-            $data['SoChoConTrong'], // ✅ truyền vào
+            $data['SoChoConTrong'],
             $data['MaHuongDanVien'],
             $data['MaTaiXe'],
-            $data['TrangThai'] ?? 'con_cho', // nếu cần
+            $data['TrangThai'] ?? 'con_cho',
         ]);
 
         return $this->conn->lastInsertId();
@@ -203,12 +203,19 @@ class doanKhoiHanhModel
 
     public function deleteDoan($id)
     {
+        // Xoá lịch làm việc trước
+        $this->conn->prepare("DELETE FROM lichlamviec WHERE MaDoan=?")
+            ->execute([$id]);
+
+        // Xoá booking thuộc đoàn
         $this->conn->prepare("DELETE FROM booking WHERE MaDoan=?")
             ->execute([$id]);
 
+        // Xoá dịch vụ của đoàn
         $this->conn->prepare("DELETE FROM dichvucuadoan WHERE MaDoan=?")
             ->execute([$id]);
 
+        // Xoá đoàn
         return $this->conn->prepare("DELETE FROM doankhoihanh WHERE MaDoan=?")
             ->execute([$id]);
     }

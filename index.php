@@ -112,8 +112,6 @@ match ($act) {
 
 
 
-
-
     // booking
     'listBooking' => (new bookingController)->listBookingAll(),
     'deleteBooking' => (new bookingController)->deleteBooking(),
@@ -121,6 +119,7 @@ match ($act) {
     'createBookingProcess' => (new BookingController())->createBookingProcess(),
     'editBooking'  => (new bookingController)->editBooking(),
     'editBookingProcess' => (new BookingController())->editBookingProcess(),
+    'lichSuBooking' => (new BookingController())->lichSuBooking(),
 
     // khách trong booking  
     'khachTrongBooking' => (new bookingController)->khachTrongBooking(),
@@ -136,12 +135,12 @@ match ($act) {
     // Quản lí nhà cung cấp
     'listNCC'       => (new nhaCungCapController())->listNCC(),
     'listNCCByCategory' => (new nhaCungCapController())->listNCCByCategory(),
-    'addNCC'        => (new nhaCungCapController())->showFormThemNCC(), 
-    'submitAddNCC'  => (new nhaCungCapController())->addNCC(),        
-    'editNCC'       => (new nhaCungCapController())->showFormSuaNCC(),  
-    'submitEditNCC' => (new nhaCungCapController())->updateNCC(),     
-    'deleteNCC'     => (new nhaCungCapController())->deleteNCC(),      
-    'detailNCC'     => (new nhaCungCapController())->showDetailNCC(), 
+    'addNCC'        => (new nhaCungCapController())->showFormThemNCC(),
+    'submitAddNCC'  => (new nhaCungCapController())->addNCC(),
+    'editNCC'       => (new nhaCungCapController())->showFormSuaNCC(),
+    'submitEditNCC' => (new nhaCungCapController())->updateNCC(),
+    'deleteNCC'     => (new nhaCungCapController())->deleteNCC(),
+    'detailNCC'     => (new nhaCungCapController())->showDetailNCC(),
 
 
     // Quản lý tài khoản (danh sách mới)
