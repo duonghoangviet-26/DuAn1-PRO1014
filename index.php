@@ -19,6 +19,7 @@ require_once './controllers/TaiKhoanController.php';
 require_once './controllers/DanhSachTaiKhoanController.php';
 
 require_once './controllers/DiemDanhController.php';
+require_once './controllers/VanHanhTourController.php';
 
 
 
@@ -35,6 +36,7 @@ require_once './models/TaiKhoanModel.php';
 require_once './models/DanhSachTaiKhoanModel.php';
 
 require_once './models/DiemDanhModel.php';
+require_once './models/VanHanhTourModel.php';
 
 
 
@@ -100,9 +102,6 @@ match ($act) {
     'submitEditLich' => (new lichLamViecController())->edit(),
     'deleteLichLamViec' => (new lichLamViecController())->delete(),
 
-    // Quản lí tour
-
-    // default => (new tourController())->Home(),
 
     // Khách Hàng
     'listKH'  => (new khachHangController())->listKH(),
@@ -171,6 +170,12 @@ match ($act) {
 
     // view dsk
     'hdv_guest_list' => (new DiemDanhController())->viewGuestList(),
+
+    //VẬN HÀNH TOUR (TÀI CHÍNH & SỰ CỐ)
+    'hdv_vanhanh'         => (new VanHanhTourController())->index(),
+    'hdv_add_transaction' => (new VanHanhTourController())->addTransaction(),
+    'hdv_delete_transaction' => (new VanHanhTourController())->deleteTransaction(),
+    'hdv_report_issue'    => (new VanHanhTourController())->reportIssue(),
 };
 
 function checkAuth($roleRequired)
