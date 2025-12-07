@@ -7,7 +7,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* Copy CSS từ trangChuHDV.php sang */
         body { background: #f5f8fa; }
         .sidebar { width: 260px; height: 100vh; background: #085f63; position: fixed; top: 0; left: 0; padding-top: 30px; color: white; }
         .sidebar a { color: #d9f7f5; text-decoration: none; padding: 12px 20px; display: block; transition: 0.3s; }
