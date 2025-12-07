@@ -62,6 +62,24 @@ class TaiKhoanModel
         ]);
     }
 
+    public function checkNhanVienHasAccount($maNhanVien)
+    {
+        if (empty($maNhanVien)) return false;
+
+        $sql = "SELECT COUNT(*) FROM taikhoan WHERE MaNhanVien = :maNV";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':maNV' => $maNhanVien]);
+        return $stmt->fetchColumn() > 0;
+    }
+
+    public function getNhanVienChuaCoTaiKhoan() {
+    $sql = "SELECT * FROM nhanvien 
+            WHERE MaNhanVien NOT IN (SELECT MaNhanVien FROM taikhoan WHERE MaNhanVien IS NOT NULL)";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
     public function checkUserExist($tenDangNhap)
     {
         $sql = "SELECT COUNT(*) FROM taikhoan WHERE TenDangNhap = :user";

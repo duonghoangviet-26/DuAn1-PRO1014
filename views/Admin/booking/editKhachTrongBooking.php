@@ -152,19 +152,6 @@
                                 <textarea name="GhiChuDacBiet"><?= $khach['GhiChuDacBiet'] ?></textarea>
                             </div>
 
-                            <div class="form-group">
-                                <label>Loại phòng</label>
-                                <select name="LoaiPhong">
-                                    <option value="don" <?= $khach['LoaiPhong'] == 'don' ? 'selected' : '' ?>>Phòng đơn
-                                    </option>
-                                    <option value="doi" <?= $khach['LoaiPhong'] == 'doi' ? 'selected' : '' ?>>Phòng đôi
-                                    </option>
-                                    <option value="2_giuong" <?= $khach['LoaiPhong'] == '2_giuong' ? 'selected' : '' ?>>
-                                        2
-                                        giường</option>
-                                </select>
-                            </div>
-
                             <button class="btn-submit">Cập nhật</button>
 
                         </form>

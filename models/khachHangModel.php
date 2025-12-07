@@ -48,30 +48,42 @@ class khachHangModel
             return false;
         }
     }
-    public  function getKhachHangById($id)
+    public function getKhachHangById($id)
     {
-        $sql = "SELECT * FROM KhachHang WHERE MaCodeKhachHang = :id";
+        $sql = "SELECT * FROM khachhang WHERE MaKhachHang = :id LIMIT 1";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $result ?: null;
     }
+    // public  function getKhachHangById($id)
+    // {
+    //     $sql = "SELECT * FROM KhachHang WHERE MaCodeKhachHang = :id";
+    //     $stmt = $this->conn->prepare($sql);
+    //     $stmt->bindParam(':id', $id);
+    //     $stmt->execute();
+    //     return $stmt->fetch(PDO::FETCH_ASSOC);
+    // }
     // Cập nhật khách hàng
     public function updateKhachHang($data)
     {
-        $sql = "UPDATE KhachHang SET 
-                    HoTen = :HoTen,
-                    SoDienThoai = :SoDienThoai,
-                    Email = :Email,
-                    DiaChi = :DiaChi,
-                    NgaySinh = :NgaySinh,
-                    GioiTinh = :GioiTinh,
-                    SoGiayTo = :SoGiayTo,
-                    LoaiKhach = :LoaiKhach,
-                    TenCongTy = :TenCongTy,
-                    MaSoThue = :MaSoThue,
-                    GhiChu = :GhiChu
-                WHERE MaCodeKhachHang = :MaCodeKhachHang";
+        $sql = "UPDATE khachhang SET
+                HoTen = :HoTen,
+                SoDienThoai = :SoDienThoai,
+                Email = :Email,
+                DiaChi = :DiaChi,
+                NgaySinh = :NgaySinh,
+                GioiTinh = :GioiTinh,
+                SoGiayTo = :SoGiayTo,
+                LoaiKhach = :LoaiKhach,
+                TenCongTy = :TenCongTy,
+                MaSoThue = :MaSoThue,
+                GhiChu = :GhiChu
+            WHERE MaKhachHang = :MaKhachHang";
+
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute($data);
     }

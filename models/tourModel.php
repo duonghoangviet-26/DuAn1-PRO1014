@@ -79,7 +79,6 @@ class tourModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
     // Thêm tour mới
     public function addTour($TenTour, $Gia, $KhoiHanh, $SoNgay, $SoDem, $MoTa, $MaDanhMuc, $LinkAnhBia, $GiaVonDuKien, $NgayBatDau, $NgayKetThuc, $TrangThai)
     {
@@ -154,14 +153,12 @@ class tourModel
         ]);
     }
 
-    // Xóa tour
     public function deleteTour($id)
     {
         $sql = "DELETE FROM tour WHERE MaTour = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$id]);
     }
-    // Lấy tour theo ID
     public function getTourById($id)
     {
         $sql = "SELECT t.*, dm.TenDanhMuc
@@ -174,7 +171,6 @@ class tourModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Lấy toàn bộ danh mục
     public function getAllDanhMuc()
     {
         $sql = "SELECT * FROM danhmuctour";
@@ -182,7 +178,6 @@ class tourModel
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    // Lấy lịch trình theo tour
     public function getLichTrinhByTour($idTour)
     {
         $sql = "SELECT * 
@@ -194,24 +189,7 @@ class tourModel
         $stmt->execute([$idTour]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    // Lấy chính sách tour theo ID tour
-    // public function getChinhSachByTour($idTour)
-    // {
-    //     $sql = "SELECT 
-    //             ChinhSachBaoGom, 
-    //             ChinhSachKhongBaoGom, 
-    //             ChinhSachHuy, 
-    //             ChinhSachHoanTien
-    //         FROM tour 
-    //         WHERE MaTour = ?";
 
-    //     $stmt = $this->conn->prepare($sql);
-    //     $stmt->execute([$idTour]);
-
-    //     return $stmt->fetch(PDO::FETCH_ASSOC);
-    // }
-
-    // UPDATE lịch trình
     public function updateLichTrinh(
         $idLT,
         $TieuDeNgay,
@@ -318,22 +296,6 @@ class tourModel
             $NoiDungToi
         ]);
     }
-
-
-    // public function updateChinhSach($id, $baoGom, $khongBaoGom, $huy, $hoanTien)
-    // {
-    //     $sql = "UPDATE tour SET 
-    //             ChinhSachBaoGom=?, 
-    //             ChinhSachKhongBaoGom=?,
-    //             ChinhSachHuy=?,
-    //             ChinhSachHoanTien=?
-    //         WHERE MaTour=?";
-
-    //     $stmt = $this->conn->prepare($sql);
-    //     $stmt->execute([$baoGom, $khongBaoGom, $huy, $hoanTien, $id]);
-    // }
-
-
     public function getLastId()
     {
         return $this->conn->lastInsertId();
@@ -375,6 +337,33 @@ public function countTours()
 {
     $sql = "SELECT COUNT(*) FROM tour";
     return $this->conn->query($sql)->fetchColumn();
+}
+public function searchTour($keyword)
+{
+    $sql = "SELECT t.*, dm.TenDanhMuc
+            FROM tour t
+            LEFT JOIN danhmuctour dm ON t.MaDanhMuc = dm.MaDanhMuc
+            WHERE t.TenTour LIKE :kw
+               OR dm.TenDanhMuc LIKE :kw
+               OR t.DiemKhoiHanh LIKE :kw";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindValue(':kw', "%$keyword%", PDO::PARAM_STR);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+public function searchTourAdvanced($where)
+{
+    $sql = "SELECT t.*, dm.TenDanhMuc
+            FROM tour t
+            LEFT JOIN danhmuctour dm ON t.MaDanhMuc = dm.MaDanhMuc
+            $where
+            ORDER BY t.MaTour DESC";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 }

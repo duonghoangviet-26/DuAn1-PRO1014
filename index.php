@@ -20,6 +20,7 @@ require_once './controllers/NhatKyController.php';
 require_once './controllers/DanhSachTaiKhoanController.php';
 
 require_once './controllers/DiemDanhController.php';
+require_once './controllers/VanHanhTourController.php';
 
 
 
@@ -36,6 +37,7 @@ require_once './models/NhatKyModel.php';
 require_once './models/DanhSachTaiKhoanModel.php';
 
 require_once './models/DiemDanhModel.php';
+require_once './models/VanHanhTourModel.php';
 
 
 
@@ -101,9 +103,6 @@ match ($act) {
     'submitEditLich' => (new lichLamViecController())->edit(),
     'deleteLichLamViec' => (new lichLamViecController())->delete(),
 
-    // Quản lí tour
-
-    // default => (new tourController())->Home(),
 
     // Khách Hàng
     'listKH'  => (new khachHangController())->listKH(),
@@ -114,8 +113,6 @@ match ($act) {
 
 
 
-
-
     // booking
     'listBooking' => (new bookingController)->listBookingAll(),
     'deleteBooking' => (new bookingController)->deleteBooking(),
@@ -123,6 +120,7 @@ match ($act) {
     'createBookingProcess' => (new BookingController())->createBookingProcess(),
     'editBooking'  => (new bookingController)->editBooking(),
     'editBookingProcess' => (new BookingController())->editBookingProcess(),
+    'lichSuBooking' => (new BookingController())->lichSuBooking(),
 
     // khách trong booking  
     'khachTrongBooking' => (new bookingController)->khachTrongBooking(),
@@ -138,12 +136,12 @@ match ($act) {
     // Quản lí nhà cung cấp
     'listNCC'       => (new nhaCungCapController())->listNCC(),
     'listNCCByCategory' => (new nhaCungCapController())->listNCCByCategory(),
-    'addNCC'        => (new nhaCungCapController())->showFormThemNCC(), 
-    'submitAddNCC'  => (new nhaCungCapController())->addNCC(),        
-    'editNCC'       => (new nhaCungCapController())->showFormSuaNCC(),  
-    'submitEditNCC' => (new nhaCungCapController())->updateNCC(),     
-    'deleteNCC'     => (new nhaCungCapController())->deleteNCC(),      
-    'detailNCC'     => (new nhaCungCapController())->showDetailNCC(), 
+    'addNCC'        => (new nhaCungCapController())->showFormThemNCC(),
+    'submitAddNCC'  => (new nhaCungCapController())->addNCC(),
+    'editNCC'       => (new nhaCungCapController())->showFormSuaNCC(),
+    'submitEditNCC' => (new nhaCungCapController())->updateNCC(),
+    'deleteNCC'     => (new nhaCungCapController())->deleteNCC(),
+    'detailNCC'     => (new nhaCungCapController())->showDetailNCC(),
 
 
     // Quản lý tài khoản (danh sách mới)
@@ -170,6 +168,13 @@ match ($act) {
     'updateDKH' => (new doanKhoiHanhController())->updateDKH(),
     'chiTietDKH' => (new doanKhoiHanhController())->chiTietDKH(),
     'getDoanByTour' => (new doanKhoiHanhController())->getDoanByTour(),
+    'taichinh' => (new doanKhoiHanhController())->taichinh(),
+    'addtaichinh' => (new doanKhoiHanhController())->addTaiChinh(),
+    'deleteTC' => (new doanKhoiHanhController())->deleteTaiChinh(),
+    'editTC' => (new doanKhoiHanhController())->editTaiChinh(),
+    'updateTC' => (new doanKhoiHanhController())->updateTaiChinh(),
+
+    default => header("Location: index.php?act=login"),
 
     // HDV xem lịch trình & Lịch làm việc
     'hdv_schedule' => (new lichLamViecController())->mySchedule(),
@@ -181,7 +186,14 @@ match ($act) {
 
     // view dsk
     'hdv_guest_list' => (new DiemDanhController())->viewGuestList(),
+
     default => header("Location: index.php?act=login"),
+
+    //VẬN HÀNH TOUR (TÀI CHÍNH & SỰ CỐ)
+    'hdv_vanhanh'         => (new VanHanhTourController())->index(),
+    'hdv_add_transaction' => (new VanHanhTourController())->addTransaction(),
+    'hdv_delete_transaction' => (new VanHanhTourController())->deleteTransaction(),
+    'hdv_report_issue'    => (new VanHanhTourController())->reportIssue(),
 };
 
 function checkAuth($roleRequired)

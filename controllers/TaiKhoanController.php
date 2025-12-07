@@ -20,6 +20,18 @@ class TaiKhoanController
             $result = $this->modelTaiKhoan->checkUser($user, $pass);
 
             if ($result) {
+                if (!empty($result['MaNhanVien'])) {
+                    $modelNhanVien = new NhanVienModel();
+                    $nhanVien = $modelNhanVien->getNhanVienById($result['MaNhanVien']);
+                    if ($nhanVien) {
+                        $result['HoTen'] = $nhanVien['HoTen'];
+                    }
+                }
+
+                if (empty($result['HoTen'])) {
+                    $result['HoTen'] = $result['TenDangNhap'];
+                }
+
                 $_SESSION['user'] = $result;
                 $this->redirectUser($result['VaiTro']);
             } else {
@@ -34,7 +46,7 @@ class TaiKhoanController
     public function formAddTaiKhoan()
     {
         $this->checkAuthAdmin();
-        $listNhanVien = $this->modelTaiKhoan->getAllNhanVien();
+        $listNhanVien = $this->modelTaiKhoan->getNhanVienChuaCoTaiKhoan();
 
         require_once "./views/Admin/taikhoan/addTaiKhoan.php";
     }
@@ -57,9 +69,15 @@ class TaiKhoanController
                 $errors[] = "Tên đăng nhập đã tồn tại!";
             }
 
+            if (!empty($maNhanVien)) {
+                if ($this->modelTaiKhoan->checkNhanVienHasAccount($maNhanVien)) {
+                    $errors[] = "Nhân viên này đã có tài khoản rồi! Vui lòng chọn nhân viên khác hoặc chỉnh sửa tài khoản cũ.";
+                }
+            }
+
             if (empty($errors)) {
                 if ($this->modelTaiKhoan->insertTaiKhoanAdmin($user, $pass, $vaiTro, $maNhanVien)) {
-                    echo "<script>alert('Thêm tài khoản thành công!'); window.location.href='index.php?act=listNV';</script>";
+                    echo "<script>alert('Thêm tài khoản thành công!'); window.location.href='index.php?act=listTaiKhoan';</script>";
                     exit();
                 } else {
                     $errors[] = "Lỗi hệ thống, vui lòng thử lại.";
@@ -70,6 +88,7 @@ class TaiKhoanController
             require_once "./views/Admin/taikhoan/addTaiKhoan.php";
         }
     }
+
     private function redirectUser($vaiTro)
     {
         switch ($vaiTro) {
@@ -77,6 +96,7 @@ class TaiKhoanController
                 header("Location: index.php?act=admin_dashboard");
                 break;
             case 'huong_dan_vien':
+            case 'dieu_hanh':
                 header("Location: index.php?act=hdv_dashboard");
                 break;
             default:

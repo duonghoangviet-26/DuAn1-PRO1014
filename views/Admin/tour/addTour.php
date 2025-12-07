@@ -75,7 +75,6 @@
 
         <form action="index.php?act=createTour" method="POST" enctype="multipart/form-data">
 
-            <!--============ THÔNG TIN TOUR ============-->
             <div class="mb-3">
                 <label>Tên tour</label>
                 <input type="text" name="TenTour" class="form-control" required>
@@ -151,12 +150,10 @@
 
             <hr>
 
-            <!--============ LỊCH TRÌNH ============-->
             <h4 class="fw-bold text-primary mb-3"><i class="fa fa-calendar"></i> Lịch Trình Tour</h4>
 
             <div id="lichTrinhContainer">
 
-                <!--========= MẪU NGÀY 1 (index = 0) =========-->
                 <div class="lichTrinhItem border p-3 my-3 rounded" data-index="0">
 
                     <label><b>Ngày thứ</b></label>
@@ -186,7 +183,6 @@
                         </label>
                     </div>
 
-                    <!-- GIỜ HOẠT ĐỘNG CHUNG -->
                     <div class="row mt-3">
                         <div class="col-md-4">
                             <label>Giờ tập trung</label>
@@ -205,7 +201,6 @@
                     <hr>
                     <h5><b>Giờ & hoạt động từng buổi</b></h5>
 
-                    <!--======== BUỔI SÁNG =========-->
                     <h6>☀ Buổi sáng</h6>
                     <div id="BuoiSang_0">
                         <div class="row mt-2 singleRow">
@@ -222,7 +217,6 @@
                     </div>
                     <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addRow('Sang',0)">+ Thêm giờ sáng</button>
 
-                    <!--======== BUỔI TRƯA =========-->
                     <h6 class="mt-3">🍱 Buổi trưa</h6>
                     <div id="BuoiTrua_0">
                         <div class="row mt-2 singleRow">
@@ -239,7 +233,6 @@
                     </div>
                     <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addRow('Trua',0)">+ Thêm giờ trưa</button>
 
-                    <!--======== BUỔI CHIỀU =========-->
                     <h6 class="mt-3">🌇 Buổi chiều</h6>
                     <div id="BuoiChieu_0">
                         <div class="row mt-2 singleRow">
@@ -256,7 +249,6 @@
                     </div>
                     <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addRow('Chieu',0)">+ Thêm giờ chiều</button>
 
-                    <!--======== BUỔI TỐI =========-->
                     <h6 class="mt-3">🌙 Buổi tối</h6>
                     <div id="BuoiToi_0">
                         <div class="row mt-2 singleRow">
@@ -284,7 +276,6 @@
         </form>
     </div>
 
-    <!--============= JAVASCRIPT XỬ LÝ =============-->
     <script>
         let dayIndex = 0;
 
@@ -295,32 +286,26 @@
             let first = container.querySelector(".lichTrinhItem");
             let clone = first.cloneNode(true);
 
-            // SET DATA-INDEX CHO NGÀY MỚI
             clone.setAttribute("data-index", dayIndex);
 
-            // --- RESET INPUT NHƯNG KHÔNG RESET NGÀY THỨ ---
             clone.querySelectorAll("input, textarea").forEach(el => {
                 if (el.name !== "NgayThu[]") {
                     el.value = "";
                 }
             });
 
-            // --- CẬP NHẬT NGÀY THỨ ---
             clone.querySelector("input[name='NgayThu[]']").value = dayIndex + 1;
 
-            // --- CẬP NHẬT ID CỦA BUỔI (BuoiSang_0 → BuoiSang_1) ---
             clone.querySelectorAll("[id]").forEach(el => {
                 if (el.id.includes("_0")) {
                     el.id = el.id.replace("_0", "_" + dayIndex);
                 }
             });
 
-            // --- CẬP NHẬT NAME MẢNG THEO NGÀY (GioSang[0] → GioSang[1]) ---
             clone.querySelectorAll("input[name], textarea[name]").forEach(el => {
                 el.name = el.name.replace("[0]", "[" + dayIndex + "]");
             });
 
-            // --- CẬP NHẬT FUNCTION addRow ĐỂ KHÔNG BỊ LỖI ---
             clone.querySelectorAll("button").forEach(btn => {
                 let onclickAttr = btn.getAttribute("onclick");
                 if (onclickAttr && onclickAttr.includes("addRow")) {
@@ -332,7 +317,6 @@
         };
 
 
-        // ====== HÀM THÊM GIỜ GIỮ NGUYÊN ======
         function addRow(session, day) {
             let container = document.getElementById("Buoi" + session + "_" + day);
 
@@ -354,7 +338,6 @@
         }
 
 
-        // ====== XÓA DÒNG ======
         document.addEventListener("click", function(e) {
             if (e.target.classList.contains("delRow")) {
                 let row = e.target.closest(".singleRow");
