@@ -79,15 +79,12 @@
             font-weight: 600;
         }
 
-        /* Cột hành động */
         td.actions {
             display: flex;
             align-items: center;
             gap: 10px;
             white-space: nowrap;
         }
-
-        /* Nút hành động chung */
         .actions a {
             text-decoration: none;
             font-size: 14px;
@@ -96,8 +93,6 @@
             transition: all 0.2s ease-in-out;
             font-weight: 600;
         }
-
-        /* Nút danh sách khách */
         .btn-list {
             background-color: #0d6efd;
             color: #fff;
@@ -108,7 +103,6 @@
             color: #fff;
         }
 
-        /* Nút chỉnh sửa */
         .btn-edit {
             background-color: #ffc107;
             color: #212529;
@@ -119,7 +113,6 @@
             color: #fff;
         }
 
-        /* Nút xóa */
         .btn-delete {
             background-color: #dc3545;
             color: #fff;
@@ -134,8 +127,6 @@
             background-color: #f8f9fa;
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         }
-
-        /* CARD */
         .card {
             border: none;
             border-radius: 12px;
@@ -153,7 +144,6 @@
             font-weight: 600;
         }
 
-        /* BUTTONS */
         .btn-primary {
             background-color: #0d6efd;
             border: none;
@@ -166,7 +156,6 @@
             transform: translateY(-1px);
         }
 
-        /* TABLE */
         .table {
             background-color: white;
             border-radius: 12px;
@@ -194,7 +183,6 @@
             transition: 0.2s ease-in-out;
         }
 
-        /* BADGES (trạng thái) */
         .badge {
             font-size: 13px;
             font-weight: 600;
@@ -222,7 +210,6 @@
             color: #41464b !important;
         }
 
-        /* TABLE WRAPPER */
         .table-container {
             padding: 20px;
             border-radius: 12px;

@@ -71,7 +71,6 @@
 
                 <input type="hidden" name="MaDoan" value="<?= $doan['MaDoan'] ?>">
 
-                <!-- TOUR -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Tour</label>
                     <select name="MaTour" class="form-control">
@@ -90,7 +89,6 @@
 
                         <h5>Ngày <?= $lt['NgayThu'] ?>: <?= $lt['TieuDe'] ?></h5>
 
-                        <!-- KHÁCH SẠN -->
                         <label class="form-label">Khách sạn</label>
                         <select name="khachsan[<?= $lt['NgayThu'] ?>]" class="form-control">
                             <option value="">-- Chọn khách sạn --</option>
@@ -104,7 +102,6 @@
                             <?php endforeach; ?>
                         </select>
 
-                        <!-- NHÀ HÀNG -->
                         <label class="form-label mt-2">Nhà hàng</label>
                         <select name="nhahang[<?= $lt['NgayThu'] ?>]" class="form-control">
                             <option value="">-- Chọn nhà hàng --</option>
@@ -121,8 +118,6 @@
                     </div>
                 <?php endforeach; ?>
 
-
-                <!-- NGÀY — GIỜ -->
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label class="form-label">Ngày đi</label>
@@ -142,16 +137,15 @@
                     </div>
                 </div>
 
-                <!-- ĐIỂM TẬP TRUNG -->
                 <div class="mb-3">
                     <label class="form-label">Điểm tập trung</label>
                     <input type="text" name="DiemTapTrung" class="form-control" value="<?= $doan['DiemTapTrung'] ?>">
                 </div>
 
-                <!-- HDV -->
                 <div class="mb-3">
                     <label class="form-label">Hướng dẫn viên</label>
                     <select name="MaHuongDanVien" class="form-control">
+                        <option value="">-Chọn--</option>
                         <?php foreach ($hdv as $h): ?>
                             <option value="<?= $h['MaNhanVien'] ?>"
                                 <?= $h['MaNhanVien'] == $doan['MaHuongDanVien'] ? 'selected' : '' ?>>
@@ -161,10 +155,10 @@
                     </select>
                 </div>
 
-                <!-- TÀI XẾ -->
                 <div class="mb-3">
                     <label class="form-label">Tài xế</label>
                     <select name="MaTaiXe" class="form-control">
+                        <option value="">-Chọn--</option>
                         <?php foreach ($taixe as $tx): ?>
                             <option value="<?= $tx['MaNhaCungCap'] ?>"
                                 <?= $tx['MaNhaCungCap'] == $doan['MaTaiXe'] ? 'selected' : '' ?>>

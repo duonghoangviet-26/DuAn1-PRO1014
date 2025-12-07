@@ -58,7 +58,7 @@
         <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Quản lý nhà cung cấp</a>
         <a href="index.php?act=listNV"><i class="fa fa-users"></i> Tài khoản / HDV</a>
         <a href="#"><i class="fa fa-chart-bar"></i> Báo cáo thống kê</a>
-        <a href="index.php?act=addTaiKhoan"><i class="fas fa-user-plus"></i>Thêm Tài Khoản</a>
+        <a href="index.php?act=listTaiKhoan"><i class="fa fa-user-circle"></i> Danh sách Tài khoản</a>
         <a href="index.php?act=logout" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
     </div>
     <div class="content">
@@ -78,14 +78,14 @@
                 <?php endif; ?>
 
                 <form action="index.php?act=postAddTaiKhoan" method="POST">
-                    
+    
                     <div class="mb-3">
                         <label class="form-label fw-bold">Chọn Nhân viên:</label>
-                        <select name="MaNhanVien" class="form-select" required>
-                            <option value="">-- Chọn Nhân viên --</option>
+                        <select name="MaNhanVien" id="selectNhanVien" class="form-select" required onchange="updateRole()">
+                            <option value="" data-role="">-- Chọn Nhân viên --</option>
                             <?php foreach ($listNhanVien as $nv): ?>
-                                <option value="<?= $nv['MaNhanVien'] ?>">
-                                    <?= $nv['HoTen'] ?> (ID: <?= $nv['MaNhanVien'] ?>)
+                                <option value="<?= $nv['MaNhanVien'] ?>" data-role="<?= $nv['VaiTro'] ?>">
+                                    <?= $nv['HoTen'] ?> (ID: <?= $nv['MaNhanVien'] ?>) - <?= $nv['VaiTro'] ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -102,18 +102,22 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Phân quyền:</label>
-                        <select name="VaiTro" class="form-select">
+                        <label class="form-label fw-bold">Phân quyền (Tự động theo nhân viên):</label>
+                        <select id="selectVaiTro" class="form-select bg-light" disabled>
+                            <option value="">-- Tự động cập nhật --</option>
                             <option value="admin">Admin (Quản trị viên)</option>
                             <option value="dieu_hanh">Điều hành</option>
                             <option value="huong_dan_vien">Hướng dẫn viên</option>
+                            <option value="tai_xe">Tài xế</option>
                             <option value="khach_hang">Khách hàng</option>
                         </select>
+                        
+                        <input type="hidden" name="VaiTro" id="inputVaiTro">
                     </div>
 
                     <div class="mt-4">
                         <button type="submit" class="btn btn-primary">Tạo tài khoản</button>
-                        <a href="index.php?act=listNV" class="btn btn-secondary">Quay lại</a>
+                        <a href="index.php?act=listTaiKhoan" class="btn btn-secondary">Quay lại</a>
                     </div>
                 </form>
             </div>
@@ -123,6 +127,24 @@
 
     <!-- Script Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+    function updateRole() {
+        var selectNV = document.getElementById("selectNhanVien");
+        var selectedOption = selectNV.options[selectNV.selectedIndex];
+        var role = selectedOption.getAttribute("data-role");
+        var selectRole = document.getElementById("selectVaiTro");
+        var inputRole = document.getElementById("inputVaiTro");
+        
+        if (role) {
+            selectRole.value = role;
+            inputRole.value = role;
+        } else {
+            selectRole.value = "";
+            inputRole.value = "";
+        }
+    }
+</script>
 </body>
 
 </html>

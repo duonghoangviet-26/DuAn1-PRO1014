@@ -66,7 +66,6 @@
 
         <h3 class="text-primary fw-bold mb-3">Chi tiết Đoàn khởi hành</h3>
 
-        <!-- THÔNG TIN TOUR & ĐOÀN -->
         <div class="card p-3 mb-4">
             <h4 class="mb-3"><?= htmlspecialchars($tour['TenTour'] ?? '') ?></h4>
 
@@ -95,23 +94,10 @@
         <?php if (!empty($lichtrinh)) : ?>
         <?php foreach ($lichtrinh as $lt) : ?>
         <?php
-                // Tách buổi sáng / trưa / chiều / tối
                 $sang = array_filter(explode("\n", $lt['NoiDungSang']));
                 $trua = array_filter(explode("\n", $lt['NoiDungTrua']));
                 $chieu = array_filter(explode("\n", $lt['NoiDungChieu']));
                 $toi = array_filter(explode("\n", $lt['NoiDungToi']));
-
-                // $khachsan = "Chưa gán";
-                // $nhahang = "Chưa gán";
-
-                // foreach ($nccTheoNgay as $n) {
-                //     if ($n['NgayThu'] == $lt['NgayThu']) {
-                //         if ($n['LoaiNhaCungCap'] == 'khach_san') $khachsan = $n['TenNhaCungCap'];
-                //         if ($n['LoaiNhaCungCap'] == 'nha_hang') $nhahang = $n['TenNhaCungCap'];
-                //     }
-                // }
-
-
 
                 ?>
         <div class="card p-3 mb-4 border">

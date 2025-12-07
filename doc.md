@@ -24,4 +24,4 @@ Mô hình MVC
 - Controller: Dùng để thực thi các đoạn mã xử lý logic
 
 - hello test git
-- Cấu hình DB trong file commons/env.php
+- Cấu hình DB trong file commons/env.php 
