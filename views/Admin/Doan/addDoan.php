@@ -98,7 +98,6 @@
 
                             <p><?= $day['ChiTietHoatDong'] ?></p>
 
-                            <!-- CHỌN KHÁCH SẠN -->
                             <label class="form-label fw-bold">Khách sạn</label>
                             <select name="khachsan[<?= $day['NgayThu'] ?>]">
                                 <option value="">-- Chọn khách sạn --</option>
@@ -109,7 +108,6 @@
                                 <?php endforeach; ?>
                             </select>
 
-                            <!-- CHỌN NHÀ HÀNG -->
                             <label class="form-label fw-bold mt-2">Nhà hàng</label>
                             <select name="nhahang[<?= $day['NgayThu'] ?>]">
                                 <option value="">-- Chọn nhà hàng --</option>
@@ -123,8 +121,6 @@
                     <?php endforeach; ?>
                 <?php endif; ?>
 
-
-                <!-- NGÀY ĐI / NGÀY VỀ / GIỜ -->
                 <div class="row">
                     <div class="col-md-4 mb-3">
                         <label class="form-label fw-bold">Ngày đi</label>
@@ -138,20 +134,17 @@
                             value="<?= $tourSelected['NgayKetThuc'] ?? ($_POST['NgayVe'] ?? '') ?>" required>
                     </div>
 
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label fw-bold">Giờ khởi hành</label>
+                    <div class="col-md-4 mb-3"><label class="form-label fw-bold">Giờ khởi hành</label>
                         <input type="time" name="GioKhoiHanh" class="form-control" required>
                     </div>
                 </div>
 
-                <!-- ĐIỂM TẬP TRUNG -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Điểm tập trung</label>
                     <input type="text" name="DiemTapTrung" class="form-control" placeholder="VD: 102 Nguyễn Huệ, Q1"
                         required>
                 </div>
 
-                <!-- HDV -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Hướng dẫn viên</label>
                     <select name="MaHuongDanVien" class="form-control">
@@ -161,7 +154,6 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <!-- TÀI XẾ -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Tài xế</label>
                     <select name="MaTaiXe" class="form-control">
@@ -173,13 +165,11 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <!-- SỐ CHỖ -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Số chỗ tối đa</label>
                     <input type="number" min="1" name="SoChoToiDa" class="form-control" required>
                 </div>
 
-                <!-- NÚT -->
                 <button name="btnSave" class="btn btn-primary">Thêm</button>
                 <a href="index.php?act=listDKH" class="btn btn-secondary">Hủy</a>
 

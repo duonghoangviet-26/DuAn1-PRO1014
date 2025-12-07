@@ -158,6 +158,12 @@ match ($act) {
     'updateDKH' => (new doanKhoiHanhController())->updateDKH(),
     'chiTietDKH' => (new doanKhoiHanhController())->chiTietDKH(),
     'getDoanByTour' => (new doanKhoiHanhController())->getDoanByTour(),
+    'taichinh' => (new doanKhoiHanhController())->taichinh(),
+    'addtaichinh' => (new doanKhoiHanhController())->addTaiChinh(),
+    'deleteTC' => (new doanKhoiHanhController())->deleteTaiChinh(),
+    'editTC' => (new doanKhoiHanhController())->editTaiChinh(),
+    'updateTC' => (new doanKhoiHanhController())->updateTaiChinh(),
+
     default => header("Location: index.php?act=login"),
 
     // HDV xem lịch trình & Lịch làm việc
@@ -175,7 +181,7 @@ match ($act) {
     'hdv_vanhanh'         => (new VanHanhTourController())->index(),
     'hdv_add_transaction' => (new VanHanhTourController())->addTransaction(),
     'hdv_delete_transaction' => (new VanHanhTourController())->deleteTransaction(),
-    'hdv_report_issue'    => (new VanHanhTourController())->reportIssue(),
+    // 'hdv_report_issue'    => (new VanHanhTourController())->reportIssue(),
 };
 
 function checkAuth($roleRequired)

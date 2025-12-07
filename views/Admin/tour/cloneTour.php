@@ -145,7 +145,6 @@ function tachBuoi($str)
                     <input type="hidden" name="NgayThu[]" value="<?= $lt['NgayThu'] ?>">
                     <input type="hidden" name="MaLichTrinh[]" value="<?= $lt['MaLichTrinh'] ?>">
 
-                    <!-- 2 INPUT BẮT BUỘC ĐỂ KHÔNG LỖI CONTROLLER -->
                     <input type="hidden" name="ChiTietHoatDong[]" value="">
                     <input type="hidden" name="GioHoatDong[]" value="">
 
@@ -171,7 +170,6 @@ function tachBuoi($str)
 
                     <hr>
 
-                    <!-- ===================== SÁNG ===================== -->
                     <h6>☀ Hoạt động buổi sáng</h6>
                     <div id="Sang_<?= $idx ?>">
                         <?php foreach ($Sang['gio'] as $i => $g): ?>
@@ -186,7 +184,6 @@ function tachBuoi($str)
 
                     <hr>
 
-                    <!-- ===================== TRƯA ===================== -->
                     <h6>🍱 Hoạt động buổi trưa</h6>
                     <div id="Trua_<?= $idx ?>">
                         <?php foreach ($Trua['gio'] as $i => $g): ?>
@@ -206,7 +203,6 @@ function tachBuoi($str)
 
                     <hr>
 
-                    <!-- ===================== CHIỀU ===================== -->
                     <h6>🌇 Hoạt động buổi chiều</h6>
                     <div id="Chieu_<?= $idx ?>">
                         <?php foreach ($Chieu['gio'] as $i => $g): ?>
@@ -226,7 +222,6 @@ function tachBuoi($str)
 
                     <hr>
 
-                    <!-- ===================== TỐI ===================== -->
                     <h6>🌙 Hoạt động buổi tối</h6>
                     <div id="Toi_<?= $idx ?>">
                         <?php foreach ($Toi['gio'] as $i => $g): ?>
