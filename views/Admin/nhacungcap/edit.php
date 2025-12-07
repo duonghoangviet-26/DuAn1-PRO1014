@@ -32,6 +32,14 @@
         <div class="container mt-4">
             <h2>Cập Nhật Nhà Cung Cấp: <?= $ncc['TenNhaCungCap'] ?></h2>
 
+            <?php if (isset($_SESSION['error'])): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-triangle"></i> <?= $_SESSION['error'] ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <?php unset($_SESSION['error']); ?>
+            <?php endif; ?>
+
             <form action="index.php?act=submitEditNCC" method="POST" class="row g-3">
                 
                 <input type="hidden" name="MaNhaCungCap" value="<?= $ncc['MaNhaCungCap'] ?>">

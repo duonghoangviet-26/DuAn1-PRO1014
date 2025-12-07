@@ -70,7 +70,6 @@
 
                 <div class="row g-0">
 
-                    <!-- Ảnh tour -->
                     <div class="col-md-4 text-center p-3">
                         <?php if (!empty($tour['LinkAnhBia'])) { ?>
                             <img src="/DUAN1-PRO1014/uploads/imgproduct/<?= $tour['LinkAnhBia'] ?>"
@@ -152,7 +151,6 @@
             </div>
 
 
-            <!-- ===================== LỊCH TRÌNH TOUR ===================== -->
             <div class="card shadow mt-4">
                 <div class="card-header bg-primary text-white fw-bold">
                     <i class="fa fa-calendar-day"></i> Lịch Trình Tour

@@ -78,7 +78,6 @@
             font-weight: 600;
         }
 
-        /* Cột hành động */
         td.actions {
             display: flex;
             align-items: center;
@@ -86,7 +85,6 @@
             white-space: nowrap;
         }
 
-        /* Nút hành động chung */
         .actions a {
             text-decoration: none;
             font-size: 14px;
@@ -96,7 +94,6 @@
             font-weight: 600;
         }
 
-        /* Nút danh sách khách */
         .btn-list {
             background-color: #0d6efd;
             color: #fff;
@@ -107,7 +104,6 @@
             color: #fff;
         }
 
-        /* Nút chỉnh sửa */
         .btn-edit {
             background-color: #ffc107;
             color: #212529;
@@ -118,7 +114,6 @@
             color: #fff;
         }
 
-        /* Nút xóa */
         .btn-delete {
             background-color: #dc3545;
             color: #fff;
@@ -164,16 +159,15 @@
                             <?php unset($_SESSION['error']); ?>
                         <?php endif; ?>
 
-                        <!-- Thanh công cụ -->
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <a href="index.php?act=createDKH" class="btn btn-success">
                                     <i class="fas fa-plus"></i> Thêm Đoàn Khởi Hành
                                 </a>
                             </div>
+                            
                         </div>
 
-                        <!-- Bảng danh sách tour -->
                         <div class="table-responsive">
                             <table class="table table-hover table-bordered">
                                 <thead class="table-light">
@@ -205,14 +199,11 @@
                                         <td><?= $d['TenHDV'] ?></td>
                                         <td><?= $d['TenTaiXe'] ?></td>
 
-                                        <!-- Tổng chỗ -->
                                         <td><?= $d['SoChoToiDa'] ?></td>
 
-                                        <!-- Đã đặt -->
                                         <td><?= $d['DaDat'] ?></td>
                                         <td><?= $d['ConTrong'] ?></td>
 
-                                        <!-- Trạng thái -->
                                         <td>
                                             <?php
                                             $status = $d['TrangThai'] ?? 'con_cho';
@@ -228,7 +219,6 @@
                                             ?>
                                         </td>
 
-                                        <!-- Hành động -->
                                         <td class="actions">
                                             <a href="index.php?act=listKhachTrongTour&MaTour=<?= $d['MaTour'] ?>"
                                                 class="btn btn-info btn-sm">

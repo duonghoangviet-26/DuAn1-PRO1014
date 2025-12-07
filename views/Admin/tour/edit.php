@@ -68,7 +68,6 @@
         <a href="#" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
     </div>
 
-    <!-- NỘI DUNG CHÍNH -->
     <div class="content">
 
         <h2 class="fw-bold mb-4">Sửa Tour</h2>
@@ -79,16 +78,13 @@
 
             <form action="index.php?act=updateTour" method="POST" enctype="multipart/form-data">
 
-                <!-- ID tour -->
                 <input type="hidden" name="MaTour" value="<?= $tour['MaTour'] ?>">
 
-                <!-- Tên tour -->
                 <label class="form-label">Tên tour</label>
                 <input type="text" name="TenTour"
                     value="<?= htmlspecialchars($tour['TenTour']) ?>"
                     class="form-control mb-3" required>
 
-                <!-- Danh mục -->
                 <label class="form-label">Danh mục tour</label>
                 <select name="MaDanhMuc" class="form-control mb-3" required>
                     <?php foreach ($danhmuc as $dm): ?>
@@ -99,19 +95,16 @@
                     <?php endforeach; ?>
                 </select>
 
-                <!-- Giá bán -->
                 <label class="form-label">Giá bán</label>
                 <input type="number" name="GiaBanMacDinh"
                     value="<?= (float)$tour['GiaBanMacDinh'] ?>"
                     class="form-control mb-3" required>
 
-                <!-- Điểm khởi hành -->
                 <label class="form-label">Điểm khởi hành</label>
                 <input type="text" name="DiemKhoiHanh"
                     value="<?= htmlspecialchars($tour['DiemKhoiHanh']) ?>"
                     class="form-control mb-3" required>
 
-                <!-- Số ngày -->
                 <label class="form-label">Số ngày</label>
                 <input type="number" name="SoNgay"
                     value="<?= (int)$tour['SoNgay'] ?>"
@@ -127,7 +120,6 @@
                     <input type="number" class="form-control"
                         name="GiaVonDuKien" value="<?= $tour['GiaVonDuKien'] ?>" required>
                 </div>
-                <!-- ⭐ NGÀY BẮT ĐẦU -->
                 <div class="mb-3">
                     <label class="form-label">Ngày bắt đầu</label>
                     <input type="date" name="NgayBatDau"
@@ -135,7 +127,6 @@
                         class="form-control" required>
                 </div>
 
-                <!-- ⭐ NGÀY KẾT THÚC -->
                 <div class="mb-3">
                     <label class="form-label">Ngày kết thúc</label>
                     <input type="date" name="NgayKetThuc"
@@ -143,11 +134,9 @@
                         class="form-control" required>
                 </div>
 
-                <!-- Mô tả -->
                 <label class="form-label">Mô tả</label>
                 <textarea name="MoTa" rows="4" class="form-control mb-4"><?= htmlspecialchars($tour['MoTa']) ?></textarea>
 
-                <!-- Trạng thái -->
                 <label class="form-label">Trạng thái</label>
                 <select name="TrangThai" class="form-control mb-4">
                     <option value="hoat_dong" <?= ($tour['TrangThai'] == 'hoat_dong') ? 'selected' : '' ?>>Hoạt động</option>
@@ -155,7 +144,7 @@
                     <option value="da_ket_thuc" <?= ($tour['TrangThai'] == 'da_ket_thuc') ? 'selected' : '' ?>>Đã kết thúc</option>
                 </select>
 
-                <!-- Ảnh hiện tại -->
+              
                 <label class="form-label">Ảnh hiện tại</label><br>
                 <?php if (!empty($tour["LinkAnhBia"])): ?>
                     <img src="uploads/imgproduct/<?= $tour['LinkAnhBia'] ?>"
@@ -166,7 +155,6 @@
 
                 <br><br>
 
-                <!-- Upload ảnh mới -->
                 <label class="form-label">Chọn ảnh mới (nếu muốn thay đổi)</label>
                 <input type="file" name="LinkAnhBia" class="form-control mb-4" accept="image/*">
 
@@ -191,7 +179,6 @@
                         <label>Địa điểm tham quan</label>
                         <input type="text" class="form-control mb-2" name="DiaDiemThamQuan[]" value="<?= $lt['DiaDiemThamQuan'] ?>">
 
-                        <!-- GIỜ TRONG NGÀY -->
                         <div class="row">
                             <div class="col-md-4">
                                 <label>Giờ tập trung</label>
@@ -216,7 +203,6 @@
 
                         <hr>
 
-                        <!-- ================= BUỔI SÁNG ================= -->
                         <h6 class="fw-bold">☀ Hoạt động buổi sáng</h6>
 
                         <div id="BuoiSang_<?= $idx ?>">
@@ -243,7 +229,6 @@
 
                         <hr>
 
-                        <!-- ================= BUỔI TRƯA ================= -->
                         <h6 class="fw-bold">🍱 Hoạt động buổi trưa</h6>
 
                         <div id="BuoiTrua_<?= $idx ?>">
@@ -270,7 +255,6 @@
 
                         <hr>
 
-                        <!-- ================= BUỔI CHIỀU ================= -->
                         <h6 class="fw-bold">🌇 Hoạt động buổi chiều</h6>
 
                         <div id="BuoiChieu_<?= $idx ?>">
@@ -297,7 +281,6 @@
 
                         <hr>
 
-                        <!-- ================= BUỔI TỐI ================= -->
                         <h6 class="fw-bold">🌙 Hoạt động buổi tối</h6>
 
                         <div id="BuoiToi_<?= $idx ?>">

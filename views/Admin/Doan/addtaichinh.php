@@ -46,7 +46,6 @@
 
 <body>
 
-    <!-- Sidebar giống DKH -->
     <div class="sidebar">
         <h4 class="text-center text-light mb-4">Admin Panel</h4>
 

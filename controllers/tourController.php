@@ -36,7 +36,6 @@ class tourController
         } else {
             $_SESSION['error'] = "ID không hợp lệ.";
         }
-        // Quay lại danh sách (sử dụng router của index.php)
         header("Location: index.php?act=listdm");
         exit;
     }
@@ -113,28 +112,53 @@ class tourController
     }
 
 
-    public function getAllTour()
-    {
-        
-        $model = new tourModel();
+   public function getAllTour()
+{
+    $model = new tourModel();
 
-        // --- PHÂN TRANG ---
-        $limit = 7; // số tour trên mỗi trang
+    // Lấy keyword & trạng thái lọc
+    $keyword = $_GET['keyword'] ?? "";
+    $trangthai = $_GET['trangthai'] ?? "";
+
+    // Nếu có từ khóa tìm kiếm hoặc trạng thái lọc → bỏ phân trang
+    if ($keyword != "" || $trangthai != "") {
+
+        // Tạo câu SQL tìm kiếm + lọc
+        $where = " WHERE 1 ";
+
+        if ($keyword != "") {
+            $keyword = addslashes($keyword);
+            $where .= " AND (t.TenTour LIKE '%$keyword%' 
+                        OR dm.TenDanhMuc LIKE '%$keyword%' 
+                        OR t.DiemKhoiHanh LIKE '%$keyword%')";
+        }
+
+        if ($trangthai != "") {
+            $where .= " AND t.TrangThai = '$trangthai' ";
+        }
+
+        $listTour = $model->searchTourAdvanced($where);
+        $totalPage = 1;
+        $page = 1;
+
+    } else {
+
+        // PHÂN TRANG BÌNH THƯỜNG
+        $limit = 7;
         $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-
         if ($page < 1) $page = 1;
 
         $start = ($page - 1) * $limit;
 
-        // Lấy tour giới hạn
         $listTour = $model->getTourPagination($start, $limit);
-
-        // Tổng số tour
         $totalTour = $model->countTours();
         $totalPage = ceil($totalTour / $limit);
-
-        include "views/Admin/tour/listTour.php";
     }
+
+    include "views/Admin/tour/listTour.php";
+}
+
+
 
 
     // FORM THÊM TOUR
@@ -167,7 +191,6 @@ class tourController
                 exit();
             }
 
-            // Ảnh
             $LinkAnhBia = "";
             if (!empty($_FILES['LinkAnhBia']['name'])) {
                 $fileName = time() . "_" . preg_replace('/\s+/', '_', $_FILES['LinkAnhBia']['name']);
@@ -180,7 +203,6 @@ class tourController
                 }
             }
 
-            // Lưu TOUR
             $model = new tourModel();
             $model->addTour(
                 $TenTour,
@@ -199,11 +221,9 @@ class tourController
 
             $idTour = $model->getLastId();
 
-            // LƯU LỊCH TRÌNH
             if (!empty($_POST['NgayThu'])) {
                 foreach ($_POST['NgayThu'] as $i => $NgayThu) {
 
-                    // GHÉP BUỔI SÁNG/TRƯA/CHIỀU/TỐI
                     $NoiDungSang  = $this->joinBuoi($_POST['GioSang'][$i] ?? [], $_POST['NoiDungSang'][$i] ?? []);
                     $NoiDungTrua  = $this->joinBuoi($_POST['GioTrua'][$i] ?? [], $_POST['NoiDungTrua'][$i] ?? []);
                     $NoiDungChieu = $this->joinBuoi($_POST['GioChieu'][$i] ?? [], $_POST['NoiDungChieu'][$i] ?? []);
@@ -246,13 +266,11 @@ class tourController
         $danhmuc = $model->getAllDanhMuc();
         $lichTrinhRaw = $model->getLichTrinhByTour($_GET['id']);
 
-        // Regex lấy giờ
         $getTime = function ($line) {
             preg_match('/(\d{2}:\d{2})/', $line, $m);
             return $m[1] ?? "";
         };
 
-        // Tách buổi: sáng – trưa – chiều – tối
         $parseBuoi = function ($text) use ($getTime) {
             if (!$text) return [
                 "gio" => [],
@@ -271,7 +289,6 @@ class tourController
             return ["gio" => $gio, "hd" => $hd];
         };
 
-        // Xử lý toàn bộ lịch trình
         $lichTrinh = [];
         foreach ($lichTrinhRaw as $lt) {
             $lichTrinh[] = [
@@ -306,7 +323,6 @@ class tourController
     // XỬ LÝ UPDATE TOUR
     public function updateTour()
     {
-        // ------------------ LẤY DỮ LIỆU FORM ------------------
         $id          = $_POST['MaTour'];
         $TenTour     = $_POST['TenTour'];
         $GiaBanMacDinh = $_POST['GiaBanMacDinh'];
@@ -320,7 +336,6 @@ class tourController
         $NgayKetThuc = $_POST['NgayKetThuc'];
         $TrangThai   = $_POST['TrangThai'];
 
-        // Validate số ngày - số đêm
         if ($SoDem > $SoNgay) {
             echo "<script>alert('❌ Số đêm không được lớn hơn số ngày!'); history.back();</script>";
             exit();
@@ -329,7 +344,6 @@ class tourController
         $model = new tourModel();
         $oldTour = $model->getTourById($id);
 
-        // ------------------ XỬ LÝ ẢNH ------------------
         $LinkAnhBia = $oldTour['LinkAnhBia'];
         if (!empty($_FILES['LinkAnhBia']['name'])) {
             if (file_exists("uploads/imgproduct/" . $LinkAnhBia)) {
@@ -342,7 +356,6 @@ class tourController
             $LinkAnhBia = $fileName;
         }
 
-        // ------------------ UPDATE TOUR ------------------
         $model->updateTour(
             $id,
             $TenTour,
@@ -359,7 +372,6 @@ class tourController
             $TrangThai
         );
 
-        // ------------------ HÀM GHÉP GIỜ + HOẠT ĐỘNG ------------------
         $joinBuoi = function ($times, $notes) {
             $result = [];
 
@@ -376,18 +388,15 @@ class tourController
             return implode("\n", $result);
         };
 
-        // ------------------ UPDATE LỊCH TRÌNH ------------------
         if (!empty($_POST['MaLichTrinh'])) {
 
             foreach ($_POST['MaLichTrinh'] as $i => $idLT) {
 
-                // GHÉP TỪNG BUỔI
                 $NoiDungSang  = $joinBuoi($_POST['Sang_Gio'][$i] ?? [], $_POST['Sang_HD'][$i] ?? []);
                 $NoiDungTrua  = $joinBuoi($_POST['Trua_Gio'][$i] ?? [], $_POST['Trua_HD'][$i] ?? []);
                 $NoiDungChieu = $joinBuoi($_POST['Chieu_Gio'][$i] ?? [], $_POST['Chieu_HD'][$i] ?? []);
                 $NoiDungToi   = $joinBuoi($_POST['Toi_Gio'][$i] ?? [], $_POST['Toi_HD'][$i] ?? []);
 
-                // UPDATE 1 NGÀY LỊCH TRÌNH
                 $model->updateLichTrinh(
                     $idLT,
                     $_POST['TieuDeNgay'][$i] ?? "",
@@ -409,7 +418,6 @@ class tourController
             }
         }
 
-        // DONE
         header("Location: index.php?act=listTour");
         exit();
     }
@@ -442,7 +450,7 @@ class tourController
     }
 
 
-    // CLONE TOUR – FORM
+    // CLONE TOUR
     public function cloneTour()
     {
         $id = $_GET['id'];
@@ -454,13 +462,11 @@ class tourController
         include "views/Admin/tour/cloneTour.php";
     }
 
-    // LƯU CLONE
     public function cloneTourSave()
     {
         $model = new tourModel();
         $TrangThai = $_POST['TrangThai'];
 
-        // COPY dữ liệu TOUR
         $idNew = $model->addTour(
             $_POST['TenTour'],
             $_POST['GiaBanMacDinh'],
@@ -469,14 +475,13 @@ class tourController
             $_POST['SoDem'],
             $_POST['MoTa'],
             $_POST['MaDanhMuc'],
-            $_POST['OldAnh'],          // Giữ ảnh cũ
+            $_POST['OldAnh'],
             $_POST['GiaVonDuKien'],
             $_POST['NgayBatDau'],
             $_POST['NgayKetThuc'],
             $TrangThai
         );
 
-        // ================= COPY LỊCH TRÌNH ==================
         if (!empty($_POST['MaLichTrinh'])) {
 
             foreach ($_POST['MaLichTrinh'] as $i => $oldId) {
@@ -486,7 +491,6 @@ class tourController
                 $NoiDungChieu = $this->joinBuoi($_POST['GioChieu'][$i], $_POST['NoiDungChieu'][$i]);
                 $NoiDungToi = $this->joinBuoi($_POST['GioToi'][$i], $_POST['NoiDungToi'][$i]);
 
-                // INSERT lịch trình mới
                 $model->addLichTrinh(
                     $idNew,
                     $_POST['NgayThu'][$i],
