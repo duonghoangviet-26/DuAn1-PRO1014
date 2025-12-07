@@ -34,8 +34,11 @@
 
     <div class="sidebar">
         <h4><i class="fa-solid fa-route"></i> HDV Panel</h4>
-        <a href="index.php?act=hdv_dashboard"><i class="fa-solid fa-house"></i> Dashboard</a>
-        <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-calendar-days"></i> Lịch trình</a>
+        <a href="index.php?act=hdv_dashboard"><i class="fa-solid fa-house"></i> Trang Chủ</a>
+        <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-calendar-days"></i> Lịch trình & Lịch làm việc</a>
+        <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-users"></i> Danh sách khách</a>
+        <a href="#"><i class="fa-solid fa-book"></i> Nhật ký tour</a>
+        <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-compass"></i> Vận hành tour</a>
         <a href="#" class="active"><i class="fa-solid fa-user-check"></i> Quản lý khách</a>
         <hr style="border-color: #aad; margin: 20px;">
         <a href="index.php?act=logout" class="text-danger"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
@@ -127,7 +130,7 @@
                                     <th width="20%" class="text-start">Họ Tên</th>
                                     <th width="15%">Thông tin</th>
                                     <th width="10%">Giấy tờ</th>
-                                    <th width="10%">Phòng/Note</th>
+                                    <th width="10%">Note</th>
                                     <th width="20%">Trạng Thái</th>
                                     <th width="20%">Ghi Chú</th>
                                 </tr>
@@ -160,7 +163,6 @@
                                     </td>
                                     <td class="text-center text-primary fw-bold"><?= !empty($kh['SoGiayTo']) ? $kh['SoGiayTo'] : '-' ?></td>
                                     <td class="small">
-                                        <?php if(!empty($kh['LoaiPhong'])): ?> <div class="badge bg-secondary mb-1"><?= $kh['LoaiPhong'] ?></div> <?php endif; ?>
                                         <?php if(!empty($kh['GhiChuDacBiet'])): ?> <div class="text-danger fw-bold" title="<?= $kh['GhiChuDacBiet'] ?>"><i class="fas fa-exclamation-circle"></i> Lưu ý</div> <?php endif; ?>
                                     </td>
                                     <td>
@@ -229,7 +231,6 @@
             select.classList.remove('co_mat', 'vang', 'tre');
             select.classList.add(select.value);
         }
-        // Init colors
         document.querySelectorAll('.status-select').forEach(sel => updateColor(sel));
     </script>
 </body>

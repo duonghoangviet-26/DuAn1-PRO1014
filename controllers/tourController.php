@@ -24,8 +24,9 @@ class tourController
     }
     public function deleteDanhMuc()
     {
-        if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-            $id = $_GET['id'];
+        $id = isset($_GET['id']) && is_numeric($_GET['id']) ? intval($_GET['id']) : 0;
+        
+        if ($id > 0) {
             $rowsDeleted = $this->modelTour->deleteDanhMuc($id);
 
             if ($rowsDeleted > 0) {

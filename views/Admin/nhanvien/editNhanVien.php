@@ -59,7 +59,7 @@
         <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Quản lý nhà cung cấp</a>
         <a href="index.php?act=listNV"><i class="fa fa-users"></i> Tài khoản / HDV</a>
         <a href="#"><i class="fa fa-chart-bar"></i> Báo cáo thống kê</a>
-        <a href="index.php?act=addTaiKhoan"><i class="fas fa-user-plus"></i>Thêm Tài Khoản</a>
+        <a href="index.php?act=listTaiKhoan"><i class="fa fa-user-circle"></i> Danh sách Tài khoản</a>
         <a href="index.php?act=logout" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
     </div>
 
@@ -180,7 +180,6 @@
         </div>
     </div>
 
-    <!-- JS Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function validateForm(e) {

@@ -66,6 +66,13 @@
             <h4 class="mb-3">Thêm Đoàn Khởi Hành</h4>
 
             <form method="post">
+                <?php if (isset($_SESSION['error'])): ?>
+                    <div class="alert alert-danger">
+                        <?= $_SESSION['error'] ?>
+                    </div>
+                    <?php unset($_SESSION['error']); ?>
+                <?php endif; ?>
+                <!-- TOUR -->
                 <div class="mb-3">
                     <label class="form-label fw-bold">Tour</label>
                     <select name="MaTour" id="MaTour" class="form-select" onchange="this.form.submit()">

@@ -145,6 +145,7 @@
                 <div class="mb-3">
                     <label class="form-label">Hướng dẫn viên</label>
                     <select name="MaHuongDanVien" class="form-control">
+                        <option value="">-Chọn--</option>
                         <?php foreach ($hdv as $h): ?>
                             <option value="<?= $h['MaNhanVien'] ?>"
                                 <?= $h['MaNhanVien'] == $doan['MaHuongDanVien'] ? 'selected' : '' ?>>
@@ -157,6 +158,7 @@
                 <div class="mb-3">
                     <label class="form-label">Tài xế</label>
                     <select name="MaTaiXe" class="form-control">
+                        <option value="">-Chọn--</option>
                         <?php foreach ($taixe as $tx): ?>
                             <option value="<?= $tx['MaNhaCungCap'] ?>"
                                 <?= $tx['MaNhaCungCap'] == $doan['MaTaiXe'] ? 'selected' : '' ?>>
