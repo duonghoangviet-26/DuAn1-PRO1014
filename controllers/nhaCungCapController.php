@@ -32,8 +32,12 @@ class nhaCungCapController
 
             $errors = [];
 
-            if (empty($_POST['MaCodeNCC'])) {$errors[] = 'Mã Code NCC không được để trống';}
-            if (empty($_POST['TenNhaCungCap'])) {$errors[] = 'Tên Nhà Cung Cấp không được để trống';}
+            if (empty($_POST['MaCodeNCC'])) {
+                $errors[] = 'Mã Code NCC không được để trống';
+            }
+            if (empty($_POST['TenNhaCungCap'])) {
+                $errors[] = 'Tên Nhà Cung Cấp không được để trống';
+            }
 
             $email = $_POST['Email'];
             if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -41,7 +45,7 @@ class nhaCungCapController
             }
 
             $sdt = $_POST['SoDienThoai'];
-            if (!empty($sdt) && !preg_match('/^[0-9]+$', $sdt)) {
+            if (!empty($sdt) && !preg_match('/^[0-9]+$/', $sdt)) {
                 $errors[] = 'Số điện thoại chỉ được nhập số (không chứa chữ hay ký tự đặc biệt)';
             }
 
@@ -65,21 +69,21 @@ class nhaCungCapController
                 'LoaiNhaCungCap' => $_POST['LoaiNhaCungCap'],
                 'NguoiLienHe' => $_POST['NguoiLienHe'],
 
-                'TenLaiXe' => $_POST['TenLaiXe'] ?? '',
-                'SDTLaiXe' => $_POST['SDTLaiXe'] ?? '',
+                'TenLaiXe' => trim($_POST['TenLaiXe'] ?? ''),
+                'SDTLaiXe' => trim($_POST['SDTLaiXe'] ?? ''),
 
-                'SoDienThoai' => $_POST['SoDienThoai'],
-                'Email' => $_POST['Email'],
+                'SoDienThoai' => trim($_POST['SoDienThoai']),
+                'Email' => trim($_POST['Email']),
                 'DiaChi' => $_POST['DiaChi'],
                 'DichVuCungCap' => $_POST['DichVuCungCap'],
-                'FileHopDong' => $_POST['FileHopDong'], 
+                'FileHopDong' => $_POST['FileHopDong'],
                 'NgayBatDauHopDong' => $_POST['NgayBatDauHopDong'],
                 'NgayKetThucHopDong' => $_POST['NgayKetThucHopDong'],
                 'DanhGia' => $_POST['DanhGia'],
                 'GhiChu' => $_POST['GhiChu'],
                 'TrangThai' => $_POST['TrangThai']
             ];
-            
+
             $this->modelNhaCungCap->insertNhaCungCap($data);
 
             header("Location: " . BASE_URL . "?act=listNCCByCategory&loai=" . $data['LoaiNhaCungCap']);
@@ -100,8 +104,12 @@ class nhaCungCapController
 
             $errors = [];
 
-            if (empty($_POST['MaCodeNCC'])) {$errors[] = 'Mã Code NCC không được để trống';}
-            if (empty($_POST['TenNhaCungCap'])) {$errors[] = 'Tên Nhà Cung Cấp không được để trống';}
+            if (empty($_POST['MaCodeNCC'])) {
+                $errors[] = 'Mã Code NCC không được để trống';
+            }
+            if (empty($_POST['TenNhaCungCap'])) {
+                $errors[] = 'Tên Nhà Cung Cấp không được để trống';
+            }
 
             $email = $_POST['Email'];
             if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -126,7 +134,7 @@ class nhaCungCapController
                 exit;
             }
 
-            $id = $_POST['MaNhaCungCap'];
+            $id = trim($_POST['MaNhaCungCap']);
             $data = [
                 'MaCodeNCC' => $_POST['MaCodeNCC'],
                 'TenNhaCungCap' => $_POST['TenNhaCungCap'],
@@ -140,7 +148,7 @@ class nhaCungCapController
                 'Email' => $_POST['Email'],
                 'DiaChi' => $_POST['DiaChi'],
                 'DichVuCungCap' => $_POST['DichVuCungCap'],
-                'FileHopDong' => $_POST['FileHopDong'], 
+                'FileHopDong' => $_POST['FileHopDong'],
                 'NgayBatDauHopDong' => $_POST['NgayBatDauHopDong'],
                 'NgayKetThucHopDong' => $_POST['NgayKetThucHopDong'],
                 'DanhGia' => $_POST['DanhGia'],
@@ -163,8 +171,8 @@ class nhaCungCapController
         $loai_ncc = $ncc['LoaiNhaCungCap'];
 
         $this->modelNhaCungCap->deleteNhaCungCap($id);
-        
-        header("Location: " . BASE_URL . "?act=listNCCByCategory&loai=" .$loai_ncc);
+
+        header("Location: " . BASE_URL . "?act=listNCCByCategory&loai=" . $loai_ncc);
         exit;
     }
 
@@ -174,5 +182,4 @@ class nhaCungCapController
         $ncc = $this->modelNhaCungCap->getOneNhaCungCap($id);
         require_once "./views/Admin/nhacungcap/detail.php";
     }
-
 }

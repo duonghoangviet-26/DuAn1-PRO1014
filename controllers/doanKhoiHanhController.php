@@ -122,6 +122,29 @@ class doanKhoiHanhController
     public function createDKH()
     {
         $tour = $this->doanKhoiHanh->getAllTour();
+        $hdv = $this->doanKhoiHanh->getAllHDV();
+        $taixe = $this->doanKhoiHanh->getAllNhaXe();
+
+        $lichtrinh = [];
+        $hotels = [];
+        $restaurants = [];
+
+        // Khi chọn tour nhưng chưa bấm "Thêm"
+        if (!empty($_POST['MaTour']) && !isset($_POST['btnSave'])) {
+
+            foreach ($tour as $t) {
+                if ($t['MaTour'] == $_POST['MaTour']) {
+                    $tourSelected = $t;
+                    break;
+                }
+            }
+
+            $lichtrinh = $this->doanKhoiHanh->getLichTrinhByTour($_POST['MaTour']);
+            $hotels = $this->doanKhoiHanh->getNhaCungCapByType('khach_san');
+            $restaurants = $this->doanKhoiHanh->getNhaCungCapByType('nha_hang');
+        }
+
+        $tour = $this->doanKhoiHanh->getAllTour();
         $errors = [];
 
         if (isset($_POST['btnSave'])) {
@@ -192,7 +215,7 @@ class doanKhoiHanhController
                 'SoChoConTrong' => $_POST['SoChoToiDa'],
                 'TrangThai'     => 'con_cho',
                 'MaHuongDanVien' => null,
-                'MaTaiXe'       => null
+                'MaTaiXe' => $_POST['MaTaiXe'],
             ]);
 
             header("Location:index.php?act=listDKH");
@@ -358,17 +381,17 @@ class doanKhoiHanhController
             header("Location:index.php?act=listDKH");
             exit;
         }
-
         $MaDoan = $_GET['id'];
-
         $thu = $this->doanKhoiHanh->getTongThu($MaDoan);
         $chi = $this->doanKhoiHanh->getTongChi($MaDoan);
-
         $tongthu = $thu['TongThu'] ?? 0;
         $tongchi = $chi['TongChi'] ?? 0;
-
-        $loinhuan = $tongthu - $tongchi;
-
+        $doan = $this->doanKhoiHanh->getDoanById($MaDoan);
+        $tour = $this->doanKhoiHanh->getTourById($doan['MaTour']);
+        $giavon = $tour['GiaVonDuKien'] ?? 0;
+        $soNguoi = $this->doanKhoiHanh->getTotalPeopleByDoan($MaDoan);
+        $tongGiaVon = $giavon * $soNguoi;
+        $loinhuan = $tongthu - $tongchi - $tongGiaVon;
         $list = $this->doanKhoiHanh->getAllTaiChinh($MaDoan);
 
         include "./views/Admin/Doan/taichinh.php";
