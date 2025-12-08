@@ -181,7 +181,7 @@ match ($act) {
     'hdv_vanhanh'         => (new VanHanhTourController())->index(),
     'hdv_add_transaction' => (new VanHanhTourController())->addTransaction(),
     'hdv_delete_transaction' => (new VanHanhTourController())->deleteTransaction(),
-    'hdv_report_issue'    => (new VanHanhTourController())->reportIssue(),
+    // 'hdv_report_issue'    => (new VanHanhTourController())->reportIssue(),
 };
 
 function checkAuth($roleRequired)

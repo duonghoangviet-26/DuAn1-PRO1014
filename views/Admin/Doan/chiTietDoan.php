@@ -98,7 +98,6 @@
                 $trua = array_filter(explode("\n", $lt['NoiDungTrua']));
                 $chieu = array_filter(explode("\n", $lt['NoiDungChieu']));
                 $toi = array_filter(explode("\n", $lt['NoiDungToi']));
-
                 ?>
         <div class="card p-3 mb-4 border">
 
