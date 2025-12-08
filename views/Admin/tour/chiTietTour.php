@@ -13,7 +13,6 @@
     <style>
         body { background-color: #f3f4f6; font-family: 'Inter', sans-serif; margin: 0; }
 
-        /* --- SIDEBAR STYLE --- */
         .sidebar {
             width: 260px; height: 100vh; position: fixed; top: 0; left: 0;
             background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
@@ -29,10 +28,8 @@
         .sidebar a:hover, .sidebar a.active { background-color: rgba(255,255,255,0.1); color: #fff; transform: translateX(5px); }
         .sidebar a.active { background-color: #3498db; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
 
-        /* --- CONTENT STYLE --- */
         .main-content { margin-left: 260px; padding: 30px; width: calc(100% - 260px); min-height: 100vh; }
 
-        /* --- DETAIL PAGE STYLE --- */
         .tour-header-img { width: 100%; height: 350px; object-fit: cover; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px; }
         
         .card-info { border: none; border-radius: 12px; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.03); margin-bottom: 25px; }
@@ -48,7 +45,6 @@
         .pause-status { background: #fef3c7; color: #92400e; }
         .stop-status { background: #f3f4f6; color: #4b5563; }
 
-        /* Timeline Schedule */
         .timeline-item { border-left: 3px solid #3b82f6; padding-left: 25px; position: relative; padding-bottom: 30px; }
         .timeline-item::before { content: ""; width: 12px; height: 12px; background: #3b82f6; border-radius: 50%; position: absolute; left: -7.5px; top: 0; box-shadow: 0 0 0 4px #e0f2fe; }
         .timeline-item:last-child { padding-bottom: 0; border-left-color: transparent; }
@@ -95,85 +91,11 @@
                 </div>
             </div>
 
-            <h3 class="fw-bold text-primary mb-3">Chi Tiết Tour</h3>
-
-            <div class="card shadow">
-
-                <div class="row g-0">
-
-                    <div class="col-md-4 text-center p-3">
-                        <?php if (!empty($tour['LinkAnhBia'])) { ?>
-                            <img src="/DUAN1-PRO1014/uploads/imgproduct/<?= $tour['LinkAnhBia'] ?>"
-                                class="img-fluid rounded"
-                                style="max-height: 260px; object-fit:cover;">
-                        <?php } else { ?>
-                            <img src="https://via.placeholder.com/300x200?text=No+Image"
-                                class="img-fluid rounded">
-                        <?php } ?>
-
-                        <h5 class="mt-3 fw-bold"><?= htmlspecialchars($tour['TenTour']) ?></h5>
-                        <span class="badge bg-info">Mã Tour: <?= $tour['MaTour'] ?></span>
-                    </div>
-
-                    <div class="col-md-8">
-                        <div class="card-body">
-
-                            <table class="table table-borderless">
-                                <tr>
-                                    <th>Tên tour:</th>
-                                    <td><?= $tour['TenTour'] ?></td>
-                                </tr>
-
-                                <tr>
-                                    <th>Danh mục:</th>
-                                    <td><?= $tour['TenDanhMuc'] ?></td>
-                                </tr>
-
-                                <tr>
-                                    <th>Giá:</th>
-                                    <td class="text-danger fw-bold">
-                                        <?= number_format($tour['GiaBanMacDinh'], 0, ',', '.') ?>đ
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <th>Giá vốn:</th>
-                                    <td class="fw-semibold text-primary">
-                                        <?= $tour['GiaVonDuKien'] !== null
-                                            ? number_format($tour['GiaVonDuKien'], 0, ',', '.') . 'đ'
-                                            : '—' ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Số ngày:</th>
-                                    <td><?= $tour['SoNgay'] ?> ngày</td>
-                                </tr>
-
-                                <tr>
-                                    <th>Số đêm:</th>
-                                    <td><?= $tour['SoDem'] ?> đêm</td>
-                                </tr>
-
-                                <tr>
-                                    <th>Khởi hành:</th>
-                                    <td><?= $tour['DiemKhoiHanh'] ?></td>
-                                </tr>
-
-                                <tr>
-                                    <th>Ngày bắt đầu:</th>
-                                    <td><?= date("d/m/Y", strtotime($tour['NgayBatDau'])) ?></td>
-                                </tr>
-
-                                <tr>
-                                    <th>Ngày kết thúc:</th>
-                                    <td><?= date("d/m/Y", strtotime($tour['NgayKetThuc'])) ?></td>
-                                </tr>
-
-                                <tr>
-                                    <th>Mô tả:</th>
-                                    <td><?= nl2br($tour['MoTa']) ?></td>
-                                </tr>
-                            </table>
+            <?php if (!empty($tour['LinkAnhBia'])): ?>
+                <img src="/DUAN1-PRO1014/uploads/imgproduct/<?= $tour['LinkAnhBia'] ?>" class="tour-header-img" alt="Ảnh bìa tour">
+            <?php else: ?>
+                <div class="tour-header-img bg-light d-flex align-items-center justify-content-center text-muted fs-4">Chưa có ảnh bìa</div>
+            <?php endif; ?>
 
             <div class="row">
                 <div class="col-lg-4">
@@ -219,17 +141,19 @@
                         </div>
                     </div>
 
-
-            <div class="card shadow mt-4">
-                <div class="card-header bg-primary text-white fw-bold">
-                    <i class="fa fa-calendar-day"></i> Lịch Trình Tour
+                    <div class="card card-info p-4">
+                        <h5 class="card-title-custom"><i class="fas fa-file-alt me-2 text-warning"></i>Mô Tả</h5>
+                        <p class="text-secondary small mb-0 text-justify">
+                            <?= nl2br(htmlspecialchars($tour['MoTa'])) ?>
+                        </p>
+                    </div>
                 </div>
 
                 <div class="col-lg-8">
                     <div class="card card-info p-4">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h5 class="card-title-custom mb-0 border-0 pb-0"><i class="fas fa-calendar-alt me-2 text-success"></i>Lịch Trình Chi Tiết</h5>
-                            </div>
+                        </div>
 
                         <?php if (!empty($lichTrinh)): ?>
                             <div class="ps-2">

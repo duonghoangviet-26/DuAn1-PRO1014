@@ -28,20 +28,20 @@
         .sidebar a.active { background-color: #3498db; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
 
         .main-content { margin-left: 260px; padding: 30px; width: calc(100% - 260px); min-height: 100vh; }
-
         .card-form { border: none; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); background: #fff; margin-bottom: 25px; }
         .card-header-custom { background-color: #fff; border-bottom: 1px solid #f0f0f0; padding: 20px 25px; border-radius: 12px 12px 0 0; }
         .form-label { font-weight: 600; color: #374151; font-size: 0.9rem; }
         .form-control, .form-select { border-radius: 8px; padding: 10px 15px; border-color: #e5e7eb; }
         .form-control:focus, .form-select:focus { border-color: #f59e0b; box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1); } /* Màu cam edit */
+        .form-control[readonly] { background-color: #f8fafc; color: #64748b; cursor: not-allowed; }
         
         .btn-submit { background-color: #f59e0b; border: none; padding: 12px 30px; font-weight: 600; border-radius: 8px; transition: 0.2s; color: white; }
         .btn-submit:hover { background-color: #d97706; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(245, 158, 11, 0.2); color: white; }
         
         .btn-cancel { background-color: #f3f4f6; color: #4b5563; border: none; padding: 12px 30px; font-weight: 600; border-radius: 8px; transition: 0.2s; text-decoration: none; display: inline-block; }
         .btn-cancel:hover { background-color: #e5e7eb; color: #1f2937; }
-
-        .schedule-item { border: 1px solid #e5e7eb; border-radius: 10px; padding: 20px; background-color: #fff; margin-bottom: 15px; }
+        .schedule-item { border: 1px solid #e5e7eb; border-radius: 10px; padding: 20px; background-color: #fff; margin-bottom: 15px; transition: 0.2s; }
+        .schedule-item:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
         .schedule-title { font-size: 1rem; font-weight: 700; color: #3b82f6; margin-bottom: 15px; border-bottom: 1px dashed #e5e7eb; padding-bottom: 10px; }
     </style>
 </head>
@@ -49,137 +49,23 @@
 <body>
 
     <div class="sidebar">
-        <h4 class="text-center text-light mb-4">Admin Panel</h4>
-
-        <a href="index.php?act=/"><i class="fa fa-home"></i> Tổng quan</a>
-        <a href="index.php?act=listdm"><i class="fa fa-list"></i> Danh mục tour</a>
-        <a href="index.php?act=listTour"><i class="fa fa-route"></i> Quản lý tour</a>
-        <a href="index.php?act=listBooking"><i class="fa fa-book"></i> Quản lý booking</a>
-        <a href="index.php?act=listKH"><i class="fa fa-users"></i> Quản lí khách hàng</a>
-        <a href="index.php?act=listDKH"><i class="fa fa-users"></i> Quản lí đoàn khởi hành</a>
-        <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Quản lý nhà cung cấp</a>
-        <a href="index.php?act=listNV"><i class="fa fa-users"></i> Tài khoản / HDV</a>
-        <a href="#"><i class="fa fa-chart-bar"></i> Báo cáo thống kê</a>
-        <a href="#" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
-    </div>
-
-    <!-- Nội dung -->
-    <div class="content">
-        <div class="card p-4">
-
-            <h4 class="mb-3">✏ Sửa Đoàn Khởi Hành</h4>
-
-            <form action="index.php?act=updateDKH" method="post">
-
-                <input type="hidden" name="MaDoan" value="<?= $doan['MaDoan'] ?>">
-
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Tour</label>
-                    <select name="MaTour" class="form-control">
-                        <?php foreach ($tour as $t): ?>
-                            <option value="<?= $t['MaTour'] ?>" <?= $t['MaTour'] == $doan['MaTour'] ? 'selected' : '' ?>>
-                                <?= $t['TenTour'] ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-
-                <h4 class="mt-4">Lịch trình tour</h4>
-
-                <?php foreach ($lichtrinh as $lt): ?>
-                    <div class="border p-3 mb-3 bg-light">
-
-                        <h5>Ngày <?= $lt['NgayThu'] ?>: <?= $lt['TieuDe'] ?></h5>
-
-                        <label class="form-label">Khách sạn</label>
-                        <select name="khachsan[<?= $lt['NgayThu'] ?>]" class="form-control">
-                            <option value="">-- Chọn khách sạn --</option>
-
-                            <?php foreach ($hotels as $h): ?>
-                                <option value="<?= $h['MaNhaCungCap'] ?>" <?= (isset($dvMap[$lt['NgayThu']]['khach_san'])
-                                                                                && $dvMap[$lt['NgayThu']]['khach_san'] == $h['MaNhaCungCap'])
-                                                                                ? 'selected' : '' ?>>
-                                    <?= $h['TenNhaCungCap'] ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-
-                        <label class="form-label mt-2">Nhà hàng</label>
-                        <select name="nhahang[<?= $lt['NgayThu'] ?>]" class="form-control">
-                            <option value="">-- Chọn nhà hàng --</option>
-
-                            <?php foreach ($restaurants as $r): ?>
-                                <option value="<?= $r['MaNhaCungCap'] ?>" <?= (isset($dvMap[$lt['NgayThu']]['nha_hang'])
-                                                                                && $dvMap[$lt['NgayThu']]['nha_hang'] == $r['MaNhaCungCap'])
-                                                                                ? 'selected' : '' ?>>
-                                    <?= $r['TenNhaCungCap'] ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-
-                    </div>
-                <?php endforeach; ?>
-
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">Ngày đi</label>
-                        <input type="date" name="NgayKhoiHanh" value="<?= $doan['NgayKhoiHanh'] ?>" class="form-control"
-                            readonly>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">Ngày về</label>
-                        <input type="date" name="NgayVe" value="<?= $doan['NgayVe'] ?>" class="form-control" readonly>
-                    </div>
-
-
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">Giờ khởi hành</label>
-                        <input type="time" name="GioKhoiHanh" value="<?= $doan['GioKhoiHanh'] ?>" class="form-control">
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Điểm tập trung</label>
-                    <input type="text" name="DiemTapTrung" class="form-control" value="<?= $doan['DiemTapTrung'] ?>">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Hướng dẫn viên</label>
-                    <select name="MaHuongDanVien" class="form-control">
-                        <option value="">-Chọn--</option>
-                        <?php foreach ($hdv as $h): ?>
-                            <option value="<?= $h['MaNhanVien'] ?>"
-                                <?= $h['MaNhanVien'] == $doan['MaHuongDanVien'] ? 'selected' : '' ?>>
-                                <?= $h['HoTen'] ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Tài xế</label>
-                    <select name="MaTaiXe" class="form-control">
-                        <option value="">-Chọn--</option>
-                        <?php foreach ($taixe as $tx): ?>
-                            <option value="<?= $tx['MaNhaCungCap'] ?>"
-                                <?= $tx['MaNhaCungCap'] == $doan['MaTaiXe'] ? 'selected' : '' ?>>
-                                <?= $tx['TenLaiXe'] ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Số chỗ tối đa</label>
-                    <input type="number" name="SoChoToiDa" value="<?= $doan['SoChoToiDa'] ?>" class="form-control">
-                </div>
-
-                <button name="btnUpdate" class="btn btn-primary">Cập nhật</button>
-                <a href="index.php?act=listDKH" class="btn btn-secondary">Hủy</a>
-
-            </form>
-
+        <div class="sidebar-header">
+            <h4><i class="fa-solid fa-earth-americas me-2 text-info"></i> TRAVEL ADMIN</h4>
+        </div>
+        <div class="sidebar-menu">
+            <a href="index.php?act=admin_dashboard"><i class="fa fa-home"></i> Trang chủ</a>
+            <div class="sidebar-title">Quản lý Sản phẩm</div>
+            <a href="index.php?act=listdm"><i class="fa fa-layer-group"></i> Danh mục Tour</a>
+            <a href="index.php?act=listTour"><i class="fa fa-map-location-dot"></i> Quản lý Tour</a>
+            <a href="index.php?act=listDKH" class="active"><i class="fa fa-bus"></i> Đoàn khởi hành</a>
+            <div class="sidebar-title">Kinh doanh</div>
+            <a href="index.php?act=listBooking"><i class="fa fa-file-invoice-dollar"></i> Booking & Đơn hàng</a>
+            <a href="index.php?act=listKH"><i class="fa fa-users"></i> Khách hàng</a>
+            <div class="sidebar-title">Hệ thống</div>
+            <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Đối tác & NCC</a>
+            <a href="index.php?act=listNV"><i class="fa-solid fa-id-card"></i> Nhân sự</a>
+            <a href="index.php?act=listTaiKhoan"><i class="fa fa-user-gear"></i> Tài khoản </a>
+            <a href="index.php?act=logout" class="text-danger mt-3"><i class="fa fa-right-from-bracket"></i> Đăng xuất</a>
         </div>
     </div>
 
@@ -210,7 +96,7 @@
                                 <select name="MaTour" class="form-select" required>
                                     <?php foreach ($tour as $t): ?>
                                         <option value="<?= $t['MaTour'] ?>" <?= $t['MaTour'] == $doan['MaTour'] ? 'selected' : '' ?>>
-                                            <?= htmlspecialchars($t['TenTour'] ?? '') ?>
+                                            <?= htmlspecialchars($t['TenTour']) ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
@@ -234,7 +120,7 @@
 
                         <div class="mb-3">
                             <label class="form-label">Điểm Tập Trung</label>
-                            <input type="text" name="DiemTapTrung" class="form-control" value="<?= htmlspecialchars($doan['DiemTapTrung'] ?? '') ?>">
+                            <input type="text" name="DiemTapTrung" class="form-control" value="<?= htmlspecialchars($doan['DiemTapTrung']) ?>">
                         </div>
 
                         <div class="row">
@@ -244,7 +130,7 @@
                                     <option value="">-- Chọn HDV --</option>
                                     <?php foreach ($hdv as $h): ?>
                                         <option value="<?= $h['MaNhanVien'] ?>" <?= $h['MaNhanVien'] == $doan['MaHuongDanVien'] ? 'selected' : '' ?>>
-                                            <?= htmlspecialchars($h['HoTen'] ?? '') ?>
+                                            <?= htmlspecialchars($h['HoTen']) ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
@@ -255,7 +141,7 @@
                                     <option value="">-- Chọn Nhà xe --</option>
                                     <?php foreach ($taixe as $tx): ?>
                                         <option value="<?= $tx['MaNhaCungCap'] ?>" <?= $tx['MaNhaCungCap'] == $doan['MaTaiXe'] ? 'selected' : '' ?>>
-                                            <?= htmlspecialchars($tx['TenLaiXe'] ?? '') ?> (<?= htmlspecialchars($tx['TenNhaCungCap'] ?? '') ?>)
+                                            <?= htmlspecialchars($tx['TenLaiXe']) ?> (<?= htmlspecialchars($tx['TenNhaCungCap']) ?>)
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
@@ -310,7 +196,7 @@
                         <?php endforeach; ?>
                     <?php else: ?>
                         <div class="col-12">
-                            <div class="alert alert-info">Chưa có lịch trình cho tour này.</div>
+                            <div class="alert alert-info text-center">Chưa có lịch trình chi tiết cho tour này.</div>
                         </div>
                     <?php endif; ?>
                 </div>

@@ -29,14 +29,17 @@
         .sidebar a.active { background-color: #3498db; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
 
         .main-content { margin-left: 260px; padding: 30px; width: calc(100% - 260px); min-height: 100vh; }
+
         .card-form { border: none; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); background: #fff; margin-bottom: 30px; }
         .card-header-custom { background-color: #fff; border-bottom: 1px solid #f0f0f0; padding: 20px 25px; border-radius: 12px 12px 0 0; }
         .form-label { font-weight: 600; color: #374151; font-size: 0.9rem; }
         .form-control, .form-select { border-radius: 8px; padding: 10px 15px; border-color: #e5e7eb; }
         .form-control:focus, .form-select:focus { border-color: #f59e0b; box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1); }
+
         .schedule-card { border: 1px solid #e5e7eb; border-radius: 10px; background: #fff; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-        .schedule-header { background: #f8fafc; padding: 15px 20px; border-bottom: 1px solid #e5e7eb; border-radius: 10px 10px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .schedule-header { background: #fffbeb; padding: 15px 20px; border-bottom: 1px solid #fef3c7; border-radius: 10px 10px 0 0; display: flex; justify-content: space-between; align-items: center; color: #92400e; }
         .schedule-body { padding: 20px; }
+        
         .session-block { background: #f9fafb; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #cbd5e1; }
         .session-morning { border-left-color: #f59e0b; }
         .session-noon { border-left-color: #ef4444; }
@@ -75,249 +78,21 @@
         </div>
     </div>
 
-    <div class="content">
-
-        <h2 class="fw-bold mb-4">Sửa Tour</h2>
-
-        <?php if (!isset($tour)) : ?>
-            <div class='alert alert-danger'>Không tìm thấy dữ liệu tour.</div>
-        <?php else : ?>
-
-            <form action="index.php?act=updateTour" method="POST" enctype="multipart/form-data">
-
-                <input type="hidden" name="MaTour" value="<?= $tour['MaTour'] ?>">
-
-                <label class="form-label">Tên tour</label>
-                <input type="text" name="TenTour"
-                    value="<?= htmlspecialchars($tour['TenTour']) ?>"
-                    class="form-control mb-3" required>
-
-                <label class="form-label">Danh mục tour</label>
-                <select name="MaDanhMuc" class="form-control mb-3" required>
-                    <?php foreach ($danhmuc as $dm): ?>
-                        <option value="<?= $dm['MaDanhMuc'] ?>"
-                            <?= ($dm['MaDanhMuc'] == $tour['MaDanhMuc']) ? "selected" : "" ?>>
-                            <?= $dm['TenDanhMuc'] ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-
-                <label class="form-label">Giá bán</label>
-                <input type="number" name="GiaBanMacDinh"
-                    value="<?= (float)$tour['GiaBanMacDinh'] ?>"
-                    class="form-control mb-3" required>
-
-                <label class="form-label">Điểm khởi hành</label>
-                <input type="text" name="DiemKhoiHanh"
-                    value="<?= htmlspecialchars($tour['DiemKhoiHanh']) ?>"
-                    class="form-control mb-3" required>
-
-                <label class="form-label">Số ngày</label>
-                <input type="number" name="SoNgay"
-                    value="<?= (int)$tour['SoNgay'] ?>"
-                    class="form-control mb-3" required>
-
-                <div class="form-group">
-                    <label>Số đêm</label>
-                    <input type="number" class="form-control"
-                        name="SoDem" value="<?= $tour['SoDem'] ?>" required>
-                </div>
-                <div class="form-group">
-                    <label>Giá vốn dự kiến</label>
-                    <input type="number" class="form-control"
-                        name="GiaVonDuKien" value="<?= $tour['GiaVonDuKien'] ?>" required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Ngày bắt đầu</label>
-                    <input type="date" name="NgayBatDau"
-                        value="<?= $tour['NgayBatDau'] ?>"
-                        class="form-control" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Ngày kết thúc</label>
-                    <input type="date" name="NgayKetThuc"
-                        value="<?= $tour['NgayKetThuc'] ?>"
-                        class="form-control" required>
-                </div>
-
-                <label class="form-label">Mô tả</label>
-                <textarea name="MoTa" rows="4" class="form-control mb-4"><?= htmlspecialchars($tour['MoTa']) ?></textarea>
-
-                <label class="form-label">Trạng thái</label>
-                <select name="TrangThai" class="form-control mb-4">
-                    <option value="hoat_dong" <?= ($tour['TrangThai'] == 'hoat_dong') ? 'selected' : '' ?>>Hoạt động</option>
-                    <option value="tam_dung" <?= ($tour['TrangThai'] == 'tam_dung') ? 'selected' : '' ?>>Tạm dừng</option>
-                    <option value="da_ket_thuc" <?= ($tour['TrangThai'] == 'da_ket_thuc') ? 'selected' : '' ?>>Đã kết thúc</option>
-                </select>
-
-              
-                <label class="form-label">Ảnh hiện tại</label><br>
-                <?php if (!empty($tour["LinkAnhBia"])): ?>
-                    <img src="uploads/imgproduct/<?= $tour['LinkAnhBia'] ?>"
-                        style="width:150px; height:110px; object-fit:cover; border-radius:5px; border:1px solid #ccc;">
-                <?php else: ?>
-                    <p class="text-muted">Chưa có ảnh</p>
-                <?php endif; ?>
-
-                <br><br>
-
-                <label class="form-label">Chọn ảnh mới (nếu muốn thay đổi)</label>
-                <input type="file" name="LinkAnhBia" class="form-control mb-4" accept="image/*">
-
-
-                <hr class="my-4">
-
-                <h4 class="fw-bold text-primary"><i class="fa fa-calendar"></i> Sửa Lịch Trình Tour</h4>
-
-                <?php foreach ($lichTrinh as $idx => $lt): ?>
-                    <div class="border rounded p-3 mb-4">
-
-                        <input type="hidden" name="MaLichTrinh[]" value="<?= $lt['MaLichTrinh'] ?>">
-
-                        <h5 class="text-primary fw-bold">Ngày thứ <?= $lt['NgayThu'] ?></h5>
-
-                        <label>Tiêu đề ngày</label>
-                        <input type="text" class="form-control mb-2" name="TieuDeNgay[]" value="<?= $lt['TieuDeNgay'] ?>">
-
-                        <label>Nơi ở</label>
-                        <input type="text" class="form-control mb-2" name="NoiO[]" value="<?= $lt['NoiO'] ?>">
-
-                        <label>Địa điểm tham quan</label>
-                        <input type="text" class="form-control mb-2" name="DiaDiemThamQuan[]" value="<?= $lt['DiaDiemThamQuan'] ?>">
-
-                        <div class="row">
-                            <div class="col-md-4">
-                                <label>Giờ tập trung</label>
-                                <input type="time" class="form-control" name="GioTapTrung[]" value="<?= $lt['GioTapTrung'] ?>">
-                            </div>
-
-                            <div class="col-md-4">
-                                <label>Giờ xuất phát</label>
-                                <input type="time" class="form-control" name="GioXuatPhat[]" value="<?= $lt['GioXuatPhat'] ?>">
-                            </div>
-
-                            <div class="col-md-4">
-                                <label>Giờ kết thúc</label>
-                                <input type="time" class="form-control" name="GioKetThuc[]" value="<?= $lt['GioKetThuc'] ?>">
-                            </div>
-                        </div>
-
-                        <label class="mt-3"><b>Bữa ăn:</b></label><br>
-                        <label><input type="checkbox" name="CoBuaSang[]" value="1" <?= $lt['CoBuaSang'] ? "checked" : "" ?>> Sáng</label>
-                        <label class="ms-3"><input type="checkbox" name="CoBuaTrua[]" value="1" <?= $lt['CoBuaTrua'] ? "checked" : "" ?>> Trưa</label>
-                        <label class="ms-3"><input type="checkbox" name="CoBuaToi[]" value="1" <?= $lt['CoBuaToi'] ? "checked" : "" ?>> Tối</label>
-
-                        <hr>
-
-                        <h6 class="fw-bold">☀ Hoạt động buổi sáng</h6>
-
-                        <div id="BuoiSang_<?= $idx ?>">
-                            <?php foreach ($lt['Sang']['gio'] as $j => $g): ?>
-                                <div class="row mb-2 singleRow">
-                                    <div class="col-md-3">
-                                        <input type="time" class="form-control"
-                                            name="Sang_Gio[<?= $idx ?>][]" value="<?= $g ?>">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control"
-                                            name="Sang_HD[<?= $idx ?>][]" value="<?= $lt['Sang']['hd'][$j] ?>">
-                                    </div>
-                                    <div class="col-md-1 d-flex align-items-center justify-content-center">
-                                        <span class="text-danger delRow" style="cursor:pointer; font-size:18px;">&times;</span>
-                                    </div>
-                                </div>
-
-                            <?php endforeach; ?>
-                        </div>
-
-                        <button type="button" class="btn btn-sm btn-outline-primary"
-                            onclick="addRow('Sang', <?= $idx ?>)">+ Thêm giờ sáng</button>
-
-                        <hr>
-
-                        <h6 class="fw-bold">🍱 Hoạt động buổi trưa</h6>
-
-                        <div id="BuoiTrua_<?= $idx ?>">
-                            <?php foreach ($lt['Trua']['gio'] as $j => $g): ?>
-                                <div class="row mb-2 singleRow">
-                                    <div class="col-md-3">
-                                        <input type="time" class="form-control"
-                                            name="Sang_Gio[<?= $idx ?>][]" value="<?= $g ?>">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control"
-                                            name="Sang_HD[<?= $idx ?>][]" value="<?= $lt['Sang']['hd'][$j] ?>">
-                                    </div>
-                                    <div class="col-md-1 d-flex align-items-center justify-content-center">
-                                        <span class="text-danger delRow" style="cursor:pointer; font-size:18px;">&times;</span>
-                                    </div>
-                                </div>
-
-                            <?php endforeach; ?>
-                        </div>
-
-                        <button type="button" class="btn btn-sm btn-outline-warning"
-                            onclick="addRow('Trua', <?= $idx ?>)">+ Thêm giờ trưa</button>
-
-                        <hr>
-
-                        <h6 class="fw-bold">🌇 Hoạt động buổi chiều</h6>
-
-                        <div id="BuoiChieu_<?= $idx ?>">
-                            <?php foreach ($lt['Chieu']['gio'] as $j => $g): ?>
-                                <div class="row mb-2 singleRow">
-                                    <div class="col-md-3">
-                                        <input type="time" class="form-control"
-                                            name="Sang_Gio[<?= $idx ?>][]" value="<?= $g ?>">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control"
-                                            name="Sang_HD[<?= $idx ?>][]" value="<?= $lt['Sang']['hd'][$j] ?>">
-                                    </div>
-                                    <div class="col-md-1 d-flex align-items-center justify-content-center">
-                                        <span class="text-danger delRow" style="cursor:pointer; font-size:18px;">&times;</span>
-                                    </div>
-                                </div>
-
-                            <?php endforeach; ?>
-                        </div>
-
-                        <button type="button" class="btn btn-sm btn-outline-info"
-                            onclick="addRow('Chieu', <?= $idx ?>)">+ Thêm giờ chiều</button>
-
-                        <hr>
-
-                        <h6 class="fw-bold">🌙 Hoạt động buổi tối</h6>
-
-                        <div id="BuoiToi_<?= $idx ?>">
-                            <?php foreach ($lt['Toi']['gio'] as $j => $g): ?>
-                                <div class="row mb-2 singleRow">
-                                    <div class="col-md-3">
-                                        <input type="time" class="form-control"
-                                            name="Sang_Gio[<?= $idx ?>][]" value="<?= $g ?>">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control"
-                                            name="Sang_HD[<?= $idx ?>][]" value="<?= $lt['Sang']['hd'][$j] ?>">
-                                    </div>
-                                    <div class="col-md-1 d-flex align-items-center justify-content-center">
-                                        <span class="text-danger delRow" style="cursor:pointer; font-size:18px;">&times;</span>
-                                    </div>
-                                </div>
-
-                            <?php endforeach; ?>
-                        </div>
-
-                        <button type="button" class="btn btn-sm btn-outline-dark"
-                            onclick="addRow('Toi', <?= $idx ?>)">+ Thêm giờ tối</button>
-
+    <div class="main-content">
+        <div class="container-fluid">
+            
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <div class="d-flex align-items-center">
+                    <a href="index.php?act=listTour" class="text-secondary me-3 fs-4"><i class="fas fa-arrow-left"></i></a>
+                    <div>
+                        <h3 class="fw-bold text-dark mb-0">Sửa Tour</h3>
+                        <p class="text-muted mb-0">Cập nhật thông tin tour du lịch</p>
                     </div>
                 </div>
             </div>
 
             <?php if (!isset($tour)) : ?>
-                <div class="alert alert-danger shadow-sm border-0"><i class="fas fa-exclamation-triangle me-2"></i> Không tìm thấy dữ liệu tour.</div>
+                <div class="alert alert-danger border-0 shadow-sm"><i class="fas fa-exclamation-triangle me-2"></i> Không tìm thấy dữ liệu tour.</div>
             <?php else : ?>
 
                 <form action="index.php?act=updateTour" method="POST" enctype="multipart/form-data">
@@ -325,7 +100,7 @@
 
                     <div class="card card-form">
                         <div class="card-header-custom">
-                            <h5 class="fw-bold text-warning mb-0"><i class="fas fa-pen-to-square me-2"></i> Thông Tin Cơ Bản</h5>
+                            <h5 class="fw-bold text-warning mb-0"><i class="fas fa-edit me-2"></i> Thông Tin Cơ Bản</h5>
                         </div>
                         <div class="card-body p-4">
                             <div class="row g-4">
@@ -402,12 +177,12 @@
                                             <?php endif; ?>
                                             <div class="flex-grow-1">
                                                 <input type="file" name="LinkAnhBia" class="form-control" accept="image/*">
-                                                <small class="text-muted d-block mt-1">Chọn ảnh mới để thay thế.</small>
+                                                <small class="text-muted d-block mt-1">Chọn ảnh mới nếu muốn thay đổi.</small>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-12">
                                     <label class="form-label">Mô tả chi tiết</label>
                                     <textarea name="MoTa" class="form-control" rows="3"><?= htmlspecialchars($tour['MoTa']) ?></textarea>
@@ -416,7 +191,9 @@
                         </div>
                     </div>
 
-                    <h4 class="fw-bold text-dark mb-3">Cập Nhật Lịch Trình</h4>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="fw-bold text-dark mb-0">Cập Nhật Lịch Trình</h4>
+                    </div>
 
                     <div id="lichTrinhContainer">
                         <?php foreach ($lichTrinh as $idx => $lt): ?>
@@ -424,7 +201,7 @@
                                 <input type="hidden" name="MaLichTrinh[]" value="<?= $lt['MaLichTrinh'] ?>">
                                 
                                 <div class="schedule-header">
-                                    <h6 class="mb-0 fw-bold text-primary">NGÀY <span class="day-number"><?= $lt['NgayThu'] ?></span></h6>
+                                    <h6 class="mb-0 fw-bold">NGÀY <span class="day-number"><?= $lt['NgayThu'] ?></span></h6>
                                 </div>
                                 
                                 <div class="schedule-body">
@@ -444,18 +221,9 @@
                                     </div>
 
                                     <div class="row g-3 mb-4 p-3 bg-light rounded">
-                                        <div class="col-md-4">
-                                            <label class="form-label small">Giờ tập trung</label>
-                                            <input type="time" name="GioTapTrung[]" class="form-control" value="<?= $lt['GioTapTrung'] ?>">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="form-label small">Giờ xuất phát</label>
-                                            <input type="time" name="GioXuatPhat[]" class="form-control" value="<?= $lt['GioXuatPhat'] ?>">
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="form-label small">Giờ kết thúc</label>
-                                            <input type="time" name="GioKetThuc[]" class="form-control" value="<?= $lt['GioKetThuc'] ?>">
-                                        </div>
+                                        <div class="col-md-4"><label class="small">Giờ tập trung</label><input type="time" name="GioTapTrung[]" class="form-control" value="<?= $lt['GioTapTrung'] ?>"></div>
+                                        <div class="col-md-4"><label class="small">Giờ xuất phát</label><input type="time" name="GioXuatPhat[]" class="form-control" value="<?= $lt['GioXuatPhat'] ?>"></div>
+                                        <div class="col-md-4"><label class="small">Giờ kết thúc</label><input type="time" name="GioKetThuc[]" class="form-control" value="<?= $lt['GioKetThuc'] ?>"></div>
                                         <div class="col-12 mt-2">
                                             <label class="small text-muted me-3">Bữa ăn:</label>
                                             <label class="me-3"><input type="checkbox" name="CoBuaSang[]" value="1" <?= $lt['CoBuaSang'] ? "checked" : "" ?>> Sáng</label>
@@ -463,8 +231,6 @@
                                             <label><input type="checkbox" name="CoBuaToi[]" value="1" <?= $lt['CoBuaToi'] ? "checked" : "" ?>> Tối</label>
                                         </div>
                                     </div>
-
-                                    <hr class="my-4 text-muted opacity-25">
 
                                     <div class="row">
                                         <div class="col-md-6">
@@ -502,7 +268,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
+                                        
                                         <div class="col-md-6">
                                             <div class="session-block session-afternoon">
                                                 <div class="d-flex justify-content-between mb-2">
@@ -538,18 +304,14 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
                     </div>
 
-                    <div class="card card-form p-3 sticky-bottom text-end">
+                    <div class="card card-form p-3 sticky-bottom text-end mt-3">
                         <a href="index.php?act=listTour" class="btn btn-light btn-action border me-2">Hủy bỏ</a>
-                        <button type="button" class="btn btn-info btn-action me-2" onclick="alert('Chức năng thêm ngày mới chỉ hỗ trợ khi Tạo tour. Vui lòng tạo mới nếu muốn đổi cấu trúc ngày.')">
-                            <i class="fas fa-plus me-2"></i> Thêm Ngày
-                        </button>
                         <button type="submit" class="btn btn-warning btn-action text-white">
                             <i class="fas fa-save me-2"></i> Cập Nhật Tour
                         </button>

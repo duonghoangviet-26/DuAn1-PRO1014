@@ -1,4 +1,5 @@
 <?php
+// --- ĐỊNH NGHĨA HÀM NGAY ĐẦU FILE ĐỂ TRÁNH LỖI ---
 if (!function_exists('tachBuoi')) {
     function tachBuoi($str) {
         $lines = explode("\n", trim($str));
@@ -51,11 +52,13 @@ if (!function_exists('tachBuoi')) {
         .sidebar a.active { background-color: #3498db; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
 
         .main-content { margin-left: 260px; padding: 30px; width: calc(100% - 260px); min-height: 100vh; }
+
         .card-form { border: none; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); background: #fff; margin-bottom: 30px; }
         .card-header-custom { background-color: #fff; border-bottom: 1px solid #f0f0f0; padding: 20px 25px; border-radius: 12px 12px 0 0; }
         .form-label { font-weight: 600; color: #374151; font-size: 0.9rem; }
         .form-control, .form-select { border-radius: 8px; padding: 10px 15px; border-color: #e5e7eb; }
-        .form-control:focus, .form-select:focus { border-color: #10b981; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); } 
+        .form-control:focus, .form-select:focus { border-color: #10b981; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); }
+
         .schedule-card { border: 1px solid #e5e7eb; border-radius: 10px; background: #fff; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
         .schedule-header { background: #f0fdf4; padding: 15px 20px; border-bottom: 1px solid #dcfce7; border-radius: 10px 10px 0 0; display: flex; justify-content: space-between; align-items: center; color: #166534; }
         .schedule-body { padding: 20px; }
@@ -96,108 +99,15 @@ if (!function_exists('tachBuoi')) {
         </div>
     </div>
 
-    <div class="content">
-
-        <h2 class="fw-bold mb-4">Nhân bản Tour</h2>
-
-        <form action="index.php?act=cloneTourSave" method="POST" enctype="multipart/form-data">
-
-            <input type="hidden" name="OldAnh" value="<?= $tour['LinkAnhBia'] ?>">
-
-            <label class="form-label">Tên tour</label>
-            <input type="text" name="TenTour" class="form-control mb-3" value="<?= htmlspecialchars($tour['TenTour']) ?>" required>
-
-            <label>Danh mục</label>
-            <select name="MaDanhMuc" class="form-control mb-3">
-                <?php foreach ($danhmuc as $dm): ?>
-                    <option value="<?= $dm['MaDanhMuc'] ?>" <?= $tour['MaDanhMuc'] == $dm['MaDanhMuc'] ? 'selected' : '' ?>>
-                        <?= $dm['TenDanhMuc'] ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-
-            <label>Giá bán</label>
-            <input type="number" name="GiaBanMacDinh" class="form-control mb-3" value="<?= $tour['GiaBanMacDinh'] ?>" required>
-
-            <label>Giá vốn dự kiến</label>
-            <input type="number" name="GiaVonDuKien" class="form-control mb-3" value="<?= $tour['GiaVonDuKien'] ?>" required>
-
-            <label>Điểm khởi hành</label>
-            <input type="text" name="DiemKhoiHanh" class="form-control mb-3" value="<?= $tour['DiemKhoiHanh'] ?>" required>
-
-            <label>Số ngày</label>
-            <input type="number" name="SoNgay" class="form-control mb-3" value="<?= $tour['SoNgay'] ?>" required>
-
-            <label>Số đêm</label>
-            <input type="number" name="SoDem" class="form-control mb-3" value="<?= $tour['SoDem'] ?>" required>
-            <label class="form-label">Trạng thái</label>
-            <select name="TrangThai" class="form-control mb-3" required>
-                <option value="hoat_dong">Hoạt động</option>
-                <option value="tam_dung">Tạm dừng</option>
-                <option value="da_ket_thuc">Đã kết thúc</option>
-            </select>
-
-            <label>Ngày bắt đầu</label>
-            <input type="date" name="NgayBatDau" class="form-control mb-3" value="<?= $tour['NgayBatDau'] ?>" required>
-
-            <label>Ngày kết thúc</label>
-            <input type="date" name="NgayKetThuc" class="form-control mb-3" value="<?= $tour['NgayKetThuc'] ?>" required>
-
-            <label>Mô tả</label>
-            <textarea name="MoTa" class="form-control mb-3" rows="3"><?= htmlspecialchars($tour['MoTa']) ?></textarea>
-
-            <hr>
-
-            <h4 class="fw-bold text-primary">📅 Lịch Trình Tour</h4>
-
-            <?php foreach ($lichTrinh as $idx => $lt): ?>
-
-                <?php
-                $Sang  = tachBuoi($lt["NoiDungSang"]);
-                $Trua  = tachBuoi($lt["NoiDungTrua"]);
-                $Chieu = tachBuoi($lt["NoiDungChieu"]);
-                $Toi   = tachBuoi($lt["NoiDungToi"]);
-                ?>
-
-                <div class="border rounded p-3 mt-4 bg-white">
-
-                    <input type="hidden" name="NgayThu[]" value="<?= $lt['NgayThu'] ?>">
-                    <input type="hidden" name="MaLichTrinh[]" value="<?= $lt['MaLichTrinh'] ?>">
-
-                    <input type="hidden" name="ChiTietHoatDong[]" value="">
-                    <input type="hidden" name="GioHoatDong[]" value="">
-
-                    <h5 class="fw-bold text-primary">Ngày thứ <?= $lt['NgayThu'] ?></h5>
-
-                    <label>Tiêu đề ngày</label>
-                    <input type="text" name="TieuDeNgay[]" class="form-control mb-2" value="<?= htmlspecialchars($lt['TieuDeNgay']) ?>">
-
-                    <label>Nơi ở</label>
-                    <input type="text" name="NoiO[]" class="form-control mb-2" value="<?= htmlspecialchars($lt['NoiO']) ?>">
-
-                    <label>Địa điểm tham quan</label>
-                    <input type="text" name="DiaDiemThamQuan[]" class="form-control mb-2" value="<?= htmlspecialchars($lt['DiaDiemThamQuan']) ?>">
-
-                    <label>Giờ tập trung</label>
-                    <input type="time" name="GioTapTrung[]" class="form-control mb-2" value="<?= $lt['GioTapTrung'] ?>">
-
-                    <label>Giờ xuất phát</label>
-                    <input type="time" name="GioXuatPhat[]" class="form-control mb-2" value="<?= $lt['GioXuatPhat'] ?>">
-
-                    <label>Giờ kết thúc</label>
-                    <input type="time" name="GioKetThuc[]" class="form-control mb-2" value="<?= $lt['GioKetThuc'] ?>">
-
-                    <hr>
-
-                    <h6>☀ Hoạt động buổi sáng</h6>
-                    <div id="Sang_<?= $idx ?>">
-                        <?php foreach ($Sang['gio'] as $i => $g): ?>
-                            <div class="row mb-2 singleRow">
-                                <div class="col-md-3"><input type="time" class="form-control" name="GioSang[<?= $idx ?>][]" value="<?= $g ?>"></div>
-                                <div class="col-md-8"><input type="text" class="form-control" name="NoiDungSang[<?= $idx ?>][]" value="<?= $Sang['hd'][$i] ?>"></div>
-                                <div class="col-md-1 text-center"><span class="delRow text-danger">&times;</span></div>
-                            </div>
-                        <?php endforeach; ?>
+    <div class="main-content">
+        <div class="container-fluid">
+            
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <div class="d-flex align-items-center">
+                    <a href="index.php?act=listTour" class="text-secondary me-3 fs-4"><i class="fas fa-arrow-left"></i></a>
+                    <div>
+                        <h3 class="fw-bold text-dark mb-0">Nhân Bản Tour</h3>
+                        <p class="text-muted mb-0">Tạo bản sao từ tour: <strong><?= htmlspecialchars($tour['TenTour']) ?></strong></p>
                     </div>
                 </div>
             </div>
@@ -205,31 +115,16 @@ if (!function_exists('tachBuoi')) {
             <form action="index.php?act=cloneTourSave" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="OldAnh" value="<?= $tour['LinkAnhBia'] ?>">
 
-                    <h6>🍱 Hoạt động buổi trưa</h6>
-                    <div id="Trua_<?= $idx ?>">
-                        <?php foreach ($Trua['gio'] as $i => $g): ?>
-                            <div class="row mb-2 singleRow">
-                                <div class="col-md-3">
-                                    <input type="time" class="form-control" name="GioTrua[<?= $idx ?>][]" value="<?= $g ?>">
-                                </div>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" name="NoiDungTrua[<?= $idx ?>][]" value="<?= $Trua['hd'][$i] ?>">
-                                </div>
-
-                                <div class="col-md-1 text-center"><span class="delRow text-danger">&times;</span></div>
-                            </div>
-                        <?php endforeach; ?>
+                <div class="card card-form">
+                    <div class="card-header-custom">
+                        <h5 class="fw-bold text-success mb-0"><i class="fas fa-copy me-2"></i> Thông Tin Cơ Bản (Bản Sao)</h5>
                     </div>
-                    <button type="button" class="btn btn-sm btn-outline-warning" onclick="addRow('Trua', <?= $idx ?>)">+ Thêm giờ trưa</button>
-
-                    <hr>
-
-                    <h6>🌇 Hoạt động buổi chiều</h6>
-                    <div id="Chieu_<?= $idx ?>">
-                        <?php foreach ($Chieu['gio'] as $i => $g): ?>
-                            <div class="row mb-2 singleRow">
-                                <div class="col-md-3">
-                                    <input type="time" class="form-control" name="GioChieu[<?= $idx ?>][]" value="<?= $g ?>">
+                    <div class="card-body p-4">
+                        <div class="row g-4">
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Tên tour mới <span class="text-danger">*</span></label>
+                                    <input type="text" name="TenTour" class="form-control" value="<?= htmlspecialchars($tour['TenTour']) ?> (Copy)" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Danh mục</label>
@@ -257,17 +152,16 @@ if (!function_exists('tachBuoi')) {
                                 </div>
                             </div>
 
-                    <hr>
-
-                    <h6>🌙 Hoạt động buổi tối</h6>
-                    <div id="Toi_<?= $idx ?>">
-                        <?php foreach ($Toi['gio'] as $i => $g): ?>
-                            <div class="row mb-2 singleRow">
-                                <div class="col-md-3">
-                                    <input type="time" class="form-control" name="GioToi[<?= $idx ?>][]" value="<?= $g ?>">
-                                </div>
-                                <div class="col-md-8">
-                                    <input type="text" class="form-control" name="NoiDungToi[<?= $idx ?>][]" value="<?= $Toi['hd'][$i] ?>">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Số ngày</label>
+                                        <input type="number" name="SoNgay" class="form-control" value="<?= (int)$tour['SoNgay'] ?>" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Số đêm</label>
+                                        <input type="number" name="SoDem" class="form-control" value="<?= (int)$tour['SoDem'] ?>" required>
+                                    </div>
                                 </div>
 
                                 <div class="mb-3">

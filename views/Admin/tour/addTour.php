@@ -29,19 +29,21 @@
         .sidebar a.active { background-color: #3498db; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
 
         .main-content { margin-left: 260px; padding: 30px; width: calc(100% - 260px); min-height: 100vh; }
+
         .card-form { border: none; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); background: #fff; margin-bottom: 30px; }
         .card-header-custom { background-color: #fff; border-bottom: 1px solid #f0f0f0; padding: 20px 25px; border-radius: 12px 12px 0 0; }
         .form-label { font-weight: 600; color: #374151; font-size: 0.9rem; }
         .form-control, .form-select { border-radius: 8px; padding: 10px 15px; border-color: #e5e7eb; }
         .form-control:focus, .form-select:focus { border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
+
         .schedule-card { border: 1px solid #e5e7eb; border-radius: 10px; background: #fff; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
         .schedule-header { background: #f8fafc; padding: 15px 20px; border-bottom: 1px solid #e5e7eb; border-radius: 10px 10px 0 0; display: flex; justify-content: space-between; align-items: center; }
         .schedule-body { padding: 20px; }
         .session-block { background: #f9fafb; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #cbd5e1; }
-        .session-morning { border-left-color: #f59e0b; }
+        .session-morning { border-left-color: #f59e0b; } 
         .session-noon { border-left-color: #ef4444; }
-        .session-afternoon { border-left-color: #3b82f6; }
-        .session-evening { border-left-color: #8b5cf6; }
+        .session-afternoon { border-left-color: #3b82f6; } 
+        .session-evening { border-left-color: #8b5cf6; } 
         
         .delRow { cursor: pointer; color: #ef4444; font-size: 1.2rem; transition: 0.2s; }
         .delRow:hover { color: #dc2626; transform: scale(1.1); }
@@ -73,144 +75,55 @@
         </div>
     </div>
 
-    <div class="content">
-        <h2 class="fw-bold mb-4">Thêm Tour Mới</h2>
-
-        <form action="index.php?act=createTour" method="POST" enctype="multipart/form-data">
-
-            <div class="mb-3">
-                <label>Tên tour</label>
-                <input type="text" name="TenTour" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label>Danh mục tour</label>
-                <select name="MaDanhMuc" class="form-control" required>
-                    <option value="">-- Chọn danh mục --</option>
-
-                    <?php foreach ($danhmuc as $dm): ?>
-                        <option value="<?= $dm['MaDanhMuc'] ?>">
-                            <?= htmlspecialchars($dm['TenDanhMuc']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label>Giá bán</label>
-                    <input type="number" name="GiaBanMacDinh" class="form-control" required>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label>Điểm khởi hành</label>
-                    <input type="text" name="DiemKhoiHanh" class="form-control" required>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <label>Giá vốn</label>
-                    <input type="number" name="GiaVonDuKien" class="form-control" required>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <label>Số ngày</label>
-                    <input type="number" name="SoNgay" class="form-control" required>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <label>Số đêm</label>
-                    <input type="number" name="SoDem" class="form-control" required>
-                </div>
-
-
-            </div>
-            <label class="form-label">Trạng thái</label>
-<select name="TrangThai" class="form-control mb-3" required>
-    <option value="hoat_dong">Hoạt động</option>
-    <option value="tam_dung">Tạm dừng</option>
-    <option value="da_ket_thuc">Đã kết thúc</option>
-</select>
-
-
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label>Ngày bắt đầu</label>
-                    <input type="date" name="NgayBatDau" class="form-control" required>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label>Ngày kết thúc</label>
-                    <input type="date" name="NgayKetThuc" class="form-control" required>
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <label>Ảnh bìa tour</label>
-                <input type="file" name="LinkAnhBia" class="form-control" accept="image/*">
-            </div>
-
-            <label>Mô tả tour</label>
-            <textarea name="MoTa" class="form-control mb-4"></textarea>
-
-            <hr>
-
-            <h4 class="fw-bold text-primary mb-3"><i class="fa fa-calendar"></i> Lịch Trình Tour</h4>
-
-            <div id="lichTrinhContainer">
-
-                <div class="lichTrinhItem border p-3 my-3 rounded" data-index="0">
-
-                    <label><b>Ngày thứ</b></label>
-                    <input type="number" name="NgayThu[]" class="form-control mb-2" value="1" readonly>
-
-                    <label>Tiêu đề ngày</label>
-                    <input type="text" name="TieuDeNgay[]" class="form-control mb-2">
-
-                    <label>Nơi ở</label>
-                    <input type="text" name="NoiO[]" class="form-control mb-2">
-
-                    <label>Địa điểm tham quan</label>
-                    <input type="text" name="DiaDiemThamQuan[]" class="form-control mb-2">
-                    <div class="mt-3">
-                        <label><b>Bữa ăn bao gồm:</b></label><br>
-
-                        <label class="me-3">
-                            <input type="checkbox" name="CoBuaSang[]" value="1"> Sáng
-                        </label>
-
-                        <label class="me-3">
-                            <input type="checkbox" name="CoBuaTrua[]" value="1"> Trưa
-                        </label>
-
-                        <label class="me-3">
-                            <input type="checkbox" name="CoBuaToi[]" value="1"> Tối
-                        </label>
+    <div class="main-content">
+        <div class="container-fluid">
+            
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <div class="d-flex align-items-center">
+                    <a href="index.php?act=listTour" class="text-secondary me-3 fs-4"><i class="fas fa-arrow-left"></i></a>
+                    <div>
+                        <h3 class="fw-bold text-dark mb-0">Thêm Tour Mới</h3>
+                        <p class="text-muted mb-0">Thiết lập thông tin và lịch trình tour</p>
                     </div>
                 </div>
             </div>
 
-                    <div class="row mt-3">
-                        <div class="col-md-4">
-                            <label>Giờ tập trung</label>
-                            <input type="time" name="GioTapTrung[]" class="form-control">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Giờ xuất phát</label>
-                            <input type="time" name="GioXuatPhat[]" class="form-control">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Giờ kết thúc</label>
-                            <input type="time" name="GioKetThuc[]" class="form-control">
-                        </div>
+            <form action="index.php?act=createTour" method="POST" enctype="multipart/form-data">
+                
+                <div class="card card-form">
+                    <div class="card-header-custom">
+                        <h5 class="fw-bold text-primary mb-0"><i class="fas fa-info-circle me-2"></i> Thông Tin Cơ Bản</h5>
                     </div>
-
-                    <hr>
-                    <h5><b>Giờ & hoạt động từng buổi</b></h5>
-
-                    <h6>☀ Buổi sáng</h6>
-                    <div id="BuoiSang_0">
-                        <div class="row mt-2 singleRow">
-                            <div class="col-md-3">
-                                <input type="time" class="form-control" name="GioSang[0][]">
+                    <div class="card-body p-4">
+                        <div class="row g-4">
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Tên tour <span class="text-danger">*</span></label>
+                                    <input type="text" name="TenTour" class="form-control" placeholder="Nhập tên tour..." required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Danh mục <span class="text-danger">*</span></label>
+                                    <select name="MaDanhMuc" class="form-select" required>
+                                        <option value="">-- Chọn danh mục --</option>
+                                        <?php foreach ($danhmuc as $dm): ?>
+                                            <option value="<?= $dm['MaDanhMuc'] ?>"><?= htmlspecialchars($dm['TenDanhMuc']) ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Giá bán</label>
+                                        <input type="number" name="GiaBanMacDinh" class="form-control" placeholder="0">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Giá vốn</label>
+                                        <input type="number" name="GiaVonDuKien" class="form-control" placeholder="0">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Điểm khởi hành</label>
+                                    <input type="text" name="DiemKhoiHanh" class="form-control" placeholder="VD: Hà Nội, TP.HCM...">
+                                </div>
                             </div>
 
                             <div class="col-lg-6">
@@ -257,56 +170,6 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addRow('Sang',0)">+ Thêm giờ sáng</button>
-
-                    <h6 class="mt-3">🍱 Buổi trưa</h6>
-                    <div id="BuoiTrua_0">
-                        <div class="row mt-2 singleRow">
-                            <div class="col-md-3">
-                                <input type="time" class="form-control" name="GioTrua[0][]">
-                            </div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" name="NoiDungTrua[0][]" placeholder="Hoạt động">
-                            </div>
-                            <div class="col-md-1 d-flex align-items-center">
-                                <span class="delRow">&times;</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addRow('Trua',0)">+ Thêm giờ trưa</button>
-
-                    <h6 class="mt-3">🌇 Buổi chiều</h6>
-                    <div id="BuoiChieu_0">
-                        <div class="row mt-2 singleRow">
-                            <div class="col-md-3">
-                                <input type="time" class="form-control" name="GioChieu[0][]">
-                            </div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" name="NoiDungChieu[0][]" placeholder="Hoạt động">
-                            </div>
-                            <div class="col-md-1 d-flex align-items-center">
-                                <span class="delRow">&times;</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addRow('Chieu',0)">+ Thêm giờ chiều</button>
-
-                    <h6 class="mt-3">🌙 Buổi tối</h6>
-                    <div id="BuoiToi_0">
-                        <div class="row mt-2 singleRow">
-                            <div class="col-md-3">
-                                <input type="time" class="form-control" name="GioToi[0][]">
-                            </div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" name="NoiDungToi[0][]" placeholder="Hoạt động">
-                            </div>
-                            <div class="col-md-1 d-flex align-items-center">
-                                <span class="delRow">&times;</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-sm btn-outline-primary mt-2" onclick="addRow('Toi',0)">+ Thêm giờ tối</button>
-
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -448,28 +311,24 @@
 
             clone.setAttribute("data-index", dayIndex);
 
-            clone.querySelectorAll("input, textarea").forEach(el => {
-                if (el.name !== "NgayThu[]") {
-                    el.value = "";
-                }
-            });
-
+            clone.querySelector(".day-number").innerText = dayIndex + 1;
             clone.querySelector("input[name='NgayThu[]']").value = dayIndex + 1;
+
             clone.querySelectorAll("input[type='text'], input[type='time']").forEach(el => el.value = "");
             clone.querySelectorAll("input[type='checkbox']").forEach(el => el.checked = false);
+
             clone.querySelectorAll("[id^='Buoi']").forEach(el => {
                 let parts = el.id.split('_'); 
                 el.id = parts[0] + "_" + dayIndex;
             });
 
-            clone.querySelectorAll("[id]").forEach(el => {
-                if (el.id.includes("_0")) {
-                    el.id = el.id.replace("_0", "_" + dayIndex);
+            clone.querySelectorAll("input[name]").forEach(el => {
+                let name = el.name;
+                if(name.indexOf('[') !== -1) {
+                    if(name.match(/\[\d+\]\[\]/)) {
+                        el.name = name.replace(/\[\d+\]/, "[" + dayIndex + "]");
+                    }
                 }
-            });
-
-            clone.querySelectorAll("input[name], textarea[name]").forEach(el => {
-                el.name = el.name.replace("[0]", "[" + dayIndex + "]");
             });
 
             clone.querySelectorAll("button").forEach(btn => {

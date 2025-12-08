@@ -120,7 +120,7 @@
                             <tr>
                                 <th class="ps-4">ID</th>
                                 <th>Tên Đăng Nhập</th>
-                                <th>Vai Trò</th>
+                                <th>Mật Khẩu</th> <th>Vai Trò</th>
                                 <th>Trạng Thái</th>
                                 <th>Ngày Tạo</th>
                                 <th class="text-center">Thao Tác</th>
@@ -132,6 +132,9 @@
                                     <td class="ps-4 fw-bold text-secondary">#<?= $tk['MaTaiKhoan'] ?></td>
                                     <td>
                                         <div class="fw-bold text-dark"><?= $tk['TenDangNhap'] ?></div>
+                                    </td>
+                                    <td>
+                                        <span class="text-muted fst-italic">******</span> 
                                     </td>
                                     <td>
                                         <?php 
