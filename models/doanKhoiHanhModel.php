@@ -101,6 +101,8 @@ class doanKhoiHanhModel
     // Thêm đoàn
     public function insertDoan($data)
     {
+        $data['MaHuongDanVien'] = !empty($data['MaHuongDanVien']) ? $data['MaHuongDanVien'] : null;
+        $data['MaTaiXe'] = !empty($data['MaTaiXe']) ? $data['MaTaiXe'] : null;
         $sql = "INSERT INTO doankhoihanh
             (MaTour, NgayKhoiHanh, NgayVe, GioKhoiHanh, DiemTapTrung,
              SoChoToiDa, SoChoConTrong, MaHuongDanVien, MaTaiXe, TrangThai)
