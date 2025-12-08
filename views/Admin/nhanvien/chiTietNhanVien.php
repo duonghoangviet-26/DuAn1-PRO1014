@@ -15,154 +15,243 @@
         }
 
         .sidebar {
-            width: 250px;
+            width: 260px;
             height: 100vh;
             position: fixed;
             top: 0;
             left: 0;
-            background-color: #343a40;
-            color: white;
+            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+            color: #ecf0f1;
             padding-top: 20px;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 0 25px 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 15px;
+        }
+
+        .sidebar-header h4 {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-menu { padding: 0 10px; }
+        
+        .sidebar-title {
+            font-size: 0.75rem; text-transform: uppercase; color: #95a5a6;
+            margin: 15px 15px 5px; font-weight: 600;
         }
 
         .sidebar a {
-            color: #ccc;
-            display: block;
-            padding: 10px 20px;
-            text-decoration: none;
+            color: #bdc3c7; padding: 12px 15px; text-decoration: none;
+            display: flex; align-items: center; border-radius: 8px;
+            font-size: 0.95rem; transition: all 0.3s ease; margin-bottom: 5px;
         }
 
-        .sidebar a:hover {
-            background-color: #495057;
-            color: #fff;
+        .sidebar a i { width: 25px; text-align: center; margin-right: 10px; font-size: 1.1rem; }
+
+        .sidebar a:hover, .sidebar a.active {
+            background-color: rgba(255,255,255,0.1); color: #fff; transform: translateX(5px);
         }
 
-        .content {
-            margin-left: 250px;
-            padding: 20px;
+        .sidebar a.active { background-color: #3498db; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 30px;
+            width: calc(100% - 260px);
+            min-height: 100vh;
         }
+
+        /* --- PROFILE CARD STYLE --- */
+        .card-profile { border: none; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); background: #fff; overflow: hidden; }
+        .profile-header {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            height: 150px;
+            position: relative;
+        }
+        .profile-img-container {
+            position: absolute;
+            bottom: -50px;
+            left: 40px;
+        }
+        .profile-img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 5px solid #fff;
+            object-fit: cover;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background-color: #fff;
+        }
+        .profile-actions {
+            position: absolute;
+            bottom: 15px;
+            right: 30px;
+        }
+
+        .profile-body {
+            padding-top: 60px; /* Để tránh bị ảnh đè */
+            padding-left: 40px;
+            padding-right: 40px;
+            padding-bottom: 40px;
+        }
+
+        .info-label { font-weight: 600; color: #6b7280; font-size: 0.9rem; margin-bottom: 5px; }
+        .info-value { font-weight: 500; color: #111827; font-size: 1rem; }
+        .info-group { margin-bottom: 20px; }
+        
+        .badge-role { font-size: 0.9rem; padding: 8px 15px; border-radius: 30px; }
+        .role-admin { background: #fee2e2; color: #991b1b; }
+        .role-hdv { background: #e0f2fe; color: #075985; }
+        
+        .status-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; }
+        .dot-active { background-color: #10b981; }
+        .dot-inactive { background-color: #6b7280; }
     </style>
 </head>
 
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
-        <h4 class="text-center text-light mb-4">Admin Panel</h4>
-        <a href="index.php?act=/"><i class="fa fa-home"></i> Tổng quan</a>
-        <a href="index.php?act=listdm"><i class="fa fa-list"></i> Danh mục tour</a>
-        <a href="index.php?act=listTour"><i class="fa fa-route"></i> Quản lý tour</a>
-        <a href="index.php?act=listBooking"><i class="fa fa-book"></i> Quản lý booking</a>
-        <a href="index.php?act=listKH"><i class="fa fa-users"></i> Quản lí khách hàng</a>
-        <a href="index.php?act=listDKH"><i class="fa fa-users"></i> Quản lí đoàn khởi hành</a>
-        <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Quản lý nhà cung cấp</a>
-        <a href="index.php?act=listNV"><i class="fa fa-users"></i> Tài khoản / HDV</a>
-        <a href="#"><i class="fa fa-chart-bar"></i> Báo cáo thống kê</a>
-        <a href="index.php?act=listTaiKhoan"><i class="fa fa-user-circle"></i> Danh sách Tài khoản</a>
-        <a href="index.php?act=logout" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
-    </div>
+        <div class="sidebar-header">
+            <h4><i class="fa-solid fa-earth-americas me-2 text-info"></i> TRAVEL ADMIN</h4>
+        </div>
 
-    <div class="content">
-        <div class="container mt-4">
-    <h3 class="mb-4 text-primary">Thông Tin Chi Tiết Nhân Viên</h3>
+        <div class="sidebar-menu">
+            <a href="index.php?act=admin_dashboard" ><i class="fa fa-home"></i> Trang chủ</a>
+            
+            <div class="sidebar-title">Quản lý Sản phẩm</div>
+            <a href="index.php?act=listdm"><i class="fa fa-layer-group"></i> Danh mục Tour</a>
+            <a href="index.php?act=listTour"><i class="fa fa-map-location-dot"></i> Quản lý Tour</a>
+            <a href="index.php?act=listDKH"><i class="fa fa-bus"></i> Đoàn khởi hành</a>
 
-    <div class="card shadow p-4">
-        <div class="row">
-            <div class="col-md-4 text-center">
-                <img src="uploads/nhanvien/<?= $nhanVien['LinkAnhDaiDien'] ?>" 
-                     class="img-fluid rounded" style="max-height: 240px;">
-                <h5 class="mt-3 text-primary"><?= $nhanVien['HoTen'] ?></h5>
+            <div class="sidebar-title">Kinh doanh</div>
+            <a href="index.php?act=listBooking"><i class="fa fa-file-invoice-dollar"></i> Booking & Đơn hàng</a>
+            <a href="index.php?act=listKH"><i class="fa fa-users"></i> Khách hàng</a>
 
-                <p><strong>Mã Code NV:</strong> 
-                    <span class="badge bg-dark"><?= $nhanVien['MaCodeNhanVien'] ?></span>
-                </p>
-            </div>
-            <div class="col-md-8">
-
-                <table class="table table-bordered">
-                    <tr>
-                        <th>Họ Tên</th>
-                        <td><?= $nhanVien['HoTen'] ?></td>
-                    </tr>
-
-                    <tr>
-                        <th>Vai Trò</th>
-                        <td><?= $nhanVien['VaiTro'] ?></td>
-                    </tr>
-
-                    <tr>
-                        <th>Số Điện Thoại</th>
-                        <td><?= $nhanVien['SoDienThoai'] ?></td>
-                    </tr>
-
-                    <tr>
-                        <th>Email</th>
-                        <td><?= $nhanVien['Email'] ?></td>
-                    </tr>
-
-                    <tr>
-                        <th>Ngày Sinh</th>
-                        <td><?= $nhanVien['NgaySinh'] ?></td>
-                    </tr>
-
-                    <tr>
-                        <th>Giới Tính</th>
-                        <td>
-                            <?php
-                                if ($nhanVien['GioiTinh'] == 'nam') echo "Nam";
-                                elseif ($nhanVien['GioiTinh'] == 'nu') echo "Nữ";
-                                else echo "Khác";
-                            ?>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th>Địa Chỉ</th>
-                        <td><?= $nhanVien['DiaChi'] ?></td>
-                    </tr>
-
-                    <tr>
-                        <th>Chứng Chỉ</th>
-                        <td><?= $nhanVien['ChungChi'] ?></td>
-                    </tr>
-
-                    <tr>
-                        <th>Ngôn Ngữ</th>
-                        <td><?= $nhanVien['NgonNgu'] ?></td>
-                    </tr>
-
-                    <tr>
-                        <th>Số Năm Kinh Nghiệm</th>
-                        <td><?= $nhanVien['SoNamKinhNghiem'] ?> năm</td>
-                    </tr>
-
-                    <tr>
-                        <th>Chuyên Môn</th>
-                        <td><?= $nhanVien['ChuyenMon'] ?></td>
-                    </tr>
-
-                    <tr>
-                        <th>Trạng Thái</th>
-                        <td>
-                            <?php if ($nhanVien['TrangThai'] == "dang_lam"): ?>
-                                <span class="badge bg-success">Đang làm</span>
-                            <?php else: ?>
-                                <span class="badge bg-danger">Đã nghỉ</span>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th>Ngày Tạo</th>
-                        <td><?= $nhanVien['NgayTao'] ?></td>
-                    </tr>
-                </table>
-
-                <a href="index.php?act=listNV" class="btn btn-secondary mt-3">Quay lại</a>
-            </div>
+            <div class="sidebar-title">Hệ thống</div>
+            <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Đối tác & NCC</a>
+            <a href="index.php?act=listNV"><i class="fa-solid fa-id-card"></i> Nhân sự</a>
+            <a href="index.php?act=listTaiKhoan"><i class="fa fa-user-gear"></i> Tài khoản </a>
+            <a href="index.php?act=logout" class="text-danger mt-3"><i class="fa fa-right-from-bracket"></i> Đăng xuất</a>
         </div>
     </div>
-</div>
 
+    <div class="main-content">
+        <div class="container-fluid">
+            
+            <div class="d-flex align-items-center mb-4">
+                <a href="index.php?act=listNV" class="text-secondary me-3 fs-4"><i class="fas fa-arrow-left"></i></a>
+                <h3 class="fw-bold text-dark mb-0">Hồ Sơ Nhân Viên</h3>
+            </div>
+
+            <div class="card card-profile">
+                <div class="profile-header">
+                    <div class="profile-img-container">
+                        <img src="./uploads/nhanvien/<?= !empty($nhanVien['LinkAnhDaiDien']) ? $nhanVien['LinkAnhDaiDien'] : 'default-avatar.png' ?>" 
+                             class="profile-img" alt="Avatar">
+                    </div>
+                    <div class="profile-actions">
+                        <a href="index.php?act=editNV&id=<?= $nhanVien['MaNhanVien'] ?>" class="btn btn-light fw-bold shadow-sm">
+                            <i class="fas fa-pen me-2"></i> Chỉnh sửa
+                        </a>
+                    </div>
+                </div>
+
+                <div class="profile-body">
+                    
+                    <div class="d-flex justify-content-between align-items-start mb-4">
+                        <div>
+                            <h2 class="fw-bold mb-1"><?= $nhanVien['HoTen'] ?></h2>
+                            <p class="text-muted mb-2">
+                                <i class="fas fa-id-badge me-2"></i> <?= $nhanVien['MaCodeNhanVien'] ?>
+                            </p>
+                            
+                            <?php 
+                                $roleText = strtoupper(str_replace('_', ' ', $nhanVien['VaiTro']));
+                                $roleClass = ($nhanVien['VaiTro'] == 'admin') ? 'role-admin' : 'role-hdv';
+                            ?>
+                            <span class="badge badge-role <?= $roleClass ?>"><?= $roleText ?></span>
+
+                            <span class="ms-3 text-secondary" style="font-size: 0.9rem;">
+                                <?php if($nhanVien['TrangThai'] == 'dang_lam'): ?>
+                                    <span class="status-dot dot-active"></span> Đang làm việc
+                                <?php else: ?>
+                                    <span class="status-dot dot-inactive"></span> Đã nghỉ việc
+                                <?php endif; ?>
+                            </span>
+                        </div>
+                    </div>
+
+                    <hr class="my-4 text-muted opacity-25">
+
+                    <div class="row g-5">
+                        <div class="col-md-6">
+                            <h5 class="text-primary fw-bold mb-4"><i class="far fa-user me-2"></i> Thông tin cá nhân</h5>
+                            
+                            <div class="info-group">
+                                <div class="info-label">Ngày sinh</div>
+                                <div class="info-value"><?= date('d/m/Y', strtotime($nhanVien['NgaySinh'])) ?></div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">Giới tính</div>
+                                <div class="info-value">
+                                    <?= ($nhanVien['GioiTinh'] == 'nam') ? 'Nam' : (($nhanVien['GioiTinh'] == 'nu') ? 'Nữ' : 'Khác') ?>
+                                </div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">Số điện thoại</div>
+                                <div class="info-value"><a href="tel:<?= $nhanVien['SoDienThoai'] ?>" class="text-decoration-none text-dark"><?= $nhanVien['SoDienThoai'] ?></a></div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">Email</div>
+                                <div class="info-value"><a href="mailto:<?= $nhanVien['Email'] ?>" class="text-decoration-none text-dark"><?= $nhanVien['Email'] ?></a></div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">Địa chỉ</div>
+                                <div class="info-value"><?= $nhanVien['DiaChi'] ?></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h5 class="text-success fw-bold mb-4"><i class="fas fa-briefcase me-2"></i> Hồ sơ năng lực</h5>
+
+                            <div class="info-group">
+                                <div class="info-label">Kinh nghiệm</div>
+                                <div class="info-value"><?= $nhanVien['SoNamKinhNghiem'] ?> năm</div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">Chuyên môn</div>
+                                <div class="info-value"><?= $nhanVien['ChuyenMon'] ?></div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">Ngôn ngữ thành thạo</div>
+                                <div class="info-value"><?= $nhanVien['NgonNgu'] ?></div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">Chứng chỉ & Bằng cấp</div>
+                                <div class="info-value bg-light p-3 rounded text-secondary" style="font-size: 0.9rem;">
+                                    <?= nl2br($nhanVien['ChungChi']) ?>
+                                </div>
+                            </div>
+                            <div class="info-group">
+                                <div class="info-label">Ngày tham gia hệ thống</div>
+                                <div class="info-value text-muted small">
+                                    <i class="far fa-clock me-1"></i> <?= date('d/m/Y H:i', strtotime($nhanVien['NgayTao'])) ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

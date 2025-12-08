@@ -120,5 +120,54 @@ class TaiKhoanController
         header("Location: index.php?act=login");
         exit();
     }
+
+    public function formForgotPassword() {
+        require_once "./views/taikhoan/QuenMK.php";
+    }
+
+    public function checkInfo() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $user = $_POST['TenDangNhap'];
+            $email = $_POST['Email'];
+            $sdt = $_POST['SoDienThoai'];
+
+            $account = $this->modelTaiKhoan->checkUserForReset($user, $email, $sdt);
+
+            if ($account) {
+                $_SESSION['reset_id'] = $account['MaTaiKhoan'];
+                header("Location: index.php?act=reset_password");
+                exit();
+            } else {
+                $error = "Thông tin không chính xác! Vui lòng kiểm tra lại.";
+                require_once "./views/taikhoan/QuenMK.php";
+            }
+        }
+    }
+
+    public function formResetPassword() {
+        if (!isset($_SESSION['reset_id'])) {
+            header("Location: index.php?act=forgot_password");
+            exit();
+        }
+        require_once "./views/taikhoan/resetPassword.php";
+    }
+
+    public function confirmResetPassword() {
+        if (!isset($_SESSION['reset_id'])) { header("Location: index.php?act=login"); exit(); }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $pass = $_POST['MatKhau'];
+            $rePass = $_POST['MatKhau2'];
+
+            if ($pass === $rePass) {
+                $this->modelTaiKhoan->resetPassword($_SESSION['reset_id'], $pass);
+                unset($_SESSION['reset_id']);
+                echo "<script>alert('Đổi mật khẩu thành công! Vui lòng đăng nhập lại.'); window.location.href='index.php?act=login';</script>";
+            } else {
+                $error = "Mật khẩu xác nhận không khớp!";
+                require_once "./views/taikhoan/resetPassword.php";
+            }
+        }
+    }
 }
 ?>
