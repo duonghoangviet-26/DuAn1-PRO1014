@@ -75,15 +75,11 @@ class nhaCungCapController
 
                 'TenLaiXe' => trim($_POST['TenLaiXe'] ?? ''),
                 'SDTLaiXe' => trim($_POST['SDTLaiXe'] ?? ''),
-<<<<<<< HEAD
                 'SoDienThoai' => trim($_POST['SoDienThoai']),
                 'Email' => trim($_POST['Email']),
-                
-=======
 
                 'SoDienThoai' => trim($_POST['SoDienThoai']),
                 'Email' => trim($_POST['Email']),
->>>>>>> f1431ecd357a65b9c43fd7796fa30ff4d6e6ecce
                 'DiaChi' => $_POST['DiaChi'],
                 'DichVuCungCap' => $_POST['DichVuCungCap'],
                 'FileHopDong' => $_POST['FileHopDong'],
