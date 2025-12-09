@@ -46,11 +46,8 @@ class nhaCungCapController
 
             $sdt = $_POST['SoDienThoai'];
             if (!empty($sdt) && !preg_match('/^[0-9]+$/', $sdt)) {
-<<<<<<< HEAD
                 $errors[] = 'Số điện thoại chỉ được nhập số';
-=======
                 $errors[] = 'Số điện thoại chỉ được nhập số (không chứa chữ hay ký tự đặc biệt)';
->>>>>>> f1431ecd357a65b9c43fd7796fa30ff4d6e6ecce
             }
 
             if ($_POST['LoaiNhaCungCap'] == 'van_chuyen') {
