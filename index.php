@@ -53,10 +53,18 @@ match ($act) {
     'logout'    => (new TaiKhoanController())->logout(),
     'addTaiKhoan'     => (new TaiKhoanController())->formAddTaiKhoan(),
     'postAddTaiKhoan' => (new TaiKhoanController())->postAddTaiKhoan(),
+    'QuenMK' => (new TaiKhoanController())->formForgotPassword(),
+    'check_info'      => (new TaiKhoanController())->checkInfo(),
+    'resetPassword'  => (new TaiKhoanController())->formResetPassword(),
+    'confirm_reset'   => (new TaiKhoanController())->confirmResetPassword(),
 
     // ADMIN DASHBOARD 
     'admin_dashboard' => (function () {
         checkAuth('admin');
+        $bkController = new bookingController();
+        $bookingModel = new bookingModel();
+        $bookings = $bookingModel->getAllBooking(['TrangThai' => 'all', 'search' => '']);
+        $statistics = $bookingModel->getStatistics();
         require_once './views/trangChu.php';
     })(),
 
@@ -193,7 +201,7 @@ match ($act) {
     'hdv_vanhanh'         => (new VanHanhTourController())->index(),
     'hdv_add_transaction' => (new VanHanhTourController())->addTransaction(),
     'hdv_delete_transaction' => (new VanHanhTourController())->deleteTransaction(),
-    'hdv_report_issue'    => (new VanHanhTourController())->reportIssue(),
+    // 'hdv_report_issue'    => (new VanHanhTourController())->reportIssue(),
 };
 
 function checkAuth($roleRequired)

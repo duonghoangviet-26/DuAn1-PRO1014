@@ -108,32 +108,29 @@
 <body>
 
     <div class="login-container">
-        <h2 class="text-center login-title">Login</h2>
+    <h3 class="text-center mb-4">Quên Mật Khẩu</h3>
+    
+    <?php if(isset($error)) echo "<div class='alert alert-danger'>$error</div>"; ?>
 
-        <?php if (isset($error)): ?>
-            <div class="alert alert-danger py-2">
-                <i class="fas fa-exclamation-circle"></i> <?= $error ?>
-            </div>
-        <?php endif; ?>
-
-        <form action="index.php?act=login" method="POST">
-            
-            <label class="fw-bold text-secondary small mb-1">Username</label>
-           <div class="input-wrapper d-flex align-items-center">
-                <i class="fas fa-user"></i>
-                <input type="text" name="TenDangNhap" class="custom-input" required placeholder="Type your username">
-            </div>
-            <label class="fw-bold text-secondary small mb-1">Password</label>
-            <div class="input-wrapper d-flex align-items-center">
-                <i class="fas fa-lock"></i>
-                <input type="password" name="MatKhau" class="custom-input" required placeholder="Type your password">
-            </div>
-
-            <a href="index.php?act=QuenMK" class="forgot-pass">Forgot password?</a>
-            <button type="submit" class="btn btn-gradient">LOGIN</button>
-
-        </form>
-    </div>
+    <form action="index.php?act=check_info" method="POST">
+        <div class="mb-3">
+            <label>Tên đăng nhập</label>
+            <input type="text" name="TenDangNhap" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Email (Đã đăng ký)</label>
+            <input type="email" name="Email" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Số điện thoại (Đã đăng ký)</label>
+            <input type="text" name="SoDienThoai" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Xác Minh & Đặt Lại</button>
+        <div class="text-center mt-3">
+            <a href="index.php?act=login">Quay lại đăng nhập</a>
+        </div>
+    </form>
+</div>
 
 </body>
 </html>
