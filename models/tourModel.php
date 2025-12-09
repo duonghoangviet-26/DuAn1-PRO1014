@@ -365,5 +365,20 @@ public function searchTourAdvanced($where)
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+public function autoUpdateStatus() {
+    $today = date("Y-m-d");
+
+    $sql = "UPDATE tour 
+            SET TrangThai = 'da_ket_thuc'
+            WHERE NgayKetThuc < :today 
+            AND TrangThai != 'da_ket_thuc'";
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':today', $today);
+    $stmt->execute();
+}
+
+
+
 
 }

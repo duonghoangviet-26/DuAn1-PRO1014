@@ -164,7 +164,7 @@ class doanKhoiHanhModel
     // Update đoàn
     public function updateDKH($data)
     {
-        // tính số chỗ còn trống
+
         $soBooking = $this->countBookingOfDoan($data['MaDoan']);
         $soConTrong = $data['SoChoToiDa'] - $soBooking;
         if ($soConTrong < 0) $soConTrong = 0;
@@ -203,19 +203,15 @@ class doanKhoiHanhModel
 
     public function deleteDoan($id)
     {
-        // Xoá lịch làm việc trước
         $this->conn->prepare("DELETE FROM lichlamviec WHERE MaDoan=?")
             ->execute([$id]);
 
-        // Xoá booking thuộc đoàn
         $this->conn->prepare("DELETE FROM booking WHERE MaDoan=?")
             ->execute([$id]);
 
-        // Xoá dịch vụ của đoàn
         $this->conn->prepare("DELETE FROM dichvucuadoan WHERE MaDoan=?")
             ->execute([$id]);
 
-        // Xoá đoàn
         return $this->conn->prepare("DELETE FROM doankhoihanh WHERE MaDoan=?")
             ->execute([$id]);
     }
@@ -238,13 +234,7 @@ class doanKhoiHanhModel
         $sql = "SELECT * FROM doankhoihanh";
         return $this->conn->query($sql)->fetchAll();
     }
-    // public function getLichTrinhByTour($MaTour)
-    // {
-    //     $sql = "SELECT * FROM lichtrinh WHERE MaTour = ?";
-    //     $stmt = $this->conn->prepare($sql);
-    //     $stmt->execute([$MaTour]);
-    //     return $stmt->fetchAll();
-    // }
+
     public function getLichTrinhByTour($MaTour)
     {
         $sql = "SELECT * FROM lichtrinh WHERE MaTour = ? ORDER BY NgayThu ASC";
@@ -291,14 +281,11 @@ class doanKhoiHanhModel
             WHERE dkh.MaDoan = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$MaDoan]);
-        return $stmt->fetch();    // không có dữ liệu → false
+        return $stmt->fetch();
     }
-
-
-
     public function getNCCTheoLichTrinh($MaDoan)
     {
-        // Lấy NCC từ bảng doankhoihanh (vì chỉ có tài xế ở đây)
+
         $sql = "SELECT 
                 d.MaDoan,
                 d.MaTaiXe AS MaNCC,
@@ -439,12 +426,20 @@ JOIN nhacungcap ncc ON d.MaTaiXe = ncc.MaNhaCungCap
         ]);
     }
 
-
-
     public function deleteTaiChinh($id)
     {
         $sql = "DELETE FROM taichinhtour WHERE MaTaiChinh = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(['id' => $id]);
+    }
+    public function getTotalPeopleByDoan($MaDoan)
+    {
+        $sql = "SELECT 
+                SUM(TongNguoiLon + TongTreEm + TongEmBe) AS total_people
+            FROM booking
+            WHERE MaDoan = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$MaDoan]);
+        return $stmt->fetchColumn() ?: 0;
     }
 }

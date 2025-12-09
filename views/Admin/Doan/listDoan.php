@@ -184,6 +184,7 @@
                                         <th>Đã đặt</th>
                                         <th>Còn trống</th>
                                         <th>Trạng thái</th>
+                                        <!-- <th>Trạng Thái Hoạt động</th> -->
                                         <th>Hành động</th>
                                     </tr>
                                 </thead>

@@ -25,7 +25,7 @@ class tourController
     public function deleteDanhMuc()
     {
         $id = isset($_GET['id']) && is_numeric($_GET['id']) ? intval($_GET['id']) : 0;
-        
+
         if ($id > 0) {
             $rowsDeleted = $this->modelTour->deleteDanhMuc($id);
 
@@ -113,54 +113,47 @@ class tourController
     }
 
 
-   public function getAllTour()
-{
-    $model = new tourModel();
+    public function getAllTour()
+    {
+        $model = new tourModel();
 
-    // Lấy keyword & trạng thái lọc
-    $keyword = $_GET['keyword'] ?? "";
-    $trangthai = $_GET['trangthai'] ?? "";
+        $model->autoUpdateStatus();
 
-    // Nếu có từ khóa tìm kiếm hoặc trạng thái lọc → bỏ phân trang
-    if ($keyword != "" || $trangthai != "") {
+        $keyword = $_GET['keyword'] ?? "";
+        $trangthai = $_GET['trangthai'] ?? "";
 
-        // Tạo câu SQL tìm kiếm + lọc
-        $where = " WHERE 1 ";
+        if ($keyword != "" || $trangthai != "") {
+            $where = " WHERE 1 ";
 
-        if ($keyword != "") {
-            $keyword = addslashes($keyword);
-            $where .= " AND (t.TenTour LIKE '%$keyword%' 
+            if ($keyword != "") {
+                $keyword = addslashes($keyword);
+                $where .= " AND (t.TenTour LIKE '%$keyword%' 
                         OR dm.TenDanhMuc LIKE '%$keyword%' 
                         OR t.DiemKhoiHanh LIKE '%$keyword%')";
+            }
+
+            if ($trangthai != "") {
+                $where .= " AND t.TrangThai = '$trangthai' ";
+            }
+
+            $listTour = $model->searchTourAdvanced($where);
+            $totalPage = 1;
+            $page = 1;
+        } else {
+
+            $limit = 7;
+            $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+            if ($page < 1) $page = 1;
+
+            $start = ($page - 1) * $limit;
+
+            $listTour = $model->getTourPagination($start, $limit);
+            $totalTour = $model->countTours();
+            $totalPage = ceil($totalTour / $limit);
         }
 
-        if ($trangthai != "") {
-            $where .= " AND t.TrangThai = '$trangthai' ";
-        }
-
-        $listTour = $model->searchTourAdvanced($where);
-        $totalPage = 1;
-        $page = 1;
-
-    } else {
-
-        // PHÂN TRANG BÌNH THƯỜNG
-        $limit = 7;
-        $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-        if ($page < 1) $page = 1;
-
-        $start = ($page - 1) * $limit;
-
-        $listTour = $model->getTourPagination($start, $limit);
-        $totalTour = $model->countTours();
-        $totalPage = ceil($totalTour / $limit);
+        include "views/Admin/tour/listTour.php";
     }
-
-    include "views/Admin/tour/listTour.php";
-}
-
-
-
 
     // FORM THÊM TOUR
     public function createTourForm()
@@ -256,9 +249,6 @@ class tourController
             exit();
         }
     }
-
-
-
     // FORM SỬA TOUR
     public function editTourForm()
     {
@@ -317,10 +307,6 @@ class tourController
 
         include "views/Admin/tour/edit.php";
     }
-
-
-
-
     // XỬ LÝ UPDATE TOUR
     public function updateTour()
     {
@@ -335,7 +321,20 @@ class tourController
         $GiaVonDuKien = $_POST['GiaVonDuKien'];
         $NgayBatDau  = $_POST['NgayBatDau'];
         $NgayKetThuc = $_POST['NgayKetThuc'];
-        $TrangThai   = $_POST['TrangThai'];
+        $today = date("Y-m-d");
+        if (strpos($NgayKetThuc, "/") !== false) {
+            $parts = explode("/", $NgayKetThuc);
+            $NgayKetThuc_Formatted = $parts[2] . "-" . $parts[1] . "-" . $parts[0];
+        } else {
+            $NgayKetThuc_Formatted = $NgayKetThuc;
+        }
+
+        if ($NgayKetThuc_Formatted < $today) {
+            $TrangThai = 'da_ket_thuc';
+        } else {
+            $TrangThai = $_POST['TrangThai'];
+        }
+
 
         if ($SoDem > $SoNgay) {
             echo "<script>alert('❌ Số đêm không được lớn hơn số ngày!'); history.back();</script>";
@@ -369,7 +368,7 @@ class tourController
             $LinkAnhBia,
             $GiaVonDuKien,
             $NgayBatDau,
-            $NgayKetThuc,
+            $NgayKetThuc_Formatted,
             $TrangThai
         );
 
@@ -422,9 +421,6 @@ class tourController
         header("Location: index.php?act=listTour");
         exit();
     }
-
-
-
     // XÓA TOUR
     public function deleteTour()
     {
@@ -439,7 +435,6 @@ class tourController
         header("Location: index.php?act=listTour");
     }
 
-
     // CHI TIẾT TOUR
     public function detailTour()
     {
@@ -449,7 +444,6 @@ class tourController
         $lichTrinh = $model->getLichTrinhByTour($id);
         include "views/Admin/tour/chiTietTour.php";
     }
-
 
     // CLONE TOUR
     public function cloneTour()
@@ -532,5 +526,13 @@ class tourController
         return array_map(function ($line) {
             return trim(explode("-", $line, 2)[1] ?? "");
         }, $arr);
+    }
+    public function listTour()
+    {
+
+        $this->modelTour->autoUpdateStatus();
+        $listTour = $this->modelTour->getAllTour();
+
+        include "views/admin/listTour.php";
     }
 }
