@@ -133,13 +133,10 @@
         <a href="index.php?act=hdv_dashboard"><i class="fa-solid fa-house"></i> Trang chủ</a>
         <a href="index.php?act=hdv_schedule" class="active"><i class="fa-solid fa-calendar-days"></i> Lịch trình & Lịch làm việc</a>
         <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-users"></i> Danh sách khách</a>
-<<<<<<< HEAD
         <a href="index.php?act=listTourOfHDV"><i class="fa-solid fa-book"></i> Nhật ký tour</a>
         <a href="#"><i class="fa-solid fa-compass"></i> Vận hành tour</a>
-=======
         <a href="#"><i class="fa-solid fa-book"></i> Nhật ký tour</a>
         <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-compass"></i> Vận hành tour</a>
->>>>>>> ae38597d14f77eccf4821ffde91c7db97ae09013
         <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-user-check"></i> Quản lý khách</a>
 
         <hr style="border-color: #aad; margin: 20px;">

@@ -174,7 +174,6 @@ match ($act) {
     'editTC' => (new doanKhoiHanhController())->editTaiChinh(),
     'updateTC' => (new doanKhoiHanhController())->updateTaiChinh(),
 
-    default => header("Location: index.php?act=login"),
 
     // HDV xem lịch trình & Lịch làm việc
     'hdv_schedule' => (new lichLamViecController())->mySchedule(),

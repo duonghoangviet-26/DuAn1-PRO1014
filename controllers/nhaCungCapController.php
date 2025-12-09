@@ -37,12 +37,12 @@ class nhaCungCapController
 
             $email = $_POST['Email'];
             if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $errors[] = 'Email không đúng định dạng (Ví dụ: abc@gmail.com)';
+                $errors[] = 'Email không đúng định dạng';
             }
 
             $sdt = $_POST['SoDienThoai'];
-            if (!empty($sdt) && !preg_match('/^[0-9]+$', $sdt)) {
-                $errors[] = 'Số điện thoại chỉ được nhập số (không chứa chữ hay ký tự đặc biệt)';
+            if (!empty($sdt) && !preg_match('/^[0-9]+$/', $sdt)) {
+                $errors[] = 'Số điện thoại chỉ được nhập số';
             }
 
             if ($_POST['LoaiNhaCungCap'] == 'van_chuyen') {
@@ -54,10 +54,10 @@ class nhaCungCapController
 
             if (!empty($errors)) {
                 $_SESSION['error'] = implode('<br>', $errors);
+                $_SESSION['old_data'] = $_POST;
                 header("Location: " . BASE_URL . "?act=addNCC&loai=" . $_POST['LoaiNhaCungCap']);
                 exit;
             }
-
 
             $data = [
                 'MaCodeNCC' => $_POST['MaCodeNCC'],
@@ -65,11 +65,11 @@ class nhaCungCapController
                 'LoaiNhaCungCap' => $_POST['LoaiNhaCungCap'],
                 'NguoiLienHe' => $_POST['NguoiLienHe'],
 
-                'TenLaiXe' => $_POST['TenLaiXe'] ?? '',
-                'SDTLaiXe' => $_POST['SDTLaiXe'] ?? '',
-
-                'SoDienThoai' => $_POST['SoDienThoai'],
-                'Email' => $_POST['Email'],
+                'TenLaiXe' => trim($_POST['TenLaiXe'] ?? ''),
+                'SDTLaiXe' => trim($_POST['SDTLaiXe'] ?? ''),
+                'SoDienThoai' => trim($_POST['SoDienThoai']),
+                'Email' => trim($_POST['Email']),
+                
                 'DiaChi' => $_POST['DiaChi'],
                 'DichVuCungCap' => $_POST['DichVuCungCap'],
                 'FileHopDong' => $_POST['FileHopDong'], 
@@ -81,6 +81,8 @@ class nhaCungCapController
             ];
             
             $this->modelNhaCungCap->insertNhaCungCap($data);
+
+            if(isset($_SESSION['old_data'])) unset($_SESSION['old_data']);
 
             header("Location: " . BASE_URL . "?act=listNCCByCategory&loai=" . $data['LoaiNhaCungCap']);
             exit;
@@ -133,11 +135,11 @@ class nhaCungCapController
                 'LoaiNhaCungCap' => $_POST['LoaiNhaCungCap'],
                 'NguoiLienHe' => $_POST['NguoiLienHe'],
 
-                'TenLaiXe' => $_POST['TenLaiXe'] ?? '',
-                'SDTLaiXe' => $_POST['SDTLaiXe'] ?? '',
-
-                'SoDienThoai' => $_POST['SoDienThoai'],
-                'Email' => $_POST['Email'],
+                'TenLaiXe' => trim($_POST['TenLaiXe'] ?? ''),
+                'SDTLaiXe' => trim($_POST['SDTLaiXe'] ?? ''),
+                'SoDienThoai' => trim($_POST['SoDienThoai']),
+                'Email' => trim($_POST['Email']),
+                
                 'DiaChi' => $_POST['DiaChi'],
                 'DichVuCungCap' => $_POST['DichVuCungCap'],
                 'FileHopDong' => $_POST['FileHopDong'], 
