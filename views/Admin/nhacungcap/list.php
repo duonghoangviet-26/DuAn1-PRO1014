@@ -1,124 +1,224 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh sách nhà cung cấp</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        body { background-color: #f8f9fa; }
-        .sidebar { width: 250px; height: 100vh; position: fixed; top: 0; left: 0; background-color: #343a40; color: white; padding-top: 20px; }
-        .sidebar a { color: #ccc; display: block; padding: 10px 20px; text-decoration: none; }
-        .sidebar a:hover { background-color: #495057; color: #fff; }
-        .content { margin-left: 250px; padding: 20px; }
+        body { 
+            background-color: #f3f4f6; 
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+        }
+
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+            color: #ecf0f1;
+            padding-top: 20px;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar-header { padding: 0 25px 25px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px; }
+        .sidebar-header h4 { font-weight: 700; font-size: 1.2rem; color: #fff; display: flex; align-items: center; }
+        .sidebar-menu { padding: 0 10px; }
+        .sidebar-title { font-size: 0.75rem; text-transform: uppercase; color: #95a5a6; margin: 15px 15px 5px; font-weight: 600; }
+        .sidebar a { color: #bdc3c7; padding: 12px 15px; text-decoration: none; display: flex; align-items: center; border-radius: 8px; font-size: 0.95rem; transition: 0.3s; margin-bottom: 5px; }
+        .sidebar a i { width: 25px; text-align: center; margin-right: 10px; }
+        .sidebar a:hover, .sidebar a.active { background-color: rgba(255,255,255,0.1); color: #fff; transform: translateX(5px); }
+        .sidebar a.active { background-color: #3498db; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 30px;
+            width: calc(100% - 260px);
+            min-height: 100vh;
+        }
+
+        .card-custom { border: none; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); background: #fff; }
+        
+        .table-modern thead th {
+            background-color: #f8f9fa; color: #6b7280; font-weight: 600;
+            text-transform: uppercase; font-size: 0.75rem; padding: 15px 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .table-modern tbody td { padding: 15px 20px; vertical-align: middle; color: #374151; font-size: 0.9rem; }
+        .table-modern tbody tr:hover { background-color: #f9fafb; }
+
+        .badge-status { padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+        .status-active { background-color: #dcfce7; color: #166534; }
+        .status-inactive { background-color: #f3f4f6; color: #4b5563; }
+
+        .btn-action { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; transition: 0.2s; border: none; margin-right: 5px; }
+        .btn-view { background: #e0f2fe; color: #0284c7; } .btn-view:hover { background: #0284c7; color: #fff; }
+        .btn-edit { background: #fef3c7; color: #d97706; } .btn-edit:hover { background: #d97706; color: #fff; }
+        .btn-delete { background: #fee2e2; color: #dc2626; } .btn-delete:hover { background: #dc2626; color: #fff; }
     </style>
 </head>
+
 <body>
+
     <div class="sidebar">
-        <h4 class="text-center text-light mb-4">Admin Panel</h4>
-        <a href="index.php?act=/"><i class="fa fa-home"></i> Tổng quan</a>
-        <a href="index.php?act=listdm"><i class="fa fa-list"></i> Danh mục tour</a>
-        <a href="#"><i class="fa fa-route"></i> Quản lý tour</a>
-        <a href="#"><i class="fa fa-book"></i> Quản lý booking</a>
-        <a href="index.php?act=listNCC" class="bg-primary text-white"><i class="fa fa-handshake"></i> Quản lý nhà cung cấp</a>
-        <a href="index.php?act=listNV"><i class="fa fa-users"></i> Tài khoản / HDV</a>
-        <a href="#"><i class="fa fa-chart-bar"></i> Báo cáo thống kê</a>
-        <a href="#" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
+        <div class="sidebar-header">
+            <h4><i class="fa-solid fa-earth-americas me-2 text-info"></i> TRAVEL ADMIN</h4>
+        </div>
+
+        <div class="sidebar-menu">
+            <a href="index.php?act=admin_dashboard"><i class="fa fa-home"></i> Trang chủ</a>
+            
+            <div class="sidebar-title">Quản lý Sản phẩm</div>
+            <a href="index.php?act=listdm"><i class="fa fa-layer-group"></i> Danh mục Tour</a>
+            <a href="index.php?act=listTour"><i class="fa fa-map-location-dot"></i> Quản lý Tour</a>
+            <a href="index.php?act=listDKH"><i class="fa fa-bus"></i> Đoàn khởi hành</a>
+
+            <div class="sidebar-title">Kinh doanh</div>
+            <a href="index.php?act=listBooking"><i class="fa fa-file-invoice-dollar"></i> Booking & Đơn hàng</a>
+            <a href="index.php?act=listKH"><i class="fa fa-users"></i> Khách hàng</a>
+
+            <div class="sidebar-title">Hệ thống</div>
+            <a href="index.php?act=listNCC" class="active"><i class="fa fa-handshake"></i> Đối tác & NCC</a>
+            <a href="index.php?act=listNV"><i class="fa-solid fa-id-card"></i> Nhân sự</a>
+            <a href="index.php?act=listTaiKhoan"><i class="fa fa-user-gear"></i> Tài khoản </a>
+            
+            <a href="index.php?act=logout" class="text-danger mt-3"><i class="fa fa-right-from-bracket"></i> Đăng xuất</a>
+        </div>
     </div>
 
-    <div class="content">
-        <div class="container-fluid py-4">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card shadow">
-                        <div class="card-header bg-white border-bottom">
-                            <h4 class="mb-0 text-primary"><i class="fa fa-handshake"></i> Danh Sách Nhà Cung Cấp</h4>
-                        </div>
-                        <div class="card-body">
-                            
-                            <div class="row mb-3">
-                                <div class="col-md-12 d-flex justify-content-start">
-                                    <a href="index.php?act=listNCC" class="btn btn-secondary me-2">
-                                        <i class="fas fa-arrow-left"></i> Quay lại
-                                    </a>
-                                    <a href="index.php?act=addNCC&loai=<?= $_GET['loai'] ?? '' ?>" class="btn btn-success me-2">
-                                        <i class="fas fa-plus"></i> Thêm Nhà Cung Cấp
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="table-responsive">
-                                <table class="table table-hover table-bordered">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th>Mã NCC</th>
-                                            <th>Tên Nhà Cung Cấp</th>
-                                            <th>Loại</th>
-                                            <th>Người Liên Hệ</th>
-                                            
-                                            <?php if (isset($_GET['loai']) && $_GET['loai'] == 'van_chuyen'): ?>
-                                                <th>Tài xế / SĐT</th>
-                                            <?php endif; ?>
-                                            <th>Liên Hệ (SĐT/Email)</th>
-                                            <th>Trạng Thái</th>
-                                            <th>Thao Tác</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($listNhaCungCap as $ncc): ?>
-                                        <tr>
-                                            <td class="text-center"><?= $ncc['MaNhaCungCap'] ?></td>
-                                            <td>
-                                                <strong><?= $ncc['TenNhaCungCap'] ?></strong><br>
-                                                <small class="text-muted"><?= $ncc['MaCodeNCC'] ?></small>
-                                            </td>
-                                            <td><?= $ncc['LoaiNhaCungCap'] ?></td>
-                                            <td><?= $ncc['NguoiLienHe'] ?></td>
-                                            
-                                            <?php if (isset($_GET['loai']) && $_GET['loai'] == 'van_chuyen'): ?>
-                                            <td>
-                                                <?php if (!empty($ncc['TenLaiXe'])): ?>
-                                                    <i class="fas fa-user-tie text-primary"></i> <?= $ncc['TenLaiXe'] ?><br>
-                                                    <small><i class="fas fa-phone text-muted"></i> <?= $ncc['SDTLaiXe'] ?></small>
-                                                <?php else: ?>
-                                                    <span class="text-muted small">---</span>
-                                                <?php endif; ?>
-                                            </td>
-                                            <?php endif; ?>
-                                            <td>
-                                                <?= $ncc['SoDienThoai'] ?><br>
-                                                <small class="text-muted"><?= $ncc['Email'] ?></small>
-                                            </td>
-                                            <td class="text-center">
-                                                <?php if ($ncc['TrangThai'] == 'hoat_dong'): ?>
-                                                    <span class="badge bg-success">Hoạt động</span>
-                                                <?php else: ?>
-                                                    <span class="badge bg-secondary">Không hoạt động</span>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td class="text-center">
-                                                <a href="index.php?act=detailNCC&id=<?= $ncc['MaNhaCungCap'] ?>" class="btn btn-sm btn-info" title="Xem chi tiết">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="index.php?act=editNCC&id=<?= $ncc['MaNhaCungCap'] ?>" class="btn btn-sm btn-warning" title="Sửa">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="index.php?act=deleteNCC&id=<?= $ncc['MaNhaCungCap'] ?>" class="btn btn-sm btn-danger" title="Xóa" onclick="return confirm('Bạn có chắc muốn xóa nhà cung cấp này?')">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+    <div class="main-content">
+        <div class="container-fluid">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h3 class="fw-bold text-dark mb-1">Danh Sách Nhà Cung Cấp</h3>
+                    <p class="text-muted mb-0">Quản lý thông tin đối tác cung cấp dịch vụ</p>
+                </div>
+                <div>
+                    <a href="index.php?act=listNCC" class="btn btn-light border me-2 shadow-sm">
+                        <i class="fas fa-arrow-left me-1"></i> Quay lại
+                    </a>
+                    <a href="index.php?act=addNCC&loai=<?= $_GET['loai'] ?? '' ?>" class="btn btn-primary shadow-sm">
+                        <i class="fas fa-plus me-1"></i> Thêm NCC Mới
+                    </a>
                 </div>
             </div>
+
+            <div class="card card-custom">
+                <div class="table-responsive">
+                    <table class="table table-modern mb-0 align-middle">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">Mã NCC</th>
+                                <th>Tên Nhà Cung Cấp</th>
+                                <th>Loại hình</th>
+                                <th>Người liên hệ</th>
+                                
+                                <?php if (isset($_GET['loai']) && $_GET['loai'] == 'van_chuyen'): ?>
+                                    <th>Tài xế / SĐT</th>
+                                <?php endif; ?>
+
+                                <th>Thông tin liên hệ</th>
+                                <th>Trạng thái</th>
+                                <th class="text-center">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!empty($listNhaCungCap)): ?>
+                                <?php foreach ($listNhaCungCap as $ncc): ?>
+                                    <tr>
+                                        <td class="ps-4 fw-bold text-secondary">#<?= $ncc['MaNhaCungCap'] ?></td>
+                                        <td>
+                                            <div class="fw-bold text-dark"><?= $ncc['TenNhaCungCap'] ?></div>
+                                            <small class="text-muted">Code: <?= $ncc['MaCodeNCC'] ?></small>
+                                        </td>
+                                        <td>
+                                            <?php 
+                                                $loai = $ncc['LoaiNhaCungCap'];
+                                                $icon = 'fa-building';
+                                                if($loai == 'khach_san') $icon = 'fa-hotel';
+                                                elseif($loai == 'nha_hang') $icon = 'fa-utensils';
+                                                elseif($loai == 'van_chuyen') $icon = 'fa-bus';
+                                            ?>
+                                            <span class="badge bg-light text-dark border">
+                                                <i class="fas <?= $icon ?> me-1 text-secondary"></i> <?= ucwords(str_replace('_', ' ', $loai)) ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <i class="fas fa-user-circle text-muted me-1"></i> <?= $ncc['NguoiLienHe'] ?>
+                                        </td>
+                                        
+                                        <?php if (isset($_GET['loai']) && $_GET['loai'] == 'van_chuyen'): ?>
+                                            <td>
+                                                <?php if (!empty($ncc['TenLaiXe'])): ?>
+                                                    <div class="fw-bold text-primary"><i class="fas fa-steering-wheel me-1"></i> <?= $ncc['TenLaiXe'] ?></div>
+                                                    <small class="text-muted"><?= $ncc['SDTLaiXe'] ?></small>
+                                                <?php else: ?>
+                                                    <span class="text-muted small">—</span>
+                                                <?php endif; ?>
+                                            </td>
+                                        <?php endif; ?>
+
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                <a href="tel:<?= $ncc['SoDienThoai'] ?>" class="text-decoration-none text-dark fw-bold mb-1">
+                                                    <i class="fas fa-phone-alt text-success me-2"></i><?= $ncc['SoDienThoai'] ?>
+                                                </a>
+                                                <a href="mailto:<?= $ncc['Email'] ?>" class="text-decoration-none text-muted small">
+                                                    <i class="fas fa-envelope text-secondary me-2"></i><?= $ncc['Email'] ?>
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <?php if ($ncc['TrangThai'] == 'hoat_dong'): ?>
+                                                <span class="badge badge-status status-active">Hoạt động</span>
+                                            <?php else: ?>
+                                                <span class="badge badge-status status-inactive">Ngưng HĐ</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="d-flex justify-content-center">
+                                                <a href="index.php?act=detailNCC&id=<?= $ncc['MaNhaCungCap'] ?>" class="btn-action btn-view" title="Xem chi tiết">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="index.php?act=editNCC&id=<?= $ncc['MaNhaCungCap'] ?>" class="btn-action btn-edit" title="Sửa">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
+                                                <a href="index.php?act=deleteNCC&id=<?= $ncc['MaNhaCungCap'] ?>" 
+                                                   class="btn-action btn-delete" title="Xóa"
+                                                   onclick="return confirm('Bạn có chắc muốn xóa nhà cung cấp này?')">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="8" class="text-center py-5 text-muted">
+                                        <i class="fas fa-box-open fa-3x mb-3 opacity-25"></i>
+                                        <p>Chưa có nhà cung cấp nào trong danh mục này.</p>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

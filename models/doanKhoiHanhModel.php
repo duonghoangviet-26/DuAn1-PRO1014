@@ -286,12 +286,14 @@ class doanKhoiHanhModel
     public function getTaiXeByDoan($MaDoan)
     {
         $sql = "SELECT ncc.*
-            FROM doankhoihanh dkh
-            JOIN nhacungcap ncc ON dkh.MaTaiXe = ncc.MaNhaCungCap
-            WHERE dkh.MaDoan = ?";
+            FROM dichvucuadoan dv
+            JOIN nhacungcap ncc ON dv.MaNhaCungCap = ncc.MaNhaCungCap
+            WHERE dv.MaDoan = ? AND dv.LoaiDichVu = 'van_chuyen'
+            LIMIT 1";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$MaDoan]);
-        return $stmt->fetch();    // không có dữ liệu → false
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
 
@@ -439,7 +441,16 @@ JOIN nhacungcap ncc ON d.MaTaiXe = ncc.MaNhaCungCap
         ]);
     }
 
-
+    public function getTotalPeopleByDoan($MaDoan)
+    {
+        $sql = "SELECT 
+                SUM(TongNguoiLon + TongTreEm + TongEmBe) AS total_people
+            FROM booking
+            WHERE MaDoan = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$MaDoan]);
+        return $stmt->fetchColumn() ?: 0;
+    }
 
     public function deleteTaiChinh($id)
     {

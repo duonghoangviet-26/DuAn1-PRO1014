@@ -6,122 +6,158 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phân Công Lịch</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        body { background-color: #f8f9fa; }
-        .sidebar { width: 250px; height: 100vh; position: fixed; top: 0; left: 0; background-color: #343a40; color: white; padding-top: 20px; }
-        .sidebar a { color: #ccc; display: block; padding: 10px 20px; text-decoration: none; }
-        .sidebar a:hover { background-color: #495057; color: #fff; }
-        .content { margin-left: 250px; padding: 20px; }
+        body { background-color: #f3f4f6; font-family: 'Inter', sans-serif; margin: 0; }
+
+
+        .sidebar {
+            width: 260px; height: 100vh; position: fixed; top: 0; left: 0;
+            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+            color: #ecf0f1; padding-top: 20px; box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+            z-index: 1000; overflow-y: auto;
+        }
+        .sidebar-header { padding: 0 25px 25px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px; }
+        .sidebar-header h4 { font-weight: 700; font-size: 1.2rem; color: #fff; display: flex; align-items: center; }
+        .sidebar-menu { padding: 0 10px; }
+        .sidebar-title { font-size: 0.75rem; text-transform: uppercase; color: #95a5a6; margin: 15px 15px 5px; font-weight: 600; }
+        .sidebar a { color: #bdc3c7; padding: 12px 15px; text-decoration: none; display: flex; align-items: center; border-radius: 8px; font-size: 0.95rem; transition: 0.3s; margin-bottom: 5px; }
+        .sidebar a i { width: 25px; text-align: center; margin-right: 10px; }
+        .sidebar a:hover, .sidebar a.active { background-color: rgba(255,255,255,0.1); color: #fff; transform: translateX(5px); }
+        .sidebar a.active { background-color: #3498db; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
+
+        .main-content { margin-left: 260px; padding: 30px; width: calc(100% - 260px); min-height: 100vh; }
+
+        .card-form { border: none; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); background: #fff; }
+        .card-header-custom { background-color: #fff; border-bottom: 1px solid #f0f0f0; padding: 20px 25px; border-radius: 12px 12px 0 0; }
+        .form-label { font-weight: 600; color: #374151; font-size: 0.9rem; }
+        .form-control, .form-select { border-radius: 8px; padding: 10px 15px; border-color: #e5e7eb; }
+        .form-control:focus, .form-select:focus { border-color: #0d6efd; box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1); }
+        
+        .form-control[readonly] { background-color: #f8fafc; color: #64748b; cursor: not-allowed; }
+
+        .btn-submit { background-color: #0d6efd; border: none; padding: 12px 30px; font-weight: 600; border-radius: 8px; transition: 0.2s; color: white; }
+        .btn-submit:hover { background-color: #0b5ed7; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(13, 110, 253, 0.2); color: white; }
+        
+        .btn-cancel { background-color: #f3f4f6; color: #4b5563; border: none; padding: 12px 30px; font-weight: 600; border-radius: 8px; transition: 0.2s; text-decoration: none; display: inline-block; }
+        .btn-cancel:hover { background-color: #e5e7eb; color: #1f2937; }
     </style>
 </head>
 
 <body>
+
     <div class="sidebar">
-        <h4 class="text-center text-light mb-4">Admin Panel</h4>
-        <a href="index.php?act=/"><i class="fa fa-home"></i> Tổng quan</a>
-        <a href="index.php?act=listdm"><i class="fa fa-list"></i> Danh mục tour</a>
-        <a href="index.php?act=listTour"><i class="fa fa-route"></i> Quản lý tour</a>
-        <a href="index.php?act=listBooking"><i class="fa fa-book"></i> Quản lý booking</a> 
-        <a href="index.php?act=listKH"><i class="fa fa-users"></i> Quản lí khách hàng</a>
-        <a href="index.php?act=listDKH"><i class="fa fa-users"></i> Quản lí đoàn khởi hành</a>
-        <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Quản lý nhà cung cấp</a>
-        <a href="index.php?act=listNV"><i class="fa fa-users"></i> Tài khoản / HDV</a>
-        <a href="#"><i class="fa fa-chart-bar"></i> Báo cáo thống kê</a>
-        <a href="index.php?act=addTaiKhoan"><i class="fas fa-user-plus"></i>Thêm Tài Khoản</a>
-        <a href="index.php?act=logout" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
+        <div class="sidebar-header">
+            <h4><i class="fa-solid fa-earth-americas me-2 text-info"></i> TRAVEL ADMIN</h4>
+        </div>
+        <div class="sidebar-menu">
+            <a href="index.php?act=admin_dashboard"><i class="fa fa-home"></i> Trang chủ</a>
+            <div class="sidebar-title">Quản lý Sản phẩm</div>
+            <a href="index.php?act=listdm"><i class="fa fa-layer-group"></i> Danh mục Tour</a>
+            <a href="index.php?act=listTour"><i class="fa fa-map-location-dot"></i> Quản lý Tour</a>
+            <a href="index.php?act=listDKH"><i class="fa fa-bus"></i> Đoàn khởi hành</a>
+            <div class="sidebar-title">Kinh doanh</div>
+            <a href="index.php?act=listBooking"><i class="fa fa-file-invoice-dollar"></i> Booking & Đơn hàng</a>
+            <a href="index.php?act=listKH"><i class="fa fa-users"></i> Khách hàng</a>
+            <div class="sidebar-title">Hệ thống</div>
+            <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Đối tác & NCC</a>
+            <a href="index.php?act=listNV" class="active"><i class="fa-solid fa-id-card"></i> Nhân sự</a>
+            <a href="index.php?act=listTaiKhoan"><i class="fa fa-user-gear"></i> Tài khoản </a>
+            <a href="index.php?act=logout" class="text-danger mt-3"><i class="fa fa-right-from-bracket"></i> Đăng xuất</a>
+        </div>
     </div>
 
-    <div class="content">
-        <div class="container mt-4">
-            <h2>Phân Công Công Việc Mới</h2>
+    <div class="main-content">
+        <div class="container-fluid">
             
-            <form action="index.php?act=submitAddLich" method="POST" class="card p-4 shadow mt-3">
-                <div class="row">
-                    <div class="col-md-8 mx-auto">
-                        <h5 class="border-bottom pb-2 mb-4 text-primary">Thông tin phân công</h5>
-
-                        <div class="mb-4">
-                            <label class="form-label fw-bold">Nhân sự được phân công:</label>
-                            <input type="text" class="form-control bg-light" 
-                                   value="<?= $nhanVienHienTai['HoTen'] ?> - (<?= $nhanVienHienTai['VaiTro'] ?>)" 
-                                   readonly>
-                            
-                            <input type="hidden" name="MaNhanVien" value="<?= $nhanVienHienTai['MaNhanVien'] ?>">
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="form-label fw-bold">Chọn Đoàn Khởi Hành <span class="text-danger">*</span></label>
-                            
-                            <?php if (empty($doan)): ?>
-                                <div class="alert alert-warning">
-                                    <i class="fas fa-exclamation-circle"></i> 
-                                    Nhân viên này chưa được gán vào Đoàn nào trong phần "Quản Lý Đoàn Khởi Hành". 
-                                    Vui lòng sang mục quản lý đoàn để thêm nhân viên này vào đoàn trước.
-                                </div>
-                                <select name="MaDoan" class="form-select" disabled>
-                                    <option>-- Không có đoàn khả dụng --</option>
-                                </select>
-                            <?php else: ?>
-                                <select name="MaDoan" class="form-select" required>
-                                    <option value="">-- Chọn chuyến đi --</option>
-                                    <?php foreach ($doan as $d): ?>
-                                        <option value="<?= $d['MaDoan'] ?>">
-                                            [Đoàn #<?= $d['MaDoan'] ?>] - Ngày đi: <?= date('d/m/Y', strtotime($d['NgayKhoiHanh'])) ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            <?php endif; ?>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label fw-bold">Trạng Thái Công Việc:</label>
-                            <select name="TrangThai" class="form-select">
-                                <option value="ranh" selected>Sẵn sàng (Chưa khởi hành)</option>
-                                <option value="ban">Đang bận (Đang dẫn đoàn)</option>
-                                <option value="nghi">Đã hoàn thành / Hủy</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Ghi chú công việc</label>
-                            <textarea class="form-control" name="GhiChu" rows="3" placeholder="Nhập ghi chú..."></textarea>
-                        </div>
-
-                        <div class="text-center mt-5">
-                            <button type="submit" class="btn btn-primary px-5">
-                                <i class="fas fa-save"></i> Xác nhận
-                            </button>
-                            <a href="index.php?act=lichlamviec&id=<?= $nhanVienHienTai['MaNhanVien'] ?>" class="btn btn-secondary px-4">
-                                <i class="fas fa-times"></i> Hủy
-                            </a>
-                        </div>
-                    </div>
+            <div class="d-flex align-items-center mb-4">
+                <a href="index.php?act=listNV" class="text-secondary me-3 fs-4"><i class="fas fa-arrow-left"></i></a>
+                <div>
+                    <h3 class="fw-bold text-dark mb-0">Phân Công Mới</h3>
+                    <p class="text-muted mb-0">Tạo lịch làm việc cho nhân viên</p>
                 </div>
-            </form>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <form action="index.php?act=submitAddLich" method="POST" class="card card-form" novalidate onsubmit="return validateForm(event)">
+                        
+                        <div class="card-header-custom">
+                            <h5 class="fw-bold text-primary mb-0"><i class="fas fa-calendar-plus me-2"></i> Thông Tin Phân Công</h5>
+                        </div>
+
+                        <div class="card-body p-4">
+                            <div class="mb-4">
+                                <label class="form-label">Nhân sự (HDV/Tài xế):</label>
+                                <input type="text" class="form-control" 
+                                       value="<?= $nhanVienHienTai['HoTen'] ?> - (<?= $nhanVienHienTai['VaiTro'] ?>)" 
+                                       readonly>
+                                <input type="hidden" name="MaNhanVien" value="<?= $nhanVienHienTai['MaNhanVien'] ?>">
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">Chọn Đoàn Khởi Hành <span class="text-danger">*</span></label>
+                                
+                                <?php if (empty($doan)): ?>
+                                    <div class="alert alert-warning border-0 shadow-sm">
+                                        <i class="fas fa-exclamation-circle me-2"></i> 
+                                        Nhân viên này chưa được gán vào Đoàn nào. Vui lòng vào <strong>Quản Lý Đoàn Khởi Hành</strong> để thêm nhân viên vào đoàn trước.
+                                    </div>
+                                    <select name="MaDoan" class="form-select" disabled>
+                                        <option>-- Không có đoàn khả dụng --</option>
+                                    </select>
+                                <?php else: ?>
+                                    <select name="MaDoan" class="form-select" required>
+                                        <option value="">-- Chọn chuyến đi --</option>
+                                        <?php foreach ($doan as $d): ?>
+                                            <option value="<?= $d['MaDoan'] ?>">
+                                                [Đoàn #<?= $d['MaDoan'] ?>] - Ngày đi: <?= date('d/m/Y', strtotime($d['NgayKhoiHanh'])) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                <?php endif; ?>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">Trạng Thái Công Việc</label>
+                                <select name="TrangThai" class="form-select">
+                                    <option value="ranh" selected>🟢 Sẵn sàng (Chưa khởi hành)</option>
+                                    <option value="ban">🟠 Đang bận (Đang dẫn đoàn)</option>
+                                    <option value="nghi">⚫ Đã hoàn thành / Hủy</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Ghi chú công việc</label>
+                                <textarea class="form-control" name="GhiChu" rows="4" placeholder="Nhập ghi chú chi tiết..."></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer bg-white border-top-0 pb-4 pt-0 text-end">
+                            <a href="index.php?act=listNV" class="btn btn-cancel me-2">Hủy bỏ</a>
+                            <button type="submit" class="btn btn-submit" <?= empty($doan) ? 'disabled' : '' ?>>
+                                <i class="fas fa-save me-2"></i> Xác nhận Phân Công
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
         function validateForm(e) {
             const form = e.target;
-            const inputs = form.querySelectorAll('select, textarea');
-            let isFull = true;
-            for (let i = 0; i < inputs.length; i++) {
-                const el = inputs[i];
-                if (el.name === 'GhiChu') continue; 
+            const selectDoan = form.querySelector('select[name="MaDoan"]');
 
-                if (el.value.trim() === "") {
-                    isFull = false;
-                    el.style.border = "1px solid red";
-                } else {
-                    el.style.border = "";
-                }
-            }
-
-            if (!isFull) {
+            if (selectDoan.disabled || selectDoan.value === "") {
                 e.preventDefault();
-                alert("Vui lòng chọn đầy đủ Nhân sự và Đoàn khởi hành!");
+                alert("Vui lòng chọn Đoàn Khởi Hành hợp lệ!");
                 return false;
             }
             return true;
