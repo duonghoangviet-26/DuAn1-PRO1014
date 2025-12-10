@@ -11,8 +11,11 @@ class doanKhoiHanhController
     public function listDKH()
     {
         $listDoan = $this->doanKhoiHanh->getAllDoan();
+        $this->doanKhoiHanh->autoUpdateTrangThai();
         include './views/Admin/Doan/listDoan.php';
     }
+
+
     public function createDKH()
     {
         $tour = $this->doanKhoiHanh->getAllTour();
@@ -23,6 +26,7 @@ class doanKhoiHanhController
         $hotels = [];
         $restaurants = [];
 
+        // Khi chọn tour nhưng chưa bấm "Thêm"
         if (!empty($_POST['MaTour']) && !isset($_POST['btnSave'])) {
 
             foreach ($tour as $t) {
@@ -36,12 +40,13 @@ class doanKhoiHanhController
             $hotels = $this->doanKhoiHanh->getNhaCungCapByType('khach_san');
             $restaurants = $this->doanKhoiHanh->getNhaCungCapByType('nha_hang');
         }
+
         $tour = $this->doanKhoiHanh->getAllTour();
         $errors = [];
 
         if (isset($_POST['btnSave'])) {
 
-            //  VALIDATE CƠ BẢN 
+            // === VALIDATE CƠ BẢN === //
             if (empty($_POST['MaTour'])) $errors[] = "Vui lòng chọn tour.";
             if (empty($_POST['NgayKhoiHanh'])) $errors[] = "Ngày khởi hành không được để trống.";
             if (empty($_POST['NgayVe'])) $errors[] = "Ngày về không được để trống.";
@@ -56,6 +61,7 @@ class doanKhoiHanhController
 
             if (empty($errors)) {
 
+                // Lấy thông tin tour từ DB
                 $tourInfo = $this->doanKhoiHanh->getTourById($_POST['MaTour']);
 
                 $tourStart = strtotime($tourInfo['NgayBatDau']);
@@ -64,21 +70,30 @@ class doanKhoiHanhController
                 $doanStart = strtotime($_POST['NgayKhoiHanh']);
                 $doanEnd   = strtotime($_POST['NgayVe']);
 
+                //  Ngày khởi hành đoàn < ngày bắt đầu tour
                 if ($doanStart < $tourStart) {
                     $errors[] = "Ngày khởi hành đoàn phải từ " . $tourInfo['NgayBatDau'] . " trở đi.";
                 }
 
+                //  Ngày khởi hành đoàn > ngày kết thúc tour
                 if ($doanStart > $tourEnd) {
-                    $errors[] = "Ngày khởi hành đoàn phải trước hoặc bằng ngày " . $tourInfo['NgayKetThuc'] . ".";
+$errors[] = "Ngày khởi hành đoàn phải trước hoặc bằng ngày " . $tourInfo['NgayKetThuc'] . ".";
                 }
 
+                //  Ngày về đoàn lớn hơn ngày kết thúc tour
                 if ($doanEnd > $tourEnd) {
                     $errors[] = "Ngày về của đoàn không được sau ngày kết thúc tour (" . $tourInfo['NgayKetThuc'] . ").";
                 }
 
+                //  Ngày về < ngày đi
                 if ($doanEnd < $doanStart) {
                     $errors[] = "Ngày về không được nhỏ hơn ngày khởi hành.";
                 }
+
+                // //  Ngày khởi hành không được là ngày quá khứ
+                // if ($doanStart < strtotime(date('Y-m-d'))) {
+                //     $errors[] = "Ngày khởi hành không được ở quá khứ.";
+                // }
             }
 
             if (!empty($errors)) {
@@ -95,11 +110,13 @@ class doanKhoiHanhController
                 'DiemTapTrung'  => $_POST['DiemTapTrung'],
                 'SoChoToiDa'    => $_POST['SoChoToiDa'],
                 'SoChoConTrong' => $_POST['SoChoToiDa'],
-                'TrangThai'     => 'con_cho',
+                'TrangThai'     => 'san_sang',
                 'MaHuongDanVien' => null,
-                'MaTaiXe'       => null
+                'MaTaiXe' => $_POST['MaTaiXe'],
             ]);
-
+            if (!empty($_POST['MaTaiXe'])) {
+                $this->doanKhoiHanh->insertTaiXeChoDoan($MaDoan, $_POST['MaTaiXe'], $_POST['NgayKhoiHanh']);
+            }
             header("Location:index.php?act=listDKH");
             exit;
         }
@@ -148,9 +165,7 @@ class doanKhoiHanhController
         foreach ($dichvu as $dv) {
             $dvMap[$dv['NgayThu']][$dv['LoaiDichVu']] = $dv['MaNhaCungCap'];
         }
-
-
-        include './views/Admin/Doan/editDoan.php';
+include './views/Admin/Doan/editDoan.php';
     }
 
 
@@ -219,10 +234,9 @@ class doanKhoiHanhController
         if (!empty($doan['MaHuongDanVien'])) {
             $hdv = $this->doanKhoiHanh->getHDVById($doan['MaHuongDanVien']);
         }
-
         $taixe = null;
         if (!empty($doan['MaTaiXe'])) {
-            $taixe = $this->doanKhoiHanh->getTaiXeByDoan($id);
+            $taixe = $this->doanKhoiHanh->getTaiXeById($doan['MaTaiXe']);
         }
 
         $lichtrinh = $this->doanKhoiHanh->getLichTrinhByTour($doan['MaTour']);
@@ -251,10 +265,10 @@ class doanKhoiHanhController
 
         $doanModel = new doanKhoiHanhModel();
         $listDoan = $doanModel->getDoanByTour($maTour);
-
-        echo json_encode($listDoan);
+echo json_encode($listDoan);
         exit;
     }
+
     //tai chính
     public function taichinh()
     {
@@ -277,7 +291,6 @@ class doanKhoiHanhController
 
         include "./views/Admin/Doan/taichinh.php";
     }
-
 
 
     public function addTaiChinh()
@@ -347,7 +360,7 @@ class doanKhoiHanhController
             }
 
             $newImage = time() . "_" . $_FILES['AnhChungTu']['name'];
-            move_uploaded_file($_FILES['AnhChungTu']['tmp_name'], "uploads/" . $newImage);
+move_uploaded_file($_FILES['AnhChungTu']['tmp_name'], "uploads/" . $newImage);
         }
 
         $data = [

@@ -61,8 +61,6 @@ class tourController
         require_once "./views/Admin/danhmuc/addDanhMuc.php";
     }
 
-
-
     public function editDanhMuc()
     {
         $MaDanhMuc = isset($_GET['MaDanhMuc']) ? intval($_GET['MaDanhMuc']) : 0;
@@ -95,6 +93,7 @@ class tourController
         require_once "./views/Admin/danhmuc/editDanhMuc.php";
     }
 
+
     private function joinBuoi($times, $notes)
     {
         $result = [];
@@ -111,18 +110,15 @@ class tourController
         }
         return implode("\n", $result);
     }
-
-
     public function getAllTour()
     {
         $model = new tourModel();
-
         $model->autoUpdateStatus();
-
         $keyword = $_GET['keyword'] ?? "";
         $trangthai = $_GET['trangthai'] ?? "";
 
         if ($keyword != "" || $trangthai != "") {
+
             $where = " WHERE 1 ";
 
             if ($keyword != "") {
@@ -155,6 +151,9 @@ class tourController
         include "views/Admin/tour/listTour.php";
     }
 
+
+
+
     // FORM THÊM TOUR
     public function createTourForm()
     {
@@ -184,7 +183,6 @@ class tourController
                 echo "<script>alert('❌ Số đêm không được lớn hơn số ngày!'); history.back();</script>";
                 exit();
             }
-
             $LinkAnhBia = "";
             if (!empty($_FILES['LinkAnhBia']['name'])) {
                 $fileName = time() . "_" . preg_replace('/\s+/', '_', $_FILES['LinkAnhBia']['name']);
@@ -196,7 +194,6 @@ class tourController
                     $LinkAnhBia = $fileName;
                 }
             }
-
             $model = new tourModel();
             $model->addTour(
                 $TenTour,
@@ -212,9 +209,7 @@ class tourController
                 $NgayKetThuc,
                 $TrangThai
             );
-
             $idTour = $model->getLastId();
-
             if (!empty($_POST['NgayThu'])) {
                 foreach ($_POST['NgayThu'] as $i => $NgayThu) {
 
@@ -249,6 +244,9 @@ class tourController
             exit();
         }
     }
+
+
+
     // FORM SỬA TOUR
     public function editTourForm()
     {
@@ -267,7 +265,6 @@ class tourController
                 "gio" => [],
                 "hd" => []
             ];
-
             $arr = array_values(array_filter(array_map("trim", explode("\n", $text))));
             $gio = [];
             $hd  = [];
@@ -293,7 +290,6 @@ class tourController
                 "GioTapTrung" => $lt['GioTapTrung'],
                 "GioXuatPhat" => $lt['GioXuatPhat'],
                 "GioKetThuc"  => $lt['GioKetThuc'],
-
                 "CoBuaSang" => $lt['CoBuaSang'],
                 "CoBuaTrua" => $lt['CoBuaTrua'],
                 "CoBuaToi"  => $lt['CoBuaToi'],
@@ -321,20 +317,7 @@ class tourController
         $GiaVonDuKien = $_POST['GiaVonDuKien'];
         $NgayBatDau  = $_POST['NgayBatDau'];
         $NgayKetThuc = $_POST['NgayKetThuc'];
-        $today = date("Y-m-d");
-        if (strpos($NgayKetThuc, "/") !== false) {
-            $parts = explode("/", $NgayKetThuc);
-            $NgayKetThuc_Formatted = $parts[2] . "-" . $parts[1] . "-" . $parts[0];
-        } else {
-            $NgayKetThuc_Formatted = $NgayKetThuc;
-        }
-
-        if ($NgayKetThuc_Formatted < $today) {
-            $TrangThai = 'da_ket_thuc';
-        } else {
-            $TrangThai = $_POST['TrangThai'];
-        }
-
+        $TrangThai   = $_POST['TrangThai'];
 
         if ($SoDem > $SoNgay) {
             echo "<script>alert('❌ Số đêm không được lớn hơn số ngày!'); history.back();</script>";
@@ -368,7 +351,7 @@ class tourController
             $LinkAnhBia,
             $GiaVonDuKien,
             $NgayBatDau,
-            $NgayKetThuc_Formatted,
+            $NgayKetThuc,
             $TrangThai
         );
 
@@ -435,6 +418,7 @@ class tourController
         header("Location: index.php?act=listTour");
     }
 
+
     // CHI TIẾT TOUR
     public function detailTour()
     {
@@ -444,7 +428,6 @@ class tourController
         $lichTrinh = $model->getLichTrinhByTour($id);
         include "views/Admin/tour/chiTietTour.php";
     }
-
     // CLONE TOUR
     public function cloneTour()
     {
@@ -527,12 +510,5 @@ class tourController
             return trim(explode("-", $line, 2)[1] ?? "");
         }, $arr);
     }
-    public function listTour()
-    {
-
-        $this->modelTour->autoUpdateStatus();
-        $listTour = $this->modelTour->getAllTour();
-
-        include "views/admin/listTour.php";
-    }
+    
 }

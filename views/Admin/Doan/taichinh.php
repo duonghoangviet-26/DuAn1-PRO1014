@@ -3,329 +3,466 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý tài chính</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-        /* body {
-            background-color: #eef1f4;
-            font-family: "Segoe UI", sans-serif;
-        } */
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        /* SIDEBAR NEW STYLE */
+    <style>
+        body {
+            background-color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+        }
+
         .sidebar {
             width: 260px;
             height: 100vh;
             position: fixed;
             top: 0;
             left: 0;
-            background: linear-gradient(180deg, #0f172a, #1e293b);
-            color: white;
-            padding-top: 25px;
-            box-shadow: 4px 0 12px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+            color: #ecf0f1;
+            padding-top: 20px;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            overflow-y: auto;
         }
 
-        .sidebar h4 {
-            text-align: center;
-            font-size: 22px;
-            margin-bottom: 30px;
+        .sidebar-header {
+            padding: 0 25px 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .sidebar-header h4 {
             font-weight: 700;
+            font-size: 1.2rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-menu {
+            padding: 0 10px;
+        }
+
+        .sidebar-title {
+            font-size: 0.75rem;
             text-transform: uppercase;
+            color: #95a5a6;
+            margin: 15px 15px 5px;
+            font-weight: 600;
         }
 
         .sidebar a {
-            padding: 14px 25px;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            color: #cbd5e1;
+            color: #bdc3c7;
+            padding: 12px 15px;
             text-decoration: none;
-            transition: 0.25s ease;
-            font-size: 15px;
-            border-left: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: 0.3s;
+            margin-bottom: 5px;
         }
 
-        .sidebar a:hover {
-            background-color: rgba(255, 255, 255, 0.08);
-            color: white;
-            border-left: 3px solid #38bdf8;
+        .sidebar a i {
+            width: 25px;
+            text-align: center;
+            margin-right: 10px;
         }
 
+        .sidebar a:hover,
         .sidebar a.active {
-            background-color: #0284c7;
-            border-left: 3px solid #fff;
-        }
-
-        /* Mục đang active */
-        .sidebar a.active {
-            background: #1f2d3a;
+            background-color: rgba(255, 255, 255, 0.1);
             color: #fff;
-            border-left: 4px solid #3498db;
+            transform: translateX(5px);
+        }
+
+        .sidebar a.active {
+            background-color: #3498db;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 30px;
+            width: calc(100% - 260px);
+            min-height: 100vh;
+        }
+
+        .card-stat {
+            border: none;
+            border-radius: 12px;
+            color: white;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .card-stat:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-stat h5 {
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .card-stat h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+        .card-stat .icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3rem;
+            opacity: 0.2;
+        }
+
+        .bg-gradient-success {
+            background: linear-gradient(45deg, #10b981, #059669);
+        }
+
+        .bg-gradient-danger {
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+        }
+
+        .bg-gradient-primary {
+            background: linear-gradient(45deg, #3b82f6, #2563eb);
+        }
+
+        .card-table {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .table thead th {
+            background-color: #f8fafc;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            color: #334155;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge-type {
+            padding: 5px 10px;
+            border-radius: 50px;
+            font-size: 0.75rem;
             font-weight: 600;
         }
 
-        .logout {
-            color: #e74c3c !important;
-            font-weight: 600;
+        .type-thu {
+            background-color: #d1fae5;
+            color: #047857;
         }
 
-        .logout:hover {
-            background: #c0392b !important;
-            color: #fff !important;
-            border-left: 4px solid #ff6b6b !important;
+        .type-chi {
+            background-color: #fee2e2;
+            color: #b91c1c;
         }
 
+        .img-thumb {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid #e2e8f0;
+        }
 
-        body {
-    background-color: #f5f7fa;
-    font-family: "Segoe UI", sans-serif;
-}
+        .img-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
 
-/* CONTENT */
-.content {
-    margin-left: 250px;
-    padding: 30px;
-}
+        .btn-action {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            transition: 0.2s;
+            border: none;
+            margin-right: 5px;
+        }
 
-/* PAGE TITLE */
-.page-title {
-    background: linear-gradient(90deg, #3b82f6, #60a5fa);
-    padding: 14px 22px;
-    color: white;
-    font-size: 22px;
-    font-weight: 600;
-    border-radius: 8px;
-    margin-bottom: 25px;
-    box-shadow: 0 4px 12px rgba(59,130,246,0.25);
-}
+        .btn-edit {
+            background: #fef3c7;
+            color: #d97706;
+        }
 
-/* STAT CARDS */
-.stat-card {
-    padding: 20px;
-    border-radius: 12px;
-    border: none;
-    transition: 0.25s;
-    background: white;
-    color: #1e293b;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-.stat-card:hover {
-    transform: translateY(-3px);
-}
+        .btn-edit:hover {
+            background: #d97706;
+            color: #fff;
+        }
 
-/* Màu nền nhạt cho từng loại */
-.bg-green { background: #3dd990ff !important; }
-.bg-red   { background: #e15858ff !important; }
-.bg-blue  { background: #4e8fe3ff !important; }
+        .btn-delete {
+            background: #fee2e2;
+            color: #dc2626;
+        }
 
-.stat-card h5 {
-    color: #0e0f12ff;
-    font-size: 15px;
-}
-.stat-card h3 {
-    font-weight: bold;
-    color: #F8F7F2;
-}
-
-/* BUTTONS */
-.btn-action {
-    border-radius: 8px;
-    padding: 6px 12px;
-    font-weight: 600;
-    border: none;
-    transition: 0.2s;
-}
-
-.btn-delete {
-    background: #ef4444;
-    color: white;
-}
-.btn-delete:hover {
-    background: #dc2626;
-}
-
-.btn-edit {
-    background: #fbbf24;
-    color: black;
-}
-.btn-edit:hover {
-    background: #f59e0b;
-}
-
-/* TABLE BOX */
-.table-box {
-    padding: 25px;
-    background: white;
-    border-radius: 14px;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-    border: 1px solid #e5e7eb;
-}
-
-.table thead th {
-    font-weight: bold;
-    background: #d5dfebff;
-    padding: 14px;
-    border-bottom: 2px solid #e2e8f0;
-    color: #060b13ff;
-}
-
-.table tbody td {
-    padding: 14px;
-    vertical-align: middle;
-    color: #050a10ff;
-    font-size: 15px;
-}
-
-.text-thu {
-    color: #059669;
-    font-weight: bold;
-}
-.text-chi {
-    color: #dc2b2bff;
-    font-weight: bold;
-}
-
-.table img {
-    border-radius: 8px;
-    border: 1px solid #d1d5db;
-    object-fit: cover;
-    width: 70px;
-    height: 70px;
-}
-
-.table tbody tr:hover {
-    background: #e4eaf0ff;
-}
-
+        .btn-delete:hover {
+            background: #dc2626;
+            color: #fff;
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- Sidebar -->
     <div class="sidebar">
-        <h4 class="text-center text-light mb-4">Admin Panel</h4>
-
-        <a href="index.php?act=/"><i class="fa fa-home"></i> Tổng quan</a>
-        <a href="index.php?act=listdm"><i class="fa fa-list"></i> Danh mục tour</a>
-        <a href="index.php?act=listTour"><i class="fa fa-route"></i> Quản lý tour</a>
-        <a href="index.php?act=listBooking"><i class="fa fa-book"></i> Quản lý booking</a>
-        <a href="index.php?act=listKH"><i class="fa fa-users"></i> Quản lí khách hàng</a>
-        <a href="index.php?act=listDKH"><i class="fa fa-users"></i> Quản lí đoàn khởi hành</a>
-        <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Quản lý nhà cung cấp</a>
-        <a href="index.php?act=listNV"><i class="fa fa-users"></i> Tài khoản / HDV</a>
-        <a href="#"><i class="fa fa-chart-bar"></i> Báo cáo thống kê</a>
-        <a href="#" class="text-danger"><i class="fa fa-sign-out-alt"></i> Đăng xuất</a>
-    </div>
-    <div class="content">
-
-        <div class="page-title">
-            Quản Lý Tài Chính - Đoàn #<?= $MaDoan ?>
+        <div class="sidebar-header">
+            <h4><i class="fa-solid fa-earth-americas me-2 text-info"></i> TRAVEL ADMIN</h4>
         </div>
-
-
-        <div class="row mt-4">
-            <div class="col-md-4">
-                <div class="stat-card bg-green">
-                    <h5>Tổng Thu</h5>
-                    <h3><?= number_format((float)$tongthu) ?> VNĐ</h3>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="stat-card bg-red">
-                    <h5>Tổng Chi</h5>
-                    <h3><?= number_format((float)$tongchi) ?> VNĐ</h3>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="stat-card bg-blue">
-                    <h5>Lợi Nhuận</h5>
-                    <h3><?= number_format((float)$loinhuan) ?> VNĐ</h3>
-                </div>
-            </div>
-
+        <div class="sidebar-menu">
+            <a href="index.php?act=admin_dashboard"><i class="fa fa-home"></i> Trang chủ</a>
+            <div class="sidebar-title">Quản lý Sản phẩm</div>
+            <a href="index.php?act=listdm"><i class="fa fa-layer-group"></i> Danh mục Tour</a>
+            <a href="index.php?act=listTour"><i class="fa fa-map-location-dot"></i> Quản lý Tour</a>
+            <a href="index.php?act=listDKH" class="active"><i class="fa fa-bus"></i> Đoàn khởi hành</a>
+            <div class="sidebar-title">Kinh doanh</div>
+            <a href="index.php?act=listBooking"><i class="fa fa-file-invoice-dollar"></i> Booking & Đơn hàng</a>
+            <a href="index.php?act=listKH"><i class="fa fa-users"></i> Khách hàng</a>
+            <div class="sidebar-title">Hệ thống</div>
+            <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Đối tác & NCC</a>
+            <a href="index.php?act=listNV"><i class="fa-solid fa-id-card"></i> Nhân sự</a>
+            <a href="index.php?act=listTaiKhoan"><i class="fa fa-user-gear"></i> Tài khoản </a>
+            <a href="index.php?act=logout" class="text-danger mt-3"><i class="fa fa-right-from-bracket"></i> Đăng xuất</a>
         </div>
-
-        <div class="mt-3 d-flex gap-2">
-
-            <a href="index.php?act=listDKH" class="btn btn-secondary">
-                ⬅ Quay lại
-            </a>
-
-            <a href="index.php?act=addtaichinh&id=<?= $MaDoan ?>" class="btn btn-primary">
-                + Thêm Giao Dịch Mới
-            </a>
-
-        </div>
-
-
-        <!-- Danh sách -->
-        <div class="table-box mt-4">
-            <table class="table table-hover">
-
-                <thead>
-                    <tr>
-                        <th>Ngày</th>
-                        <th>Loại</th>
-                        <th>Hạng mục</th>
-                        <th>Số tiền</th>
-                        <th>Thanh toán</th>
-                        <th>Hóa đơn</th>
-                        <th>Ảnh chứng từ</th>
-                        <th>Ghi chú</th>
-                        <th class="text-center">Hành động</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <?php foreach ($list as $r): ?>
-                        <tr>
-                            <td><?= $r['NgayGiaoDich'] ?></td>
-
-                            <td>
-                                <span class="<?= $r['LoaiGiaoDich'] == 'thu' ? 'text-thu' : 'text-chi' ?>">
-                                    <?= ucfirst($r['LoaiGiaoDich']) ?>
-                                </span>
-                            </td>
-
-                            <td><?= $r['HangMucChi'] ?></td>
-                            <td><?= number_format($r['SoTien']) ?> VNĐ</td>
-                            <td><?= $r['PhuongThucThanhToan'] ?></td>
-                            <td><?= $r['SoHoaDon'] ?></td>
-
-                            <td>
-                                <?php if ($r['AnhChungTu']): ?>
-                                    <img src="uploads/<?= $r['AnhChungTu'] ?>" width="70" height="70">
-                                <?php else: ?>
-                                    <span class="text-muted">Không có</span>
-                                <?php endif; ?>
-                            </td>
-
-                            <td><?= $r['MoTa'] ?></td>
-
-                            <td class="text-center">
-                                <a class="btn btn-delete btn-action"
-                                    onclick="return confirm('Bạn chắc chắn muốn xóa?')"
-                                    href="index.php?act=deleteTC&id=<?= $r['MaTaiChinh'] ?>&doan=<?= $MaDoan ?>">
-                                    Xóa
-                                </a>
-
-                                <a class="btn btn-edit btn-action"
-                                    href="index.php?act=editTC&id=<?= $r['MaTaiChinh'] ?>&doan=<?= $MaDoan ?>">
-                                    Sửa
-                                </a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-
-            </table>
-        </div>
-
-
     </div>
 
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                    <h3 class="fw-bold text-dark mb-1">Quản Lý Tài Chính</h3>
+                    <p class="text-muted mb-0">Đoàn khởi hành: <strong>#<?= $MaDoan ?></strong></p>
+                </div>
+            </div>
+
+            <div class="tour-info shadow-sm border rounded p-3 mb-3"
+                style="max-width: 600px; background: #ffffff; border-left: 4px solid #3498db;">
+
+                <h5 class="fw-bold text-primary mb-3">
+                    <i class="fa-solid fa-map-location-dot me-2"></i> Thông tin Tour
+                </h5>
+
+                <div class="mb-2"><strong>Tên tour:</strong> <?= $tour['TenTour'] ?></div>
+                <div class="mb-2"><strong>Giá bán:</strong> <?= number_format($tour['GiaBanMacDinh']) ?> VNĐ</div>
+                <div class="mb-2"><strong>Giá vốn:</strong> <?= number_format($tour['GiaVonDuKien']) ?> VNĐ</div>
+
+                <div class="row mt-2">
+                    <div class="col-6">
+                        <strong>Ngày đi:</strong><br>
+                        <?= date('d/m/Y', strtotime($doan['NgayKhoiHanh'])) ?>
+                    </div>
+                    <div class="col-6">
+                        <strong>Ngày về:</strong><br>
+                        <?= date('d/m/Y', strtotime($doan['NgayVe'])) ?>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-4">
+                <a href="index.php?act=listDKH" class="btn btn-light border me-2 shadow-sm">
+                    <i class="fas fa-arrow-left me-1"></i> Quay lại
+                </a>
+                <a href="index.php?act=addtaichinh&id=<?= $MaDoan ?>" class="btn btn-primary shadow-sm">
+                    <i class="fas fa-plus me-1"></i> Thêm Giao Dịch
+                </a>
+            </div>
+
+
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <div class="card-stat bg-gradient-success">
+                        <div class="content">
+                            <h5>Tổng Thu</h5>
+                            <h3><?= number_format($tongthu) ?> <span class="fs-6 fw-normal">VNĐ</span></h3>
+                        </div>
+                        <div class="icon"><i class="fas fa-arrow-up"></i></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-stat bg-gradient-danger">
+                        <div class="content">
+                            <h5>Tổng Chi</h5>
+                            <h3><?= number_format($tongchi) ?> <span class="fs-6 fw-normal">VNĐ</span></h3>
+                        </div>
+                        <div class="icon"><i class="fas fa-arrow-down"></i></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card-stat bg-gradient-primary">
+                        <div class="content">
+                            <h5>Lợi Nhuận (Tạm tính)</h5>
+                            <h3><?= number_format($loinhuan) ?> <span class="fs-6 fw-normal">VNĐ</span></h3>
+                        </div>
+                        <div class="icon"><i class="fas fa-wallet"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card card-table">
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">Ngày GD</th>
+                                <th>Loại</th>
+                                <th>Hạng mục / Nội dung</th>
+                                <th>Số tiền</th>
+                                <th>Thanh toán</th>
+                                <th>Chứng từ</th>
+                                <th>Ghi chú</th>
+                                <th class="text-center">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!empty($list)): ?>
+                                <?php foreach ($list as $r): ?>
+                                    <tr>
+                                        <td class="ps-4 text-muted small"><?= date('d/m/Y', strtotime($r['NgayGiaoDich'])) ?></td>
+                                        <td>
+                                            <?php if ($r['LoaiGiaoDich'] == 'thu'): ?>
+                                                <span class="badge badge-type type-thu"><i class="fas fa-arrow-up me-1"></i> Thu</span>
+                                            <?php else: ?>
+                                                <span class="badge badge-type type-chi"><i class="fas fa-arrow-down me-1"></i> Chi</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="fw-bold text-dark"><?= htmlspecialchars($r['HangMucChi']) ?></td>
+                                        <td class="<?= $r['LoaiGiaoDich'] == 'thu' ? 'text-success' : 'text-danger' ?> fw-bold">
+                                            <?= $r['LoaiGiaoDich'] == 'thu' ? '+' : '-' ?><?= number_format($r['SoTien']) ?>
+                                        </td>
+                                        <td>
+                                            <span class="text-secondary small"><i class="fas fa-credit-card me-1"></i> <?= $r['PhuongThucThanhToan'] ?></span>
+                                        </td>
+                                        <td>
+                                            <?php if ($r['AnhChungTu']): ?>
+                                                <a href="uploads/<?= $r['AnhChungTu'] ?>" target="_blank">
+                                                    <img src="uploads/<?= $r['AnhChungTu'] ?>" class="img-thumb" alt="Chứng từ">
+                                                </a>
+                                                <div class="small text-muted mt-1">#<?= $r['SoHoaDon'] ?></div>
+                                            <?php else: ?>
+                                                <span class="text-muted small italic">Không có ảnh</span>
+                                                <?php if ($r['SoHoaDon']): ?><div class="small text-muted">#<?= $r['SoHoaDon'] ?></div><?php endif; ?>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td><span class="text-muted small fst-italic"><?= nl2br(htmlspecialchars($r['MoTa'])) ?></span></td>
+                                        <td class="text-center">
+                                            <div class="d-flex justify-content-center">
+
+                                                <!-- Nút sửa -->
+                                                <a href="index.php?act=editTC&id=<?= $r['MaTaiChinh'] ?>&doan=<?= $MaDoan ?>"
+                                                    class="btn-action btn-edit" title="Sửa">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
+
+                                                <!-- Nút xem lịch sử -->
+                                                <button class="btn-action btn-secondary"
+                                                    style="background:#e5e7eb; color:#374151;"
+                                                    title="Lịch sử chỉnh sửa"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#historyModal<?= $r['MaTaiChinh'] ?>">
+                                                    <i class="fa-solid fa-clock-rotate-left"></i>
+                                                </button>
+
+                                                <!-- Nút xóa -->
+                                                <a href="index.php?act=deleteTC&id=<?= $r['MaTaiChinh'] ?>&doan=<?= $MaDoan ?>"
+                                                    class="btn-action btn-delete" title="Xóa"
+                                                    onclick="return confirm('Bạn có chắc muốn xóa giao dịch này?')">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+
+                                            </div>
+                                        </td>
+
+                                    </tr>
+
+                                    <?php
+                                    $history = !empty($r['LichSuChinhSua']) ? json_decode($r['LichSuChinhSua'], true) : [];
+                                    ?>
+                                    <div class="modal fade" id="historyModal<?= $r['MaTaiChinh'] ?>">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Lịch sử chỉnh sửa (#<?= $r['MaTaiChinh'] ?>)</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <?php if (!$history): ?>
+                                                        <p class="text-muted fst-italic">Chưa có lịch sử chỉnh sửa.</p>
+                                                    <?php else: ?>
+                                                        <?php foreach ($history as $log): ?>
+                                                            <div class="border rounded p-3 mb-3 bg-light">
+                                                                <p><strong>Người sửa:</strong> <?= $log['user'] ?></p>
+                                                                <p><strong>Thời gian:</strong> <?= $log['time'] ?></p>
+
+                                                                <ul>
+                                                                    <?php foreach ($log['changes'] as $c): ?>
+                                                                        <li>
+                                                                            <strong><?= $c['field'] ?>:</strong>
+                                                                            <span class="text-danger"><?= htmlspecialchars($c['old']) ?></span>
+                                                                            →
+                                                                            <span class="text-success"><?= htmlspecialchars($c['new']) ?></span>
+                                                                        </li>
+                                                                    <?php endforeach; ?>
+                                                                </ul>
+                                                            </div>
+                                                        <?php endforeach; ?>
+                                                    <?php endif; ?>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="8" class="text-center py-5 text-muted">
+                                        <i class="fas fa-file-invoice fa-3x mb-3 opacity-25"></i>
+                                        <p>Chưa có giao dịch tài chính nào cho đoàn này.</p>
+                                    </td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

@@ -87,9 +87,7 @@ class bookingModel
         $stmt = $this->conn->query($sql);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
-
-    public function deleteBooking($id)
+public function deleteBooking($id)
     {
         $stmt = $this->conn->prepare("DELETE FROM Booking WHERE MaBooking = :id");
         return $stmt->execute([':id' => $id]);
@@ -182,7 +180,7 @@ class bookingModel
                 LEFT JOIN Tour t ON b.MaTour = t.MaTour
                 LEFT JOIN DoanKhoiHanh d ON b.MaDoan = d.MaDoan
                 WHERE b.MaBooking = :id";
-        $stmt = $this->conn->prepare($sql);
+$stmt = $this->conn->prepare($sql);
         $stmt->execute([':id' => $MaBooking]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -260,7 +258,7 @@ class bookingModel
     public function addLichSuFull($MaBooking, $TrangThaiCu, $TrangThaiMoi, $MaNguoiDoi, $GhiChu = null)
     {
         $sql = "INSERT INTO lichsutrangthaibooking
-                (MaBooking, TrangThaiCu, TrangThaiMoi, MaNguoiDoi, GhiChu)
+(MaBooking, TrangThaiCu, TrangThaiMoi, MaNguoiDoi, GhiChu)
                 VALUES (:MaBooking, :TrangThaiCu, :TrangThaiMoi, :MaNguoiDoi, :GhiChu)";
 
         $stmt = $this->conn->prepare($sql);
