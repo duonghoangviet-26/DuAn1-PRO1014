@@ -28,7 +28,7 @@ class DanhSachTaiKhoanModel
     {
         $sql = "INSERT INTO taikhoan (TenDangNhap, MatKhau, VaiTro, TrangThai) VALUES (:TenDangNhap, :MatKhau, :VaiTro, :TrangThai)";
         $stmt = $this->conn->prepare($sql);
-        $hashPass = password_hash($matKhau, PASSWORD_BCRYPT);
+        $hashPass = $matKhau;
         $stmt->bindParam(':TenDangNhap', $tenDangNhap);
         $stmt->bindParam(':MatKhau', $hashPass);
         $stmt->bindParam(':VaiTro', $vaiTro);
@@ -51,7 +51,7 @@ class DanhSachTaiKhoanModel
     {
         $sql = "UPDATE taikhoan SET MatKhau = :MatKhau WHERE MaTaiKhoan = :id";
         $stmt = $this->conn->prepare($sql);
-        $hashPass = password_hash($matKhauMoi, PASSWORD_BCRYPT);
+        $hashPass = $matKhauMoi;
         $stmt->bindParam(':id', $id);
         $stmt->bindParam(':MatKhau', $hashPass);
         $stmt->execute();

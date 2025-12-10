@@ -15,6 +15,7 @@ require_once './controllers/nhaCungCapController.php';
 require_once './controllers/lichLamViecController.php';
 require_once './controllers/doanKhoiHanhController.php';
 require_once './controllers/TaiKhoanController.php';
+require_once './controllers/NhatKyController.php';
 
 require_once './controllers/DanhSachTaiKhoanController.php';
 
@@ -32,7 +33,7 @@ require_once './models/lichLamViecModel.php';
 require_once './models/khachHangModel.php';
 require_once './models/doanKhoiHanhModel.php';
 require_once './models/TaiKhoanModel.php';
-
+require_once './models/NhatKyModel.php';
 require_once './models/DanhSachTaiKhoanModel.php';
 
 require_once './models/DiemDanhModel.php';
@@ -158,6 +159,18 @@ match ($act) {
     'deleteTaiKhoan'    => (new DanhSachTaiKhoanController())->deleteTaiKhoan(),
 
 
+    // NHẬT KÝ TOUR
+    'listTourOfHDV' => (new NhatKyController())->listTourOfHDV(),
+    'listNhatKy'    => (new NhatKyController())->listNhatKy(), 
+    'addNhatKy'     => (new NhatKyController())->formAddNhatKy(),
+    'postAddNhatKy' => (new NhatKyController())->postAddNhatKy(),
+    'editNhatKy'    => (new NhatKyController())->formEditNhatKy(),
+    'postEditNhatKy'=> (new NhatKyController())->postEditNhatKy(),
+    'deleteNhatKy'  => (new NhatKyController())->deleteNhatKy(),
+
+    // Lịch sử điểm danh
+    'historyDiemDanh' => (new NhatKyController())->historyDiemDanh(),
+
     // Đoàn khởi hành
     'listDKH'  => (new doanKhoiHanhController())->listDKH(),
     'createDKH' => (new doanKhoiHanhController())->createDKH(),
@@ -172,7 +185,6 @@ match ($act) {
     'editTC' => (new doanKhoiHanhController())->editTaiChinh(),
     'updateTC' => (new doanKhoiHanhController())->updateTaiChinh(),
 
-    default => header("Location: index.php?act=login"),
 
     // HDV xem lịch trình & Lịch làm việc
     'hdv_schedule' => (new lichLamViecController())->mySchedule(),
@@ -181,9 +193,12 @@ match ($act) {
     // --- QUẢN LÝ ĐIỂM DANH
     'hdv_quanlykhach'     => (new DiemDanhController())->index(),
     'hdv_submit_diemdanh' => (new DiemDanhController())->store(),
+    'hdv_guest_list'      => (new DiemDanhController())->viewGuestList(),
 
     // view dsk
     'hdv_guest_list' => (new DiemDanhController())->viewGuestList(),
+
+    default => header("Location: index.php?act=login"),
 
     //VẬN HÀNH TOUR (TÀI CHÍNH & SỰ CỐ)
     'hdv_vanhanh'         => (new VanHanhTourController())->index(),
