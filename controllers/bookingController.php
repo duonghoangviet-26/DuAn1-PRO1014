@@ -49,14 +49,178 @@ class bookingController
         $listDoan = $this->doanKhoiHanh->getAllDoan();
         require_once './views/Admin/booking/addBooking.php';
     }
+    // public function createBookingProcess()
+    // {
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    //         $MaDoan = $_POST['MaDoan'];
+    //         $doanModel = new doanKhoiHanhModel();
+    //         $soChoConTrong = (int)$_POST['SoChoConTrong'];
+
+    //         $tongNguoiLon = (int)$_POST['TongNguoiLon'];
+    //         $tongTreEm    = (int)$_POST['TongTreEm'];
+    //         $tongEmBe     = (int)$_POST['TongEmBe'];
+
+    //         $tongNguoi = $tongNguoiLon + $tongTreEm + $tongEmBe;
+    //         if ($tongNguoi > $soChoConTrong) {
+    //             if (session_status() === PHP_SESSION_NONE) session_start();
+
+    //             $_SESSION['error'] = "Không thể tạo booking! Bạn đang đặt $tongNguoi khách nhưng đoàn chỉ còn $soChoConTrong chỗ.";
+
+    //             header("Location: index.php?act=createBooking&MaDoan=" . $MaDoan);
+    //             exit();
+    //         }
+
+
+
+    //         //  Lưu thông tin khách đại diện
+
+    //         //  Tạo mã khách hàng đại diện
+    //         $MaCodeKhachHang = "KH" . date("YmdHis");
+    //         $data = [
+    //             ':MaCodeKhachHang' => $MaCodeKhachHang,
+    //             ':HoTen'           => $_POST['KH_HoTen'],
+    //             ':SoDienThoai'     => $_POST['KH_SDT'],
+    //             ':Email'           => $_POST['KH_Email'] ?? null,
+    //             ':DiaChi'          => $_POST['KH_DiaChi'] ?? null,
+    //             ':NgaySinh'        => $_POST['KH_NgaySinh'] ?? null,
+    //             ':GioiTinh'        => $_POST['KH_GioiTinh'] ?? "khac",
+    //             ':SoGiayTo'        => $_POST['KH_SoGiayTo'] ?? null,
+    //             ':LoaiKhach'       => $_POST['LoaiKhach'],
+    //             ':TenCongTy'       => ($_POST['LoaiKhach'] == 'cong_ty') ? ($_POST['KH_TenCongTy'] ?? null) : null,
+    //             ':MaSoThue'        => ($_POST['LoaiKhach'] == 'cong_ty') ? ($_POST['KH_MaSoThue'] ?? null) : null,
+    //             ':GhiChu'          => $_POST['KH_GhiChu'] ?? null
+    //         ];
+
+    //         // Lưu khách đại diện → lấy ID
+    //         $khachHangModel = new khachHangModel();
+    //         $MaKhachHang = $khachHangModel->creatKhachHang($data);
+
+
+    //         // Xử lý tạo Booking nếu k tự ren ra mã booking 
+    //         $MaCodeBooking = !empty($_POST['MaCodeBooking'])
+    //             ? $_POST['MaCodeBooking']
+    //             : 'BK' . date('YmdHis');
+
+    //         $TongTien     = (float)($_POST['TongTien'] ?? 0);
+    //         $SoTienDaCoc  = (float)($_POST['SoTienDaCoc'] ?? 0);
+    //         // $SoTienDaTra  = (float)($_POST['SoTienDaTra'] ?? 0);
+    //         $SoTienConLai = $TongTien - $SoTienDaCoc;
+    //         if ($SoTienDaCoc == $TongTien) {
+    //             $TrangThaiHopLe = "hoan_tat";
+    //         } elseif ($SoTienDaCoc > 0) {
+    //             $TrangThaiHopLe = "da_coc";
+    //         } else {
+    //             $TrangThaiHopLe = "cho_coc";
+    //         }
+
+    //         $TrangThaiUserChon = $_POST['TrangThai'] ?? 'cho_coc';
+
+    //         // Nếu trạng thái người chọn k  hợp lệ -> báo lỗi
+    //         if ($TrangThaiUserChon != $TrangThaiHopLe) {
+    //             if (session_status() === PHP_SESSION_NONE) session_start();
+
+    //             $_SESSION['error'] = "Trạng thái không hợp lệ với số tiền thanh toán!";
+    //             header("Location: index.php?act=createBooking");
+    //             exit();
+    //         }
+    //         $dataBooking = [
+    //             ':MaCodeBooking' => $MaCodeBooking,
+    //             ':MaTour'        => $_POST['MaTour'],
+    //             ':MaDoan'        => $_POST['MaDoan'],
+    //             ':MaKhachHang'   => $MaKhachHang,
+    //             ':LoaiBooking'   => $_POST['LoaiBooking'],
+
+    //             ':TongNguoiLon'  => $_POST['TongNguoiLon'],
+    //             ':TongTreEm'     => $_POST['TongTreEm'],
+    //             ':TongEmBe'      => $_POST['TongEmBe'],
+
+    //             ':TongTien'      => $TongTien,
+    //             ':SoTienDaCoc'   => $SoTienDaCoc,
+    //             // ':SoTienDaTra'   => $SoTienDaTra,
+    //             ':SoTienConLai'  => $SoTienConLai,
+
+    //             ':TrangThai'     => $TrangThaiHopLe,
+    //             ':YeuCauDacBiet' => $_POST['YeuCauDacBiet'] ?? null,
+    //             ':MaNguoiTao'    => 1
+    //         ];
+
+    //         //  Lưu Booking → lấy ID
+    //         $MaBooking = $this->modelBooking->createBooking($dataBooking);
+
+    //         // Cập nhật số chỗ còn trống của đoàn
+    //         $soChoMoi = $soChoConTrong - $tongNguoi;
+    //         $doanModel->updateSoChoConTrong($MaDoan);
+    //         $MaNguoiDoi = 1;
+
+
+    //         // Lưu lịch sử trạng thái 
+    //         $this->modelBooking->addLichSuTrangThai(
+    //             $MaBooking,
+    //             null,
+    //             $TrangThaiHopLe,
+    //             $MaNguoiDoi,
+    //             'Tạo booking mới'
+    //         );
+
+
+    //         // lưu dữ liệu khách trong booking
+    //         if (isset($_POST['khach']) && is_array($_POST['khach'])) {
+
+    //             foreach ($_POST['khach'] as $kh) {
+
+    //                 $this->modelBooking->insertKhach([
+    //                     'MaBooking'      => $MaBooking,
+    //                     'HoTen'          => $kh['HoTen'] ?? '',
+    //                     'GioiTinh'       => $kh['GioiTinh'] ?? '',
+    //                     'NgaySinh'       => $kh['NgaySinh'] ?? null,
+    //                     'SoGiayTo'       => $kh['GiayTo'] ?? '',
+    //                     'SoDienThoai'    => $kh['SDT'] ?? '',
+    //                     'GhiChuDacBiet'  => $kh['GhiChu'] ?? '',
+    //                     'LoaiPhong'      => $kh['LoaiPhong'] ?? 'don',
+    //                 ]);
+    //             }
+    //         }
+
+
+    //         header("Location: index.php?act=listBooking");
+    //         exit;
+    //     }
+    // }
+
     public function createBookingProcess()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-            //  Tạo mã khách hàng đại diện
+            $MaDoan = $_POST['MaDoan'];
+            $doanModel = new doanKhoiHanhModel();
+            $doanInfo = $doanModel->getOneDoan($MaDoan);
+            $soChoConTrong = (int)$doanInfo['SoChoConTrong'];
+
+
+            $tongNguoiLon = (int)$_POST['TongNguoiLon'];
+            $tongTreEm    = (int)$_POST['TongTreEm'];
+            $tongEmBe     = (int)$_POST['TongEmBe'];
+
+            $tongNguoi = $tongNguoiLon + $tongTreEm + $tongEmBe;
+
+
+            if ($tongNguoi > $soChoConTrong) {
+
+                if (session_status() === PHP_SESSION_NONE) session_start();
+
+                $_SESSION['error'] =
+                    "Không thể tạo booking! Bạn đang đặt $tongNguoi khách nhưng đoàn chỉ còn $soChoConTrong chỗ.";
+
+                header("Location: index.php?act=createBooking&MaDoan=" . $MaDoan);
+                exit();
+            }
+
+            // tạo khách hàng đại diện
+
+
             $MaCodeKhachHang = "KH" . date("YmdHis");
 
-            //  Lấy thông tin khách đại diện
             $data = [
                 ':MaCodeKhachHang' => $MaCodeKhachHang,
                 ':HoTen'           => $_POST['KH_HoTen'],
@@ -72,21 +236,22 @@ class bookingController
                 ':GhiChu'          => $_POST['KH_GhiChu'] ?? null
             ];
 
-            // Lưu khách đại diện → lấy ID
             $khachHangModel = new khachHangModel();
             $MaKhachHang = $khachHangModel->creatKhachHang($data);
 
+            // Booking
 
-            // Xử lý Booking
+
             $MaCodeBooking = !empty($_POST['MaCodeBooking'])
                 ? $_POST['MaCodeBooking']
                 : 'BK' . date('YmdHis');
 
-            $TongTien     = (float)($_POST['TongTien'] ?? 0);
-            $SoTienDaCoc  = (float)($_POST['SoTienDaCoc'] ?? 0);
-            // $SoTienDaTra  = (float)($_POST['SoTienDaTra'] ?? 0);
+            $TongTien = (float)($_POST['TongTien'] ?? 0);
+            $SoTienDaCoc = (float)($_POST['SoTienDaCoc'] ?? 0);
             $SoTienConLai = $TongTien - $SoTienDaCoc;
-            if ($SoTienDaCoc = $TongTien) {
+
+            // Xác định trạng thái hợp lệ
+            if ($SoTienDaCoc == $TongTien) {
                 $TrangThaiHopLe = "hoan_tat";
             } elseif ($SoTienDaCoc > 0) {
                 $TrangThaiHopLe = "da_coc";
@@ -94,56 +259,62 @@ class bookingController
                 $TrangThaiHopLe = "cho_coc";
             }
 
-            $TrangThaiUserChon = $_POST['TrangThai'] ?? 'cho_coc';
-
-            // Nếu trạng thái người chọn KHÔNG hợp lệ -> báo lỗi
-            if ($TrangThaiUserChon != $TrangThaiHopLe) {
+            // Kiểm tra người dùng chọn sai trạng thái
+            if (($_POST['TrangThai'] ?? 'cho_coc') != $TrangThaiHopLe) {
                 if (session_status() === PHP_SESSION_NONE) session_start();
 
                 $_SESSION['error'] = "Trạng thái không hợp lệ với số tiền thanh toán!";
                 header("Location: index.php?act=createBooking");
                 exit();
             }
+
+            // dữ liệu booking
             $dataBooking = [
                 ':MaCodeBooking' => $MaCodeBooking,
                 ':MaTour'        => $_POST['MaTour'],
-                ':MaDoan'        => $_POST['MaDoan'],
+                ':MaDoan'        => $MaDoan,
                 ':MaKhachHang'   => $MaKhachHang,
                 ':LoaiBooking'   => $_POST['LoaiBooking'],
-
-                ':TongNguoiLon'  => $_POST['TongNguoiLon'],
-                ':TongTreEm'     => $_POST['TongTreEm'],
-                ':TongEmBe'      => $_POST['TongEmBe'],
-
+                ':TongNguoiLon'  => $tongNguoiLon,
+                ':TongTreEm'     => $tongTreEm,
+                ':TongEmBe'      => $tongEmBe,
                 ':TongTien'      => $TongTien,
                 ':SoTienDaCoc'   => $SoTienDaCoc,
-                // ':SoTienDaTra'   => $SoTienDaTra,
                 ':SoTienConLai'  => $SoTienConLai,
-
                 ':TrangThai'     => $TrangThaiHopLe,
                 ':YeuCauDacBiet' => $_POST['YeuCauDacBiet'] ?? null,
                 ':MaNguoiTao'    => 1
             ];
 
-            //  Lưu Booking → lấy ID
-            $MaBooking = $this->modelBooking->createBooking($dataBooking);
-            $MaNguoiDoi = 1;
 
-            // Lưu lịch sử trạng thái lần đầu
+            $MaBooking = $this->modelBooking->createBooking($dataBooking);
+
+
+            // cập nhật số chỗ còn chôngs
+
+
+            $soChoMoi = $soChoConTrong - $tongNguoi;
+
+            $doanModel->updateSoChoConTrong($MaDoan);
+
+
+            // Lưu lịch sử trạng thái
+
+
             $this->modelBooking->addLichSuTrangThai(
                 $MaBooking,
                 null,
                 $TrangThaiHopLe,
-                $MaNguoiDoi,
+                1,
                 'Tạo booking mới'
             );
 
 
-            // lưu dữ liệu khách trong booking
-            if (isset($_POST['khach']) && is_array($_POST['khach'])) {
+            // lưu danh sách khách
 
+
+            if (!empty($_POST['khach'])) {
                 foreach ($_POST['khach'] as $kh) {
-
                     $this->modelBooking->insertKhach([
                         'MaBooking'      => $MaBooking,
                         'HoTen'          => $kh['HoTen'] ?? '',
@@ -156,11 +327,11 @@ class bookingController
                     ]);
                 }
             }
+
             header("Location: index.php?act=listBooking");
-            exit;
+            exit();
         }
     }
-
 
     public function editBooking()
     {
