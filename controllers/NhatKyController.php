@@ -145,4 +145,19 @@ class NhatKyController {
         $this->model->deleteNhatKy($id);
         header("Location: index.php?act=listNhatKy&maDoan=$maDoan");
     }
+
+    public function historyDiemDanh() {
+        $maDoan = $_GET['maDoan'];
+        $thongTinDoan = $this->model->getThongTinDoan($maDoan);
+        $rawHistory = $this->model->getLichSuDiemDanh($maDoan);
+
+        $history = [];
+        foreach ($rawHistory as $record) {
+            $ngay = "Ngày " . $record['NgayThu'];
+            $buoi = $record['Buoi'];
+            $history[$ngay][$buoi][] = $record;
+        }
+
+        require_once './views/HDV/nhatky/history.php';
+    }
 }

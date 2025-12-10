@@ -6,9 +6,10 @@ class NhatKyModel {
     }
 
     public function getTourPhuTrach($maHDV) {
-        $sql = "SELECT dkh.*, t.TenTour 
+        $sql = "SELECT dkh.*, t.TenTour, llv.MaLichLamViec
                 FROM doankhoihanh dkh
                 JOIN tour t ON dkh.MaTour = t.MaTour
+                LEFT JOIN lichlamviec llv ON dkh.MaDoan = llv.MaDoan AND llv.MaNhanVien = dkh.MaHuongDanVien
                 WHERE dkh.MaHuongDanVien = :maHDV 
                 AND dkh.NgayVe >= CURDATE()
                 ORDER BY dkh.NgayKhoiHanh ASC";
@@ -74,4 +75,20 @@ class NhatKyModel {
         $stmt->bindParam(':id', $id);
         $stmt->execute();
     }
+
+    // Đã sửa lt.MoTa thành lt.NoiDung
+    public function getLichSuDiemDanh($maDoan) {
+        $sql = "SELECT dd.*, lt.NgayThu, lt.*, k.HoTen, k.SoDienThoai
+                FROM diemdanh dd
+                JOIN lichtrinh lt ON dd.MaLichTrinh = lt.MaLichTrinh
+                JOIN khachtrongbooking k ON dd.MaKhachTrongBooking = k.MaKhachTrongBooking
+                JOIN booking b ON k.MaBooking = b.MaBooking
+                WHERE b.MaDoan = :maDoan
+                ORDER BY lt.NgayThu ASC, dd.Buoi ASC, k.HoTen ASC";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([':maDoan' => $maDoan]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
+?>

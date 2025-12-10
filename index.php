@@ -168,6 +168,9 @@ match ($act) {
     'postEditNhatKy'=> (new NhatKyController())->postEditNhatKy(),
     'deleteNhatKy'  => (new NhatKyController())->deleteNhatKy(),
 
+    // Lịch sử điểm danh
+    'historyDiemDanh' => (new NhatKyController())->historyDiemDanh(),
+
     // Đoàn khởi hành
     'listDKH'  => (new doanKhoiHanhController())->listDKH(),
     'createDKH' => (new doanKhoiHanhController())->createDKH(),
@@ -190,6 +193,7 @@ match ($act) {
     // --- QUẢN LÝ ĐIỂM DANH
     'hdv_quanlykhach'     => (new DiemDanhController())->index(),
     'hdv_submit_diemdanh' => (new DiemDanhController())->store(),
+    'hdv_guest_list'      => (new DiemDanhController())->viewGuestList(),
 
     // view dsk
     'hdv_guest_list' => (new DiemDanhController())->viewGuestList(),
