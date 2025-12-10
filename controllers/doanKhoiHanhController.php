@@ -11,6 +11,11 @@ class doanKhoiHanhController
     public function listDKH()
     {
         $listDoan = $this->doanKhoiHanh->getAllDoan();
+        $this->doanKhoiHanh->autoUpdateTrangThai();
+
+        foreach ($listDoan as $d) {
+            $this->doanKhoiHanh->updateSoChoConTrong($d['MaDoan']);
+        }
         include './views/Admin/Doan/listDoan.php';
     }
 
