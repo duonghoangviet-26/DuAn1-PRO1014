@@ -7,7 +7,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* Copy CSS từ trangChuHDV.php sang */
         body { background: #f5f8fa; }
         .sidebar { width: 260px; height: 100vh; background: #085f63; position: fixed; top: 0; left: 0; padding-top: 30px; color: white; }
         .sidebar a { color: #d9f7f5; text-decoration: none; padding: 12px 20px; display: block; transition: 0.3s; }
@@ -32,7 +31,7 @@
     </div>
 
     <div class="content">
-        <h3 class="mb-4 fw-bold text-primary">Chọn Tour Cần Ghi Nhật Ký</h3>
+        <h3 class="mb-4 fw-bold text-primary">Chọn Tour Cần Ghi Nhật Ký / Điểm Danh</h3>
         
         <div class="row g-4">
             <?php if(empty($listTour)): ?>
@@ -47,11 +46,23 @@
                         <div class="card-body">
                             <h5 class="card-title fw-bold text-dark"><?= $tour['TenTour'] ?></h5>
                             <p class="card-text text-muted mb-2"><i class="fa-solid fa-barcode"></i> Mã đoàn: <strong><?= $tour['MaDoan'] ?></strong></p>
-                            <p class="card-text text-muted"><i class="fa-regular fa-calendar"></i> <?= date('d/m/Y', strtotime($tour['NgayKhoiHanh'])) ?> - <?= date('d/m/Y', strtotime($tour['NgayVe'])) ?></p>
+                            <p class="card-text text-muted mb-3"><i class="fa-regular fa-calendar"></i> <?= date('d/m/Y', strtotime($tour['NgayKhoiHanh'])) ?> - <?= date('d/m/Y', strtotime($tour['NgayVe'])) ?></p>
                             
-                            <a href="index.php?act=listNhatKy&maDoan=<?= $tour['MaDoan'] ?>" class="btn btn-primary w-100 mt-3">
-                                <i class="fa-solid fa-pen-nib"></i> Vào Viết Nhật Ký
-                            </a>
+                            <div class="d-flex gap-2 mt-3">
+                                <a href="index.php?act=listNhatKy&maDoan=<?= $tour['MaDoan'] ?>" class="btn btn-outline-primary flex-grow-1 fw-bold">
+                                    <i class="fa-solid fa-book-open me-1"></i> Nhật Ký
+                                </a>
+
+                                <?php if (!empty($tour['MaLichLamViec'])): ?>
+                                    <a href="index.php?act=historyDiemDanh&maDoan=<?= $tour['MaDoan'] ?>" class="btn btn-info flex-grow-1 fw-bold text-white">
+                                        <i class="fa-solid fa-clock-rotate-left"></i> Lịch Sử Điểm Danh
+                                    </a>
+                                <?php else: ?>
+                                    <button class="btn btn-secondary flex-grow-1 fw-bold" disabled>
+                                        <i class="fa-solid fa-ban me-1"></i> Chưa có Lịch
+                                    </button>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
                 </div>

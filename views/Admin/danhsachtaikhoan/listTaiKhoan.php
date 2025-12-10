@@ -87,47 +87,6 @@
             <a href="index.php?act=listTour"><i class="fa fa-map-location-dot"></i> Quản lý Tour</a>
             <a href="index.php?act=listDKH"><i class="fa fa-bus"></i> Đoàn khởi hành</a>
 
-            <table class="table table-bordered table-hover bg-white">
-                <thead class="table-light">
-                    <tr>
-                        <th>ID</th> <th>Tên Đăng Nhập</th>
-                        <th>Mật Khẩu</th>
-                        <th>Vai Trò</th>
-                        <th>Trạng Thái</th>
-                        <th>Ngày Tạo</th>
-                        <th>Thao Tác</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($listTaiKhoan as $tk): ?>
-                    <tr>
-                        <td class="text-center text-muted"><?= $tk['MaTaiKhoan'] ?></td>
-                        <td><strong><?= $tk['TenDangNhap'] ?></strong></td>
-                        <td class="text-danger"><?= $tk['MatKhau'] ?></td>
-                        <td>
-                            <?php 
-                                if($tk['VaiTro'] == 'admin') echo '<span class="badge bg-danger">Admin</span>';
-                                elseif($tk['VaiTro'] == 'dieu_hanh') echo '<span class="badge bg-warning text-dark">Điều hành</span>';
-                                elseif($tk['VaiTro'] == 'huong_dan_vien') echo '<span class="badge bg-info">HDV</span>';
-                                else echo '<span class="badge bg-secondary">Khách hàng</span>';
-                            ?>
-                        </td>
-                        <td>
-                            <?php if ($tk['TrangThai'] == 'hoat_dong'): ?>
-                                <span class="badge bg-success">Hoạt động</span>
-                            <?php else: ?>
-                                <span class="badge bg-secondary">Bị khóa</span>
-                            <?php endif; ?>
-                        </td>
-                        <td><?= date('d/m/Y', strtotime($tk['NgayTao'])) ?></td>
-                        <td>
-                            <a href="index.php?act=editTaiKhoan&id=<?= $tk['MaTaiKhoan'] ?>" class="btn btn-sm btn-warning"><i class="fa fa-edit"></i> Sửa</a>
-                            <a href="index.php?act=deleteTaiKhoan&id=<?= $tk['MaTaiKhoan'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Xóa tài khoản này?')"><i class="fa fa-trash"></i> Xóa</a>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
             <div class="sidebar-title">Kinh doanh</div>
             <a href="index.php?act=listBooking"><i class="fa fa-file-invoice-dollar"></i> Booking & Đơn hàng</a>
             <a href="index.php?act=listKH"><i class="fa fa-users"></i> Khách hàng</a>
@@ -199,8 +158,7 @@
                                     <td>
                                         <span class="text-muted small"><?= date('d/m/Y', strtotime($tk['NgayTao'])) ?></span>
                                     </td>
-                                    <td class="text-center">
-                                        <div class="d-flex justify-content-center">
+                                    <td class="text-center"><div class="d-flex justify-content-center">
                                             <a href="index.php?act=editTaiKhoan&id=<?= $tk['MaTaiKhoan'] ?>" class="btn-action btn-edit" title="Sửa">
                                                 <i class="fas fa-pen"></i>
                                             </a>

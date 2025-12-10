@@ -86,8 +86,6 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['VaiTro'] !== 'huong_dan_vien
         <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-calendar-days"></i> Lịch trình & Lịch làm việc</a>
         <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-users"></i> Danh sách khách</a>
         <a href="index.php?act=listTourOfHDV"><i class="fa-solid fa-book"></i> Nhật ký tour</a>
-        <a href="#"><i class="fa-solid fa-compass"></i> Vận hành tour</a>
-        <a href="#"><i class="fa-solid fa-book"></i> Nhật ký tour</a>
         <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-compass"></i> Vận hành tour</a>
         <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-user-check"></i> Quản lý khách</a>
 
@@ -125,13 +123,13 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['VaiTro'] !== 'huong_dan_vien
             </div>
 
             <div class="col-md-4">
-                <a href="#" class="text-decoration-none text-dark">
-                    <div class="card card-custom p-3">
-                        <h5><i class="fa-solid fa-book text-warning"></i> Nhật ký tour</h5>
-                        <p>Ghi chép sự kiện, hình ảnh, ghi chú từng ngày.</p>
-                    </div>
-                </a>
-            </div>
+    <a href="index.php?act=listTourOfHDV" class="text-decoration-none text-dark">
+        <div class="card card-custom p-3">
+            <h5><i class="fa-solid fa-book text-warning"></i> Nhật ký tour</h5>
+            <p>Ghi chép sự kiện, hình ảnh, ghi chú từng ngày.</p>
+        </div>
+    </a>
+</div>
 
             <div class="col-md-4">
                 <a href="#" class="text-decoration-none text-dark">

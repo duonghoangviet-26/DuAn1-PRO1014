@@ -168,6 +168,9 @@ match ($act) {
     'postEditNhatKy'=> (new NhatKyController())->postEditNhatKy(),
     'deleteNhatKy'  => (new NhatKyController())->deleteNhatKy(),
 
+    // Lịch sử điểm danh
+    'historyDiemDanh' => (new NhatKyController())->historyDiemDanh(),
+
     // Đoàn khởi hành
     'listDKH'  => (new doanKhoiHanhController())->listDKH(),
     'createDKH' => (new doanKhoiHanhController())->createDKH(),
@@ -182,7 +185,6 @@ match ($act) {
     'editTC' => (new doanKhoiHanhController())->editTaiChinh(),
     'updateTC' => (new doanKhoiHanhController())->updateTaiChinh(),
 
-    default => header("Location: index.php?act=login"),
 
     // HDV xem lịch trình & Lịch làm việc
     'hdv_schedule' => (new lichLamViecController())->mySchedule(),
@@ -191,6 +193,7 @@ match ($act) {
     // --- QUẢN LÝ ĐIỂM DANH
     'hdv_quanlykhach'     => (new DiemDanhController())->index(),
     'hdv_submit_diemdanh' => (new DiemDanhController())->store(),
+    'hdv_guest_list'      => (new DiemDanhController())->viewGuestList(),
 
     // view dsk
     'hdv_guest_list' => (new DiemDanhController())->viewGuestList(),
