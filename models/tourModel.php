@@ -70,6 +70,7 @@ class tourModel
     //tour
     public function getAllTour()
     {
+
         $sql = "SELECT t.*, dm.TenDanhMuc 
                 FROM tour t
                 LEFT JOIN danhmuctour dm ON t.MaDanhMuc = dm.MaDanhMuc";
@@ -316,8 +317,8 @@ class tourModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function getTourPagination($start, $limit)
-{
-    $sql = "SELECT 
+    {
+        $sql = "SELECT 
                 t.*,
                 dm.TenDanhMuc
             FROM tour t
@@ -325,45 +326,58 @@ class tourModel
             ORDER BY t.MaTour ASC
             LIMIT ?, ?";
 
-    $stmt = $this->conn->prepare($sql);
-    $stmt->bindValue(1, $start, PDO::PARAM_INT);
-    $stmt->bindValue(2, $limit, PDO::PARAM_INT);
-    $stmt->execute();
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(1, $start, PDO::PARAM_INT);
+        $stmt->bindValue(2, $limit, PDO::PARAM_INT);
+        $stmt->execute();
 
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-public function countTours()
-{
-    $sql = "SELECT COUNT(*) FROM tour";
-    return $this->conn->query($sql)->fetchColumn();
-}
-public function searchTour($keyword)
-{
-    $sql = "SELECT t.*, dm.TenDanhMuc
+    public function countTours()
+    {
+        $sql = "SELECT COUNT(*) FROM tour";
+        return $this->conn->query($sql)->fetchColumn();
+    }
+    public function searchTour($keyword)
+    {
+        $sql = "SELECT t.*, dm.TenDanhMuc
             FROM tour t
             LEFT JOIN danhmuctour dm ON t.MaDanhMuc = dm.MaDanhMuc
             WHERE t.TenTour LIKE :kw
                OR dm.TenDanhMuc LIKE :kw
                OR t.DiemKhoiHanh LIKE :kw";
 
-    $stmt = $this->conn->prepare($sql);
-    $stmt->bindValue(':kw', "%$keyword%", PDO::PARAM_STR);
-    $stmt->execute();
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':kw', "%$keyword%", PDO::PARAM_STR);
+        $stmt->execute();
 
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-public function searchTourAdvanced($where)
-{
-    $sql = "SELECT t.*, dm.TenDanhMuc
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function searchTourAdvanced($where)
+    {
+        $sql = "SELECT t.*, dm.TenDanhMuc
             FROM tour t
             LEFT JOIN danhmuctour dm ON t.MaDanhMuc = dm.MaDanhMuc
             $where
             ORDER BY t.MaTour DESC";
 
-    $stmt = $this->conn->prepare($sql);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
+    public function autoUpdateStatus()
+    {
+        $today = date("Y-m-d");
+
+        $sql = "UPDATE tour 
+            SET TrangThai = 'da_ket_thuc'
+            WHERE NgayKetThuc < :today 
+            AND TrangThai != 'da_ket_thuc'";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':today', $today);
+        $stmt->execute();
+    }
 }

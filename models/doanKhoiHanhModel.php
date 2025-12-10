@@ -68,10 +68,42 @@ class doanKhoiHanhModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+
+    // Trạng thái đoàn khởi hành
+    public function autoUpdateTrangThai()
+    {
+        $today = date("Y-m-d");
+
+        // Đã kết thúc
+        $this->conn->prepare("
+        UPDATE doankhoihanh 
+        SET TrangThai = 'da_ket_thuc'
+        WHERE NgayVe < ?
+    ")->execute([$today]);
+
+        // Đang diễn ra
+        $this->conn->prepare("
+        UPDATE doankhoihanh
+        SET TrangThai = 'dang_dien_ra'
+        WHERE NgayKhoiHanh <= ? AND NgayVe >= ?
+    ")->execute([$today, $today]);
+
+        // Sẵn sàng
+        $this->conn->prepare("
+        UPDATE doankhoihanh
+        SET TrangThai = 'san_sang'
+        WHERE NgayKhoiHanh > ?
+    ")->execute([$today]);
+    }
+
+
     // Lấy tour
     public function getAllTour()
     {
-        $stmt = $this->conn->prepare("SELECT * FROM tour");
+        $stmt = $this->conn->prepare("
+        SELECT * FROM tour
+        WHERE TrangThai = 'hoat_dong'
+    ");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -98,71 +130,6 @@ class doanKhoiHanhModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Thêm đoàn
-    public function insertDoan($data)
-    {
-        $data['MaHuongDanVien'] = !empty($data['MaHuongDanVien']) ? $data['MaHuongDanVien'] : null;
-        $data['MaTaiXe'] = !empty($data['MaTaiXe']) ? $data['MaTaiXe'] : null;
-        $sql = "INSERT INTO doankhoihanh
-            (MaTour, NgayKhoiHanh, NgayVe, GioKhoiHanh, DiemTapTrung,
-             SoChoToiDa, SoChoConTrong, MaHuongDanVien, MaTaiXe, TrangThai)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([
-            $data['MaTour'],
-            $data['NgayKhoiHanh'],
-            $data['NgayVe'],
-            $data['GioKhoiHanh'],
-            $data['DiemTapTrung'],
-            $data['SoChoToiDa'],
-            $data['SoChoConTrong'],
-            $data['MaHuongDanVien'],
-            $data['MaTaiXe'],
-            $data['TrangThai'] ?? 'con_cho',
-        ]);
-
-        return $this->conn->lastInsertId();
-    }
-    public function insertDichVuDoan($MaDoan, $MaNCC, $Loai, $NgayThu)
-    {
-        $sql = "INSERT INTO dichvucuadoan 
-            (MaDoan, MaNhaCungCap, LoaiDichVu, TenDichVu, NgaySuDung) 
-            VALUES (?, ?, ?, ?, ?)";
-
-        $stmt = $this->conn->prepare($sql);
-        return $stmt->execute([
-            $MaDoan,
-            $MaNCC,
-            $Loai,
-            ucfirst(str_replace('_', ' ', $Loai)), // tên dịch vụ
-            $NgayThu
-        ]);
-    }
-
-    // Gán tài xế
-    public function insertTaiXeChoDoan($MaDoan, $MaTaiXe, $NgaySuDung)
-    {
-        $this->conn->prepare("DELETE FROM dichvucuadoan WHERE MaDoan=? AND LoaiDichVu='van_chuyen'")
-            ->execute([$MaDoan]);
-
-        $sql = "INSERT INTO dichvucuadoan 
-            (MaDoan, MaNhaCungCap, LoaiDichVu, TenDichVu, NgaySuDung)
-            VALUES (?, ?, 'van_chuyen', 'Tài xế', ?)";
-        $stmt = $this->conn->prepare($sql);
-        return $stmt->execute([$MaDoan, $MaTaiXe, $NgaySuDung]);
-    }
-
-
-    // Đếm số booking của đoàn
-    public function countBookingOfDoan($MaDoan)
-    {
-        $sql = "SELECT COUNT(*) FROM booking WHERE MaDoan = ?";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$MaDoan]);
-        return $stmt->fetchColumn();
-    }
-
     // Update đoàn
     public function updateDKH($data)
     {
@@ -179,7 +146,8 @@ class doanKhoiHanhModel
                 DiemTapTrung = ?,
                 SoChoToiDa = ?,
                 SoChoConTrong = ?, 
-                MaHuongDanVien = ?
+                MaHuongDanVien = ?,
+                 MaTaiXe = ?
             WHERE MaDoan = ?";
 
         $stmt = $this->conn->prepare($sql);
@@ -192,7 +160,8 @@ class doanKhoiHanhModel
             $data['DiemTapTrung'],
             $data['SoChoToiDa'],
             $soConTrong,
-            $data['MaHuongDanVien'],
+            !empty($data['MaHuongDanVien']) ? $data['MaHuongDanVien'] : null,
+            !empty($data['MaTaiXe']) ? $data['MaTaiXe'] : null,
             $data['MaDoan']
         ]);
 
@@ -221,6 +190,106 @@ class doanKhoiHanhModel
         return $this->conn->prepare("DELETE FROM doankhoihanh WHERE MaDoan=?")
             ->execute([$id]);
     }
+    // Thêm đoàn
+    public function insertDoan($data)
+    {
+        $data['MaHuongDanVien'] = !empty($data['MaHuongDanVien']) ? $data['MaHuongDanVien'] : null;
+        $data['MaTaiXe'] = !empty($data['MaTaiXe']) ? $data['MaTaiXe'] : null;
+        $sql = "INSERT INTO doankhoihanh
+            (MaTour, NgayKhoiHanh, NgayVe, GioKhoiHanh, DiemTapTrung,
+             SoChoToiDa, SoChoConTrong, MaHuongDanVien, MaTaiXe, TrangThai)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            $data['MaTour'],
+            $data['NgayKhoiHanh'],
+            $data['NgayVe'],
+            $data['GioKhoiHanh'],
+            $data['DiemTapTrung'],
+            $data['SoChoToiDa'],
+            $data['SoChoConTrong'],
+            $data['MaHuongDanVien'],
+            $data['MaTaiXe'],
+            $data['TrangThai'] ?? 'san_sang',
+        ]);
+
+        return $this->conn->lastInsertId();
+    }
+    public function insertDichVuDoan($MaDoan, $MaNCC, $Loai, $NgayThu)
+    {
+        $sql = "INSERT INTO dichvucuadoan 
+            (MaDoan, MaNhaCungCap, LoaiDichVu, TenDichVu, NgaySuDung) 
+            VALUES (?, ?, ?, ?, ?)";
+
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([
+            $MaDoan,
+            $MaNCC,
+            $Loai,
+            ucfirst(str_replace('_', ' ', $Loai)), // tên dịch vụ
+            $NgayThu
+        ]);
+    }
+
+    // Kiểm tra số chỗ còn chống trong đoàn 
+    public function updateSoChoConTrong($MaDoan)
+    {
+        // đếm tổng SỐ NGƯỜI đã đặt
+        $sql = "SELECT SUM(TongNguoiLon + TongTreEm + TongEmBe) 
+            FROM booking 
+            WHERE MaDoan = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$MaDoan]);
+        $soNguoi = (int)$stmt->fetchColumn();
+
+        // lấy số chỗ tối đa
+        $sql = "SELECT SoChoToiDa FROM doankhoihanh WHERE MaDoan = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$MaDoan]);
+        $soChoToiDa = (int)$stmt->fetchColumn();
+
+        // tính còn trống
+        $soChoConTrong = $soChoToiDa - $soNguoi;
+        if ($soChoConTrong < 0) $soChoConTrong = 0;
+
+        // cập nhật DB
+        $sql = "UPDATE doankhoihanh SET SoChoConTrong = ? WHERE MaDoan = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$soChoConTrong, $MaDoan]);
+    }
+
+    // Gán tài xế
+    public function insertTaiXeChoDoan($MaDoan, $MaTaiXe, $NgaySuDung)
+    {
+        $this->conn->prepare("DELETE FROM dichvucuadoan WHERE MaDoan=? AND LoaiDichVu='van_chuyen'")
+            ->execute([$MaDoan]);
+
+        $sql = "INSERT INTO dichvucuadoan 
+            (MaDoan, MaNhaCungCap, LoaiDichVu, TenDichVu, NgaySuDung)
+            VALUES (?, ?, 'van_chuyen', 'Tài xế', ?)";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$MaDoan, $MaTaiXe, $NgaySuDung]);
+    }
+
+    public function getTaiXeById($MaTaiXe)
+    {
+        $sql = "SELECT * FROM nhacungcap WHERE MaNhaCungCap = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$MaTaiXe]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+
+    // Đếm số booking của đoàn
+    public function countBookingOfDoan($MaDoan)
+    {
+        $sql = "SELECT COUNT(*) FROM booking WHERE MaDoan = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$MaDoan]);
+        return $stmt->fetchColumn();
+    }
+
 
     public function getTotalBookingByDoan($MaDoan)
     {
@@ -235,18 +304,6 @@ class doanKhoiHanhModel
         return $total ? $total : 0;
     }
 
-    public function getAllDKH()
-    {
-        $sql = "SELECT * FROM doankhoihanh";
-        return $this->conn->query($sql)->fetchAll();
-    }
-    // public function getLichTrinhByTour($MaTour)
-    // {
-    //     $sql = "SELECT * FROM lichtrinh WHERE MaTour = ?";
-    //     $stmt = $this->conn->prepare($sql);
-    //     $stmt->execute([$MaTour]);
-    //     return $stmt->fetchAll();
-    // }
     public function getLichTrinhByTour($MaTour)
     {
         $sql = "SELECT * FROM lichtrinh WHERE MaTour = ? ORDER BY NgayThu ASC";
@@ -318,16 +375,20 @@ JOIN nhacungcap ncc ON d.MaTaiXe = ncc.MaNhaCungCap
     }
 
     // get đoàn by tour
-    public function getDoanByTour($MaTour)
+    public function getDoanByTour($maTour)
     {
-        $sql = "SELECT d.MaDoan, d.NgayKhoiHanh, t.TenTour
+        $sql = "SELECT 
+                d.MaDoan, 
+                d.MaTour, 
+                d.NgayKhoiHanh, 
+                d.SoChoConTrong,
+                t.TenTour
             FROM doankhoihanh d
-            JOIN tour t ON d.MaTour = t.MaTour
+            JOIN tour t ON t.MaTour = d.MaTour
             WHERE d.MaTour = ?";
-
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$MaTour]);
-        return $stmt->fetchAll();
+        $stmt->execute([$maTour]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     public function getDichVuByDoan($MaDoan)
     {

@@ -108,32 +108,22 @@
 <body>
 
     <div class="login-container">
-        <h2 class="text-center login-title">Login</h2>
+    <h3 class="text-center mb-4">Đặt Lại Mật Khẩu</h3>
+    
+    <?php if(isset($error)) echo "<div class='alert alert-danger'>$error</div>"; ?>
 
-        <?php if (isset($error)): ?>
-            <div class="alert alert-danger py-2">
-                <i class="fas fa-exclamation-circle"></i> <?= $error ?>
-            </div>
-        <?php endif; ?>
-
-        <form action="index.php?act=login" method="POST">
-            
-            <label class="fw-bold text-secondary small mb-1">Username</label>
-           <div class="input-wrapper d-flex align-items-center">
-                <i class="fas fa-user"></i>
-                <input type="text" name="TenDangNhap" class="custom-input" required placeholder="Type your username">
-            </div>
-            <label class="fw-bold text-secondary small mb-1">Password</label>
-            <div class="input-wrapper d-flex align-items-center">
-                <i class="fas fa-lock"></i>
-                <input type="password" name="MatKhau" class="custom-input" required placeholder="Type your password">
-            </div>
-
-            <a href="index.php?act=QuenMK" class="forgot-pass">Forgot password?</a>
-            <button type="submit" class="btn btn-gradient">LOGIN</button>
-
-        </form>
-    </div>
+    <form action="index.php?act=confirm_reset" method="POST">
+        <div class="mb-3">
+            <label>Mật khẩu mới</label>
+            <input type="password" name="MatKhau" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Nhập lại mật khẩu</label>
+            <input type="password" name="MatKhau2" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-success w-100">Đổi Mật Khẩu</button>
+    </form>
+</div>
 
 </body>
 </html>

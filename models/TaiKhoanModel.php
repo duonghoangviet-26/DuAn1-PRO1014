@@ -78,5 +78,30 @@ class TaiKhoanModel
         $stmt->execute([':user' => $tenDangNhap]);
         return $stmt->fetchColumn() > 0;
     }
+
+    public function checkUserForReset($tenDangNhap, $email, $sdt) {
+        $sql = "SELECT tk.MaTaiKhoan 
+                FROM taikhoan tk 
+                JOIN nhanvien nv ON tk.MaNhanVien = nv.MaNhanVien 
+                WHERE tk.TenDangNhap = :user 
+                AND nv.Email = :email 
+                AND nv.SoDienThoai = :sdt";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            ':user' => $tenDangNhap,
+            ':email' => $email,
+            ':sdt' => $sdt
+        ]);
+        
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function resetPassword($maTaiKhoan, $newPass) {
+        $hashPass = password_hash($newPass, PASSWORD_BCRYPT);
+        $sql = "UPDATE taikhoan SET MatKhau = :pass WHERE MaTaiKhoan = :id";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([':pass' => $hashPass, ':id' => $maTaiKhoan]);
+    }
 }
 ?>
