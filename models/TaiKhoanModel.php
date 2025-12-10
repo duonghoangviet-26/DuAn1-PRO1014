@@ -7,6 +7,7 @@ class TaiKhoanModel
     {
         $this->conn = connectDB();
     }
+
     public function getAllNhanVien()
     {
         $sql = "SELECT * FROM nhanvien";
@@ -14,9 +15,12 @@ class TaiKhoanModel
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
     public function insertTaiKhoanAdmin($tenDangNhap, $matKhau, $vaiTro, $maNhanVien)
     {
-        $hashPass = password_hash($matKhau, PASSWORD_BCRYPT);
+        // SỬA: Bỏ mã hóa, lưu mật khẩu thô
+        $hashPass = $matKhau; 
+
         $sql = "INSERT INTO taikhoan (TenDangNhap, MatKhau, VaiTro, MaNhanVien, TrangThai) 
                 VALUES (:user, :pass, :role, :maNV, 'hoat_dong')";
         
@@ -28,20 +32,25 @@ class TaiKhoanModel
             ':maNV' => $maNhanVien
         ]);
     }
+
     public function checkUser($tenDangNhap, $matKhau)
     {
         $sql = "SELECT * FROM taikhoan WHERE TenDangNhap = :user AND TrangThai = 'hoat_dong'";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([':user' => $tenDangNhap]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($user && password_verify($matKhau, $user['MatKhau'])) {
+
+        // SỬA: So sánh trực tiếp chuỗi (Plain text)
+        if ($user && $matKhau == $user['MatKhau']) {
             return $user;
         }
         return false;
     }
+
     public function insertTaiKhoan($tenDangNhap, $matKhau)
     {
-        $hashPass = password_hash($matKhau, PASSWORD_BCRYPT);
+        // SỬA: Bỏ mã hóa, lưu mật khẩu thô
+        $hashPass = $matKhau;
 
         $sql = "INSERT INTO taikhoan (TenDangNhap, MatKhau, VaiTro, TrangThai) 
                 VALUES (:user, :pass, 'khach_hang', 'hoat_dong')";
