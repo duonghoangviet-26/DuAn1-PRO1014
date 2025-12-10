@@ -76,7 +76,6 @@ class NhatKyModel {
         $stmt->execute();
     }
 
-    // Đã sửa lt.MoTa thành lt.NoiDung
     public function getLichSuDiemDanh($maDoan) {
         $sql = "SELECT dd.*, lt.NgayThu, lt.*, k.HoTen, k.SoDienThoai
                 FROM diemdanh dd
