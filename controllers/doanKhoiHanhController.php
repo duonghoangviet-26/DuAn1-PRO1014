@@ -11,112 +11,13 @@ class doanKhoiHanhController
     public function listDKH()
     {
         $listDoan = $this->doanKhoiHanh->getAllDoan();
+        $this->doanKhoiHanh->autoUpdateTrangThai();
+
+        foreach ($listDoan as $d) {
+            $this->doanKhoiHanh->updateSoChoConTrong($d['MaDoan']);
+        }
         include './views/Admin/Doan/listDoan.php';
     }
-
-    // public function createDKH()
-    // {
-    //     $tour = $this->doanKhoiHanh->getAllTour();
-    //     $hdv = $this->doanKhoiHanh->getAllHDV();
-    //     $taixe = $this->doanKhoiHanh->getAllNhaXe();
-
-    //     $lichtrinh = [];
-    //     $hotels = [];
-    //     $restaurants = [];
-
-    //     // Khi chọn tour nhưng chưa bấm "Thêm"
-    //     if (!empty($_POST['MaTour']) && !isset($_POST['btnSave'])) {
-
-    //         foreach ($tour as $t) {
-    //             if ($t['MaTour'] == $_POST['MaTour']) {
-    //                 $tourSelected = $t;
-    //                 break;
-    //             }
-    //         }
-
-    //         $lichtrinh = $this->doanKhoiHanh->getLichTrinhByTour($_POST['MaTour']);
-    //         $hotels = $this->doanKhoiHanh->getNhaCungCapByType('khach_san');
-    //         $restaurants = $this->doanKhoiHanh->getNhaCungCapByType('nha_hang');
-    //     }
-
-    //     // Khi bấm nút Thêm
-    //     if (isset($_POST['btnSave'])) {
-    //         // --- Tính toán số chỗ ---
-    //         $soChoToiDa    = (int) $_POST['SoChoToiDa'];
-    //         $soChoConTrong = $soChoToiDa; // khi mới tạo, số chỗ còn trống = tối đa
-
-    //         // 1) LƯU ĐOÀN TRƯỚC
-    //         $MaDoan = $this->doanKhoiHanh->insertDoan([
-    //             'MaTour'         => $_POST['MaTour'],
-    //             'NgayKhoiHanh'   => $_POST['NgayKhoiHanh'],
-    //             'NgayVe'         => $_POST['NgayVe'],
-    //             'GioKhoiHanh'    => $_POST['GioKhoiHanh'],
-    //             'DiemTapTrung'   => $_POST['DiemTapTrung'],
-    //             'SoChoToiDa'     => $soChoToiDa,
-    //             'SoChoConTrong'  => $soChoConTrong,
-    //             'MaHuongDanVien' => $_POST['MaHuongDanVien'],
-    //             'MaTaiXe'        => $_POST['MaTaiXe'],
-    //             'TrangThai'      => 'con_cho',
-    //         ]);
-
-    //         // 2) LƯU TÀI XẾ
-    //         if (!empty($_POST['MaTaiXe'])) {
-    //             $this->doanKhoiHanh->insertTaiXeChoDoan(
-    //                 $MaDoan,
-    //                 $_POST['MaTaiXe'],
-    //                 $_POST['NgayKhoiHanh']
-    //             );
-    //         }
-
-
-    //         // 3) LƯU KHÁCH SẠN THEO NGÀY
-    //         if (!empty($_POST['khachsan'])) {
-    //             foreach ($_POST['khachsan'] as $ngayThu => $maKS) {
-
-    //                 if (!empty($maKS)) {
-
-    //                     // Tính ngày sử dụng từ Ngày khởi hành
-    //                     $NgaySuDung = date(
-    //                         'Y-m-d',
-    //                         strtotime($_POST['NgayKhoiHanh'] . " + " . ($ngayThu - 1) . " days")
-    //                     );
-
-    //                     $this->doanKhoiHanh->insertDichVuDoan(
-    //                         $MaDoan,
-    //                         $maKS,
-    //                         'khach_san',
-    //                         $NgaySuDung   // <-- Giờ là ngày thật
-    //                     );
-    //                 }
-    //             }
-    //         }
-
-    //         if (!empty($_POST['nhahang'])) {
-    //             foreach ($_POST['nhahang'] as $ngayThu => $maNH) {
-
-    //                 if (!empty($maNH)) {
-
-    //                     $NgaySuDung = date(
-    //                         'Y-m-d',
-    //                         strtotime($_POST['NgayKhoiHanh'] . " + " . ($ngayThu - 1) . " days")
-    //                     );
-
-    //                     $this->doanKhoiHanh->insertDichVuDoan(
-    //                         $MaDoan,
-    //                         $maNH,
-    //                         'nha_hang',
-    //                         $NgaySuDung
-    //                     );
-    //                 }
-    //             }
-    //         }
-
-    //         header("Location:index.php?act=listDKH");
-    //         exit;
-    //     }
-
-    //     include './views/Admin/Doan/addDoan.php';
-    // }
 
 
     public function createDKH()
@@ -149,7 +50,7 @@ class doanKhoiHanhController
 
         if (isset($_POST['btnSave'])) {
 
-            // === VALIDATE CƠ BẢN === //
+            //  Validate 
             if (empty($_POST['MaTour'])) $errors[] = "Vui lòng chọn tour.";
             if (empty($_POST['NgayKhoiHanh'])) $errors[] = "Ngày khởi hành không được để trống.";
             if (empty($_POST['NgayVe'])) $errors[] = "Ngày về không được để trống.";
@@ -213,11 +114,13 @@ class doanKhoiHanhController
                 'DiemTapTrung'  => $_POST['DiemTapTrung'],
                 'SoChoToiDa'    => $_POST['SoChoToiDa'],
                 'SoChoConTrong' => $_POST['SoChoToiDa'],
-                'TrangThai'     => 'con_cho',
+                'TrangThai'     => 'san_sang',
                 'MaHuongDanVien' => null,
                 'MaTaiXe' => $_POST['MaTaiXe'],
             ]);
-
+            if (!empty($_POST['MaTaiXe'])) {
+                $this->doanKhoiHanh->insertTaiXeChoDoan($MaDoan, $_POST['MaTaiXe'], $_POST['NgayKhoiHanh']);
+            }
             header("Location:index.php?act=listDKH");
             exit;
         }
@@ -337,10 +240,9 @@ class doanKhoiHanhController
         if (!empty($doan['MaHuongDanVien'])) {
             $hdv = $this->doanKhoiHanh->getHDVById($doan['MaHuongDanVien']);
         }
-
         $taixe = null;
         if (!empty($doan['MaTaiXe'])) {
-            $taixe = $this->doanKhoiHanh->getTaiXeByDoan($id);
+            $taixe = $this->doanKhoiHanh->getTaiXeById($doan['MaTaiXe']);
         }
 
         $lichtrinh = $this->doanKhoiHanh->getLichTrinhByTour($doan['MaTour']);

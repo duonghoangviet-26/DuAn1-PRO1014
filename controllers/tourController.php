@@ -25,7 +25,7 @@ class tourController
     public function deleteDanhMuc()
     {
         $id = isset($_GET['id']) && is_numeric($_GET['id']) ? intval($_GET['id']) : 0;
-        
+
         if ($id > 0) {
             $rowsDeleted = $this->modelTour->deleteDanhMuc($id);
 
@@ -113,51 +113,50 @@ class tourController
     }
 
 
-   public function getAllTour()
-{
-    $model = new tourModel();
+    public function getAllTour()
+    {
+        $model = new tourModel();
+        $model->autoUpdateStatus();
+        // Lấy keyword và trạng thái lọc
+        $keyword = $_GET['keyword'] ?? "";
+        $trangthai = $_GET['trangthai'] ?? "";
 
-    // Lấy keyword & trạng thái lọc
-    $keyword = $_GET['keyword'] ?? "";
-    $trangthai = $_GET['trangthai'] ?? "";
+        // Nếu có từ khóa tìm kiếm hoặc trạng thái lọc → bỏ phân trang
+        if ($keyword != "" || $trangthai != "") {
 
-    // Nếu có từ khóa tìm kiếm hoặc trạng thái lọc → bỏ phân trang
-    if ($keyword != "" || $trangthai != "") {
+            // Tạo câu SQL tìm kiếm + lọc
+            $where = " WHERE 1 ";
 
-        // Tạo câu SQL tìm kiếm + lọc
-        $where = " WHERE 1 ";
-
-        if ($keyword != "") {
-            $keyword = addslashes($keyword);
-            $where .= " AND (t.TenTour LIKE '%$keyword%' 
+            if ($keyword != "") {
+                $keyword = addslashes($keyword);
+                $where .= " AND (t.TenTour LIKE '%$keyword%' 
                         OR dm.TenDanhMuc LIKE '%$keyword%' 
                         OR t.DiemKhoiHanh LIKE '%$keyword%')";
+            }
+
+            if ($trangthai != "") {
+                $where .= " AND t.TrangThai = '$trangthai' ";
+            }
+
+            $listTour = $model->searchTourAdvanced($where);
+            $totalPage = 1;
+            $page = 1;
+        } else {
+
+            // PHÂN TRANG BÌNH THƯỜNG
+            $limit = 7;
+            $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+            if ($page < 1) $page = 1;
+
+            $start = ($page - 1) * $limit;
+
+            $listTour = $model->getTourPagination($start, $limit);
+            $totalTour = $model->countTours();
+            $totalPage = ceil($totalTour / $limit);
         }
 
-        if ($trangthai != "") {
-            $where .= " AND t.TrangThai = '$trangthai' ";
-        }
-
-        $listTour = $model->searchTourAdvanced($where);
-        $totalPage = 1;
-        $page = 1;
-
-    } else {
-
-        // PHÂN TRANG BÌNH THƯỜNG
-        $limit = 7;
-        $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-        if ($page < 1) $page = 1;
-
-        $start = ($page - 1) * $limit;
-
-        $listTour = $model->getTourPagination($start, $limit);
-        $totalTour = $model->countTours();
-        $totalPage = ceil($totalTour / $limit);
+        include "views/Admin/tour/listTour.php";
     }
-
-    include "views/Admin/tour/listTour.php";
-}
 
 
 
