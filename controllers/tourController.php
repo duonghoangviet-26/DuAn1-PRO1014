@@ -61,8 +61,6 @@ class tourController
         require_once "./views/Admin/danhmuc/addDanhMuc.php";
     }
 
-
-
     public function editDanhMuc()
     {
         $MaDanhMuc = isset($_GET['MaDanhMuc']) ? intval($_GET['MaDanhMuc']) : 0;
@@ -95,6 +93,7 @@ class tourController
         require_once "./views/Admin/danhmuc/editDanhMuc.php";
     }
 
+
     private function joinBuoi($times, $notes)
     {
         $result = [];
@@ -111,8 +110,20 @@ class tourController
         }
         return implode("\n", $result);
     }
+    // public function getAllTour()
+    // {
+    //     $model = new tourModel();
+    //     $model->autoUpdateStatus();
+    //     $keyword = $_GET['keyword'] ?? "";
+    //     $trangthai = $_GET['trangthai'] ?? "";
+
+    //     if ($keyword != "" || $trangthai != "") {
 
 
+    //         $where = " WHERE 1 ";
+
+    //     }
+    // }
     public function getAllTour()
     {
         $model = new tourModel();
@@ -126,6 +137,7 @@ class tourController
 
             // Tạo câu SQL tìm kiếm + lọc
             $where = " WHERE 1 ";
+
 
             if ($keyword != "") {
                 $keyword = addslashes($keyword);
@@ -143,7 +155,9 @@ class tourController
             $page = 1;
         } else {
 
+
             // PHÂN TRANG BÌNH THƯỜNG
+
             $limit = 7;
             $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
             if ($page < 1) $page = 1;
@@ -190,7 +204,6 @@ class tourController
                 echo "<script>alert('❌ Số đêm không được lớn hơn số ngày!'); history.back();</script>";
                 exit();
             }
-
             $LinkAnhBia = "";
             if (!empty($_FILES['LinkAnhBia']['name'])) {
                 $fileName = time() . "_" . preg_replace('/\s+/', '_', $_FILES['LinkAnhBia']['name']);
@@ -202,7 +215,6 @@ class tourController
                     $LinkAnhBia = $fileName;
                 }
             }
-
             $model = new tourModel();
             $model->addTour(
                 $TenTour,
@@ -218,9 +230,7 @@ class tourController
                 $NgayKetThuc,
                 $TrangThai
             );
-
             $idTour = $model->getLastId();
-
             if (!empty($_POST['NgayThu'])) {
                 foreach ($_POST['NgayThu'] as $i => $NgayThu) {
 
@@ -276,7 +286,6 @@ class tourController
                 "gio" => [],
                 "hd" => []
             ];
-
             $arr = array_values(array_filter(array_map("trim", explode("\n", $text))));
             $gio = [];
             $hd  = [];
@@ -302,7 +311,6 @@ class tourController
                 "GioTapTrung" => $lt['GioTapTrung'],
                 "GioXuatPhat" => $lt['GioXuatPhat'],
                 "GioKetThuc"  => $lt['GioKetThuc'],
-
                 "CoBuaSang" => $lt['CoBuaSang'],
                 "CoBuaTrua" => $lt['CoBuaTrua'],
                 "CoBuaToi"  => $lt['CoBuaToi'],
@@ -316,10 +324,6 @@ class tourController
 
         include "views/Admin/tour/edit.php";
     }
-
-
-
-
     // XỬ LÝ UPDATE TOUR
     public function updateTour()
     {
@@ -421,9 +425,6 @@ class tourController
         header("Location: index.php?act=listTour");
         exit();
     }
-
-
-
     // XÓA TOUR
     public function deleteTour()
     {
@@ -448,8 +449,6 @@ class tourController
         $lichTrinh = $model->getLichTrinhByTour($id);
         include "views/Admin/tour/chiTietTour.php";
     }
-
-
     // CLONE TOUR
     public function cloneTour()
     {
@@ -532,4 +531,5 @@ class tourController
             return trim(explode("-", $line, 2)[1] ?? "");
         }, $arr);
     }
+    
 }

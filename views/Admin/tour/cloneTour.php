@@ -273,8 +273,12 @@ if (!function_exists('tachBuoi')) {
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label class="form-label">Tên tour mới <span class="text-danger">*</span></label>
+
+                                    <input type="text" name="TenTour" class="form-control" value="<?= htmlspecialchars($tour['TenTour']) ?> " required>
+
                                     <input type="text" name="TenTour" class="form-control"
                                         value="<?= htmlspecialchars($tour['TenTour']) ?>" required>
+
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Danh mục</label>

@@ -8,55 +8,233 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <style>
-        body { 
-            background-color: #f3f4f6; 
+        body {
+            background-color: #f3f4f6;
             font-family: 'Inter', sans-serif;
             margin: 0;
         }
 
         .sidebar {
-            width: 260px; height: 100vh; position: fixed; top: 0; left: 0;
+            width: 260px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
             background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
-            color: #ecf0f1; padding-top: 20px; box-shadow: 4px 0 15px rgba(0,0,0,0.05);
-            z-index: 1000; overflow-y: auto;
+            color: #ecf0f1;
+            padding-top: 20px;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            overflow-y: auto;
         }
-        .sidebar-header { padding: 0 25px 25px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px; }
-        .sidebar-header h4 { font-weight: 700; font-size: 1.2rem; color: #fff; display: flex; align-items: center; }
-        .sidebar-menu { padding: 0 10px; }
-        .sidebar-title { font-size: 0.75rem; text-transform: uppercase; color: #95a5a6; margin: 15px 15px 5px; font-weight: 600; }
-        .sidebar a { color: #bdc3c7; padding: 12px 15px; text-decoration: none; display: flex; align-items: center; border-radius: 8px; font-size: 0.95rem; transition: 0.3s; margin-bottom: 5px; }
-        .sidebar a i { width: 25px; text-align: center; margin-right: 10px; }
-        .sidebar a:hover, .sidebar a.active { background-color: rgba(255,255,255,0.1); color: #fff; transform: translateX(5px); }
-        .sidebar a.active { background-color: #3498db; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
 
-        .main-content { margin-left: 260px; padding: 30px; width: calc(100% - 260px); min-height: 100vh; }
+        .sidebar-header {
+            padding: 0 25px 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 15px;
+        }
 
-        .card-stat { border: none; border-radius: 12px; color: white; padding: 20px; position: relative; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.2s; }
-        .card-stat:hover { transform: translateY(-5px); }
-        .card-stat h5 { font-size: 1rem; font-weight: 500; opacity: 0.9; margin-bottom: 10px; }
-        .card-stat h3 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0; }
-        .card-stat .icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 3rem; opacity: 0.2; }
-        
-        .bg-gradient-success { background: linear-gradient(45deg, #10b981, #059669); }
-        .bg-gradient-danger { background: linear-gradient(45deg, #ef4444, #dc2626); }
-        .bg-gradient-primary { background: linear-gradient(45deg, #3b82f6, #2563eb); }
+        .sidebar-header h4 {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+        }
 
-        .card-table { border: none; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); background: #fff; overflow: hidden; }
-        .table thead th { background-color: #f8fafc; color: #64748b; font-weight: 600; text-transform: uppercase; font-size: 0.8rem; padding: 15px; border-bottom: 1px solid #e2e8f0; }
-        .table tbody td { padding: 15px; vertical-align: middle; color: #334155; font-size: 0.9rem; border-bottom: 1px solid #f1f5f9; }
-        .table tbody tr:last-child td { border-bottom: none; }
-        .badge-type { padding: 5px 10px; border-radius: 50px; font-size: 0.75rem; font-weight: 600; }
-        .type-thu { background-color: #d1fae5; color: #047857; }
-        .type-chi { background-color: #fee2e2; color: #b91c1c; }
-        
-        .img-thumb { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; cursor: pointer; transition: 0.2s; border: 1px solid #e2e8f0; }
-        .img-thumb:hover { transform: scale(1.1); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        
-        .btn-action { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; transition: 0.2s; border: none; margin-right: 5px; }
-        .btn-edit { background: #fef3c7; color: #d97706; } .btn-edit:hover { background: #d97706; color: #fff; }
-        .btn-delete { background: #fee2e2; color: #dc2626; } .btn-delete:hover { background: #dc2626; color: #fff; }
+        .sidebar-menu {
+            padding: 0 10px;
+        }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #95a5a6;
+            margin: 15px 15px 5px;
+            font-weight: 600;
+        }
+
+        .sidebar a {
+            color: #bdc3c7;
+            padding: 12px 15px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: 0.3s;
+            margin-bottom: 5px;
+        }
+
+        .sidebar a i {
+            width: 25px;
+            text-align: center;
+            margin-right: 10px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transform: translateX(5px);
+        }
+
+        .sidebar a.active {
+            background-color: #3498db;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 30px;
+            width: calc(100% - 260px);
+            min-height: 100vh;
+        }
+
+        .card-stat {
+            border: none;
+            border-radius: 12px;
+            color: white;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .card-stat:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-stat h5 {
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .card-stat h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+
+        .card-stat .icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3rem;
+            opacity: 0.2;
+        }
+
+        .bg-gradient-success {
+            background: linear-gradient(45deg, #10b981, #059669);
+        }
+
+        .bg-gradient-danger {
+            background: linear-gradient(45deg, #ef4444, #dc2626);
+        }
+
+        .bg-gradient-primary {
+            background: linear-gradient(45deg, #3b82f6, #2563eb);
+        }
+
+        .card-table {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .table thead th {
+            background-color: #f8fafc;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            color: #334155;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge-type {
+            padding: 5px 10px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .type-thu {
+            background-color: #d1fae5;
+            color: #047857;
+        }
+
+        .type-chi {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .img-thumb {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid #e2e8f0;
+        }
+
+        .img-thumb:hover {
+            transform: scale(1.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-action {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            transition: 0.2s;
+            border: none;
+            margin-right: 5px;
+        }
+
+        .btn-edit {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .btn-edit:hover {
+            background: #d97706;
+            color: #fff;
+        }
+
+        .btn-delete {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+            color: #fff;
+        }
     </style>
 </head>
 
@@ -85,21 +263,44 @@
 
     <div class="main-content">
         <div class="container-fluid">
-            
-            <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
                 <div>
                     <h3 class="fw-bold text-dark mb-1">Quản Lý Tài Chính</h3>
                     <p class="text-muted mb-0">Đoàn khởi hành: <strong>#<?= $MaDoan ?></strong></p>
                 </div>
-                <div>
-                    <a href="index.php?act=listDKH" class="btn btn-light border me-2 shadow-sm">
-                        <i class="fas fa-arrow-left me-1"></i> Quay lại
-                    </a>
-                    <a href="index.php?act=addtaichinh&id=<?= $MaDoan ?>" class="btn btn-primary shadow-sm">
-                        <i class="fas fa-plus me-1"></i> Thêm Giao Dịch
-                    </a>
+            </div>
+
+            <div class="tour-info shadow-sm border rounded p-3 mb-3"
+                style="max-width: 600px; background: #ffffff; border-left: 4px solid #3498db;">
+
+                <h5 class="fw-bold text-primary mb-3">
+                    <i class="fa-solid fa-map-location-dot me-2"></i> Thông tin Tour
+                </h5>
+
+                <div class="mb-2"><strong>Tên tour:</strong> <?= $tour['TenTour'] ?></div>
+                <div class="mb-2"><strong>Giá bán:</strong> <?= number_format($tour['GiaBanMacDinh']) ?> VNĐ</div>
+                <div class="mb-2"><strong>Giá vốn:</strong> <?= number_format($tour['GiaVonDuKien']) ?> VNĐ</div>
+
+                <div class="row mt-2">
+                    <div class="col-6">
+                        <strong>Ngày đi:</strong><br>
+                        <?= date('d/m/Y', strtotime($doan['NgayKhoiHanh'])) ?>
+                    </div>
+                    <div class="col-6">
+                        <strong>Ngày về:</strong><br>
+                        <?= date('d/m/Y', strtotime($doan['NgayVe'])) ?>
+                    </div>
                 </div>
             </div>
+            <div class="mb-4">
+                <a href="index.php?act=listDKH" class="btn btn-light border me-2 shadow-sm">
+                    <i class="fas fa-arrow-left me-1"></i> Quay lại
+                </a>
+                <a href="index.php?act=addtaichinh&id=<?= $MaDoan ?>" class="btn btn-primary shadow-sm">
+                    <i class="fas fa-plus me-1"></i> Thêm Giao Dịch
+                </a>
+            </div>
+
 
             <div class="row g-4 mb-4">
                 <div class="col-md-4">
@@ -152,7 +353,7 @@
                                     <tr>
                                         <td class="ps-4 text-muted small"><?= date('d/m/Y', strtotime($r['NgayGiaoDich'])) ?></td>
                                         <td>
-                                            <?php if($r['LoaiGiaoDich'] == 'thu'): ?>
+                                            <?php if ($r['LoaiGiaoDich'] == 'thu'): ?>
                                                 <span class="badge badge-type type-thu"><i class="fas fa-arrow-up me-1"></i> Thu</span>
                                             <?php else: ?>
                                                 <span class="badge badge-type type-chi"><i class="fas fa-arrow-down me-1"></i> Chi</span>
@@ -173,23 +374,77 @@
                                                 <div class="small text-muted mt-1">#<?= $r['SoHoaDon'] ?></div>
                                             <?php else: ?>
                                                 <span class="text-muted small italic">Không có ảnh</span>
-                                                <?php if($r['SoHoaDon']): ?><div class="small text-muted">#<?= $r['SoHoaDon'] ?></div><?php endif; ?>
+                                                <?php if ($r['SoHoaDon']): ?><div class="small text-muted">#<?= $r['SoHoaDon'] ?></div><?php endif; ?>
                                             <?php endif; ?>
                                         </td>
                                         <td><span class="text-muted small fst-italic"><?= nl2br(htmlspecialchars($r['MoTa'])) ?></span></td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center">
-                                                <a href="index.php?act=editTC&id=<?= $r['MaTaiChinh'] ?>&doan=<?= $MaDoan ?>" class="btn-action btn-edit" title="Sửa">
+
+                                                <!-- Nút sửa -->
+                                                <a href="index.php?act=editTC&id=<?= $r['MaTaiChinh'] ?>&doan=<?= $MaDoan ?>"
+                                                    class="btn-action btn-edit" title="Sửa">
                                                     <i class="fas fa-pen"></i>
                                                 </a>
-                                                <a href="index.php?act=deleteTC&id=<?= $r['MaTaiChinh'] ?>&doan=<?= $MaDoan ?>" 
-                                                   class="btn-action btn-delete" title="Xóa"
-                                                   onclick="return confirm('Bạn có chắc muốn xóa giao dịch này?')">
+
+                                                <!-- Nút xem lịch sử -->
+                                                <button class="btn-action btn-secondary"
+                                                    style="background:#e5e7eb; color:#374151;"
+                                                    title="Lịch sử chỉnh sửa"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#historyModal<?= $r['MaTaiChinh'] ?>">
+                                                    <i class="fa-solid fa-clock-rotate-left"></i>
+                                                </button>
+
+                                                <!-- Nút xóa -->
+                                                <a href="index.php?act=deleteTC&id=<?= $r['MaTaiChinh'] ?>&doan=<?= $MaDoan ?>"
+                                                    class="btn-action btn-delete" title="Xóa"
+                                                    onclick="return confirm('Bạn có chắc muốn xóa giao dịch này?')">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </a>
+
                                             </div>
                                         </td>
+
                                     </tr>
+
+                                    <?php
+                                    $history = !empty($r['LichSuChinhSua']) ? json_decode($r['LichSuChinhSua'], true) : [];
+                                    ?>
+                                    <div class="modal fade" id="historyModal<?= $r['MaTaiChinh'] ?>">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Lịch sử chỉnh sửa (#<?= $r['MaTaiChinh'] ?>)</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <?php if (!$history): ?>
+                                                        <p class="text-muted fst-italic">Chưa có lịch sử chỉnh sửa.</p>
+                                                    <?php else: ?>
+                                                        <?php foreach ($history as $log): ?>
+                                                            <div class="border rounded p-3 mb-3 bg-light">
+                                                                <p><strong>Người sửa:</strong> <?= $log['user'] ?></p>
+                                                                <p><strong>Thời gian:</strong> <?= $log['time'] ?></p>
+
+                                                                <ul>
+                                                                    <?php foreach ($log['changes'] as $c): ?>
+                                                                        <li>
+                                                                            <strong><?= $c['field'] ?>:</strong>
+                                                                            <span class="text-danger"><?= htmlspecialchars($c['old']) ?></span>
+                                                                            →
+                                                                            <span class="text-success"><?= htmlspecialchars($c['new']) ?></span>
+                                                                        </li>
+                                                                    <?php endforeach; ?>
+                                                                </ul>
+                                                            </div>
+                                                        <?php endforeach; ?>
+                                                    <?php endif; ?>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                 <?php endforeach; ?>
                             <?php else: ?>
                                 <tr>
@@ -209,4 +464,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

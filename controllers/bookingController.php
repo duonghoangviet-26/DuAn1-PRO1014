@@ -296,6 +296,8 @@ class bookingController
             $soChoMoi = $soChoConTrong - $tongNguoi;
 
             $doanModel->updateSoChoConTrong($MaDoan);
+            // Lưu lịch sử trạng thái
+
 
 
             // Lưu lịch sử trạng thái
@@ -308,10 +310,10 @@ class bookingController
                 1,
                 'Tạo booking mới'
             );
+            // lưu danh sách khách
 
 
             // lưu danh sách khách
-
 
             if (!empty($_POST['khach'])) {
                 foreach ($_POST['khach'] as $kh) {
@@ -627,7 +629,6 @@ class bookingController
 
         // Lấy tất cả khách thuộc các booking của tour đó
         $listKhach = $this->modelBooking->getKhachTheoTour($MaTour);
-
         require_once "./views/Admin/Doan/listKhachTrongTour.php";
     }
 

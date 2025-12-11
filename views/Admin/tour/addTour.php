@@ -464,7 +464,11 @@
 
                 <div class="card card-form p-3 sticky-bottom text-end">
                     <a href="index.php?act=listTour" class="btn btn-light btn-action border me-2">Hủy bỏ</a>
+
+                    <button type="submit" name="btn-add" class="btn btn-success btn-action">
+
                     <button type="submit" class="btn btn-success btn-action" name="btn-add">
+
                         <i class="fas fa-save me-2"></i> Lưu Tour
                     </button>
                 </div>

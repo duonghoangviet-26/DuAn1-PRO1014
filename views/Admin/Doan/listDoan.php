@@ -104,7 +104,11 @@
         .table-modern thead th {
             background-color: #f8f9fa;
             color: #6b7280;
+
+font-weight: 600;
+
             font-weight: 600;
+
             text-transform: uppercase;
             font-size: 0.75rem;
             padding: 15px;
@@ -240,7 +244,7 @@
 <body>
 
     <div class="sidebar">
-        <div class="sidebar-header">
+<div class="sidebar-header">
             <h4><i class="fa-solid fa-earth-americas me-2 text-info"></i> TRAVEL ADMIN</h4>
         </div>
 
@@ -297,7 +301,7 @@
                                 <th>Thời gian</th>
                                 <th>Nhân sự</th>
                                 <th class="text-center">Số chỗ</th>
-                                <th class="text-center">Trạng thái</th>
+<th class="text-center">Trạng thái</th>
                                 <th class="text-center">Hành động</th>
                             </tr>
                         </thead>
@@ -337,7 +341,11 @@
                                         </td>
                                         <td class="text-center">
                                             <?php
+
+$status = $d['TrangThai'];
+
                                             $status = $d['TrangThai'];
+
 
                                             switch ($status) {
 
@@ -378,7 +386,11 @@
                                                     class="btn-action btn-edit" title="Sửa">
                                                     <i class="fas fa-pen"></i>
                                                 </a>
+
+<a href="index.php?act=deleteDKH&MaDoan=<?= $d['MaDoan'] ?>"
+
                                                 <a href="index.php?act=deleteDKH&MaDoan=<?= $d['MaDoan'] ?>"
+
                                                     class="btn-action btn-delete" title="Xóa"
                                                     onclick="return confirm('Bạn có chắc chắn muốn xóa đoàn này?');">
                                                     <i class="fas fa-trash-alt"></i>

@@ -13,9 +13,11 @@ class doanKhoiHanhController
         $listDoan = $this->doanKhoiHanh->getAllDoan();
         $this->doanKhoiHanh->autoUpdateTrangThai();
 
+
         foreach ($listDoan as $d) {
             $this->doanKhoiHanh->updateSoChoConTrong($d['MaDoan']);
         }
+
         include './views/Admin/Doan/listDoan.php';
     }
 
@@ -169,8 +171,6 @@ class doanKhoiHanhController
         foreach ($dichvu as $dv) {
             $dvMap[$dv['NgayThu']][$dv['LoaiDichVu']] = $dv['MaNhaCungCap'];
         }
-
-
         include './views/Admin/Doan/editDoan.php';
     }
 
@@ -271,7 +271,6 @@ class doanKhoiHanhController
 
         $doanModel = new doanKhoiHanhModel();
         $listDoan = $doanModel->getDoanByTour($maTour);
-
         echo json_encode($listDoan);
         exit;
     }
@@ -358,6 +357,9 @@ class doanKhoiHanhController
         $id = $_POST['MaTaiChinh'];
         $MaDoan = $_POST['MaDoan'];
 
+        // Lấy dữ liệu cũ để so sánh
+        $old = $this->doanKhoiHanh->getTaiChinhById($id);
+
         $oldImage = $_POST['AnhCu'];
         $newImage = $oldImage;
 
@@ -370,6 +372,7 @@ class doanKhoiHanhController
             move_uploaded_file($_FILES['AnhChungTu']['tmp_name'], "uploads/" . $newImage);
         }
 
+        // Dữ liệu mới
         $data = [
             'LoaiGiaoDich' => $_POST['LoaiGiaoDich'],
             'NgayGiaoDich' => $_POST['NgayGiaoDich'],
@@ -381,11 +384,54 @@ class doanKhoiHanhController
             'MoTa' => $_POST['MoTa']
         ];
 
+        // TẠO LỊCH SỬ CHỈNH SỬA
+        $changes = [];
+
+        foreach ($data as $field => $newValue) {
+            $oldValue = $old[$field] ?? '';
+
+            if ($oldValue != $newValue) {
+                $changes[] = [
+                    'field' => $field,
+                    'old'   => $oldValue,
+                    'new'   => $newValue
+                ];
+            }
+        }
+
+        // Chỉ lưu lịch sử nếu có thay đổi
+        if (!empty($changes)) {
+
+            $tenNguoi = $_SESSION['user']['HoTen'] ?? 'Không rõ';
+            $vaiTro   = $_SESSION['user']['VaiTro'] ?? 'khác';
+
+            if ($vaiTro == 'admin') $vaiTroText = "Admin";
+            else if ($vaiTro == 'huong_dan_vien') $vaiTroText = "HDV";
+            else $vaiTroText = ucfirst($vaiTro);
+
+            $nguoiSua = $vaiTroText . " (" . $tenNguoi . ")";
+
+            $history = json_decode($old['LichSuChinhSua'] ?? '[]', true);
+
+            // Thêm bản ghi mới
+            $history[] = [
+                'user' => $nguoiSua,
+                'time' => date("d/m/Y H:i:s"),
+                'changes' => $changes
+            ];
+
+            // Gán lại vào database
+            $data['LichSuChinhSua'] = json_encode($history, JSON_UNESCAPED_UNICODE);
+        }
+
+        // Cập nhật DB
         $this->doanKhoiHanh->updateTaiChinhById($id, $data);
+
 
         header("Location:index.php?act=taichinh&id=" . $MaDoan);
         exit;
     }
+
     public function deleteTaiChinh()
     {
         if (!isset($_GET['id']) || !isset($_GET['doan'])) {
