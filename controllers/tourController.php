@@ -110,16 +110,34 @@ class tourController
         }
         return implode("\n", $result);
     }
+    // public function getAllTour()
+    // {
+    //     $model = new tourModel();
+    //     $model->autoUpdateStatus();
+    //     $keyword = $_GET['keyword'] ?? "";
+    //     $trangthai = $_GET['trangthai'] ?? "";
+
+    //     if ($keyword != "" || $trangthai != "") {
+
+
+    //         $where = " WHERE 1 ";
+
+    //     }
+    // }
     public function getAllTour()
     {
         $model = new tourModel();
         $model->autoUpdateStatus();
+        // Lấy keyword và trạng thái lọc
         $keyword = $_GET['keyword'] ?? "";
         $trangthai = $_GET['trangthai'] ?? "";
 
+        // Nếu có từ khóa tìm kiếm hoặc trạng thái lọc → bỏ phân trang
         if ($keyword != "" || $trangthai != "") {
 
+            // Tạo câu SQL tìm kiếm + lọc
             $where = " WHERE 1 ";
+
 
             if ($keyword != "") {
                 $keyword = addslashes($keyword);
@@ -136,6 +154,9 @@ class tourController
             $totalPage = 1;
             $page = 1;
         } else {
+
+
+            // PHÂN TRANG BÌNH THƯỜNG
 
             $limit = 7;
             $page = isset($_GET['page']) ? intval($_GET['page']) : 1;

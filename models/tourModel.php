@@ -70,6 +70,7 @@ class tourModel
     //tour
     public function getAllTour()
     {
+
         $sql = "SELECT t.*, dm.TenDanhMuc 
                 FROM tour t
                 LEFT JOIN danhmuctour dm ON t.MaDanhMuc = dm.MaDanhMuc";

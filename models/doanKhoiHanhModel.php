@@ -115,7 +115,7 @@ class doanKhoiHanhModel
             FROM nhanvien 
             WHERE VaiTro='huong_dan_vien' AND TrangThai='dang_lam'
         ");
-$stmt->execute();
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -207,7 +207,7 @@ $stmt->execute();
             $data['NgayVe'],
             $data['GioKhoiHanh'],
             $data['DiemTapTrung'],
-$data['SoChoToiDa'],
+            $data['SoChoToiDa'],
             $data['SoChoConTrong'],
             $data['MaHuongDanVien'],
             $data['MaTaiXe'],
@@ -298,7 +298,7 @@ $data['SoChoToiDa'],
             FROM booking
             WHERE MaDoan = ?";
         $stmt = $this->conn->prepare($sql);
-$stmt->execute([$MaDoan]);
+        $stmt->execute([$MaDoan]);
 
         $total = $stmt->fetchColumn();
         return $total ? $total : 0;
@@ -398,7 +398,7 @@ JOIN nhacungcap ncc ON d.MaTaiXe = ncc.MaNhaCungCap
             JOIN nhacungcap ncc ON dv.MaNhaCungCap = ncc.MaNhaCungCap
             WHERE dv.MaDoan = ?
             ";
-$stmt = $this->conn->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
         $stmt->execute([$MaDoan]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -476,9 +476,9 @@ $stmt = $this->conn->prepare($sql);
     }
 
 
-    public function updateTaiChinhById($id, $data)
-    {
-        $sql = "UPDATE taichinhtour SET
+   public function updateTaiChinhById($id, $data)
+{
+    $sql = "UPDATE taichinhtour SET
                 LoaiGiaoDich = :LoaiGiaoDich,
                 NgayGiaoDich = :NgayGiaoDich,
                 SoTien       = :SoTien,
@@ -486,22 +486,26 @@ $stmt = $this->conn->prepare($sql);
                 PhuongThucThanhToan = :PhuongThucThanhToan,
                 SoHoaDon     = :SoHoaDon,
                 AnhChungTu   = :AnhChungTu,
-                MoTa         = :MoTa
+                MoTa         = :MoTa,
+                LichSuChinhSua = :LichSuChinhSua
             WHERE MaTaiChinh = :id";
-$stmt = $this->conn->prepare($sql);
 
-        return $stmt->execute([
-            'LoaiGiaoDich' => $data['LoaiGiaoDich'],
-            'NgayGiaoDich' => $data['NgayGiaoDich'],
-            'SoTien'       => $data['SoTien'],
-            'HangMucChi'   => $data['HangMucChi'],
-            'PhuongThucThanhToan' => $data['PhuongThucThanhToan'],
-            'SoHoaDon'     => $data['SoHoaDon'],
-            'AnhChungTu'   => $data['AnhChungTu'],
-            'MoTa'         => $data['MoTa'],
-            'id'           => $id
-        ]);
-    }
+    $stmt = $this->conn->prepare($sql);
+
+    return $stmt->execute([
+        'LoaiGiaoDich' => $data['LoaiGiaoDich'],
+        'NgayGiaoDich' => $data['NgayGiaoDich'],
+        'SoTien'       => $data['SoTien'],
+        'HangMucChi'   => $data['HangMucChi'],
+        'PhuongThucThanhToan' => $data['PhuongThucThanhToan'],
+        'SoHoaDon'     => $data['SoHoaDon'],
+        'AnhChungTu'   => $data['AnhChungTu'],
+        'MoTa'         => $data['MoTa'],
+        'LichSuChinhSua' => $data['LichSuChinhSua'] ?? null,
+        'id'           => $id
+    ]);
+}
+
 
     public function getTotalPeopleByDoan($MaDoan)
     {
@@ -520,4 +524,15 @@ $stmt = $this->conn->prepare($sql);
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(['id' => $id]);
     }
+//     public function addLog($MaDoan, $MaNguoi, $NoiDung, $MaTaiChinh)
+// {
+//   $sql = "INSERT INTO nhatkytour 
+//         (MaDoan, MaNguoiTao, NgayGhi, GioGhi, NoiDung, LoaiSuCo)
+//         VALUES (?, ?, CURDATE(), CURTIME(), ?, 'chinh_sua_tai_chinh')";
+
+//     $stmt = $this->conn->prepare($sql);
+//     return $stmt->execute([$MaDoan, $MaNguoi, $NoiDung]);
+
+// }
+
 }

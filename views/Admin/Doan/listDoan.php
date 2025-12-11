@@ -104,7 +104,11 @@
         .table-modern thead th {
             background-color: #f8f9fa;
             color: #6b7280;
+
 font-weight: 600;
+
+            font-weight: 600;
+
             text-transform: uppercase;
             font-size: 0.75rem;
             padding: 15px;
@@ -337,7 +341,11 @@ font-weight: 600;
                                         </td>
                                         <td class="text-center">
                                             <?php
+
 $status = $d['TrangThai'];
+
+                                            $status = $d['TrangThai'];
+
 
                                             switch ($status) {
 
@@ -378,7 +386,11 @@ $status = $d['TrangThai'];
                                                     class="btn-action btn-edit" title="Sửa">
                                                     <i class="fas fa-pen"></i>
                                                 </a>
+
 <a href="index.php?act=deleteDKH&MaDoan=<?= $d['MaDoan'] ?>"
+
+                                                <a href="index.php?act=deleteDKH&MaDoan=<?= $d['MaDoan'] ?>"
+
                                                     class="btn-action btn-delete" title="Xóa"
                                                     onclick="return confirm('Bạn có chắc chắn muốn xóa đoàn này?');">
                                                     <i class="fas fa-trash-alt"></i>

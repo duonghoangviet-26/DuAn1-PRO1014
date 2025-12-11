@@ -164,11 +164,11 @@ match ($act) {
 
     // NHẬT KÝ TOUR
     'listTourOfHDV' => (new NhatKyController())->listTourOfHDV(),
-    'listNhatKy'    => (new NhatKyController())->listNhatKy(), 
+    'listNhatKy'    => (new NhatKyController())->listNhatKy(),
     'addNhatKy'     => (new NhatKyController())->formAddNhatKy(),
     'postAddNhatKy' => (new NhatKyController())->postAddNhatKy(),
     'editNhatKy'    => (new NhatKyController())->formEditNhatKy(),
-    'postEditNhatKy'=> (new NhatKyController())->postEditNhatKy(),
+    'postEditNhatKy' => (new NhatKyController())->postEditNhatKy(),
     'deleteNhatKy'  => (new NhatKyController())->deleteNhatKy(),
 
     // Lịch sử điểm danh
@@ -207,6 +207,15 @@ match ($act) {
     'hdv_vanhanh'         => (new VanHanhTourController())->index(),
     'hdv_add_transaction' => (new VanHanhTourController())->addTransaction(),
     'hdv_delete_transaction' => (new VanHanhTourController())->deleteTransaction(),
+    // 'hdv_edit_transaction' => (new VanHanhTourController())->editTransaction(),
+    'hdv_edit_form'        => (new VanHanhTourController())->editForm(),
+    'hdv_update_transaction' => (new VanHanhTourController())->updateTransaction(),
+    'hdv_edit_tc'     => (new VanHanhTourController())->editForm(),
+    'hdv_update_tc'   => (new VanHanhTourController())->updateTransaction(),
+    'hdv_add_form' => (new VanHanhTourController())->addForm(),
+    'hdv_add_transaction' => (new VanHanhTourController())->addTransaction(),
+
+
     // 'hdv_report_issue'    => (new VanHanhTourController())->reportIssue(),
 };
 

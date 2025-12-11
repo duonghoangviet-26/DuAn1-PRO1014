@@ -297,6 +297,12 @@ class bookingController
 
             $doanModel->updateSoChoConTrong($MaDoan);
             // Lưu lịch sử trạng thái
+
+
+
+            // Lưu lịch sử trạng thái
+
+
             $this->modelBooking->addLichSuTrangThai(
                 $MaBooking,
                 null,
@@ -306,6 +312,8 @@ class bookingController
             );
             // lưu danh sách khách
 
+
+            // lưu danh sách khách
 
             if (!empty($_POST['khach'])) {
                 foreach ($_POST['khach'] as $kh) {
