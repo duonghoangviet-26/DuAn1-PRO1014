@@ -161,12 +161,14 @@ match ($act) {
 
     // NHẬT KÝ TOUR
     'listTourOfHDV' => (new NhatKyController())->listTourOfHDV(),
-    'listNhatKy'    => (new NhatKyController())->listNhatKy(), 
+    'listNhatKy'    => (new NhatKyController())->listNhatKy(),
     'addNhatKy'     => (new NhatKyController())->formAddNhatKy(),
     'postAddNhatKy' => (new NhatKyController())->postAddNhatKy(),
     'editNhatKy'    => (new NhatKyController())->formEditNhatKy(),
-    'postEditNhatKy'=> (new NhatKyController())->postEditNhatKy(),
+    'postEditNhatKy' => (new NhatKyController())->postEditNhatKy(),
     'deleteNhatKy'  => (new NhatKyController())->deleteNhatKy(),
+    'adminListNhatKy'  => (new NhatKyController())->adminListNhatKy(),
+    'adminHistoryDiemDanh' => (new NhatKyController())->adminHistoryDiemDanh(),
 
     // Lịch sử điểm danh
     'historyDiemDanh' => (new NhatKyController())->historyDiemDanh(),

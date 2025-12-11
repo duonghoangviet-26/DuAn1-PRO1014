@@ -212,6 +212,27 @@
             color: #fff;
         }
 
+        .btn-info {
+            background: #2563eb;
+            color: #fff;
+        }
+
+        .btn-info:hover {
+            background: #788cb9ff;
+            color: #fff;
+        }
+
+        .btn-diemdanh {
+            background: #dde7ff;
+            color: #1e3a8a;
+            font-weight: bold;
+        }
+
+        .btn-diemdanh:hover {
+            background: #1e3a8a;
+            color: #fff;
+        }
+
         .page-link {
             border: none;
             border-radius: 50% !important;
@@ -382,6 +403,15 @@
                                                     class="btn-action btn-delete" title="Xóa"
                                                     onclick="return confirm('Bạn có chắc chắn muốn xóa đoàn này?');">
                                                     <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                                <a href="index.php?act=adminListNhatKy&maDoan=<?= $d['MaDoan'] ?>"
+                                                    class="btn-action btn-info ">
+                                                    📘
+                                                </a>
+
+                                                <a href="index.php?act=adminHistoryDiemDanh&maDoan=<?= $d['MaDoan'] ?>"
+                                                    class="btn-action btn-diemdanh">
+                                                    📋
                                                 </a>
                                             </div>
                                         </td>
