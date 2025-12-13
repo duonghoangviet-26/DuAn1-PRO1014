@@ -44,9 +44,10 @@ class bookingController
 
     public function createBooking()
     {
+        $this->doanKhoiHanh->autoUpdateTrangThai();
         $tours = $this->modelTour->getAllTours();
         $khachHangs = $this->modelTour->getAllKhachHang();
-        $listDoan = $this->doanKhoiHanh->getAllDoan();
+        $listDoan = $this->doanKhoiHanh->getAllDoanDangHoatDong();
         require_once './views/Admin/booking/addBooking.php';
     }
     // public function createBookingProcess()
@@ -195,6 +196,12 @@ class bookingController
             $MaDoan = $_POST['MaDoan'];
             $doanModel = new doanKhoiHanhModel();
             $doanInfo = $doanModel->getOneDoan($MaDoan);
+
+            if ($doanInfo['TrangThai'] !== 'san_sang') {
+                $_SESSION['error'] = "Đoàn này không còn ở trạng thái sẵn sàng để booking!";
+                header("Location: index.php?act=createBooking");
+                exit();
+            }
             $soChoConTrong = (int)$doanInfo['SoChoConTrong'];
 
 
@@ -217,8 +224,6 @@ class bookingController
             }
 
             // tạo khách hàng đại diện
-
-
             $MaCodeKhachHang = "KH" . date("YmdHis");
 
             $data = [
@@ -240,8 +245,6 @@ class bookingController
             $MaKhachHang = $khachHangModel->creatKhachHang($data);
 
             // Booking
-
-
             $MaCodeBooking = !empty($_POST['MaCodeBooking'])
                 ? $_POST['MaCodeBooking']
                 : 'BK' . date('YmdHis');
@@ -291,13 +294,9 @@ class bookingController
 
 
             // cập nhật số chỗ còn chôngs
-
-
             $soChoMoi = $soChoConTrong - $tongNguoi;
 
             $doanModel->updateSoChoConTrong($MaDoan);
-
-
             // Lưu lịch sử trạng thái
 
 
@@ -308,10 +307,10 @@ class bookingController
                 1,
                 'Tạo booking mới'
             );
+            // lưu danh sách khách
 
 
             // lưu danh sách khách
-
 
             if (!empty($_POST['khach'])) {
                 foreach ($_POST['khach'] as $kh) {
@@ -612,23 +611,23 @@ class bookingController
     }
 
 
-    // Lấy khách hàng cùng booking 1 tour gộp vào cùng nhau 
-    public function listKhachTrongTour()
-    {
-        $MaTour = $_GET['MaTour'] ?? null;
+    // Lấy khách hàng cùng 1 đoàn  gộp vào cùng nhau 
 
-        if (!$MaTour) {
-            header("Location: index.php?act=listBooking");
-            exit();
+    public function listKhachTrongDoan()
+    {
+        $MaDoan = $_GET['MaDoan'] ?? null;
+
+        if (!$MaDoan) {
+            header("Location:index.php?act=listDKH");
+            exit;
         }
 
-        // Lấy thông tin tour
-        $tour = $this->modelTour->getTourById($MaTour);
+        $doan = $this->doanKhoiHanh->getDoanById($MaDoan);
+        $tour = $this->doanKhoiHanh->getTourById($doan['MaTour']);
 
-        // Lấy tất cả khách thuộc các booking của tour đó
-        $listKhach = $this->modelBooking->getKhachTheoTour($MaTour);
+        $listKhach = $this->modelBooking->getKhachTheoDoan($MaDoan);
 
-        require_once "./views/Admin/Doan/listKhachTrongTour.php";
+        require "./views/Admin/Doan/listKhachTrongTour.php";
     }
 
 

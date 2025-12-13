@@ -46,6 +46,82 @@ class doanKhoiHanhModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getAllDoanDangHoatDong()
+    {
+        $sql = "
+        SELECT *
+        FROM doankhoihanh
+        WHERE TrangThai = 'san_sang'
+        ORDER BY MaDoan DESC
+    ";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    // Lọc và tìm kiếm 
+    public function filterDoan($keyword = '', $trangthai = '')
+    {
+        $sql = "
+        SELECT 
+            dkh.*,
+            t.TenTour,
+            hdv.HoTen AS TenHDV,
+            ncc.TenLaiXe AS TenTaiXe,
+
+            COALESCE((
+                SELECT SUM(TongNguoiLon + TongTreEm + TongEmBe)
+                FROM booking 
+                WHERE MaDoan = dkh.MaDoan
+            ), 0) AS DaDat,
+
+            (dkh.SoChoToiDa - COALESCE((
+                SELECT SUM(TongNguoiLon + TongTreEm + TongEmBe)
+                FROM booking 
+                WHERE MaDoan = dkh.MaDoan
+            ), 0)) AS ConTrong
+
+        FROM doankhoihanh dkh
+        JOIN tour t ON dkh.MaTour = t.MaTour
+        LEFT JOIN nhanvien hdv ON dkh.MaHuongDanVien = hdv.MaNhanVien
+
+        -- LẤY TÀI XẾ ĐÚNG NHẤT
+        LEFT JOIN (
+            SELECT 
+                MaDoan,
+                MIN(MaNhaCungCap) AS MaTaiXe
+            FROM dichvucuadoan
+            WHERE LoaiDichVu = 'van_chuyen'
+            GROUP BY MaDoan
+        ) txd ON txd.MaDoan = dkh.MaDoan
+
+        LEFT JOIN nhacungcap ncc ON ncc.MaNhaCungCap = txd.MaTaiXe
+
+        WHERE 1=1
+    ";
+
+        $params = [];
+
+        if (!empty($keyword)) {
+            $sql .= " AND t.TenTour LIKE :keyword ";
+            $params[':keyword'] = "%$keyword%";
+        }
+
+        if (!empty($trangthai)) {
+            $sql .= " AND dkh.TrangThai = :trangthai ";
+            $params[':trangthai'] = $trangthai;
+        }
+
+        $sql .= " ORDER BY dkh.NgayKhoiHanh DESC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($params);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     // Lấy 1 đoàn + tài xế
     public function getOneDoan($id)
     {
@@ -377,15 +453,20 @@ JOIN nhacungcap ncc ON d.MaTaiXe = ncc.MaNhaCungCap
     // get đoàn by tour
     public function getDoanByTour($maTour)
     {
-        $sql = "SELECT 
-                d.MaDoan, 
-                d.MaTour, 
-                d.NgayKhoiHanh, 
-                d.SoChoConTrong,
-                t.TenTour
-            FROM doankhoihanh d
-            JOIN tour t ON t.MaTour = d.MaTour
-            WHERE d.MaTour = ?";
+        $sql = "
+        SELECT 
+            d.MaDoan,
+            d.MaTour,
+            d.NgayKhoiHanh,
+            d.SoChoConTrong,
+            t.TenTour
+        FROM doankhoihanh d
+        JOIN tour t ON t.MaTour = d.MaTour
+        WHERE d.MaTour = ?
+          AND d.TrangThai = 'san_sang'
+        ORDER BY d.NgayKhoiHanh ASC
+    ";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$maTour]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -431,7 +512,6 @@ JOIN nhacungcap ncc ON d.MaTaiXe = ncc.MaNhaCungCap
         $stmt->execute(['MaDoan' => $MaDoan]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
 
     public function getTongChi($MaDoan)
     {
@@ -486,7 +566,8 @@ JOIN nhacungcap ncc ON d.MaTaiXe = ncc.MaNhaCungCap
                 PhuongThucThanhToan = :PhuongThucThanhToan,
                 SoHoaDon     = :SoHoaDon,
                 AnhChungTu   = :AnhChungTu,
-                MoTa         = :MoTa
+                MoTa         = :MoTa,
+                LichSuChinhSua = :LichSuChinhSua
             WHERE MaTaiChinh = :id";
 
         $stmt = $this->conn->prepare($sql);
@@ -500,9 +581,11 @@ JOIN nhacungcap ncc ON d.MaTaiXe = ncc.MaNhaCungCap
             'SoHoaDon'     => $data['SoHoaDon'],
             'AnhChungTu'   => $data['AnhChungTu'],
             'MoTa'         => $data['MoTa'],
+            'LichSuChinhSua' => $data['LichSuChinhSua'] ?? null,
             'id'           => $id
         ]);
     }
+
 
     public function getTotalPeopleByDoan($MaDoan)
     {
@@ -520,5 +603,39 @@ JOIN nhacungcap ncc ON d.MaTaiXe = ncc.MaNhaCungCap
         $sql = "DELETE FROM taichinhtour WHERE MaTaiChinh = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(['id' => $id]);
+    }
+    //     public function addLog($MaDoan, $MaNguoi, $NoiDung, $MaTaiChinh)
+    // {
+    //   $sql = "INSERT INTO nhatkytour 
+    //         (MaDoan, MaNguoiTao, NgayGhi, GioGhi, NoiDung, LoaiSuCo)
+    //         VALUES (?, ?, CURDATE(), CURTIME(), ?, 'chinh_sua_tai_chinh')";
+
+    //     $stmt = $this->conn->prepare($sql);
+    //     return $stmt->execute([$MaDoan, $MaNguoi, $NoiDung]);
+
+    // }
+
+
+
+    // Kiểm tra xem có bị trùng HDV
+    public function checkHDVBusy($maHDV, $ngayDi, $ngayVe, $maDoan = null)
+    {
+        $sql = "SELECT COUNT(*) 
+            FROM doankhoihanh 
+            WHERE MaHuongDanVien = :maHDV 
+            AND (
+                (NgayKhoiHanh <= :ngayVe AND NgayVe >= :ngayDi)
+            )";
+        if ($maDoan) {
+            $sql .= " AND MaDoan != :maDoan";
+        }
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':maHDV', $maHDV);
+        $stmt->bindParam(':ngayDi', $ngayDi);
+        $stmt->bindParam(':ngayVe', $ngayVe);
+        if ($maDoan) $stmt->bindParam(':maDoan', $maDoan);
+        $stmt->execute();
+        return $stmt->fetchColumn() > 0; // true = bị trùng lịch
     }
 }

@@ -11,186 +11,186 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        body {
-            background-color: #f3f4f6;
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-        }
+    body {
+        background-color: #f3f4f6;
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+    }
 
-        .sidebar {
-            width: 260px;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
-            color: #ecf0f1;
-            padding-top: 20px;
-            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
-            z-index: 1000;
-            overflow-y: auto;
-        }
+    .sidebar {
+        width: 260px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+        color: #ecf0f1;
+        padding-top: 20px;
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+        z-index: 1000;
+        overflow-y: auto;
+    }
 
-        .sidebar-header {
-            padding: 0 25px 25px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 15px;
-        }
+    .sidebar-header {
+        padding: 0 25px 25px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 15px;
+    }
 
-        .sidebar-header h4 {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: #fff;
-            display: flex;
-            align-items: center;
-        }
+    .sidebar-header h4 {
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: #fff;
+        display: flex;
+        align-items: center;
+    }
 
-        .sidebar-menu {
-            padding: 0 10px;
-        }
+    .sidebar-menu {
+        padding: 0 10px;
+    }
 
-        .sidebar-title {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            color: #95a5a6;
-            margin: 15px 15px 5px;
-            font-weight: 600;
-        }
+    .sidebar-title {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: #95a5a6;
+        margin: 15px 15px 5px;
+        font-weight: 600;
+    }
 
-        .sidebar a {
-            color: #bdc3c7;
-            padding: 12px 15px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            transition: 0.3s;
-            margin-bottom: 5px;
-        }
+    .sidebar a {
+        color: #bdc3c7;
+        padding: 12px 15px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        transition: 0.3s;
+        margin-bottom: 5px;
+    }
 
-        .sidebar a i {
-            width: 25px;
-            text-align: center;
-            margin-right: 10px;
-        }
+    .sidebar a i {
+        width: 25px;
+        text-align: center;
+        margin-right: 10px;
+    }
 
-        .sidebar a:hover,
-        .sidebar a.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            transform: translateX(5px);
-        }
+    .sidebar a:hover,
+    .sidebar a.active {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        transform: translateX(5px);
+    }
 
-        .sidebar a.active {
-            background-color: #3498db;
-            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
-        }
+    .sidebar a.active {
+        background-color: #3498db;
+        box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+    }
 
-        .main-content {
-            margin-left: 260px;
-            padding: 30px;
-            width: calc(100% - 260px);
-            min-height: 100vh;
-        }
+    .main-content {
+        margin-left: 260px;
+        padding: 30px;
+        width: calc(100% - 260px);
+        min-height: 100vh;
+    }
 
-        .card-form {
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-            background: #fff;
-            margin-bottom: 30px;
-        }
+    .card-form {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+        background: #fff;
+        margin-bottom: 30px;
+    }
 
-        .card-header-custom {
-            background-color: #fff;
-            border-bottom: 1px solid #f0f0f0;
-            padding: 20px 25px;
-            border-radius: 12px 12px 0 0;
-        }
+    .card-header-custom {
+        background-color: #fff;
+        border-bottom: 1px solid #f0f0f0;
+        padding: 20px 25px;
+        border-radius: 12px 12px 0 0;
+    }
 
-        .form-label {
-            font-weight: 600;
-            color: #374151;
-            font-size: 0.9rem;
-        }
+    .form-label {
+        font-weight: 600;
+        color: #374151;
+        font-size: 0.9rem;
+    }
 
-        .form-control,
-        .form-select {
-            border-radius: 8px;
-            padding: 10px 15px;
-            border-color: #e5e7eb;
-        }
+    .form-control,
+    .form-select {
+        border-radius: 8px;
+        padding: 10px 15px;
+        border-color: #e5e7eb;
+    }
 
-        .form-control:focus,
-        .form-select:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-        }
+    .form-control:focus,
+    .form-select:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    }
 
-        .schedule-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            background: #fff;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
-        }
+    .schedule-card {
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        background: #fff;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+    }
 
-        .schedule-header {
-            background: #f8fafc;
-            padding: 15px 20px;
-            border-bottom: 1px solid #e5e7eb;
-            border-radius: 10px 10px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .schedule-header {
+        background: #f8fafc;
+        padding: 15px 20px;
+        border-bottom: 1px solid #e5e7eb;
+        border-radius: 10px 10px 0 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-        .schedule-body {
-            padding: 20px;
-        }
+    .schedule-body {
+        padding: 20px;
+    }
 
-        .session-block {
-            background: #f9fafb;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border-left: 4px solid #cbd5e1;
-        }
+    .session-block {
+        background: #f9fafb;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        border-left: 4px solid #cbd5e1;
+    }
 
-        .session-morning {
-            border-left-color: #f59e0b;
-        }
+    .session-morning {
+        border-left-color: #f59e0b;
+    }
 
-        .session-noon {
-            border-left-color: #ef4444;
-        }
+    .session-noon {
+        border-left-color: #ef4444;
+    }
 
-        .session-afternoon {
-            border-left-color: #3b82f6;
-        }
+    .session-afternoon {
+        border-left-color: #3b82f6;
+    }
 
-        .session-evening {
-            border-left-color: #8b5cf6;
-        }
+    .session-evening {
+        border-left-color: #8b5cf6;
+    }
 
-        .delRow {
-            cursor: pointer;
-            color: #ef4444;
-            font-size: 1.2rem;
-            transition: 0.2s;
-        }
+    .delRow {
+        cursor: pointer;
+        color: #ef4444;
+        font-size: 1.2rem;
+        transition: 0.2s;
+    }
 
-        .delRow:hover {
-            color: #dc2626;
-            transform: scale(1.1);
-        }
+    .delRow:hover {
+        color: #dc2626;
+        transform: scale(1.1);
+    }
 
-        .btn-action {
-            border-radius: 8px;
-            font-weight: 600;
-            padding: 10px 20px;
-        }
+    .btn-action {
+        border-radius: 8px;
+        font-weight: 600;
+        padding: 10px 20px;
+    }
     </style>
 </head>
 
@@ -252,19 +252,21 @@
                                     <select name="MaDanhMuc" class="form-select" required>
                                         <option value="">-- Chọn danh mục --</option>
                                         <?php foreach ($danhmuc as $dm): ?>
-                                            <option value="<?= $dm['MaDanhMuc'] ?>">
-                                                <?= htmlspecialchars($dm['TenDanhMuc']) ?></option>
+                                        <option value="<?= $dm['MaDanhMuc'] ?>">
+                                            <?= htmlspecialchars($dm['TenDanhMuc']) ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Giá bán</label>
-                                        <input type="number" name="GiaBanMacDinh" class="form-control" placeholder="0">
+                                        <input type="number" name="GiaBanMacDinh" class="form-control" placeholder="0"
+                                            required>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Giá vốn</label>
-                                        <input type="number" name="GiaVonDuKien" class="form-control" placeholder="0">
+                                        <input type="number" name="GiaVonDuKien" class="form-control" placeholder="0"
+                                            required>
                                     </div>
                                 </div>
                                 <div class="mb-3">
@@ -464,9 +466,13 @@
 
                 <div class="card card-form p-3 sticky-bottom text-end">
                     <a href="index.php?act=listTour" class="btn btn-light btn-action border me-2">Hủy bỏ</a>
-                    <button type="submit" class="btn btn-success btn-action" name="btn-add">
-                        <i class="fas fa-save me-2"></i> Lưu Tour
-                    </button>
+
+                    <button type="submit" name="btn-add" class="btn btn-success btn-action">
+
+                        <button type="submit" class="btn btn-success btn-action" name="btn-add">
+
+                            <i class="fas fa-save me-2"></i> Lưu Tour
+                        </button>
                 </div>
 
             </form>
@@ -474,50 +480,50 @@
     </div>
 
     <script>
-        let dayIndex = 0;
+    let dayIndex = 0;
 
-        document.getElementById("addDayBtn").onclick = function() {
-            dayIndex++;
+    document.getElementById("addDayBtn").onclick = function() {
+        dayIndex++;
 
-            let container = document.getElementById("lichTrinhContainer");
-            let first = container.querySelector(".lichTrinhItem");
-            let clone = first.cloneNode(true);
+        let container = document.getElementById("lichTrinhContainer");
+        let first = container.querySelector(".lichTrinhItem");
+        let clone = first.cloneNode(true);
 
-            clone.setAttribute("data-index", dayIndex);
+        clone.setAttribute("data-index", dayIndex);
 
-            clone.querySelector(".day-number").innerText = dayIndex + 1;
-            clone.querySelector("input[name='NgayThu[]']").value = dayIndex + 1;
+        clone.querySelector(".day-number").innerText = dayIndex + 1;
+        clone.querySelector("input[name='NgayThu[]']").value = dayIndex + 1;
 
-            clone.querySelectorAll("input[type='text'], input[type='time']").forEach(el => el.value = "");
-            clone.querySelectorAll("input[type='checkbox']").forEach(el => el.checked = false);
+        clone.querySelectorAll("input[type='text'], input[type='time']").forEach(el => el.value = "");
+        clone.querySelectorAll("input[type='checkbox']").forEach(el => el.checked = false);
 
-            clone.querySelectorAll("[id^='Buoi']").forEach(el => {
-                let parts = el.id.split('_');
-                el.id = parts[0] + "_" + dayIndex;
-            });
+        clone.querySelectorAll("[id^='Buoi']").forEach(el => {
+            let parts = el.id.split('_');
+            el.id = parts[0] + "_" + dayIndex;
+        });
 
-            clone.querySelectorAll("input[name]").forEach(el => {
-                let name = el.name;
-                if (name.indexOf('[') !== -1) {
-                    if (name.match(/\[\d+\]\[\]/)) {
-                        el.name = name.replace(/\[\d+\]/, "[" + dayIndex + "]");
-                    }
+        clone.querySelectorAll("input[name]").forEach(el => {
+            let name = el.name;
+            if (name.indexOf('[') !== -1) {
+                if (name.match(/\[\d+\]\[\]/)) {
+                    el.name = name.replace(/\[\d+\]/, "[" + dayIndex + "]");
                 }
-            });
+            }
+        });
 
-            clone.querySelectorAll("button").forEach(btn => {
-                let onclickAttr = btn.getAttribute("onclick");
-                if (onclickAttr && onclickAttr.includes("addRow")) {
-                    btn.setAttribute("onclick", onclickAttr.replace(",0)", "," + dayIndex + ")"));
-                }
-            });
+        clone.querySelectorAll("button").forEach(btn => {
+            let onclickAttr = btn.getAttribute("onclick");
+            if (onclickAttr && onclickAttr.includes("addRow")) {
+                btn.setAttribute("onclick", onclickAttr.replace(",0)", "," + dayIndex + ")"));
+            }
+        });
 
-            container.appendChild(clone);
-        };
+        container.appendChild(clone);
+    };
 
-        function addRow(session, day) {
-            let container = document.getElementById("Buoi" + session + "_" + day);
-            let html = `
+    function addRow(session, day) {
+        let container = document.getElementById("Buoi" + session + "_" + day);
+        let html = `
                 <div class="row mt-2 singleRow">
                     <div class="col-3">
                         <input type="time" class="form-control form-control-sm" name="Gio${session}[${day}][]">
@@ -530,17 +536,17 @@
                     </div>
                 </div>
             `;
-            container.insertAdjacentHTML("beforeend", html);
-        }
+        container.insertAdjacentHTML("beforeend", html);
+    }
 
-        document.addEventListener("click", function(e) {
-            if (e.target.classList.contains("delRow")) {
-                let row = e.target.closest(".singleRow");
-                let parent = row.parentNode;
-                if (parent.children.length > 1) row.remove();
-                else alert("Phải có ít nhất 1 dòng hoạt động!");
-            }
-        });
+    document.addEventListener("click", function(e) {
+        if (e.target.classList.contains("delRow")) {
+            let row = e.target.closest(".singleRow");
+            let parent = row.parentNode;
+            if (parent.children.length > 1) row.remove();
+            else alert("Phải có ít nhất 1 dòng hoạt động!");
+        }
+    });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -87,8 +87,6 @@ class bookingModel
         $stmt = $this->conn->query($sql);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
-
     public function deleteBooking($id)
     {
         $stmt = $this->conn->prepare("DELETE FROM Booking WHERE MaBooking = :id");
@@ -235,32 +233,35 @@ class bookingModel
     }
 
 
-    // truy vấn khách hàng cùng 1 đoàn 
-    public function  getKhachTheoTour($MaTour)
-    {
-        $sql = "SELECT 
-                kh.HoTen, kh.GioiTinh, kh.NgaySinh, kh.SoGiayTo, kh.SoDienThoai,
-                kh.GhiChuDacBiet, kh.LoaiPhong,
-                b.MaBooking, b.TrangThai, 
-                t.TenTour, 
-                d.NgayKhoiHanh, d.NgayVe
-            FROM khachtrongbooking kh
-            INNER JOIN booking b ON kh.MaBooking = b.MaBooking
-            INNER JOIN tour t ON b.MaTour = t.MaTour
-            LEFT JOIN doankhoihanh d ON b.MaDoan = d.MaDoan
-            WHERE t.MaTour = ?
-            ORDER BY d.NgayKhoiHanh, kh.HoTen ASC";
+    // truy vấn khách hàng cùng 1 đoàn gộp vào nhau
 
-        $stm = $this->conn->prepare($sql);
-        $stm->execute([$MaTour]);
-        return $stm->fetchAll(PDO::FETCH_ASSOC);
+    public function getKhachTheoDoan($MaDoan)
+    {
+        $sql = "
+        SELECT 
+            kh.HoTen, kh.GioiTinh, kh.NgaySinh, kh.SoGiayTo, kh.SoDienThoai,
+            kh.GhiChuDacBiet, kh.LoaiPhong,
+            b.MaBooking, b.TrangThai,
+            t.TenTour,
+            d.NgayKhoiHanh, d.NgayVe
+        FROM khachtrongbooking kh
+        INNER JOIN booking b ON kh.MaBooking = b.MaBooking
+        INNER JOIN doankhoihanh d ON b.MaDoan = d.MaDoan
+        INNER JOIN tour t ON b.MaTour = t.MaTour
+        WHERE d.MaDoan = ?
+        ORDER BY kh.HoTen ASC
+    ";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$MaDoan]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Lịch sử booking
     public function addLichSuFull($MaBooking, $TrangThaiCu, $TrangThaiMoi, $MaNguoiDoi, $GhiChu = null)
     {
         $sql = "INSERT INTO lichsutrangthaibooking
-                (MaBooking, TrangThaiCu, TrangThaiMoi, MaNguoiDoi, GhiChu)
+(MaBooking, TrangThaiCu, TrangThaiMoi, MaNguoiDoi, GhiChu)
                 VALUES (:MaBooking, :TrangThaiCu, :TrangThaiMoi, :MaNguoiDoi, :GhiChu)";
 
         $stmt = $this->conn->prepare($sql);
@@ -300,7 +301,7 @@ class bookingModel
             ORDER BY ls.NgayDoi DESC";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([':id' => $MaBooking]);  // ✔ Khớp với SQL
+        $stmt->execute([':id' => $MaBooking]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

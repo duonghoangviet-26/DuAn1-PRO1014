@@ -246,9 +246,8 @@
                                 <th>Giấy tờ tùy thân</th>
                                 <th>Liên hệ</th>
                                 <th>Yêu cầu đặc biệt</th>
-                                <th>Phòng</th>
                                 <th>Booking</th>
-                                <th class="text-center">Trạng thái</th>
+                                <!-- <th class="text-center">Trạng thái</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -290,14 +289,14 @@
                                                 #<?= $k['MaCodeBooking'] ?? $k['MaBooking'] ?>
                                             </a>
                                         </td>
-                                        <td class="text-center">
-                                            <?php
-                                            if ($k['TrangThai'] === 'cho_coc') echo '<span class="badge badge-status status-deposit">Chờ cọc</span>';
-                                            elseif ($k['TrangThai'] === 'da_coc') echo '<span class="badge badge-status status-paid">Đã cọc</span>';
-                                            elseif ($k['TrangThai'] === 'hoan_tat') echo '<span class="badge badge-status status-done">Hoàn tất</span>';
-                                            else echo '<span class="badge badge-status status-other">Khác</span>';
-                                            ?>
-                                        </td>
+                                        <!-- <td class="text-center">
+                                    <?php
+                                    if ($k['TrangThai'] === 'cho_coc') echo '<span class="badge badge-status status-deposit">Chờ cọc</span>';
+                                    elseif ($k['TrangThai'] === 'da_coc') echo '<span class="badge badge-status status-paid">Đã cọc</span>';
+                                    elseif ($k['TrangThai'] === 'hoan_tat') echo '<span class="badge badge-status status-done">Hoàn tất</span>';
+                                    else echo '<span class="badge badge-status status-other">Khác</span>';
+                                    ?>
+                                </td> -->
                                     </tr>
                                 <?php endforeach; ?>
                             <?php else: ?>

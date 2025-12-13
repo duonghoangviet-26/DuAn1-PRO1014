@@ -8,121 +8,121 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        body {
-            background: #f5f8fa;
-        }
+    body {
+        background: #f5f8fa;
+    }
 
-        .sidebar {
-            width: 260px;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
-            color: #ecf0f1;
-            padding-top: 20px;
-            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
-            z-index: 1000;
-        }
+    .sidebar {
+        width: 260px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
+        color: #ecf0f1;
+        padding-top: 20px;
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
+        z-index: 1000;
+    }
 
-        .sidebar-header {
-            padding: 0 25px 25px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 15px;
-        }
+    .sidebar-header {
+        padding: 0 25px 25px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 15px;
+    }
 
-        .sidebar-header h4 {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: #fff;
-            display: flex;
-            align-items: center;
-        }
+    .sidebar-header h4 {
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: #fff;
+        display: flex;
+        align-items: center;
+    }
 
-        .sidebar-menu {
-            padding: 0 10px;
-        }
+    .sidebar-menu {
+        padding: 0 10px;
+    }
 
-        .sidebar-title {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            color: #95a5a6;
-            margin: 15px 15px 5px;
-            font-weight: 600;
-        }
+    .sidebar-title {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        color: #95a5a6;
+        margin: 15px 15px 5px;
+        font-weight: 600;
+    }
 
-        .sidebar a {
-            color: #bdc3c7;
-            padding: 12px 15px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            margin-bottom: 5px;
-        }
+    .sidebar a {
+        color: #bdc3c7;
+        padding: 12px 15px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        margin-bottom: 5px;
+    }
 
-        .sidebar a i {
-            width: 25px;
-            text-align: center;
-            margin-right: 10px;
-            font-size: 1.1rem;
-        }
+    .sidebar a i {
+        width: 25px;
+        text-align: center;
+        margin-right: 10px;
+        font-size: 1.1rem;
+    }
 
-        .sidebar a:hover,
-        .sidebar a.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            transform: translateX(5px);
-        }
+    .sidebar a:hover,
+    .sidebar a.active {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        transform: translateX(5px);
+    }
 
-        .sidebar a.active {
-            background-color: #3498db;
-            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
-        }
+    .sidebar a.active {
+        background-color: #3498db;
+        box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+    }
 
 
 
-        .content {
-            margin-left: 260px;
-            padding: 30px;
-        }
+    .content {
+        margin-left: 260px;
+        padding: 30px;
+    }
 
-        .timeline-item {
-            border-left: 4px solid #085f63;
-            padding-left: 20px;
-            margin-bottom: 30px;
-            position: relative;
-        }
+    .timeline-item {
+        border-left: 4px solid #085f63;
+        padding-left: 20px;
+        margin-bottom: 30px;
+        position: relative;
+    }
 
-        .timeline-item::before {
-            content: '';
-            width: 14px;
-            height: 14px;
-            background: #085f63;
-            border-radius: 50%;
-            position: absolute;
-            left: -9px;
-            top: 5px;
-        }
+    .timeline-item::before {
+        content: '';
+        width: 14px;
+        height: 14px;
+        background: #085f63;
+        border-radius: 50%;
+        position: absolute;
+        left: -9px;
+        top: 5px;
+    }
 
-        .img-nhatky {
-            max-width: 200px;
-            border-radius: 8px;
-            margin-top: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
+    .img-nhatky {
+        max-width: 200px;
+        border-radius: 8px;
+        margin-top: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
 
-        .badge-su-co {
-            background-color: #dc3545;
-            color: white;
-        }
+    .badge-su-co {
+        background-color: #dc3545;
+        color: white;
+    }
 
-        .badge-normal {
-            background-color: #198754;
-            color: white;
-        }
+    .badge-normal {
+        background-color: #198754;
+        color: white;
+    }
     </style>
 </head>
 
@@ -155,7 +155,7 @@
 
     <div class="content">
         <div class="mb-3">
-            <a href="index.php?act=listTourOfHDV" class="text-secondary text-decoration-none">
+            <a href="index.php?act=listDKH" class="text-secondary text-decoration-none">
                 <i class="fa-solid fa-arrow-left"></i> Quay lại
             </a>
         </div>
@@ -172,40 +172,40 @@
 
         <div class="bg-white p-4 rounded shadow-sm">
             <?php if (empty($listNhatKy)): ?>
-                <div class="text-center text-muted py-5">
-                    <i class="fa-regular fa-clipboard fa-3x mb-3"></i>
-                    <p>Chưa có nhật ký nào.</p>
-                </div>
+            <div class="text-center text-muted py-5">
+                <i class="fa-regular fa-clipboard fa-3x mb-3"></i>
+                <p>Chưa có nhật ký nào.</p>
+            </div>
             <?php else: ?>
-                <?php foreach ($listNhatKy as $nk): ?>
-                    <div class="timeline-item">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
-                                <h5 class="fw-bold mb-1">
-                                    <?= date('H:i', strtotime($nk['GioGhi'])) ?> - Ngày
-                                    <?= date('d/m/Y', strtotime($nk['NgayGhi'])) ?>
-                                </h5>
-                                <div class="mt-1">
-                                    <?php if ($nk['LoaiSuCo'] == 'Bình thường'): ?>
-                                        <span class="badge badge-normal">Hoạt động bình thường</span>
-                                    <?php else: ?>
-                                        <span class="badge badge-su-co"><?= $nk['LoaiSuCo'] ?></span>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
+            <?php foreach ($listNhatKy as $nk): ?>
+            <div class="timeline-item">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h5 class="fw-bold mb-1">
+                            <?= date('H:i', strtotime($nk['GioGhi'])) ?> - Ngày
+                            <?= date('d/m/Y', strtotime($nk['NgayGhi'])) ?>
+                        </h5>
+                        <div class="mt-1">
+                            <?php if ($nk['LoaiSuCo'] == 'Bình thường'): ?>
+                            <span class="badge badge-normal">Hoạt động bình thường</span>
+                            <?php else: ?>
+                            <span class="badge badge-su-co"><?= $nk['LoaiSuCo'] ?></span>
+                            <?php endif; ?>
                         </div>
-
-                        <p class="mt-3 text-dark" style="font-size: 1.05rem; white-space: pre-line;">
-                            <?= $nk['NoiDung'] ?>
-                        </p>
-
-                        <?php if (!empty($nk['LinkAnh'])): ?>
-                            <a href="./uploads/nhatky/<?= $nk['LinkAnh'] ?>" target="_blank">
-                                <img src="./uploads/nhatky/<?= $nk['LinkAnh'] ?>" class="img-nhatky" alt="Ảnh nhật ký">
-                            </a>
-                        <?php endif; ?>
                     </div>
-                <?php endforeach; ?>
+                </div>
+
+                <p class="mt-3 text-dark" style="font-size: 1.05rem; white-space: pre-line;">
+                    <?= $nk['NoiDung'] ?>
+                </p>
+
+                <?php if (!empty($nk['LinkAnh'])): ?>
+                <a href="./uploads/nhatky/<?= $nk['LinkAnh'] ?>" target="_blank">
+                    <img src="./uploads/nhatky/<?= $nk['LinkAnh'] ?>" class="img-nhatky" alt="Ảnh nhật ký">
+                </a>
+                <?php endif; ?>
+            </div>
+            <?php endforeach; ?>
             <?php endif; ?>
         </div>
     </div>
