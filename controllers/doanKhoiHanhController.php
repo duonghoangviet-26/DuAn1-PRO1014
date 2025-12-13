@@ -10,17 +10,22 @@ class doanKhoiHanhController
 
     public function listDKH()
     {
-        $listDoan = $this->doanKhoiHanh->getAllDoan();
+        $keyword = $_GET['keyword'] ?? '';
+        $trangthai = $_GET['trangthai'] ?? '';
+
+        //  Cập nhật trạng thái
         $this->doanKhoiHanh->autoUpdateTrangThai();
 
-
-        foreach ($listDoan as $d) {
+        //  Cập nhật số chỗ còn trống cho tất cả đoàn
+        $allDoan = $this->doanKhoiHanh->getAllDoan();
+        foreach ($allDoan as $d) {
             $this->doanKhoiHanh->updateSoChoConTrong($d['MaDoan']);
         }
 
+        //  Sau khi update thì lọc được
+        $listDoan = $this->doanKhoiHanh->filterDoan($keyword, $trangthai);
         include './views/Admin/Doan/listDoan.php';
     }
-
 
     public function createDKH()
     {
@@ -108,6 +113,20 @@ class doanKhoiHanhController
                 return;
             }
 
+            // Kiểm tra xem có bị trùng HDV không
+
+            if (!empty($_POST['MaHuongDanVien'])) {
+                $maHDV = $_POST['MaHuongDanVien'];
+                $ngayDi = $_POST['NgayKhoiHanh'];
+                $ngayVe = $_POST['NgayVe'];
+
+                if ($this->doanKhoiHanh->checkHDVBusy($maHDV, $ngayDi, $ngayVe)) {
+                    $_SESSION['error'] = "Hướng dẫn viên này đã có đoàn khác trong khoảng thời gian này!";
+                    include './views/Admin/Doan/addDoan.php';
+                    return;
+                }
+            }
+
             $MaDoan = $this->doanKhoiHanh->insertDoan([
                 'MaTour'        => $_POST['MaTour'],
                 'NgayKhoiHanh'  => $_POST['NgayKhoiHanh'],
@@ -180,6 +199,20 @@ class doanKhoiHanhController
         if (isset($_POST['btnUpdate'])) {
 
             $this->doanKhoiHanh->updateDKH($_POST);
+
+            // Xem HDV có bị trùng lịch hay không
+            if (!empty($_POST['MaHuongDanVien'])) {
+                $maHDV = $_POST['MaHuongDanVien'];
+                $ngayDi = $_POST['NgayKhoiHanh'];
+                $ngayVe = $_POST['NgayVe'];
+                $maDoan = $_POST['MaDoan'];
+
+                if ($this->doanKhoiHanh->checkHDVBusy($maHDV, $ngayDi, $ngayVe, $maDoan)) {
+                    $_SESSION['error'] = "HDV này đang được phân công cho đoàn khác trong thời gian này!";
+                    header("Location:index.php?act=editDKH&id=" . $maDoan);
+                    exit;
+                }
+            }
 
             $MaDoan = $_POST['MaDoan'];
             $ngayKhoiHanh = $_POST['NgayKhoiHanh'];

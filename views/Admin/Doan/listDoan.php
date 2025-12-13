@@ -105,7 +105,7 @@
             background-color: #f8f9fa;
             color: #6b7280;
 
-font-weight: 600;
+            font-weight: 600;
 
             font-weight: 600;
 
@@ -216,6 +216,27 @@ font-weight: 600;
             color: #fff;
         }
 
+        .btn-info {
+            background: #2563eb;
+            color: #fff;
+        }
+
+        .btn-info:hover {
+            background: #788cb9ff;
+            color: #fff;
+        }
+
+        .btn-diemdanh {
+            background: #dde7ff;
+            color: #1e3a8a;
+            font-weight: bold;
+        }
+
+        .btn-diemdanh:hover {
+            background: #1e3a8a;
+            color: #fff;
+        }
+
         .page-link {
             border: none;
             border-radius: 50% !important;
@@ -244,7 +265,7 @@ font-weight: 600;
 <body>
 
     <div class="sidebar">
-<div class="sidebar-header">
+        <div class="sidebar-header">
             <h4><i class="fa-solid fa-earth-americas me-2 text-info"></i> TRAVEL ADMIN</h4>
         </div>
 
@@ -282,6 +303,43 @@ font-weight: 600;
                     <i class="fas fa-plus me-2"></i> Thêm Đoàn Mới
                 </a>
             </div>
+            <form method="GET" action="" class="row g-3 mb-4">
+                <input type="hidden" name="act" value="listDKH">
+
+                <div class="col-md-4">
+                    <input type="text" name="keyword" value="<?= $_GET['keyword'] ?? '' ?>" class="form-control"
+                        placeholder="Tìm theo tên tour...">
+                </div>
+
+                <div class="col-md-3">
+                    <select name="trangthai" class="form-select">
+                        <option value="">-- Lọc theo trạng thái --</option>
+                        <option value="san_sang" <?= (($_GET['trangthai'] ?? '') == 'san_sang') ? 'selected' : '' ?>>
+                            Sẵn sàng
+                        </option>
+                        <option value="dang_dien_ra"
+                            <?= (($_GET['trangthai'] ?? '') == 'dang_dien_ra') ? 'selected' : '' ?>>
+                            Đang diễn ra
+                        </option>
+                        <option value="da_ket_thuc"
+                            <?= (($_GET['trangthai'] ?? '') == 'da_ket_thuc') ? 'selected' : '' ?>>
+                            Đã kết thúc
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <button class="btn btn-primary w-100">
+                        <i class="fa fa-search"></i> Tìm kiếm
+                    </button>
+                </div>
+
+                <div class="col-md-2">
+                    <a href="index.php?act=listDKH" class="btn btn-secondary w-100">
+                        Xóa lọc
+                    </a>
+                </div>
+            </form>
 
             <?php if (isset($_SESSION['error'])): ?>
                 <div class="alert alert-danger alert-dismissible fade show shadow-sm border-0 mb-4" role="alert">
@@ -301,7 +359,7 @@ font-weight: 600;
                                 <th>Thời gian</th>
                                 <th>Nhân sự</th>
                                 <th class="text-center">Số chỗ</th>
-<th class="text-center">Trạng thái</th>
+                                <th class="text-center">Trạng thái</th>
                                 <th class="text-center">Hành động</th>
                             </tr>
                         </thead>
@@ -342,7 +400,7 @@ font-weight: 600;
                                         <td class="text-center">
                                             <?php
 
-$status = $d['TrangThai'];
+                                            $status = $d['TrangThai'];
 
                                             $status = $d['TrangThai'];
 
@@ -370,10 +428,11 @@ $status = $d['TrangThai'];
 
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center">
-                                                <a href="index.php?act=listKhachTrongTour&MaTour=<?= $d['MaTour'] ?>"
-                                                    class="btn-action btn-users" title="Danh sách khách">
+                                                <a href="index.php?act=listKhachTrongDoan&MaDoan=<?= $d['MaDoan'] ?>"
+                                                    class="btn-action btn-users" title="Danh sách khách trong đoàn">
                                                     <i class="fas fa-users"></i>
                                                 </a>
+
                                                 <a href="index.php?act=chiTietDKH&id=<?= $d['MaDoan'] ?>"
                                                     class="btn-action btn-view" title="Xem chi tiết">
                                                     <i class="fas fa-eye"></i>
@@ -387,13 +446,20 @@ $status = $d['TrangThai'];
                                                     <i class="fas fa-pen"></i>
                                                 </a>
 
-<a href="index.php?act=deleteDKH&MaDoan=<?= $d['MaDoan'] ?>"
-
-                                                <a href="index.php?act=deleteDKH&MaDoan=<?= $d['MaDoan'] ?>"
-
+                                                <a href="index.php?act=deleteDKH&MaDoan=<?= $d['MaDoan'] ?>" <a
+                                                    href="index.php?act=deleteDKH&MaDoan=<?= $d['MaDoan'] ?>"
                                                     class="btn-action btn-delete" title="Xóa"
                                                     onclick="return confirm('Bạn có chắc chắn muốn xóa đoàn này?');">
                                                     <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                                <a href="index.php?act=adminListNhatKy&maDoan=<?= $d['MaDoan'] ?>"
+                                                    class="btn-action btn-info ">
+                                                    📘
+                                                </a>
+
+                                                <a href="index.php?act=adminHistoryDiemDanh&maDoan=<?= $d['MaDoan'] ?>"
+                                                    class="btn-action btn-diemdanh">
+                                                    📋
                                                 </a>
                                             </div>
                                         </td>
@@ -410,28 +476,6 @@ $status = $d['TrangThai'];
                         </tbody>
                     </table>
                 </div>
-
-                <?php if (isset($totalPage) && $totalPage > 1): ?>
-                    <div class="card-footer bg-white border-top-0 py-3">
-                        <nav>
-                            <ul class="pagination justify-content-center mb-0">
-                                <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
-                                    <a class="page-link" href="?act=listDKH&page=<?= $page - 1 ?>"><i
-                                            class="fas fa-chevron-left"></i></a>
-                                </li>
-                                <?php for ($i = 1; $i <= $totalPage; $i++): ?>
-                                    <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
-                                        <a class="page-link" href="?act=listDKH&page=<?= $i ?>"><?= $i ?></a>
-                                    </li>
-                                <?php endfor; ?>
-                                <li class="page-item <?= ($page >= $totalPage) ? 'disabled' : '' ?>">
-                                    <a class="page-link" href="?act=listDKH&page=<?= $page + 1 ?>"><i
-                                            class="fas fa-chevron-right"></i></a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                <?php endif; ?>
             </div>
 
         </div>

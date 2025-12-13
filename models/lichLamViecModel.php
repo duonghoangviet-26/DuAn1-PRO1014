@@ -10,13 +10,13 @@ class lichLamViecModel
 
     public function getLichByNhanVien($MaNhanVien)
     {
-        $sql = "SELECT llv.*, dkh.NgayKhoiHanh, t.TenTour 
+        $sql = "SELECT llv.*, dkh.NgayKhoiHanh, t.TenTour, dkh.TrangThai AS TrangThaiDoan 
                 FROM lichlamviec llv
                 LEFT JOIN doankhoihanh dkh ON llv.MaDoan = dkh.MaDoan
                 LEFT JOIN tour t ON dkh.MaTour = t.MaTour 
                 WHERE llv.MaNhanVien = :maNV
                 ORDER BY llv.NgayLamViec DESC";
-                
+
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([':maNV' => $MaNhanVien]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -40,7 +40,7 @@ class lichLamViecModel
 
     public function getAllDoanKhoiHanh()
     {
-        $sql = "SELECT * FROM doankhoihanh ORDER BY NgayKhoiHanh DESC"; 
+        $sql = "SELECT * FROM doankhoihanh ORDER BY NgayKhoiHanh DESC";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -56,11 +56,11 @@ class lichLamViecModel
 
     public function getDoanByNhanVien($maNhanVien)
     {
-        
+
         $sql = "SELECT * FROM doankhoihanh 
                 WHERE MaHuongDanVien = :maNV 
                 ORDER BY NgayKhoiHanh DESC";
-                
+
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([':maNV' => $maNhanVien]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -111,7 +111,8 @@ class lichLamViecModel
         return $stmt->execute([':id' => $id]);
     }
 
-    public function getLichTrinhByTour($maTour) {
+    public function getLichTrinhByTour($maTour)
+    {
         $sql = "SELECT * FROM lichtrinh 
                 WHERE MaTour = :maTour 
                 ORDER BY NgayThu ASC";
@@ -120,28 +121,29 @@ class lichLamViecModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getDetailLichLamViec($maLich) {
+    public function getDetailLichLamViec($maLich)
+    {
         $sql = "SELECT llv.*, dkh.MaTour, dkh.NgayKhoiHanh, dkh.NgayVe, t.TenTour
                 FROM lichlamviec llv
                 JOIN doankhoihanh dkh ON llv.MaDoan = dkh.MaDoan
                 JOIN tour t ON dkh.MaTour = t.MaTour 
                 WHERE llv.MaLichLamViec = :maLich";
-        
+
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([':maLich' => $maLich]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getAnhDaiDienTour($maTour) {
+    public function getAnhDaiDienTour($maTour)
+    {
         $sql = "SELECT DuongDanAnh 
                 FROM anhtour 
                 WHERE MaTour = :maTour 
                 ORDER BY ThuTuHienThi ASC 
                 LIMIT 1";
-        
+
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([':maTour' => $maTour]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
-?>

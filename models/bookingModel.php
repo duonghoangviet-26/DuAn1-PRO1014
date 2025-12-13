@@ -87,7 +87,7 @@ class bookingModel
         $stmt = $this->conn->query($sql);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-public function deleteBooking($id)
+    public function deleteBooking($id)
     {
         $stmt = $this->conn->prepare("DELETE FROM Booking WHERE MaBooking = :id");
         return $stmt->execute([':id' => $id]);
@@ -180,7 +180,7 @@ public function deleteBooking($id)
                 LEFT JOIN Tour t ON b.MaTour = t.MaTour
                 LEFT JOIN DoanKhoiHanh d ON b.MaDoan = d.MaDoan
                 WHERE b.MaBooking = :id";
-$stmt = $this->conn->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
         $stmt->execute([':id' => $MaBooking]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -233,25 +233,28 @@ $stmt = $this->conn->prepare($sql);
     }
 
 
-    // truy vấn khách hàng cùng 1 đoàn 
-    public function  getKhachTheoTour($MaTour)
-    {
-        $sql = "SELECT 
-                kh.HoTen, kh.GioiTinh, kh.NgaySinh, kh.SoGiayTo, kh.SoDienThoai,
-                kh.GhiChuDacBiet, kh.LoaiPhong,
-                b.MaBooking, b.TrangThai, 
-                t.TenTour, 
-                d.NgayKhoiHanh, d.NgayVe
-            FROM khachtrongbooking kh
-            INNER JOIN booking b ON kh.MaBooking = b.MaBooking
-            INNER JOIN tour t ON b.MaTour = t.MaTour
-            LEFT JOIN doankhoihanh d ON b.MaDoan = d.MaDoan
-            WHERE t.MaTour = ?
-            ORDER BY d.NgayKhoiHanh, kh.HoTen ASC";
+    // truy vấn khách hàng cùng 1 đoàn gộp vào nhau
 
-        $stm = $this->conn->prepare($sql);
-        $stm->execute([$MaTour]);
-        return $stm->fetchAll(PDO::FETCH_ASSOC);
+    public function getKhachTheoDoan($MaDoan)
+    {
+        $sql = "
+        SELECT 
+            kh.HoTen, kh.GioiTinh, kh.NgaySinh, kh.SoGiayTo, kh.SoDienThoai,
+            kh.GhiChuDacBiet, kh.LoaiPhong,
+            b.MaBooking, b.TrangThai,
+            t.TenTour,
+            d.NgayKhoiHanh, d.NgayVe
+        FROM khachtrongbooking kh
+        INNER JOIN booking b ON kh.MaBooking = b.MaBooking
+        INNER JOIN doankhoihanh d ON b.MaDoan = d.MaDoan
+        INNER JOIN tour t ON b.MaTour = t.MaTour
+        WHERE d.MaDoan = ?
+        ORDER BY kh.HoTen ASC
+    ";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$MaDoan]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Lịch sử booking
@@ -298,7 +301,7 @@ $stmt = $this->conn->prepare($sql);
             ORDER BY ls.NgayDoi DESC";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([':id' => $MaBooking]);  // ✔ Khớp với SQL
+        $stmt->execute([':id' => $MaBooking]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

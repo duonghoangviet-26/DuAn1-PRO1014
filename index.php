@@ -1,4 +1,3 @@
-
 <?php
 
 
@@ -140,7 +139,7 @@ match ($act) {
     'createKhachTrongBookingProcess' => (new bookingController)->createKhachTrongBookingProcess(),
     'editKhachTrongBooking' => (new bookingController)->editKhachTrongBooking(),
     'updateKhachTrongBooking' => (new bookingController)->updateKhachTrongBooking(),
-    'listKhachTrongTour' => (new bookingController)->listKhachTrongTour(),
+    'listKhachTrongDoan' => (new bookingController)->listKhachTrongDoan(),
 
 
 
@@ -170,6 +169,8 @@ match ($act) {
     'editNhatKy'    => (new NhatKyController())->formEditNhatKy(),
     'postEditNhatKy' => (new NhatKyController())->postEditNhatKy(),
     'deleteNhatKy'  => (new NhatKyController())->deleteNhatKy(),
+    'adminListNhatKy'  => (new NhatKyController())->adminListNhatKy(),
+    'adminHistoryDiemDanh' => (new NhatKyController())->adminHistoryDiemDanh(),
 
     // Lịch sử điểm danh
     'historyDiemDanh' => (new NhatKyController())->historyDiemDanh(),
@@ -213,7 +214,6 @@ match ($act) {
     'hdv_edit_tc'     => (new VanHanhTourController())->editForm(),
     'hdv_update_tc'   => (new VanHanhTourController())->updateTransaction(),
     'hdv_add_form' => (new VanHanhTourController())->addForm(),
-    'hdv_add_transaction' => (new VanHanhTourController())->addTransaction(),
 
 
     // 'hdv_report_issue'    => (new VanHanhTourController())->reportIssue(),
