@@ -25,10 +25,11 @@
         <h4><i class="fa-solid fa-route"></i> HDV Panel</h4>
         <a href="index.php?act=hdv_dashboard"><i class="fa-solid fa-house"></i> Trang chủ</a>
         <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-calendar-days"></i> Lịch trình & Lịch làm việc</a>
-        <a href="index.php?act=hdv_schedule" class="active"><i class="fa-solid fa-users"></i> Danh sách khách</a>
-        <a href="#"><i class="fa-solid fa-book"></i> Nhật ký tour</a>
-        <a href="index.php?act=hdv_vanhanh"><i class="fa-solid fa-compass"></i> Vận hành tour</a>
-        <a href="index.php?act=hdv_quanlykhach&id=<?= $_GET['id'] ?? '' ?>"><i class="fa-solid fa-user-check"></i> Quản lý khách</a> <hr style="border-color: #aad; margin: 20px;">
+        <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-users"></i> Danh sách khách</a>
+        <a href="index.php?act=listTourOfHDV"><i class="fa-solid fa-book"></i> Nhật ký tour</a>
+        <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-compass"></i> Vận hành tour</a>
+        <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-user-check"></i> Quản lý khách</a>
+        <hr style="color: #aad;">
         <a href="index.php?act=logout" class="text-danger"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
     </div>
 

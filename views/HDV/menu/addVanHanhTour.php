@@ -48,15 +48,17 @@
 
 <body>
 
-<!-- SIDEBAR -->
 <div class="sidebar">
-    <h4 class="text-center mb-4"><i class="fa-solid fa-route"></i> HDV PANEL</h4>
-
-    <a href="index.php?act=hdv_dashboard"><i class="fa fa-home"></i> Trang chủ</a>
-    <a href="index.php?act=hdv_schedule"><i class="fa fa-calendar"></i> Lịch trình</a>
-    <a href="index.php?act=hdv_vanhanh&id=<?= $maLich ?>" class="active"><i class="fa fa-compass"></i> Vận hành tour</a>
-    <a href="index.php?act=logout" class="text-danger"><i class="fa fa-right-from-bracket"></i> Đăng xuất</a>
-</div>
+        <h4><i class="fa-solid fa-route"></i> HDV Panel</h4>
+        <a href="index.php?act=hdv_dashboard"><i class="fa-solid fa-house"></i> Trang chủ</a>
+        <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-calendar-days"></i> Lịch trình & Lịch làm việc</a>
+        <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-users"></i> Danh sách khách</a>
+        <a href="index.php?act=listTourOfHDV"><i class="fa-solid fa-book"></i> Nhật ký tour</a>
+        <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-compass"></i> Vận hành tour</a>
+        <a href="index.php?act=hdv_schedule"><i class="fa-solid fa-user-check"></i> Quản lý khách</a>
+        <hr style="color: #aad;">
+        <a href="index.php?act=logout" class="text-danger"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+    </div>
 
 <!-- MAIN -->
 <div class="main-content">

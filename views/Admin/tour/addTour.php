@@ -260,17 +260,17 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Giá bán</label>
-                                        <input type="number" name="GiaBanMacDinh" class="form-control" placeholder="0">
+                                        <input type="number" name="GiaBanMacDinh" class="form-control" placeholder="0" required >
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Giá vốn</label>
-                                        <input type="number" name="GiaVonDuKien" class="form-control" placeholder="0">
+                                        <input type="number" name="GiaVonDuKien" class="form-control" placeholder="0" required>
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Điểm khởi hành</label>
                                     <input type="text" name="DiemKhoiHanh" class="form-control"
-                                        placeholder="VD: Hà Nội, TP.HCM...">
+                                        placeholder="VD: Hà Nội, TP.HCM..." required>
                                 </div>
                             </div>
 
@@ -278,17 +278,17 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Số ngày</label>
-                                        <input type="number" name="SoNgay" class="form-control" min="1" value="1">
+                                        <input type="number" name="SoNgay" class="form-control" min="1" value="1" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Số đêm</label>
-                                        <input type="number" name="SoDem" class="form-control" min="0" value="0">
+                                        <input type="number" name="SoDem" class="form-control" min="0" value="0" required>
                                     </div>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label">Trạng thái</label>
-                                    <select name="TrangThai" class="form-select bg-light">
+                                    <label class="form-label" >Trạng thái</label>
+                                    <select name="TrangThai" class="form-select bg-light" required>
                                         <option value="hoat_dong">🟢 Hoạt động</option>
                                         <option value="tam_dung">🟠 Tạm dừng</option>
                                         <option value="da_ket_thuc">🔴 Đã kết thúc</option>
@@ -298,17 +298,17 @@
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Ngày bắt đầu</label>
-                                        <input type="date" name="NgayBatDau" class="form-control">
+                                        <input type="date" name="NgayBatDau" class="form-control" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Ngày kết thúc</label>
-                                        <input type="date" name="NgayKetThuc" class="form-control">
+                                        <input type="date" name="NgayKetThuc" class="form-control" required>
                                     </div>
                                 </div>
 
                                 <div class="mb-3">
                                     <label class="form-label">Ảnh bìa</label>
-                                    <input type="file" name="LinkAnhBia" class="form-control" accept="image/*">
+                                    <input type="file" name="LinkAnhBia" class="form-control" accept="image/*" >
                                 </div>
                             </div>
 
@@ -338,15 +338,15 @@
                                 <div class="col-md-4">
                                     <label class="form-label small text-muted">Tiêu đề ngày</label>
                                     <input type="text" name="TieuDeNgay[]" class="form-control"
-                                        placeholder="VD: Khám phá Vịnh Hạ Long">
+                                        placeholder="VD: Khám phá Vịnh Hạ Long" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label small text-muted">Địa điểm tham quan</label>
-                                    <input type="text" name="DiaDiemThamQuan[]" class="form-control">
+                                    <input type="text" name="DiaDiemThamQuan[]" class="form-control" required>
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label small text-muted">Nơi ở (Khách sạn)</label>
-                                    <input type="text" name="NoiO[]" class="form-control">
+                                    <input type="text" name="NoiO[]" class="form-control" required>
                                 </div>
                                 <div class="col-md-12">
                                     <label class="form-label small text-muted me-3">Bữa ăn bao gồm:</label>
@@ -366,13 +366,13 @@
                             </div>
 
                             <div class="row g-3 mb-4 p-3 bg-light rounded">
-                                <div class="col-md-4"><input type="time" name="GioTapTrung[]" class="form-control">
+                                <div class="col-md-4"><input type="time" name="GioTapTrung[]" class="form-control" required>
                                     <div class="form-text">Giờ tập trung</div>
                                 </div>
-                                <div class="col-md-4"><input type="time" name="GioXuatPhat[]" class="form-control">
+                                <div class="col-md-4"><input type="time" name="GioXuatPhat[]" class="form-control" required>
                                     <div class="form-text">Giờ xuất phát</div>
                                 </div>
-                                <div class="col-md-4"><input type="time" name="GioKetThuc[]" class="form-control">
+                                <div class="col-md-4"><input type="time" name="GioKetThuc[]" class="form-control" require>
                                     <div class="form-text">Giờ kết thúc</div>
                                 </div>
                             </div>
@@ -388,10 +388,10 @@
                                         <div id="BuoiSang_0">
                                             <div class="row mt-2 singleRow">
                                                 <div class="col-3"><input type="time"
-                                                        class="form-control form-control-sm" name="GioSang[0][]"></div>
+                                                        class="form-control form-control-sm" name="GioSang[0][]" required></div>
                                                 <div class="col-8"><input type="text"
                                                         class="form-control form-control-sm" name="NoiDungSang[0][]"
-                                                        placeholder="Hoạt động..."></div>
+                                                        placeholder="Hoạt động..." required></div>
                                                 <div class="col-1"><span class="delRow">&times;</span></div>
                                             </div>
                                         </div>
@@ -408,10 +408,10 @@
                                         <div id="BuoiTrua_0">
                                             <div class="row mt-2 singleRow">
                                                 <div class="col-3"><input type="time"
-                                                        class="form-control form-control-sm" name="GioTrua[0][]"></div>
+                                                        class="form-control form-control-sm" name="GioTrua[0][]" required></div>
                                                 <div class="col-8"><input type="text"
                                                         class="form-control form-control-sm" name="NoiDungTrua[0][]"
-                                                        placeholder="Hoạt động..."></div>
+                                                        placeholder="Hoạt động..." required></div>
                                                 <div class="col-1"><span class="delRow">&times;</span></div>
                                             </div>
                                         </div>
@@ -428,10 +428,10 @@
                                         <div id="BuoiChieu_0">
                                             <div class="row mt-2 singleRow">
                                                 <div class="col-3"><input type="time"
-                                                        class="form-control form-control-sm" name="GioChieu[0][]"></div>
+                                                        class="form-control form-control-sm" name="GioChieu[0][]" required></div>
                                                 <div class="col-8"><input type="text"
                                                         class="form-control form-control-sm" name="NoiDungChieu[0][]"
-                                                        placeholder="Hoạt động..."></div>
+                                                        placeholder="Hoạt động..." required></div>
                                                 <div class="col-1"><span class="delRow">&times;</span></div>
                                             </div>
                                         </div>
@@ -448,10 +448,10 @@
                                         <div id="BuoiToi_0">
                                             <div class="row mt-2 singleRow">
                                                 <div class="col-3"><input type="time"
-                                                        class="form-control form-control-sm" name="GioToi[0][]"></div>
+                                                        class="form-control form-control-sm" name="GioToi[0][]" required></div>
                                                 <div class="col-8"><input type="text"
                                                         class="form-control form-control-sm" name="NoiDungToi[0][]"
-                                                        placeholder="Hoạt động..."></div>
+                                                        placeholder="Hoạt động..." required></div>
                                                 <div class="col-1"><span class="delRow">&times;</span></div>
                                             </div>
                                         </div>
@@ -524,10 +524,10 @@
             let html = `
                 <div class="row mt-2 singleRow">
                     <div class="col-3">
-                        <input type="time" class="form-control form-control-sm" name="Gio${session}[${day}][]">
+                        <input type="time" class="form-control form-control-sm" name="Gio${session}[${day}][]" required>
                     </div>
                     <div class="col-8">
-                        <input type="text" class="form-control form-control-sm" name="NoiDung${session}[${day}][]" placeholder="Hoạt động...">
+                        <input type="text" class="form-control form-control-sm" name="NoiDung${session}[${day}][]" placeholder="Hoạt động..." required>
                     </div>
                     <div class="col-1 d-flex align-items-center">
                         <span class="delRow">&times;</span>
