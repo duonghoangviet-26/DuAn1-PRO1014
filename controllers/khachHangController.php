@@ -12,8 +12,13 @@ class khachHangController
     public  function listKH()
     {
         try {
+            $keyword = $_GET['keyword'] ?? '';
+
+        if ($keyword !== '') {
+            $listKhachHang = $this->khachHangModel->searchKhachHangByName($keyword);
+        } else {
             $listKhachHang = $this->khachHangModel->getAllKhachHang();
-            $viewFile = './views/khachhang/listKhachHang.php';
+        }
             include './views/Admin/Khachhang/listKH.php';
         } catch (Exception $e) {
             die("Lỗi: " . $e->getMessage());

@@ -17,27 +17,26 @@ class VanHanhTourModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function addTaiChinh($maDoan, $loaiGD, $hangMuc, $soTien, $ngayGD, $moTa, $phuongThuc, $soHoaDon, $maNguoiTao,$anhChungTu)
+    public function addTaiChinh($maDoan, $loaiGD, $hangMuc, $soTien, $ngayGD, $moTa, $phuongThuc, $soHoaDon, $maNguoiTao, $anhChungTu)
     {
         $sql = "INSERT INTO taichinhtour 
     (MaDoan, LoaiGiaoDich, HangMucChi, SoTien, NgayGiaoDich, MoTa, 
      PhuongThucThanhToan, SoHoaDon, MaNguoiTao, AnhChungTu) 
     VALUES (:md, :loai, :hm, :tien, :ngay, :mt, :pt, :hd, :mnt, :anh)";
 
-       $stmt = $this->conn->prepare($sql);
-return $stmt->execute([
-    ':md' => $maDoan,
-    ':loai' => $loaiGD,
-    ':hm' => $hangMuc,
-    ':tien' => $soTien,
-    ':ngay' => $ngayGD,
-    ':mt' => $moTa,
-    ':pt' => $phuongThuc,
-    ':hd' => $soHoaDon,
-    ':mnt' => $maNguoiTao,
-    ':anh' => $anhChungTu
-]);
-
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([
+            ':md' => $maDoan,
+            ':loai' => $loaiGD,
+            ':hm' => $hangMuc,
+            ':tien' => $soTien,
+            ':ngay' => $ngayGD,
+            ':mt' => $moTa,
+            ':pt' => $phuongThuc,
+            ':hd' => $soHoaDon,
+            ':mnt' => $maNguoiTao,
+            ':anh' => $anhChungTu
+        ]);
     }
 
     public function deleteTaiChinh($id)

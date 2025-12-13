@@ -325,7 +325,11 @@ class doanKhoiHanhController
         $giavon = $tour['GiaVonDuKien'] ?? 0;
         $soNguoi = $this->doanKhoiHanh->getTotalPeopleByDoan($MaDoan);
         $tongGiaVon = $giavon * $soNguoi;
-        $loinhuan = $tongthu - $tongchi - $tongGiaVon;
+        if ($tongthu == 0 && $tongchi == 0) {
+            $loinhuan = 0;
+        } else {
+            $loinhuan = $tongthu - $tongchi - $tongGiaVon;
+        }
         $list = $this->doanKhoiHanh->getAllTaiChinh($MaDoan);
 
         include "./views/Admin/Doan/taichinh.php";
@@ -421,7 +425,15 @@ class doanKhoiHanhController
         $changes = [];
 
         foreach ($data as $field => $newValue) {
+
             $oldValue = $old[$field] ?? '';
+
+            // ❗ Không ghi lịch sử khi SoTien rỗng hoặc = 0
+            if ($field === 'SoTien') {
+                if ($newValue === "" || $newValue === null || $newValue == 0) {
+                    continue;
+                }
+            }
 
             if ($oldValue != $newValue) {
                 $changes[] = [
@@ -446,24 +458,22 @@ class doanKhoiHanhController
 
             $history = json_decode($old['LichSuChinhSua'] ?? '[]', true);
 
-            // Thêm bản ghi mới
             $history[] = [
                 'user' => $nguoiSua,
                 'time' => date("d/m/Y H:i:s"),
                 'changes' => $changes
             ];
 
-            // Gán lại vào database
             $data['LichSuChinhSua'] = json_encode($history, JSON_UNESCAPED_UNICODE);
         }
 
         // Cập nhật DB
         $this->doanKhoiHanh->updateTaiChinhById($id, $data);
 
-
         header("Location:index.php?act=taichinh&id=" . $MaDoan);
         exit;
     }
+
 
     public function deleteTaiChinh()
     {

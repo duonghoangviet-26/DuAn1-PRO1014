@@ -87,4 +87,24 @@ class khachHangModel
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute($data);
     }
+    public function searchKhachHangByName($keyword)
+{
+    try {
+        $sql = "SELECT *
+                FROM khachhang
+                WHERE HoTen LIKE :keyword
+                ORDER BY MaKhachHang DESC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':keyword', '%' . $keyword . '%', PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log("Lỗi searchKhachHangByName: " . $e->getMessage());
+        return [];
+    }
+}
+
+
 }

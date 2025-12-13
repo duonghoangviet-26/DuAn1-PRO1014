@@ -8,10 +8,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <style>
-        body { 
-            background-color: #f3f4f6; 
+        body {
+            background-color: #f3f4f6;
             font-family: 'Inter', sans-serif;
             margin: 0;
         }
@@ -25,19 +25,66 @@
             background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
             color: #ecf0f1;
             padding-top: 20px;
-            box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.05);
             z-index: 1000;
             overflow-y: auto;
         }
 
-        .sidebar-header { padding: 0 25px 25px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px; }
-        .sidebar-header h4 { font-weight: 700; font-size: 1.2rem; color: #fff; display: flex; align-items: center; }
-        .sidebar-menu { padding: 0 10px; }
-        .sidebar-title { font-size: 0.75rem; text-transform: uppercase; color: #95a5a6; margin: 15px 15px 5px; font-weight: 600; }
-        .sidebar a { color: #bdc3c7; padding: 12px 15px; text-decoration: none; display: flex; align-items: center; border-radius: 8px; font-size: 0.95rem; transition: 0.3s; margin-bottom: 5px; }
-        .sidebar a i { width: 25px; text-align: center; margin-right: 10px; }
-        .sidebar a:hover, .sidebar a.active { background-color: rgba(255,255,255,0.1); color: #fff; transform: translateX(5px); }
-        .sidebar a.active { background-color: #3498db; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
+        .sidebar-header {
+            padding: 0 25px 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .sidebar-header h4 {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-menu {
+            padding: 0 10px;
+        }
+
+        .sidebar-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #95a5a6;
+            margin: 15px 15px 5px;
+            font-weight: 600;
+        }
+
+        .sidebar a {
+            color: #bdc3c7;
+            padding: 12px 15px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: 0.3s;
+            margin-bottom: 5px;
+        }
+
+        .sidebar a i {
+            width: 25px;
+            text-align: center;
+            margin-right: 10px;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transform: translateX(5px);
+        }
+
+        .sidebar a.active {
+            background-color: #3498db;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
 
         .main-content {
             margin-left: 260px;
@@ -46,23 +93,82 @@
             min-height: 100vh;
         }
 
-        .card-custom { border: none; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); background: #fff; }
-        
+        .card-custom {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            background: #fff;
+        }
+
         .table-modern thead th {
-            background-color: #f8f9fa; color: #6b7280; font-weight: 600;
-            text-transform: uppercase; font-size: 0.75rem; padding: 15px 20px;
+            background-color: #f8f9fa;
+            color: #6b7280;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            padding: 15px 20px;
             border-bottom: 1px solid #e5e7eb;
         }
-        .table-modern tbody td { padding: 15px 20px; vertical-align: middle; color: #374151; font-size: 0.9rem; }
-        .table-modern tbody tr:hover { background-color: #f9fafb; }
 
-        .badge-type { padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
-        .type-company { background-color: #e0f2fe; color: #0284c7; }
-        .type-personal { background-color: #dcfce7; color: #166534; }
+        .table-modern tbody td {
+            padding: 15px 20px;
+            vertical-align: middle;
+            color: #374151;
+            font-size: 0.9rem;
+        }
 
-        .btn-action { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; transition: 0.2s; border: none; margin-right: 5px; }
-        .btn-edit { background: #fef3c7; color: #d97706; } .btn-edit:hover { background: #d97706; color: #fff; }
-        .btn-delete { background: #fee2e2; color: #dc2626; } .btn-delete:hover { background: #dc2626; color: #fff; }
+        .table-modern tbody tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .badge-type {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .type-company {
+            background-color: #e0f2fe;
+            color: #0284c7;
+        }
+
+        .type-personal {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .btn-action {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            transition: 0.2s;
+            border: none;
+            margin-right: 5px;
+        }
+
+        .btn-edit {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .btn-edit:hover {
+            background: #d97706;
+            color: #fff;
+        }
+
+        .btn-delete {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+            color: #fff;
+        }
     </style>
 </head>
 
@@ -75,7 +181,7 @@
 
         <div class="sidebar-menu">
             <a href="index.php?act=admin_dashboard"><i class="fa fa-home"></i> Trang chủ</a>
-            
+
             <div class="sidebar-title">Quản lý Sản phẩm</div>
             <a href="index.php?act=listdm"><i class="fa fa-layer-group"></i> Danh mục Tour</a>
             <a href="index.php?act=listTour"><i class="fa fa-map-location-dot"></i> Quản lý Tour</a>
@@ -89,14 +195,14 @@
             <a href="index.php?act=listNCC"><i class="fa fa-handshake"></i> Đối tác & NCC</a>
             <a href="index.php?act=listNV"><i class="fa-solid fa-id-card"></i> Nhân sự</a>
             <a href="index.php?act=listTaiKhoan"><i class="fa fa-user-gear"></i> Tài khoản </a>
-            
+
             <a href="index.php?act=logout" class="text-danger mt-3"><i class="fa fa-right-from-bracket"></i> Đăng xuất</a>
         </div>
     </div>
 
     <div class="main-content">
         <div class="container-fluid">
-            
+
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
                     <h3 class="fw-bold text-dark mb-1">Danh Sách Khách Hàng</h3>
@@ -122,6 +228,32 @@
                 </div>
                 <?php unset($_SESSION['success']); ?>
             <?php endif; ?>
+            <form action="index.php" method="GET" class="row g-2 mb-4">
+                <input type="hidden" name="act" value="listKH">
+
+                <div class="col-md-4">
+                    <input
+                        type="text"
+                        name="keyword"
+                        class="form-control shadow-sm"
+                        placeholder="Tìm tên khách hàng..."
+                        value="<?= $_GET['keyword'] ?? '' ?>">
+                </div>
+
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary shadow-sm w-100">
+                        <i class="fas fa-search me-1"></i> Tìm kiếm
+                    </button>
+                </div>
+
+                <?php if (!empty($_GET['keyword'])): ?>
+                    <div class="col-md-2">
+                        <a href="index.php?act=listKH" class="btn btn-secondary shadow-sm w-100">
+                            <i class="fas fa-rotate-left me-1"></i> Reset
+                        </a>
+                    </div>
+                <?php endif; ?>
+            </form>
 
             <div class="card card-custom">
                 <div class="table-responsive">
@@ -139,7 +271,8 @@
                         </thead>
                         <tbody>
                             <?php if (!empty($listKhachHang)): ?>
-                                <?php $stt = 1; foreach ($listKhachHang as $kh): ?>
+                                <?php $stt = 1;
+                                foreach ($listKhachHang as $kh): ?>
                                     <tr>
                                         <td class="ps-4 fw-bold text-secondary"><?= $stt++ ?></td>
                                         <td class="text-primary fw-bold"><?= htmlspecialchars($kh['MaCodeKhachHang']) ?></td>
@@ -170,13 +303,13 @@
                                         </td>
                                         <td class="text-center">
                                             <div class="d-flex justify-content-center">
-                                                <a href="index.php?act=editKH&id=<?= $kh['MaCodeKhachHang'] ?>" 
-                                                   class="btn-action btn-edit" title="Sửa">
+                                                <a href="index.php?act=editKH&id=<?= $kh['MaCodeKhachHang'] ?>"
+                                                    class="btn-action btn-edit" title="Sửa">
                                                     <i class="fas fa-pen"></i>
                                                 </a>
-                                                <a href="index.php?act=deleteKH&id=<?= $kh['MaKhachHang'] ?>" 
-                                                   class="btn-action btn-delete" title="Xóa"
-                                                   onclick="return confirm('Bạn có chắc chắn muốn xóa khách hàng này không?')">
+                                                <a href="index.php?act=deleteKH&id=<?= $kh['MaKhachHang'] ?>"
+                                                    class="btn-action btn-delete" title="Xóa"
+                                                    onclick="return confirm('Bạn có chắc chắn muốn xóa khách hàng này không?')">
                                                     <i class="fas fa-trash-alt"></i>
                                                 </a>
                                             </div>
