@@ -372,7 +372,7 @@ class tourModel
         $today = date("Y-m-d");
 
         $sql = "UPDATE tour 
-            SET TrangThai = 'da_ket_thuc'
+            SET TrangThai = 'khong_hoat_dong'
             WHERE NgayKetThuc < :today 
             AND TrangThai != 'da_ket_thuc'";
 

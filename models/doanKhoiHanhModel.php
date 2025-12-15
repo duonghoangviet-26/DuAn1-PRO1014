@@ -77,22 +77,22 @@ class doanKhoiHanhModel
         // Đã kết thúc
         $this->conn->prepare("
         UPDATE doankhoihanh 
-        SET TrangThai = 'da_ket_thuc'
+        SET TrangThai = 'hoan_thanh'
         WHERE NgayVe < ?
     ")->execute([$today]);
 
         // Đang diễn ra
         $this->conn->prepare("
         UPDATE doankhoihanh
-        SET TrangThai = 'dang_dien_ra'
+        SET TrangThai = 'het_cho'
         WHERE NgayKhoiHanh <= ? AND NgayVe >= ?
     ")->execute([$today, $today]);
 
         // Sẵn sàng
         $this->conn->prepare("
         UPDATE doankhoihanh
-        SET TrangThai = 'san_sang'
-        WHERE NgayKhoiHanh > ?
+        SET TrangThai = 'con_cho'
+        WHERE NgayKhoiHanh > ? AND TrangThai != 'da_huy'
     ")->execute([$today]);
     }
 
@@ -476,9 +476,9 @@ JOIN nhacungcap ncc ON d.MaTaiXe = ncc.MaNhaCungCap
     }
 
 
-    public function updateTaiChinhById($id, $data)
-    {
-        $sql = "UPDATE taichinhtour SET
+   public function updateTaiChinhById($id, $data)
+{
+    $sql = "UPDATE taichinhtour SET
                 LoaiGiaoDich = :LoaiGiaoDich,
                 NgayGiaoDich = :NgayGiaoDich,
                 SoTien       = :SoTien,
@@ -486,22 +486,26 @@ JOIN nhacungcap ncc ON d.MaTaiXe = ncc.MaNhaCungCap
                 PhuongThucThanhToan = :PhuongThucThanhToan,
                 SoHoaDon     = :SoHoaDon,
                 AnhChungTu   = :AnhChungTu,
-                MoTa         = :MoTa
+                MoTa         = :MoTa,
+                LichSuChinhSua = :LichSuChinhSua
             WHERE MaTaiChinh = :id";
-        $stmt = $this->conn->prepare($sql);
 
-        return $stmt->execute([
-            'LoaiGiaoDich' => $data['LoaiGiaoDich'],
-            'NgayGiaoDich' => $data['NgayGiaoDich'],
-            'SoTien'       => $data['SoTien'],
-            'HangMucChi'   => $data['HangMucChi'],
-            'PhuongThucThanhToan' => $data['PhuongThucThanhToan'],
-            'SoHoaDon'     => $data['SoHoaDon'],
-            'AnhChungTu'   => $data['AnhChungTu'],
-            'MoTa'         => $data['MoTa'],
-            'id'           => $id
-        ]);
-    }
+    $stmt = $this->conn->prepare($sql);
+
+    return $stmt->execute([
+        'LoaiGiaoDich' => $data['LoaiGiaoDich'],
+        'NgayGiaoDich' => $data['NgayGiaoDich'],
+        'SoTien'       => $data['SoTien'],
+        'HangMucChi'   => $data['HangMucChi'],
+        'PhuongThucThanhToan' => $data['PhuongThucThanhToan'],
+        'SoHoaDon'     => $data['SoHoaDon'],
+        'AnhChungTu'   => $data['AnhChungTu'],
+        'MoTa'         => $data['MoTa'],
+        'LichSuChinhSua' => $data['LichSuChinhSua'] ?? null,
+        'id'           => $id
+    ]);
+}
+
 
     public function getTotalPeopleByDoan($MaDoan)
     {
@@ -520,4 +524,15 @@ JOIN nhacungcap ncc ON d.MaTaiXe = ncc.MaNhaCungCap
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(['id' => $id]);
     }
+//     public function addLog($MaDoan, $MaNguoi, $NoiDung, $MaTaiChinh)
+// {
+//   $sql = "INSERT INTO nhatkytour 
+//         (MaDoan, MaNguoiTao, NgayGhi, GioGhi, NoiDung, LoaiSuCo)
+//         VALUES (?, ?, CURDATE(), CURTIME(), ?, 'chinh_sua_tai_chinh')";
+
+//     $stmt = $this->conn->prepare($sql);
+//     return $stmt->execute([$MaDoan, $MaNguoi, $NoiDung]);
+
+// }
+
 }
